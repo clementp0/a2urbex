@@ -9,7 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Entity\Locations;
-
+use App\Entity\Type;
+use App\Entity\Country;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -18,25 +19,58 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        return parent::index();
+
+        $em = $this->getDoctrine()->getManager();
+        
+    //Location_count
+        $repoLocations = $em->getRepository(Locations::class);
+        $pins_count = $repoLocations->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+    //Country_count
+        $repoCountry = $em->getRepository(Country::class);
+        $country_count = $repoCountry->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+    //Type_count
+        $repoType = $em->getRepository(Type::class);
+        $type_count = $repoType->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $this->render('admin/index.html.twig', [
+            'pins' => $pins_count,
+            'country' => $country_count,
+            'type' => $type_count, 
+        ]);
     }
+
 
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Urbex');
+            ->setTitle('<i class="fas fa-globe-europe"></i> Urbex ');
     }
 
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 
-        yield MenuItem::linkToCrud('Locations', 'fas fa-map-marker', Locations::class);
+        yield MenuItem::subMenu('Locations', 'fas fa-map')->setSubItems([
+                MenuItem::linkToCrud('Pins', 'fas fa-map-marker', Locations::class),
+                MenuItem::linkToCrud('Country', 'fas fa-globe-europe', Country::class),
+                MenuItem::linkToCrud('Type', 'fas fa-clinic-medical', Type::class)
+        ]);
 
-        yield MenuItem::subMenu('Parametres', 'fa fa-gear')->setSubItems([
-                MenuItem::linkToUrl('Mon Compte', 'fas fa-user', 'compte'),
-                MenuItem::linkToUrl('Deconnexion', 'fas fa-file', 'deconnexion'),
-                MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class),]);
+        yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems([
+                MenuItem::linkToUrl('Account', 'fas fa-user', 'compte'),
+                MenuItem::linkToUrl('Log Out', 'fas fa-file', 'deconnexion'),
+                MenuItem::linkToCrud('Users', 'fas fa-users', User::class),]);
                 
     }
 }
