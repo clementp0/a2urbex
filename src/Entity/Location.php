@@ -20,7 +20,7 @@ class Location
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
     private $pid;
 
@@ -40,12 +40,12 @@ class Location
     private $image;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="decimal", precision=14, scale=12, nullable=true)
      */
     private $lon;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="decimal", precision=14, scale=12, nullable=true)
      */
     private $lat;
 

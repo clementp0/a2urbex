@@ -45,6 +45,15 @@ class LocationRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByPid($pid) {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.pid = :pid')
+            ->setParameter('pid', $pid)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     // /**
     //  * @return Location[] Returns an array of Location objects
     //  */

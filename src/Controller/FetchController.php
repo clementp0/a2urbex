@@ -6,24 +6,34 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use App\Entity\Location;
+use App\Repository\LocationRepository;
+
 class FetchController extends AbstractController
 {
-    public function __construct() {
-        $this->PINS = [];
+    public function __construct(LocationRepository $locationRepository) {
+        $this->locationRepository = $locationRepository;
+
         $this->boardId = $_ENV['BOARD_ID'];
         $this->url = $_ENV['FETCH_BASE_URL'];
+        $this->pinBaseUrl = $_ENV['PIN_BASE_URL'];
+
         $this->count = 0;
-        $this->maxLoopCount = 2; // false = no max 
+        $this->maxLoopCount = 1; // false = no max 
+        $this->newPinCount = 0;
     }
 
     private function error($error) {
         echo $error;
         die;
     }
+    private function done() {
+        echo 'Done ! '.$this->newPinCount.' new pin'.($this->newPinCount > 1 ? 's' : '');
+        die;
+    }
 
     private function getResource($option) {
         $data = urlencode(json_encode(['options' => $option]));
-        //var_dump($this->url.$data);
     
         $ch = curl_init();
         
@@ -38,7 +48,9 @@ class FetchController extends AbstractController
         
         $response = curl_exec($ch);
         
-        if (curl_errno($ch)) return $this->error(curl_error($ch));
+        if (curl_errno($ch)) {
+            return $this->error(curl_error($ch));
+        }
         
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if($http_code == intval(200)) {
@@ -62,19 +74,15 @@ class FetchController extends AbstractController
     
         foreach($data as $item) {
             if (isset($item['type']) && $item['type'] == 'pin') {
-                $this->PINS[] = [
-                    'id' => $item['id'],
-                    'description' => $item['description'],
-                    'url' => "https://www.pinterest.com/pin/".$item['id'],
-                    'image' => $item['images']['orig']['url']
-                ];
+                $this->savePin($item);
             }
-    
         }
         
         $bookmarks = $json['resource']['options']['bookmarks'];
     
-        if($this->maxLoopCount !== false && ++$this->count === $this->maxLoopCount) $this->done();
+        if($this->maxLoopCount !== false && ++$this->count === $this->maxLoopCount) {
+            $this->done();
+        }
 
         if ($bookmarks[0] == '-end-') {
             $this->done();
@@ -83,8 +91,21 @@ class FetchController extends AbstractController
         }
     }
 
-    private function done() {
-        dd($this->PINS);
+
+    private function savePin($item) {        
+        $exist = $this->locationRepository->findByPid($item['id']) !== null;
+        if(!$exist) {
+            $location = new Location();
+            $location
+                ->setPid((int)$item['id'])
+                ->setDescription($item['description'])
+                ->setUrl($this->pinBaseUrl.$item['id'])
+                ->setImage($item['images']['orig']['url'])
+            ;
+
+            $this->locationRepository->add($location);
+            $this->newPinCount++;
+        }
     }
 
 
