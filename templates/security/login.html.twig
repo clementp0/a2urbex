@@ -3,7 +3,7 @@
 {% block title %}Log in!{% endblock %}
 
 {% block content %}
-<form class="login" method="post">
+<form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -13,58 +13,18 @@
             You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
-    <h3>Login</h3>
-    <label for="inputEmail">_email</label><br>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus><br>
-    <label for="inputPassword">_password</label><br>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required><br>
+
+    <h1 class="h3 mb-3 font-weight-normal">Merci de vous connecter</h1>
+    <label for="inputEmail">Email</label>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+    <label for="inputPassword">Mot de passe</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}">
 
     <button class="btn btn-lg btn-primary" type="submit">
-        login
+        Connexion
     </button>
 </form>
-<style>
-
-.login {
-    color: white;
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding:20px;
-    border: 1px solid white;
-    background-color: #181818;
-}
-button:hover{
-    cursor:pointer;
-    background-color:#111111;
-}
-label{
-    font-weight:500;
-}
-input{
-    background-color: #181818;
-    color: #6b6b6b;
-    margin: 10px 0px 10px 0px;
-    border: 1px solid white;
-    height: 20px;
-    border-radius: 3px;
-    padding: 5px;
-    min-width: 200px;
-}
-button{
-      background-color: #181818;
-    padding: 10px;
-    color: white;
-    border: 0;
-}
-h3{
-    border-bottom: 1px white solid;
-    padding-bottom: 20px;
-}
-</style>
 {% endblock %}

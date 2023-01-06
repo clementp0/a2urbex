@@ -1,4 +1,4 @@
-# config/routes/framework.yaml
-_errors:
-    resource: '@FrameworkBundle/Resources/config/routing/errors.xml'
-    prefix: /_error
+when@dev:
+    _errors:
+        resource: '@FrameworkBundle/Resources/config/routing/errors.xml'
+        prefix: /_error
