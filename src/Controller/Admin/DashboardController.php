@@ -11,12 +11,14 @@ use App\Entity\User;
 use App\Entity\Location;
 use App\Entity\Type;
 use App\Entity\Country;
+use App\Repository\LocationRepository;
 
 class DashboardController extends AbstractDashboardController
 {
     /**
      * @Route("/admin", name="admin")
      */
+
     public function index(): Response
     {
 
@@ -43,10 +45,34 @@ class DashboardController extends AbstractDashboardController
             ->getQuery()
             ->getSingleScalarResult();
 
+    //Curent time
+        $current_time = date("d/m/Y H:i", time());
+
+    //Last fetched
+        $export_date = './assets/export.json';
+        $strJsonFileContents = file_get_contents($export_date);
+        $array = json_decode($strJsonFileContents, true);
+        $last_fetched = $array["last_fetched"];
+    
+    //Output
+        $board = $array["board"];
+        $finished = $array["finished"];
+        $error = $array["error"];
+        $total = $array["total"];
+        $newpins = $array["newpins"];
+    //Return data 
+
         return $this->render('admin/index.html.twig', [
             'pins' => $pins_count,
             'country' => $country_count,
             'type' => $type_count, 
+            'current_time' => $current_time,
+            'last_fetched' => $last_fetched,
+            'board' => $board,
+            'finished' => $finished,
+            'error' => $error,
+            'total' => $total,
+            'newpins' => $newpins,
         ]);
     }
 
@@ -54,14 +80,14 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('<i class="fas fa-globe-europe"></i> Urbex ');
+            ->setTitle('<i class="fas fa-globe-europe"></i> _Urbex ');
     }
 
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 
-        yield MenuItem::subMenu('Location', 'fas fa-map')->setSubItems([
+        yield MenuItem::subMenu('Locations', 'fas fa-map')->setSubItems([
                 MenuItem::linkToCrud('Pins', 'fas fa-map-marker', Location::class),
                 MenuItem::linkToCrud('Country', 'fas fa-globe-europe', Country::class),
                 MenuItem::linkToCrud('Type', 'fas fa-clinic-medical', Type::class)

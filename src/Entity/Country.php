@@ -19,12 +19,12 @@ final class Country implements Stringable
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(targetEntity: Location::class, mappedBy: 'Country')]
-    private ArrayCollection|array $location;
+    #[ORM\OneToMany(mappedBy: 'country', targetEntity: Location::class)]
+    private Collection $locations;
 
     public function __construct()
     {
-        $this->location = new ArrayCollection();
+        $this->locations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,15 +52,15 @@ final class Country implements Stringable
     /**
      * @return Collection<int, Location>
      */
-    public function getLocation(): Collection
+    public function getLocations(): Collection
     {
-        return $this->location;
+        return $this->locations;
     }
 
     public function addLocation(Location $location): self
     {
-        if (!$this->location->contains($location)) {
-            $this->location[] = $location;
+        if (!$this->locations->contains($location)) {
+            $this->locations->add($location);
             $location->setCountry($this);
         }
 
@@ -69,11 +69,14 @@ final class Country implements Stringable
 
     public function removeLocation(Location $location): self
     {
-        // set the owning side to null (unless already changed)
-        if ($this->location->removeElement($location) && $location->getCountry() === $this) {
-            $location->setCountry(null);
+        if ($this->locations->removeElement($location)) {
+            // set the owning side to null (unless already changed)
+            if ($location->getCountry() === $this) {
+                $location->setCountry(null);
+            }
         }
 
         return $this;
     }
+
 }

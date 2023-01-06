@@ -33,11 +33,11 @@ final class Location
     #[ORM\Column(type: 'decimal', precision: 14, scale: 12, nullable: true)]
     private ?string $lat = null;
 
-    #[ORM\ManyToOne(targetEntity: Country::class, inversedBy: 'location')]
-    private ?Country $Country = null;
-
     #[ORM\ManyToMany(targetEntity: Type::class, inversedBy: 'locations')]
     private Collection $types;
+
+    #[ORM\ManyToOne(inversedBy: 'locations')]
+    private ?country $country = null;
 
     public function __construct()
     {
@@ -122,18 +122,6 @@ final class Location
         return $this;
     }
 
-    public function getCountry(): ?Country
-    {
-        return $this->Country;
-    }
-
-    public function setCountry(?Country $Country): self
-    {
-        $this->Country = $Country;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Type>
      */
@@ -154,6 +142,18 @@ final class Location
     public function removeType(Type $type): self
     {
         $this->types->removeElement($type);
+
+        return $this;
+    }
+
+    public function getCountry(): ?country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?country $country): self
+    {
+        $this->country = $country;
 
         return $this;
     }
