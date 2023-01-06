@@ -2,30 +2,30 @@
 
 namespace App\Repository;
 
-use App\Entity\Locations;
+use App\Entity\Location;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Locations|null find($id, $lockMode = null, $lockVersion = null)
- * @method Locations|null findOneBy(array $criteria, array $orderBy = null)
- * @method Locations[]    findAll()
- * @method Locations[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Location|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Location|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Location[]    findAll()
+ * @method Location[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LocationsRepository extends ServiceEntityRepository
+class LocationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Locations::class);
+        parent::__construct($registry, Location::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Locations $entity, bool $flush = true): void
+    public function add(Location $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class LocationsRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Locations $entity, bool $flush = true): void
+    public function remove(Location $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,7 +46,7 @@ class LocationsRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Locations[] Returns an array of Locations objects
+    //  * @return Location[] Returns an array of Location objects
     //  */
     /*
     public function findByExampleField($value)
@@ -63,7 +63,7 @@ class LocationsRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Locations
+    public function findOneBySomeField($value): ?Location
     {
         return $this->createQueryBuilder('l')
             ->andWhere('l.exampleField = :val')

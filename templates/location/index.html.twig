@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Locations index{% endblock %}
+{% block title %}Location index{% endblock %}
 
 {% block body %}
-    <h1>Locations index</h1>
+    <h1>Location index</h1>
 
     <table class="table">
         <thead>
@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for location in locations %}
+        {% for location in location %}
             <tr>
                 <td>{{ location.id }}</td>
                 <td>{{ location.pid }}</td>
@@ -29,8 +29,8 @@
                 <td>{{ location.lon }}</td>
                 <td>{{ location.lat }}</td>
                 <td>
-                    <a href="{{ path('app_locations_show', {'id': location.id}) }}">show</a>
-                    <a href="{{ path('app_locations_edit', {'id': location.id}) }}">edit</a>
+                    <a href="{{ path('app_location_show', {'id': location.id}) }}">show</a>
+                    <a href="{{ path('app_location_edit', {'id': location.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -41,5 +41,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_locations_new') }}">Create new</a>
+    <a href="{{ path('app_location_new') }}">Create new</a>
 {% endblock %}

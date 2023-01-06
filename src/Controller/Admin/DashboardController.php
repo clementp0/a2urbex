@@ -8,7 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
-use App\Entity\Locations;
+use App\Entity\Location;
 use App\Entity\Type;
 use App\Entity\Country;
 
@@ -23,8 +23,8 @@ class DashboardController extends AbstractDashboardController
         $em = $this->getDoctrine()->getManager();
         
     //Location_count
-        $repoLocations = $em->getRepository(Locations::class);
-        $pins_count = $repoLocations->createQueryBuilder('a')
+        $repoLocation = $em->getRepository(Location::class);
+        $pins_count = $repoLocation->createQueryBuilder('a')
             ->select('count(a.id)')
             ->getQuery()
             ->getSingleScalarResult();
@@ -61,8 +61,8 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 
-        yield MenuItem::subMenu('Locations', 'fas fa-map')->setSubItems([
-                MenuItem::linkToCrud('Pins', 'fas fa-map-marker', Locations::class),
+        yield MenuItem::subMenu('Location', 'fas fa-map')->setSubItems([
+                MenuItem::linkToCrud('Pins', 'fas fa-map-marker', Location::class),
                 MenuItem::linkToCrud('Country', 'fas fa-globe-europe', Country::class),
                 MenuItem::linkToCrud('Type', 'fas fa-clinic-medical', Type::class)
         ]);
