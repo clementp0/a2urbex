@@ -15,5 +15,9 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+<<<<<<< Updated upstream
 
 .DS_STORE
+=======
+yarn.lock
+>>>>>>> Stashed changes
