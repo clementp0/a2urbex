@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
@@ -84,6 +86,8 @@ class DashboardController extends AbstractDashboardController
         return Dashboard::new()
             ->setTitle('<i class="fas fa-globe-europe"></i> _Urbex ');
     }
+
+
 
     public function configureMenuItems(): iterable
     {
