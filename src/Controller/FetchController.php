@@ -37,7 +37,6 @@ class FetchController extends AbstractController
     }
 
 
-
     private function getResource($option) {
         $data = urlencode(json_encode(['options' => $option]));
     
@@ -97,43 +96,60 @@ class FetchController extends AbstractController
 
     private function savePin($item) {        
         $exist = $this->locationRepository->findByPid($item['id']) !== null;
-        if(!$exist) {
+        if(!$exist || true) {
             $location = new Location();
+            
+            preg_match('#(.*".{1}) (.*".{1}) (.*)#', $item['description'], $matches);
+            if(isset($matches[1])) $location->setLon($this->convertCoord($matches[1]));
+            if(isset($matches[2])) $location->setLat($this->convertCoord($matches[2]));
+            if(isset($matches[3])) $location->setName($matches[3]);
+
             $location
                 ->setPid((int)$item['id'])
                 ->setDescription($item['description'])
                 ->setUrl($this->pinBaseUrl.$item['id'])
                 ->setImage($item['images']['orig']['url'])
             ;
-
+            
             $this->locationRepository->add($location);
             $this->newPinCount++;
         }
 
+
         $this->pinCount++;
+    }
+
+    private function convertCoord($str) {
+        preg_match('#([0-9]+)°([0-9]+)\'([0-9]+.[0-9])"([A-Z])#', $str, $matches);
+        if(count($matches) === 5) {
+            $pos = in_array($matches[4], ['N', 'E']) ? 1 : -1;
+            return $pos*($matches[1]+$matches[2]/60+$matches[3]/3600);
+        }
+        return $str;
     }
 
 
     private function error($error) {
         $this->error = $error;
     }
+
     private function done() {
        $this->finished = 'Success';
-       $this->newPins = $this->newPinCount.($this->newPinCount > 1 ? 's' : '');
+       $this->newPins = $this->newPinCount;
 
-    // Write finished data 
-    $export_date = './assets/export.json';
-    $jsonData = [
-        "last_fetched" => date("d/m/Y H:i:s", time()),
-        "board" => $this->boardId,
-        "finished" => $this->finished,
-        "error" => $this->error,
-        "total" => $this->pinCount,
-        "newpins" => $this->newPins
-    ];
-    $jsonString = json_encode($jsonData, JSON_PRETTY_PRINT);
-    $fp = fopen($export_date, 'w');
-    fwrite($fp, $jsonString);
-    fclose($fp);
+        // Write finished data 
+        $export_date = './assets/export.json';
+        $jsonData = [
+            "last_fetched" => date("d/m/Y H:i:s", time()),
+            "board" => $this->boardId,
+            "finished" => $this->finished,
+            "error" => $this->error,
+            "total" => $this->pinCount,
+            "newpins" => $this->newPins
+        ];
+        $jsonString = json_encode($jsonData, JSON_PRETTY_PRINT);
+        $fp = fopen($export_date, 'w');
+        fwrite($fp, $jsonString);
+        fclose($fp);
     }
 }
