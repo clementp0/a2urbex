@@ -1,20 +1,71 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
 {% block content %}
-	<section class="jumbotron text-center">
+{# Hello #}
+	<section class="heading-part text-center">
 		<div class="container">
 			<h1 class="jumbotron-heading">Hey {{app.user.firstname}}!</h1><br>
 			<p class="lead text-muted">Currently <b>{{pins}}</b> pins, located in <b>{{country}}</b> country and sorted in <b>{{type}}</b> categories</p>
 		</div>
 	</section>
+{# Fetch #}
+	<section class="fetch-part text-center">
+		<div class="container">
+			<p class="text-muted">Current time : <b>{{current_time}}</b></p>
+			<p class="text-muted">Last Fetched : <b>{{last_fetched}}</b></p>
+			<a class="action-new btn btn-primary" href="/fetch">Fetch Now</a>
+		</div>
+		<div class="output-area">
+		<p class="text-muted">Output : </b></p>
+		<div class="output">
+		<p>BoardId = {{board}}<br>
+		Status = {{finished}}<br>
+		Error = {{error}}<br>
+		Total Parsed = {{total}}<br>
+		NewPins = {{newpins}}<br>---------</p>
+		<div>
+		</div>
+	</section>
 
 {# Stylesheets #}
 <style>
-.jumbotron{
+.content-wrapper{
+	display:block;
+}
+.heading-part{
+	width:100%;
+    padding: 2rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+    height: fit-content;
+}
+.fetch-part{
+	display: flex;
+	width:100%;
     padding: 2rem;
     margin-top: 1rem;
     border: 1px solid var(--sidebar-border-color);
     border-radius: 8px;
     height: fit-content;
+}
+.fetch-part > .container{
+	width: 50%;
+    text-align: left;
+	border-right:1px solid var(--sidebar-border-color);
+}
+.output-area{
+	width: 50%;
+	padding-left: 40px;
+    text-align: left;
+}
+.output{
+	overflow: hidden;
+	background-color: var(--form-control-bg);
+	border : 1px solid var(--form-input-border-color);
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 11px;
+    max-height: 100px;
+    height: 100px;
 }
 </style>
 
