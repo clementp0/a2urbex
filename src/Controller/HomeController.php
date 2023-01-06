@@ -13,6 +13,11 @@ class HomeController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->redirect($this->getParameter('RESUME_URL'));
+
+        $first_name = "Florence";
+        return $this->render('home/index.html.twig', [
+            'controller_name' => 'HomeController',
+            'first_name' => $first_name,
+        ]);
     }
 }

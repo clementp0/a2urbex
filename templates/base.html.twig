@@ -1,21 +1,58 @@
 <!doctype html>
 <html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>Urbex</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+body {
+    max-width: 85%;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    color: #5a5a5a;
+    margin: auto;
+}
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('assets/css/carousel.css') }}" rel="stylesheet">
 </head>
+<header>
+<nav class="navbar navbar-expend-md navbar-dark fixed-top bg-dark">
+<div class="navbar-collapse" id="navbarCollapse">
+{% if app.user %}
+  <a href="{{ path('app_account') }}">Mon compte</a> | <a href="{{ path('app_logout') }}">Deconnexion</a>
+{% else %}
+    <a href="{{ path('app_login') }}">Connexion | <a href="{{ path('app_register') }}">Inscription</a>
+{% endif %}
+</div>
+</nav>
+</header>
 <body>
       {% block content %}
-      
       {% endblock %}
-      <style>
-      body{
-            height: 100%;
-            width: 100%;
-            background-color: #181818;
-            background-image: url('/assets/images/Dot.svg');
-            overflow : hidden;
-            font-family: Avenir, Helvetica, Arial, sans-serif;
-             -webkit-font-smoothing: antialiased;
-      }
-      
-      </style>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="{{ asset('assets/js/bootstrap.bundle.js') }}"></script>
 </body>
 </html>

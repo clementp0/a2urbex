@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Locations index{% endblock %}
+
+{% block body %}
+    <h1>Locations index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Pid</th>
+                <th>Description</th>
+                <th>Url</th>
+                <th>Image</th>
+                <th>Lon</th>
+                <th>Lat</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for location in locations %}
+            <tr>
+                <td>{{ location.id }}</td>
+                <td>{{ location.pid }}</td>
+                <td>{{ location.description }}</td>
+                <td>{{ location.url }}</td>
+                <td>{{ location.image }}</td>
+                <td>{{ location.lon }}</td>
+                <td>{{ location.lat }}</td>
+                <td>
+                    <a href="{{ path('app_locations_show', {'id': location.id}) }}">show</a>
+                    <a href="{{ path('app_locations_edit', {'id': location.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_locations_new') }}">Create new</a>
+{% endblock %}
