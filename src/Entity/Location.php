@@ -7,74 +7,55 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=LocationRepository::class)
- */
-class Location
+#[ORM\Entity(repositoryClass: LocationRepository::class)]
+final class Location
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="bigint")
-     */
-    private $pid;
+    #[ORM\Column(type: 'bigint')]
+    private ?string $pid = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $description;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $description = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $url;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $url = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $image;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $image = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=14, scale=12, nullable=true)
-     */
-    private $lon;
+    #[ORM\Column(type: 'decimal', precision: 14, scale: 12, nullable: true)]
+    private ?string $lon = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=14, scale=12, nullable=true)
-     */
-    private $lat;
+    #[ORM\Column(type: 'decimal', precision: 14, scale: 12, nullable: true)]
+    private ?string $lat = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="location")
-     */
-    private $Country;
+    #[ORM\ManyToOne(targetEntity: Country::class, inversedBy: 'location')]
+    private ?Country $Country = null;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Type::class, inversedBy="location")
-     */
-    private $Type;
+    #[ORM\ManyToMany(targetEntity: Type::class, inversedBy: 'locations')]
+    private Collection $types;
 
     public function __construct()
     {
-        $this->Type = new ArrayCollection();
+        $this->types = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPid(): ?int
+    public function getPid(): ?string
     {
         return $this->pid;
     }
 
-    public function setPid(int $pid): self
+    public function setPid(string $pid): self
     {
         $this->pid = $pid;
 
@@ -122,7 +103,7 @@ class Location
         return $this->lon;
     }
 
-    public function setLon(string $lon): self
+    public function setLon(?string $lon): self
     {
         $this->lon = $lon;
 
@@ -134,7 +115,7 @@ class Location
         return $this->lat;
     }
 
-    public function setLat(string $lat): self
+    public function setLat(?string $lat): self
     {
         $this->lat = $lat;
 
@@ -156,15 +137,15 @@ class Location
     /**
      * @return Collection<int, Type>
      */
-    public function getType(): Collection
+    public function getTypes(): Collection
     {
-        return $this->Type;
+        return $this->types;
     }
 
     public function addType(Type $type): self
     {
-        if (!$this->Type->contains($type)) {
-            $this->Type[] = $type;
+        if (!$this->types->contains($type)) {
+            $this->types->add($type);
         }
 
         return $this;
@@ -172,7 +153,7 @@ class Location
 
     public function removeType(Type $type): self
     {
-        $this->Type->removeElement($type);
+        $this->types->removeElement($type);
 
         return $this;
     }

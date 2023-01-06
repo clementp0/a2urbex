@@ -21,16 +21,29 @@ class FetchController extends AbstractController
         $this->count = 0;
         $this->maxLoopCount = 1; // false = no max 
         $this->newPinCount = 0;
+
+        $this->pinCount = 0;
+        $this->newPins = '';
+        $this->finished = '';
+        $this->error = 'Without Error(s)';
+    }
+    
+    #[Route('/fetch', name: 'app_fetch')]
+    public function index(): Response
+    {
+        $this->getFeed();
+    
+        return $this->render('fetch/index.html.twig', [
+            'controller_name' => 'FetchController',
+            'finished' => $this->finished,
+            'error' => $this->error,
+            'board' => $this->boardId,
+            'total' => $this->pinCount,
+            'newpins' => $this->newPins,
+        ]);
     }
 
-    private function error($error) {
-        echo $error;
-        die;
-    }
-    private function done() {
-        echo 'Done ! '.$this->newPinCount.' new pin'.($this->newPinCount > 1 ? 's' : '');
-        die;
-    }
+
 
     private function getResource($option) {
         $data = urlencode(json_encode(['options' => $option]));
@@ -71,7 +84,6 @@ class FetchController extends AbstractController
 
     private function parseFeed($json) {
         $data = $json['resource_response']['data'];
-    
         foreach($data as $item) {
             if (isset($item['type']) && $item['type'] == 'pin') {
                 $this->savePin($item);
@@ -82,9 +94,7 @@ class FetchController extends AbstractController
     
         if($this->maxLoopCount !== false && ++$this->count === $this->maxLoopCount) {
             $this->done();
-        }
-
-        if ($bookmarks[0] == '-end-') {
+        } elseif ($bookmarks[0] == '-end-') {
             $this->done();
         } else {
             $this->getFeed($bookmarks);
@@ -94,7 +104,7 @@ class FetchController extends AbstractController
 
     private function savePin($item) {        
         $exist = $this->locationRepository->findByPid($item['id']) !== null;
-        if(!$exist) {
+        if(!$exist || true) {
             $location = new Location();
             $location
                 ->setPid((int)$item['id'])
@@ -106,16 +116,22 @@ class FetchController extends AbstractController
             $this->locationRepository->add($location);
             $this->newPinCount++;
         }
+        
+        die;
+
+        $this->pinCount++;
+    }
+
+    private function convertCoord() {
+
     }
 
 
-    #[Route('/fetch', name: 'app_fetch')]
-    public function index(): Response
-    {
-        $this->getFeed();
-
-        return $this->render('fetch/index.html.twig', [
-            'controller_name' => 'FetchController',
-        ]);
+    private function error($error) {
+        $this->error = $error;
+    }
+    private function done() {
+       $this->finished = 'Success';
+       $this->newPins = $this->newPinCount.($this->newPinCount > 1 ? 's' : '');
     }
 }

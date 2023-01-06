@@ -2,36 +2,29 @@
 
 namespace App\Entity;
 
+use Stringable;
 use App\Repository\TypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=TypeRepository::class)
- */
-class Type
+#[ORM\Entity(repositoryClass: TypeRepository::class)]
+final class Type implements Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $name = null;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Location::class, mappedBy="Type")
-     */
-    private $location;
+    #[ORM\ManyToMany(targetEntity: Location::class, mappedBy: 'types')]
+    private Collection $locations;
 
     public function __construct()
     {
-        $this->location = new ArrayCollection();
+        $this->locations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -39,9 +32,9 @@ class Type
         return $this->id;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->name;
+        return (string) $this->name;
     }
 
     public function getName(): ?string
@@ -59,15 +52,15 @@ class Type
     /**
      * @return Collection<int, Location>
      */
-    public function getLocation(): Collection
+    public function getLocations(): Collection
     {
-        return $this->location;
+        return $this->locations;
     }
 
     public function addLocation(Location $location): self
     {
-        if (!$this->location->contains($location)) {
-            $this->location[] = $location;
+        if (!$this->locations->contains($location)) {
+            $this->locations->add($location);
             $location->addType($this);
         }
 
@@ -76,7 +69,7 @@ class Type
 
     public function removeLocation(Location $location): self
     {
-        if ($this->location->removeElement($location)) {
+        if ($this->locations->removeElement($location)) {
             $location->removeType($this);
         }
 
