@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Locations{% endblock %}
+{% block title %}Location{% endblock %}
 
 {% block body %}
-    <h1>Locations</h1>
+    <h1>Location</h1>
 
     <table class="table">
         <tbody>
@@ -38,9 +38,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_locations_index') }}">back to list</a>
+    <a href="{{ path('app_location_index') }}">back to list</a>
 
-    <a href="{{ path('app_locations_edit', {'id': location.id}) }}">edit</a>
+    <a href="{{ path('app_location_edit', {'id': location.id}) }}">edit</a>
 
-    {{ include('locations/_delete_form.html.twig') }}
+    {{ include('location/_delete_form.html.twig') }}
 {% endblock %}

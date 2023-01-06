@@ -25,13 +25,13 @@ class Type
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Locations::class, mappedBy="Type")
+     * @ORM\ManyToMany(targetEntity=Location::class, mappedBy="Type")
      */
-    private $locations;
+    private $location;
 
     public function __construct()
     {
-        $this->locations = new ArrayCollection();
+        $this->location = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -57,26 +57,26 @@ class Type
     }
 
     /**
-     * @return Collection<int, Locations>
+     * @return Collection<int, Location>
      */
-    public function getLocations(): Collection
+    public function getLocation(): Collection
     {
-        return $this->locations;
+        return $this->location;
     }
 
-    public function addLocation(Locations $location): self
+    public function addLocation(Location $location): self
     {
-        if (!$this->locations->contains($location)) {
-            $this->locations[] = $location;
+        if (!$this->location->contains($location)) {
+            $this->location[] = $location;
             $location->addType($this);
         }
 
         return $this;
     }
 
-    public function removeLocation(Locations $location): self
+    public function removeLocation(Location $location): self
     {
-        if ($this->locations->removeElement($location)) {
+        if ($this->location->removeElement($location)) {
             $location->removeType($this);
         }
 

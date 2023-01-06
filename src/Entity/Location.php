@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\LocationsRepository;
+use App\Repository\LocationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=LocationsRepository::class)
+ * @ORM\Entity(repositoryClass=LocationRepository::class)
  */
-class Locations
+class Location
 {
     /**
      * @ORM\Id
@@ -50,12 +50,12 @@ class Locations
     private $lat;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="locations")
+     * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="location")
      */
     private $Country;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Type::class, inversedBy="locations")
+     * @ORM\ManyToMany(targetEntity=Type::class, inversedBy="location")
      */
     private $Type;
 
