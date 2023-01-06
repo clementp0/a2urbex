@@ -27,17 +27,20 @@ final class Location
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\Column(type: 'decimal', precision: 14, scale: 12, nullable: true)]
-    private ?string $lon = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $lon = null;
 
-    #[ORM\Column(type: 'decimal', precision: 14, scale: 12, nullable: true)]
-    private ?string $lat = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $lat = null;
 
     #[ORM\ManyToMany(targetEntity: Type::class, inversedBy: 'locations')]
     private Collection $types;
 
     #[ORM\ManyToOne(inversedBy: 'locations')]
     private ?country $country = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
 
     public function __construct()
     {
@@ -154,6 +157,18 @@ final class Location
     public function setCountry(?country $country): self
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }
