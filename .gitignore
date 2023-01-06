@@ -1,0 +1,14 @@
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+.env
+.htaccess
+.DS_Store
+node_modules
+node_modules
