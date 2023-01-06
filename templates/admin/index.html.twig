@@ -10,9 +10,10 @@
 {# Fetch #}
 	<section class="fetch-part text-center">
 		<div class="container">
-			<p class="text-muted">Current time : <b>{{current_time}}</b></p>
-			<p class="text-muted">Last Fetched : <b>{{last_fetched}}</b></p>
+			<p class="text-muted">Current time : <br> <div class="time">{{current_time}}</div></p>
+			<p class="text-muted">Last Fetched : <br> <div class="time">{{last_fetched}}</div></p>
 			<a class="action-new btn btn-primary" href="/fetch">Fetch Now</a>
+			<a class="btn btn-secondary" href="https://www.pinterest.fr/patrimoine43/" target="_blank">Check Source</a>
 		</div>
 		<div class="output-area">
 		<p class="text-muted">Output : </b></p>
@@ -22,12 +23,17 @@
 		Error = {{error}}<br>
 		Total Parsed = {{total}}<br>
 		NewPins = {{newpins}}<br>---------</p>
+		Key = {{token}}
 		<div>
 		</div>
 	</section>
 
 {# Stylesheets #}
 <style>
+.content-wrapper{ 
+	margin: auto;
+}
+
 .content-wrapper{
 	display:block;
 }
@@ -52,6 +58,18 @@
     text-align: left;
 	border-right:1px solid var(--sidebar-border-color);
 }
+
+.time{
+    padding-left: 4px;
+    padding-right: 4px;
+	padding-bottom : 1px;
+    border-radius: 5px;
+    font-size: 11px;
+    background-color: var(--form-control-bg);
+    border: 1px solid var(--form-input-border-color);
+    height: fit-content;
+    width: fit-content;
+}
 .output-area{
 	width: 50%;
 	padding-left: 40px;
@@ -62,11 +80,30 @@
 	background-color: var(--form-control-bg);
 	border : 1px solid var(--form-input-border-color);
     padding: 8px;
+	padding-bottom:0;
     border-radius: 5px;
     font-size: 11px;
-    max-height: 100px;
-    height: 100px;
+    height: fit-content;
 }
+@media screen and (max-width: 550px) {
+  .fetch-part > .container {
+	width: 100%;
+	border-right:none;
+	border-bottom:1px solid var(--sidebar-border-color);
+	padding : 12px;
+	padding-bottom: 30px;
+  }
+  .output-area {
+	--bs-gutter-x: 1.5rem;
+	width: 100%;
+	padding: 12px;
+	padding-top:20px;
+  }
+  .fetch-part{
+  display:block;
+  }
+}
+
 </style>
 
 {% endblock %}

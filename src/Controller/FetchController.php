@@ -140,12 +140,13 @@ class FetchController extends AbstractController
         // Write finished data 
         $export_date = './assets/export.json';
         $jsonData = [
-            "last_fetched" => date("d/m/Y H:i:s", time()),
+            "last_fetched" => date("d/m/Y H:i", time()),
             "board" => $this->boardId,
             "finished" => $this->finished,
             "error" => $this->error,
             "total" => $this->pinCount,
-            "newpins" => $this->newPins
+            "newpins" => $this->newPins,
+            "token" => rand() . "\n"
         ];
         $jsonString = json_encode($jsonData, JSON_PRETTY_PRINT);
         $fp = fopen($export_date, 'w');

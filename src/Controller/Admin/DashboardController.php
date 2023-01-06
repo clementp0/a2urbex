@@ -60,6 +60,7 @@ class DashboardController extends AbstractDashboardController
         $error = $array["error"];
         $total = $array["total"];
         $newpins = $array["newpins"];
+        $token = $array["token"];
     //Return data 
 
         return $this->render('admin/index.html.twig', [
@@ -73,6 +74,7 @@ class DashboardController extends AbstractDashboardController
             'error' => $error,
             'total' => $total,
             'newpins' => $newpins,
+            'token' => $token
         ]);
     }
 
