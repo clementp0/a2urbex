@@ -31,7 +31,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 
-        yield MenuItem::linkToCrud('Locations', 'fa fa-home', Locations::class);
+        yield MenuItem::linkToCrud('Locations', 'fas fa-map-marker', Locations::class);
 
         yield MenuItem::subMenu('Parametres', 'fa fa-gear')->setSubItems([
                 MenuItem::linkToUrl('Mon Compte', 'fas fa-user', 'compte'),
