@@ -96,7 +96,7 @@ class FetchController extends AbstractController
 
     private function savePin($item) {        
         $exist = $this->locationRepository->findByPid($item['id']) !== null;
-        if(!$exist || true) {
+        if(!$exist) {
             $location = new Location();
             
             preg_match('#(.*".{1}) (.*".{1}) (.*)#', $item['description'], $matches);
