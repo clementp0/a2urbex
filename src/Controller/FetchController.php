@@ -19,7 +19,7 @@ class FetchController extends AbstractController
         $this->pinBaseUrl = $_ENV['PIN_BASE_URL'];
 
         $this->count = 0;
-        $this->maxLoopCount = 1; // false = no max 
+        $this->maxLoopCount = false; // false = no max 
         $this->newPinCount = 0;
 
         $this->pinCount = 0;
