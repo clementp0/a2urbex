@@ -8,10 +8,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Location;
 use App\Repository\LocationRepository;
+use App\Repository\TypeRepository;
+use App\Repository\CountryRepository;
 
 class FetchController extends AbstractController
 {
-    public function __construct(LocationRepository $locationRepository) {
+    public function __construct(LocationRepository $locationRepository, TypeRepository $typeRepository, CountryRepository $countryRepository) {
         $this->locationRepository = $locationRepository;
 
         $this->boardId = $_ENV['BOARD_ID'];
@@ -19,13 +21,22 @@ class FetchController extends AbstractController
         $this->pinBaseUrl = $_ENV['PIN_BASE_URL'];
 
         $this->count = 0;
-        $this->maxLoopCount = false; // false = no max 
+        $this->maxLoopCount = 1; // false = no max 
         $this->newPinCount = 0;
 
         $this->pinCount = 0;
         $this->newPins = '';
         $this->finished = '';
         $this->error = 'Without Error(s)';
+
+        $this->typeOptions = [];
+        foreach($typeRepository->findAll() as $type) {
+            $typeOptions = $type->getTypeOptions();
+            foreach($typeOptions as $item) {
+                $this->typeOptions[] = $item;
+            }
+        }
+        $this->countries = $countryRepository->findAll();
     }
     
     #[Route('/fetch', name: 'app_fetch')]
@@ -110,6 +121,9 @@ class FetchController extends AbstractController
                 ->setUrl($this->pinBaseUrl.$item['id'])
                 ->setImage($item['images']['orig']['url'])
             ;
+
+            $this->addTypes($location);
+            $this->addCountry($location);
             
             $this->locationRepository->add($location);
             $this->newPinCount++;
@@ -128,14 +142,32 @@ class FetchController extends AbstractController
         return $str;
     }
 
+    private function addTypes($location) {
+        $name = $location->getName();
+        foreach($this->typeOptions as $typeOption) {
+            if(strpos(strtolower($name), $typeOption->getName())) {
+                $location->addType($typeOption->getType());
+            }
+        }
+    }
+
+    private function addCountry($location) {
+        $name = $location->getName();
+        foreach($this->countries as $country) {
+            if(strpos(strtolower($name), $country->getName())) {
+                $location->setCountry($country);
+                break;
+            }
+        }
+    }
 
     private function error($error) {
         $this->error = $error;
     }
 
     private function done() {
-       $this->finished = 'Success';
-       $this->newPins = $this->newPinCount;
+        $this->finished = 'Success';
+        $this->newPins = $this->newPinCount;
 
         // Write finished data 
         $export_date = './assets/export.json';

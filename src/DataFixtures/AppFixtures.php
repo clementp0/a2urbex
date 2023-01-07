@@ -52,6 +52,8 @@ class AppFixtures extends Fixture {
             'spain',
             'italy',
             'germany',
+            'belgium',
+            'serbia'
         ];
 
         foreach($countries as $country) {
