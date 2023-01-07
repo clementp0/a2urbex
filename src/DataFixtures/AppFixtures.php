@@ -6,6 +6,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 use App\Entity\Country;
+use App\Entity\Type;
+use App\Entity\TypeOption;
 
 class AppFixtures extends Fixture {
     public function load(ObjectManager $manager): void {
