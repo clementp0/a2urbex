@@ -22,9 +22,13 @@ final class Type implements Stringable
     #[ORM\ManyToMany(targetEntity: Location::class, mappedBy: 'types')]
     private Collection $locations;
 
+    #[ORM\OneToMany(mappedBy: 'type', targetEntity: TypeOption::class)]
+    private Collection $typeOptions;
+
     public function __construct()
     {
         $this->locations = new ArrayCollection();
+        $this->typeOptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -71,6 +75,36 @@ final class Type implements Stringable
     {
         if ($this->locations->removeElement($location)) {
             $location->removeType($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TypeOption>
+     */
+    public function getTypeOptions(): Collection
+    {
+        return $this->typeOptions;
+    }
+
+    public function addTypeOption(TypeOption $typeOption): self
+    {
+        if (!$this->typeOptions->contains($typeOption)) {
+            $this->typeOptions->add($typeOption);
+            $typeOption->setType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTypeOption(TypeOption $typeOption): self
+    {
+        if ($this->typeOptions->removeElement($typeOption)) {
+            // set the owning side to null (unless already changed)
+            if ($typeOption->getType() === $this) {
+                $typeOption->setType(null);
+            }
         }
 
         return $this;
