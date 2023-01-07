@@ -29,6 +29,7 @@ class FetchController extends AbstractController
         $this->finished = '';
         $this->error = 'Without Error(s)';
 
+        $this->countries = $countryRepository->findAll();
         $this->typeOptions = [];
         foreach($typeRepository->findAll() as $type) {
             $typeOptions = $type->getTypeOptions();
@@ -36,13 +37,24 @@ class FetchController extends AbstractController
                 $this->typeOptions[] = $item;
             }
         }
-        $this->countries = $countryRepository->findAll();
     }
     
     #[Route('/fetch', name: 'app_fetch')]
-    public function index(): Response
-    {
+    public function index(): Response {
         $this->getFeed();
+    
+        return $this->redirect('admin');
+    }
+
+    #[Route('/update', name: 'app_update')]
+    public function update(): Response {
+        $locations = $this->locationRepository->findAll();
+        foreach($locations as $location) {
+            $this->addCountry($location);
+            $location->getTypes()->clear();
+            $this->addTypes($location);
+            $this->locationRepository->add($location);
+        }
     
         return $this->redirect('admin');
     }
