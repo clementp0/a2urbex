@@ -22,7 +22,7 @@ class Type implements Stringable
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: TypeOption::class)]
     private Collection $typeOptions;
 
-    #[ORM\OneToMany(mappedBy: 'types', targetEntity: Location::class)]
+    #[ORM\OneToMany(mappedBy: 'type', targetEntity: Location::class)]
     private Collection $locations;
 
     public function __construct()
@@ -95,7 +95,7 @@ class Type implements Stringable
     {
         if (!$this->locations->contains($location)) {
             $this->locations->add($location);
-            $location->setTypes($this);
+            $location->setType($this);
         }
 
         return $this;
@@ -105,8 +105,8 @@ class Type implements Stringable
     {
         if ($this->locations->removeElement($location)) {
             // set the owning side to null (unless already changed)
-            if ($location->getTypes() === $this) {
-                $location->setTypes(null);
+            if ($location->getType() === $this) {
+                $location->setType(null);
             }
         }
 

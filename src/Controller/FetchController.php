@@ -51,8 +51,7 @@ class FetchController extends AbstractController
         $locations = $this->locationRepository->findAll();
         foreach($locations as $location) {
             $this->addCountry($location);
-            $location->getTypes()->clear();
-            $this->addTypes($location);
+            $this->addType($location);
             $this->locationRepository->add($location);
         }
     
@@ -134,7 +133,7 @@ class FetchController extends AbstractController
                 ->setImage($item['images']['orig']['url'])
             ;
 
-            $this->addTypes($location);
+            $this->addType($location);
             $this->addCountry($location);
             
             $this->locationRepository->add($location);
@@ -154,11 +153,12 @@ class FetchController extends AbstractController
         return $str;
     }
 
-    private function addTypes($location) {
+    private function addType($location) {
         $name = $location->getName();
         foreach($this->typeOptions as $typeOption) {
             if(strpos(strtolower($name), $typeOption->getName())) {
-                $location->addType($typeOption->getType());
+                $location->setType($typeOption->getType());
+                break;
             }
         }
     }

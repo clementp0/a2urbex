@@ -81,7 +81,7 @@ class LocationRepository extends ServiceEntityRepository
             if (!empty($search->type)){
                 $query = $query
                     ->select('c' , 'l')
-                    ->join( 'l.types', 'c')
+                    ->join( 'l.type', 'c')
                     ->andWhere('c.id IN (:type)')
                     ->setParameter('type', $search->type);
             }
