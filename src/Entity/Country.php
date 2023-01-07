@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
-final class Country implements Stringable
+class Country implements Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

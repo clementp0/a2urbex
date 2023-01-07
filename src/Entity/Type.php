@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TypeRepository::class)]
-final class Type implements Stringable
+class Type implements Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,16 +19,16 @@ final class Type implements Stringable
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Location::class, mappedBy: 'types')]
-    private Collection $locations;
-
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: TypeOption::class)]
     private Collection $typeOptions;
 
+    #[ORM\OneToMany(mappedBy: 'types', targetEntity: Location::class)]
+    private Collection $locations;
+
     public function __construct()
     {
-        $this->locations = new ArrayCollection();
         $this->typeOptions = new ArrayCollection();
+        $this->locations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,33 +49,6 @@ final class Type implements Stringable
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Location>
-     */
-    public function getLocations(): Collection
-    {
-        return $this->locations;
-    }
-
-    public function addLocation(Location $location): self
-    {
-        if (!$this->locations->contains($location)) {
-            $this->locations->add($location);
-            $location->addType($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLocation(Location $location): self
-    {
-        if ($this->locations->removeElement($location)) {
-            $location->removeType($this);
-        }
 
         return $this;
     }
@@ -104,6 +77,36 @@ final class Type implements Stringable
             // set the owning side to null (unless already changed)
             if ($typeOption->getType() === $this) {
                 $typeOption->setType(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Location>
+     */
+    public function getLocations(): Collection
+    {
+        return $this->locations;
+    }
+
+    public function addLocation(Location $location): self
+    {
+        if (!$this->locations->contains($location)) {
+            $this->locations->add($location);
+            $location->setTypes($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLocation(Location $location): self
+    {
+        if ($this->locations->removeElement($location)) {
+            // set the owning side to null (unless already changed)
+            if ($location->getTypes() === $this) {
+                $location->setTypes(null);
             }
         }
 
