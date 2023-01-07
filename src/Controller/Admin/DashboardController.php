@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Entity\Location;
-use App\Entity\Type;
 use App\Entity\Country;
+use App\Entity\Type;
 use App\Repository\LocationRepository;
 
 class DashboardController extends AbstractDashboardController

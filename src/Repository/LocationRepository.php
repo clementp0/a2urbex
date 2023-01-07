@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Repository;
-
 use App\Entity\Location;
+use App\Class\Search;
+use App\Entity\Country;
+use App\Entity\Type;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -50,9 +52,45 @@ class LocationRepository extends ServiceEntityRepository
             ->andWhere('l.pid = :pid')
             ->setParameter('pid', $pid)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
+        }
+
+    /**
+     * @return Location[]
+     */
+    
+    public function findWithSearch(Search $search)
+        {
+        $query = $this
+            ->createQueryBuilder('l');
+
+            if (!empty($search->country)){
+                $query = $query
+                    ->select('c' , 'l')
+                    ->join( 'l.country', 'c')
+                    ->andWhere('c.id IN (:country)')
+                    ->setParameter('country', $search->country);
+            }
+
+            if (!empty($search->string)){
+                $query = $query
+                    ->andWhere('l.description LIKE :string')
+                    ->setParameter('string', "%$search->string%");
+            }
+
+            if (!empty($search->type)){
+                $query = $query
+                    ->select('c' , 'l')
+                    ->join( 'l.types', 'c')
+                    ->andWhere('c.id IN (:type)')
+                    ->setParameter('type', $search->type);
+            }
+            echo($query);
+            return $query->getQuery()->getResult();
     }
+
+
+
 
     // /**
     //  * @return Location[] Returns an array of Location objects

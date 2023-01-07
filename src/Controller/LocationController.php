@@ -3,21 +3,37 @@
 namespace App\Controller;
 
 use App\Entity\Location;
+use App\Class\Search;
 use App\Form\LocationType;
+use App\Form\SearchType;
 use App\Repository\LocationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/location')]
+#[Route('/locations')]
 class LocationController extends AbstractController
 {
-    #[Route('/', name: 'app_location_index', methods: ['GET'])]
-    public function index(LocationRepository $locationRepository): Response
+    #[Route('/', name: 'app_location_index', methods: ['GET', 'POST'])]
+    public function index(Request $request, LocationRepository $locationRepository): Response
     {
+        $location = $locationRepository->findAll();
+
+        $search = new Search();
+        $form = $this->createForm(SearchType::class, $search);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            // dd($search);
+            $location = $locationRepository->findWithSearch($search);
+
+        }
+
         return $this->render('location/index.html.twig', [
-            'location' => $locationRepository->findAll(),
+            'location' => $location,
+            'form' => $form->createView(),
         ]);
     }
 

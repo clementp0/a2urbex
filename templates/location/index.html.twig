@@ -2,44 +2,94 @@
 
 {% block title %}Location index{% endblock %}
 
-{% block body %}
-    <h1>Location index</h1>
+{% block content %}
+    {# <h1>Location index</h1> #}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Pid</th>
-                <th>Description</th>
-                <th>Url</th>
-                <th>Image</th>
-                <th>Lon</th>
-                <th>Lat</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    {{form(form)}}
+    <div class="pin-box">
         {% for location in location %}
-            <tr>
-                <td>{{ location.id }}</td>
-                <td>{{ location.pid }}</td>
-                <td>{{ location.description }}</td>
-                <td>{{ location.url }}</td>
-                <td>{{ location.image }}</td>
-                <td>{{ location.lon }}</td>
-                <td>{{ location.lat }}</td>
-                <td>
-                    <a href="{{ path('app_location_show', {'id': location.id}) }}">show</a>
-                    <a href="{{ path('app_location_edit', {'id': location.id}) }}">edit</a>
-                </td>
-            </tr>
+        <div class="pin-container"> 
+        <div class="pin-img" style="background-image:url('{{ location.image }}')"></div>
+        <p class="pin-title">{{ location.description }}</p>
+        {# <p class="pin-lon">{{ location.lon }}</p>
+        <p class="pin-lat">{{ location.lat }}</p> #}
+    
+        <div class="pin-bottom-container">
+            <a class="pin-map" target="blank" href="https://www.google.com/maps?q={{ location.lon }},{{ location.lat }}"><i class="fa-solid fa-earth-europe"></i></a>
+            <p class="pin-id">id : {{ location.id }}</p>
+            {% if app.user %}
+            <div class="pin-edit">
+            <a href="{{ path('app_location_show', {'id': location.id}) }}"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ location.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
+            </div>
+        </div>
+        {% endif %}
+        </div>
+
+        
         {% else %}
             <tr>
                 <td colspan="8">no records found</td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
+</div>
 
-    <a href="{{ path('app_location_new') }}">Create new</a>
+
+<style>
+.pin-box{
+    display: grid;
+    grid-template-columns: 250px 250px 250px;
+    justify-content: space-evenly;
+  justify-items: center;
+  align-content: space-evenly;
+  {# align-items: center; #}
+}
+.pin-container{
+    display: block;
+    width: 270px;
+    background-color: #232323;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 4px;
+        height: fit-content;
+}
+.pin-img{
+    width: 100%;
+    height: 200px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+.pin-bottom-container{
+    height: 24px;
+    display: flex;
+}
+.pin-id{
+    margin: auto;
+    font-size: 10px;
+    color: #8d8d8d;
+}
+.pin-map{
+    padding-top: 5px;
+    color: #8d8d8d;
+     border-top-right-radius: 7px;
+    border-right: 1px solid #ffffff59;
+    padding-right: 10px;
+}
+.pin-edit{
+    width: fit-content;
+    color: #717171;
+    float: right;
+    border-top-left-radius: 7px;
+    border-left: 1px solid #ff000059;
+    padding-left: 10px;
+}
+.pin-edit > a{
+    color: #8d8d8d;
+}
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 {% endblock %}

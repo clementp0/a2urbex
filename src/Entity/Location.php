@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LocationRepository::class)]
-final class Location
+class Location
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,19 +33,14 @@ final class Location
     #[ORM\Column(nullable: true)]
     private ?float $lat = null;
 
-    #[ORM\ManyToMany(targetEntity: Type::class, inversedBy: 'locations')]
-    private Collection $types;
-
     #[ORM\ManyToOne(inversedBy: 'locations')]
     private ?country $country = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    public function __construct()
-    {
-        $this->types = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'locations')]
+    private ?Type $types = null;
 
 
     public function getId(): ?int
@@ -125,30 +120,6 @@ final class Location
         return $this;
     }
 
-    /**
-     * @return Collection<int, Type>
-     */
-    public function getTypes(): Collection
-    {
-        return $this->types;
-    }
-
-    public function addType(Type $type): self
-    {
-        if (!$this->types->contains($type)) {
-            $this->types->add($type);
-        }
-
-        return $this;
-    }
-
-    public function removeType(Type $type): self
-    {
-        $this->types->removeElement($type);
-
-        return $this;
-    }
-
     public function getCountry(): ?country
     {
         return $this->country;
@@ -169,6 +140,18 @@ final class Location
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getTypes(): ?Type
+    {
+        return $this->types;
+    }
+
+    public function setTypes(?Type $types): self
+    {
+        $this->types = $types;
 
         return $this;
     }
