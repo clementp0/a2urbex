@@ -6,10 +6,12 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Type;
 use App\Entity\TypeOption;
+use App\Entity\Country;
 
 class AppFixtures extends Fixture {
     public function load(ObjectManager $manager): void {
         $this->addTypes($manager);
+        $this->addCountries($manager);
     }
 
     private function addTypes($manager) {
@@ -36,6 +38,26 @@ class AppFixtures extends Fixture {
                 $o->setType($t);
                 $manager->persist($o);
             }
+        }
+
+        $manager->flush();
+    }
+
+    private function addCountries($manager) {
+        $countries = [
+            'france',
+            'england',
+            'poland',
+            'ireland',
+            'spain',
+            'italy',
+            'germany',
+        ];
+
+        foreach($countries as $country) {
+            $c = new Country();
+            $c->setName($country);
+            $manager->persist($c);
         }
 
         $manager->flush();
