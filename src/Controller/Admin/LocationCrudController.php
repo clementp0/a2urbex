@@ -27,7 +27,7 @@ class LocationCrudController extends AbstractCrudController
             TextField::new('lon', 'Longitude'),
             TextField::new('lat', 'Latitude'),
             AssociationField::new('country'),
-            AssociationField::new('types'),
+            AssociationField::new('type'),
         ];
     }
     

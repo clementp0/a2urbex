@@ -40,7 +40,7 @@ class Location
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'locations')]
-    private ?Type $types = null;
+    private ?Type $type = null;
 
 
     public function getId(): ?int
@@ -144,14 +144,14 @@ class Location
         return $this;
     }
 
-    public function getTypes(): ?Type
+    public function getType(): ?Type
     {
-        return $this->types;
+        return $this->type;
     }
 
-    public function setTypes(?Type $types): self
+    public function setType(?Type $type): self
     {
-        $this->types = $types;
+        $this->type = $type;
 
         return $this;
     }
