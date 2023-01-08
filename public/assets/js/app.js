@@ -1,4 +1,5 @@
 $(() => {
+
     $( "legend:eq( 0 )" ).replaceWith( "<legend class='col-form-label required'><i class='fa-solid fa-earth-europe'></i>Country</legend>" );
     $( "legend:eq( 1 )" ).replaceWith( "<legend class='col-form-label required'><i class='fa-solid fa-gear'></i></i>Type</legend>" );
 
