@@ -22,7 +22,7 @@ class FetchController extends AbstractController
         $this->imgPath = './img/locations/';
 
         $this->count = 0;
-        $this->maxLoopCount = 1; // false = no max 
+        $this->maxLoopCount = false; // false = no max 
         $this->newPinCount = 0;
 
         $this->pinCount = 0;
@@ -142,14 +142,15 @@ class FetchController extends AbstractController
             copy($imgUrl, $this->imgPath.$imgName);
             
             preg_match('#(.*".{1}) (.*".{1}) (.*)#', $item['description'], $matches);
-            if(isset($matches[1])) $location->setLon($this->convertCoord($matches[1]));
-            if(isset($matches[2])) $location->setLat($this->convertCoord($matches[2]));
-            if(isset($matches[3])) $location->setName($matches[3]);
+            if(isset($matches[1])) $location->setLon((float)$this->convertCoord($matches[1]));
+            if(isset($matches[2])) $location->setLat((float)$this->convertCoord($matches[2]));
+            if(isset($matches[3])) $location->setName(substr($matches[3], 0, 250));
 
             $location
                 ->setPid((int)$item['id'])
                 ->setUrl($this->pinBaseUrl.$item['id'])
                 ->setImage($imgName)
+                ->setDescription(substr($item['description'], 0, 250))
             ;
 
             $this->addType($location);
