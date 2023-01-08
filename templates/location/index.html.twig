@@ -3,16 +3,24 @@
 {% block title %}Location index{% endblock %}
 
 {% block content %}
-    {# <h1>Location index</h1> #}
-<div class="pin-body">
-   <div class="pin-search"> {{form(form)}}<a href="/locations">Reset filters</a></div>
+
+<div class="main-wrap">
+    <input id="slide-sidebar" type="checkbox" role="button" />
+        <label for="slide-sidebar"><span>close</span></label>
+    <div class="sidebar"><h1>Settings</h1></div>
+    <div class="portfolio"><h1>My Portfolio</h1></div>
+</div>
+
+{# IL FAUT ANIMER CA  #}
+<div class="pin-search"> {{form(form)}}<a href="/locations">Reset filters</a></div>
+
+<div class="pin-open-search toggle"><i class="fa fa-fw fa-bars"></i></div>
+<div class="pin-dd">
     <div class="pin-box">
         {% for location in location %}
         <div class="pin-container"> 
         <div class="pin-img" style="background-image:url('/img/locations/{{ location.image }}')"></div>
         <p class="pin-title">{{ location.name |u.truncate(70, '...') }}</p>
-        {# <p class="pin-lon">{{ location.lon }}</p>
-        <p class="pin-lat">{{ location.lat }}</p> #}
     
         <div class="pin-bottom-container">
             <a class="pin-map" target="blank" href="https://www.google.com/maps?q={{ location.lon }},{{ location.lat }}"><i class="fa-solid fa-earth-europe"></i></a>
@@ -22,7 +30,7 @@
             <a href="{{ path('app_location_show', {'id': location.id}) }}"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ location.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
             </div>
-        </div>
+    </div>
         {% endif %}
         </div>
 
@@ -33,12 +41,27 @@
             </tr>
         {% endfor %}
 </div>
+<div class="pin-pagination">
+{{knp_pagination_render(location)}}
 </div>
-
-
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+{# COUCOU HUGO #}
+</script>
 <style>
-
-.pin-body{
+.pin-open-search{
+    cursor: pointer;
+    font-size: 17px;
+    width: 1.25em;
+    opacity:.5;
+    color: #e5e5e5;
+    position: fixed;
+    top: 10px;
+    z-index: 2000;
+    left: 11px;
+}
+.pin-pin-menu-toggle{
 }
 .pin-search{
     height: 100%;
@@ -51,24 +74,25 @@
     left: 0px;
     background-color: #232323;
 }
+.sidebar {
+    background-color: black;
+    width: 150px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+
 #country{
     text-transform: capitalize;
 }
 #type{
     text-transform: capitalize;
 }
-.pin-box{
-    display: grid;
-    grid-template-columns: 250px 250px 250px;
-    justify-content: space-evenly;
-    justify-items: center;
-    align-content: space-evenly;
-    margin-left: 20%;
-}
 .pin-container{
     display: block;
     width: 270px;
-    background-color: #232323;
+    border: 1px solid #404040;
     padding: 10px;
     margin: 10px;
     border-radius: 4px;
@@ -113,6 +137,49 @@
 .pin-title{
     font-size: 13px;
     padding-top: 10px;
+}
+.pin-pagination{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-left: 20%;
+}
+
+.pin-box{
+    display: grid;
+    justify-content: space-evenly;
+    justify-items: center;
+    align-content: space-evenly;
+   grid-template-columns: 300px 300px 300px 300px 300px;
+}
+
+@media only screen and (max-width: 1800px) {
+.pin-box {
+    grid-template-columns: 300px 300px 300px 300px;
+}
+}
+@media only screen and (max-width: 1500px) {
+.pin-box {
+    grid-template-columns: 300px 300px 300px 300px;
+}
+@media only screen and (max-width: 1400px) {
+.pin-box {
+    grid-template-columns: 300px 300px 300px;
+}
+@media only screen and (max-width: 1100px) {
+.pin-box {
+    grid-template-columns: 300px 300px ;
+}
+@media only screen and (max-width: 1100px) {
+.pin-box {
+    grid-template-columns: 300px 300px ;
+
+}
+@media only screen and (max-width: 800px) {
+.pin-box {
+    grid-template-columns: 300px ;
+
+}
 }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
