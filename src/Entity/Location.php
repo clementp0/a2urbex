@@ -18,9 +18,6 @@ class Location
     #[ORM\Column(type: 'bigint')]
     private ?string $pid = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $description = null;
-
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $url = null;
 
@@ -56,18 +53,6 @@ class Location
     public function setPid(string $pid): self
     {
         $this->pid = $pid;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
 
         return $this;
     }

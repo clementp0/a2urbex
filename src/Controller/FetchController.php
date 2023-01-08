@@ -19,6 +19,7 @@ class FetchController extends AbstractController
         $this->boardId = $_ENV['BOARD_ID'];
         $this->url = $_ENV['FETCH_BASE_URL'];
         $this->pinBaseUrl = $_ENV['PIN_BASE_URL'];
+        $this->imgPath = './img/locations/';
 
         $this->count = 0;
         $this->maxLoopCount = 1; // false = no max 
@@ -41,6 +42,7 @@ class FetchController extends AbstractController
     
     #[Route('/fetch', name: 'app_fetch')]
     public function index(): Response {
+        $this->verifyImgFolder();
         $this->getFeed();
     
         return $this->redirect('admin');
@@ -54,8 +56,22 @@ class FetchController extends AbstractController
             $this->addType($location);
             $this->locationRepository->add($location);
         }
+
+        $exportDate = './assets/update.json';
+        $jsonData = [
+            "last_updated" => date("d/m/Y H:i", time()),
+        ];
+        $jsonString = json_encode($jsonData, JSON_PRETTY_PRINT);
+        $fp = fopen($exportDate, 'w');
+        fwrite($fp, $jsonString);
+        fclose($fp);
     
         return $this->redirect('admin');
+    }
+
+    private function verifyImgFolder() {
+        if(file_exists($this->imgPath)) return;
+        mkdir($this->imgPath, 0777, true);
     }
 
 
@@ -120,6 +136,10 @@ class FetchController extends AbstractController
         $exist = $this->locationRepository->findByPid($item['id']) !== null;
         if(!$exist) {
             $location = new Location();
+
+            $imgUrl = $item['images']['orig']['url'];
+            $imgName = $item['id'].'.'.pathinfo($imgUrl)['extension'];
+            copy($imgUrl, $this->imgPath.$imgName);
             
             preg_match('#(.*".{1}) (.*".{1}) (.*)#', $item['description'], $matches);
             if(isset($matches[1])) $location->setLon($this->convertCoord($matches[1]));
@@ -128,13 +148,13 @@ class FetchController extends AbstractController
 
             $location
                 ->setPid((int)$item['id'])
-                ->setDescription($item['description'])
                 ->setUrl($this->pinBaseUrl.$item['id'])
-                ->setImage($item['images']['orig']['url'])
+                ->setImage($imgName)
             ;
 
             $this->addType($location);
             $this->addCountry($location);
+
             
             $this->locationRepository->add($location);
             $this->newPinCount++;
@@ -182,7 +202,7 @@ class FetchController extends AbstractController
         $this->newPins = $this->newPinCount;
 
         // Write finished data 
-        $export_date = './assets/export.json';
+        $exportDate = './assets/export.json';
         $jsonData = [
             "last_fetched" => date("d/m/Y H:i", time()),
             "board" => $this->boardId,
@@ -193,7 +213,7 @@ class FetchController extends AbstractController
             "token" => rand() . "\n"
         ];
         $jsonString = json_encode($jsonData, JSON_PRETTY_PRINT);
-        $fp = fopen($export_date, 'w');
+        $fp = fopen($exportDate, 'w');
         fwrite($fp, $jsonString);
         fclose($fp);
     }
