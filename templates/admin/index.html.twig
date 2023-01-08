@@ -1,6 +1,6 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
+{% block title %}Hello FavoriteController!{% endblock %}
 {% block content %}
-{# Hello #}
 	<section class="heading-part text-center">
 		<div class="container">
 			<h1 class="jumbotron-heading">Hey {{app.user.firstname}}!</h1><br>
@@ -33,7 +33,15 @@
 		</div>
 	</section>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+$(function(){
+   $(document).attr("title", "@a2urbex");
+});
+
+</script>
 {# Stylesheets #}
+
 <style>
 .last{
 	display:flex;
