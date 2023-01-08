@@ -18,36 +18,33 @@ class RegisterType extends AbstractType
     {
         $builder
             ->add('firstname',TextType::class, [
-                'label' => 'Prénom',
                 'attr' => [
-                    'placeholder' => 'Prénom'
+                    'placeholder' => 'First Name'
                 ]
             ])
             ->add('lastname',TextType::class, [
-                'label' => 'Nom',
                 'attr' => [
-                    'placeholder' => 'Nom'
+                    'placeholder' => 'Last Name'
                 ]
             ])
             ->add('email',EmailType::class, [
-                'label' => 'Email',
                 'attr' => [
                     'placeholder' => 'Email'
                 ]
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'Le mot de passe et la confirmation doivent etre identiques.',
-                'label' => 'Votre mot de passe',
+                'invalid_message' => 'Passwords must be the same',
                 'required' => true,
-                'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmez votre mot de passe']
+                'first_options' => ['label' => 'Password', 'attr' => [
+                    'placeholder' => 'Password'
+                ]],
+                'second_options' => ['label' => 'Confirm Password','attr' => [
+                    'placeholder' => 'Confirm Password'
+                ]]
             ])
             ->add('submit',SubmitType::class, [
-                'label' => 'S\'inscrire',
-                'attr' => [
-                    'class' => 'btn btn-primary'
-                ]
+                'label' => 'Register',
             ]);
     }
 

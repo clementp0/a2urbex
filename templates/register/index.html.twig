@@ -1,7 +1,66 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-/Register
 
+<div class="register"> 
+<h1>Register</h1>
 {{ form(form) }}
+</div>
+
+
+<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		.register {
+			text-align: center;
+			font-weight: 500;
+			width: 300px;
+			height: 560px;
+			border: 1px solid #404040;
+			background-color: #303030;
+			padding: 50px 11px 11px;
+			border-radius: 5px;
+			margin: 0;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+		h1 {
+			text-align: center;
+			margin-bottom: 50px;
+			color: #ffffffd4;
+		}
+		label {
+			display:none;
+		}
+		input {
+            color:#6d6d6d;
+			margin: auto auto 20px;
+			background-color: transparent!important;
+			border: none!important;
+			border-bottom: 1px solid #ffffff24!important;
+			width: 80%!important;
+			font-size: 12px!important;
+			height: 40px!important;
+            border-radius:0px!important;
+		}
+		button {
+			margin: auto!important;
+			width: 80%!important;
+			height: 40px!important;
+			border: none!important;
+			background-color: #222222!important;
+			color: #a2a2a2!important;
+            border-radius:0px!important;
+		}
+		button:hover {
+			transition: 0.3s;
+			background-color: #1e1e1e!important;
+			t
+		}
+	</style>
 {% endblock %}
