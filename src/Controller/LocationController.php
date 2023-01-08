@@ -7,7 +7,6 @@ use App\Class\Search;
 use App\Form\LocationType;
 use App\Form\SearchType;
 use App\Repository\LocationRepository;
-use App\Repository\FavoriteRepository;
 
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +19,7 @@ use Symfony\Component\Security\Core\Security;
 class LocationController extends AbstractController
 {
     #[Route('/', name: 'app_location_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator, Security $security, FavoriteRepository $favoriteRepository): Response
+    public function index(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator, Security $security): Response
     {
         $locations = $locationRepository->findByAllJoinUser($security->getUser()->getId());
 
@@ -40,7 +39,7 @@ class LocationController extends AbstractController
         );  
 
         return $this->render('location/index.html.twig', [
-            'location' => $locationData,
+            'locations' => $locationData,
             'form' => $form->createView(),
         ]);
     }

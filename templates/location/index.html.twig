@@ -12,39 +12,7 @@
         <div class="pin-search"> {{form(form)}}<a href="/locations">Reset filters</a></div>
     </div>
     <div class="pin-wrapper-inner">
-        <div class="pin-dd">
-            <div class="pin-box">
-                {% for item in location %}
-                <div class="pin-container"> 
-                <div class="pin-img" style="background-image:url('/img/locations/{{ item.loc.image }}')"></div>
-                <p class="pin-title">{{ item.loc.name |u.truncate(70, '...') }}</p>
-            
-                <div class="pin-bottom-container">
-                    <div class="pin-user">
-                        <a class="pin-fav" href="/favorite/toggle" data-id="{{ item.loc.id }}"><i class="{{ item.fid ? 'fa-solid' : 'fa-regular' }} fa-heart"></i></a>
-                        <a class="pin-map" target="blank" href="https://www.google.com/maps?q={{ item.loc.lon }},{{ item.loc.lat }}"><i class="fa-solid fa-earth-europe"></i></a>
-                    </div>
-                    <p class="pin-id">id : {{ item.loc.id }}</p>
-                    {% if app.user %}
-                    <div class="pin-edit">
-                        <a href="{{ path('app_location_show', {'id': item.loc.id}) }}"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                        <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                        </div>
-                    </div>
-                    {% endif %}
-                </div>
-
-                
-                {% else %}
-                    <tr>
-                        <td colspan="8">no records found</td>
-                    </tr>
-                {% endfor %}
-        </div>
-    </div>
-    <div class="pin-pagination">
-        {{knp_pagination_render(location)}}
-    </div>
+        {% include 'location_list.html.twig' %}
     </div>
 </div>
 {% endblock %}
