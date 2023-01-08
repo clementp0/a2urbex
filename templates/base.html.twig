@@ -12,7 +12,7 @@
 		<nav class="navbar navbar-expend-md navbar-dark fixed-top">
 			<div class="navbar-collapse" id="navbarCollapse">
 			<div class="filter"></div>
-			<div class="logo"><i class="fas fa-globe-europe"></i> _a2urbex</div>
+			<div class="logo"><i class="fas fa-globe-europe"></i> a2urbex</div>
 			<div class="settings">
 				{% if app.user %}
 					<a href="{{ path('app_location_index') }}"><i class="fa fa-fw fa-location-dot"></i></a>
@@ -32,6 +32,50 @@
 		<body>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 			<script src="{{ asset('assets/js/app.js') }}"></script>
+
+		<footer>
+<div class="love">Mabe with ❤️ by <a target="blank" href="https://github.com/clementp0">Clement Po</a> & <a target="blank" href="https://github.com/LahaxeHugo">LahaxeHugo</a></div>
+
+</footer>
+<style>
+.logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #d4d4d4;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+body{
+	    min-height: 100vh;
+		position:relative;
+}
+iframe{
+    margin: auto;
+    text-align: center;
+    width: 100vw;
+    height: 50vh;
+}
+
+footer {
+    padding: 10px;
+    font-size: 0.895rem;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    text-align: center;
+    width: 100%;
+    justify-content: center;
+    box-shadow: inset 0 1px 0 #525252;
+	background-color: #222222;
+}
+
+footer a{
+    color : #60a5fa;
+}
+</style>
 			{% block content %}{% endblock %}
 		</body>
 	</html>

@@ -19,6 +19,10 @@ body {
     font-weight: 500;
     }
 .logo{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color:#d4d4d4;
     font-weight: 500;
     font-size:0.875rem
