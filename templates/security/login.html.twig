@@ -1,30 +1,81 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Log in!
+{% endblock %}
 
 {% block content %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+	<form class="login-form" method="post">
+		{% if error %}
+			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		{% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+		{% if app.user %}
+			<div class="mb-3">
+				You are logged in as
+				{{ app.user.username }},
+				<a href="{{ path('app_logout') }}">Logout</a>
+			</div>
+		{% endif %}
+		<h1>Login</h1>
+		<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="email" autocomplete="email" placeholder="Email" required autofocus>
+		<input type="password" name="password" id="inputPassword" autocomplete="password" class="password" placeholder="Password" required>
 
-    <h1 class="h3 mb-3 font-weight-normal">Login</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}">
+		<button class="" type="submit">
+			Login
+		</button>
+	</form>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Login
-    </button>
-</form>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		.login-form {
+			text-align: center;
+			font-weight: 500;
+			width: 300px;
+			height: 380px;
+			border: 1px solid #404040;
+			background-color: #303030;
+			padding: 50px 11px 11px;
+			border-radius: 5px;
+			margin: 0;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+		h1 {
+			text-align: center;
+			margin-bottom: 50px;
+			color: #ffffffd4;
+		}
+		input {
+              color:#6d6d6d;
+			margin: auto auto 20px;
+			background-color: transparent;
+			border: none;
+			border-bottom: 1px solid #ffffff24;
+			width: 80%;
+			font-size: 12px;
+			height: 40px;
+
+		}
+		button {
+			margin: auto;
+			width: 80%;
+			height: 40px;
+			border: none;
+			background-color: #222222;
+			color: #a2a2a2;
+		}
+		button:hover {
+			transition: 0.3s;
+			background-color: #1e1e1e;
+			t
+		}
+	</style>
 {% endblock %}
