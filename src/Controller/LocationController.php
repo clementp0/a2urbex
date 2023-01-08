@@ -67,7 +67,7 @@ class LocationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_location_show', methods: ['GET'])]
+    #[Route('how/{id}', name: 'app_location_show', methods: ['GET'])]
     public function show(Location $location): Response
     {
         return $this->render('location/show.html.twig', [
