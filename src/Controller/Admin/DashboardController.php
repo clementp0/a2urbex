@@ -13,6 +13,7 @@ use App\Entity\User;
 use App\Entity\Location;
 use App\Entity\Country;
 use App\Entity\Type;
+use App\Entity\TypeOption;
 use App\Repository\LocationRepository;
 
 class DashboardController extends AbstractDashboardController
@@ -55,6 +56,12 @@ class DashboardController extends AbstractDashboardController
         $strJsonFileContents = file_get_contents($export_date);
         $array = json_decode($strJsonFileContents, true);
         $last_fetched = $array["last_fetched"];
+
+    //Last updated
+        $update_date = './assets/update.json';
+        $strJsonFileContentsu = file_get_contents($update_date);
+        $array_updated = json_decode($strJsonFileContentsu, true);
+        $last_updated = $array_updated["last_updated"];
     
     //Output
         $board = $array["board"];
@@ -63,6 +70,7 @@ class DashboardController extends AbstractDashboardController
         $total = $array["total"];
         $newpins = $array["newpins"];
         $token = $array["token"];
+        $updated = $array_updated["last_updated"];
     //Return data 
 
         return $this->render('admin/index.html.twig', [
@@ -76,7 +84,8 @@ class DashboardController extends AbstractDashboardController
             'error' => $error,
             'total' => $total,
             'newpins' => $newpins,
-            'token' => $token
+            'token' => $token,
+            'last_updated' => $updated,
         ]);
     }
 
@@ -93,14 +102,17 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 
+        yield MenuItem::linkToUrl('Pins', 'fas fa-map-signs', 'locations');
+
         yield MenuItem::subMenu('Locations', 'fas fa-map')->setSubItems([
                 MenuItem::linkToCrud('Pins', 'fas fa-map-marker', Location::class),
                 MenuItem::linkToCrud('Country', 'fas fa-globe-europe', Country::class),
-                MenuItem::linkToCrud('Type', 'fas fa-clinic-medical', Type::class)
+                MenuItem::linkToCrud('Type', 'fas fa-clinic-medical', Type::class),
+                MenuItem::linkToCrud('Type Options', 'fas fa-wrench', TypeOption::class)
         ]);
 
         yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems([
-                MenuItem::linkToUrl('Account', 'fas fa-user', 'compte'),
+                // MenuItem::linkToUrl('Account', 'fas fa-user', 'compte'),
                 MenuItem::linkToUrl('Log Out', 'fas fa-file', 'deconnexion'),
                 MenuItem::linkToCrud('Users', 'fas fa-users', User::class),]);
                 
