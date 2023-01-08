@@ -59,7 +59,7 @@ class LocationRepository extends ServiceEntityRepository
             ->setParameter('pid', $pid)
             ->getQuery()
             ->getOneOrNullResult();
-        }
+    }
 
     /**
      * @return Location[]
@@ -110,8 +110,7 @@ class LocationRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByUser($userId) {
-        
+    public function findByUser($userId) {    
         return $this->createQueryBuilder('l')
             ->select('l loc', 'f.id fid')
             ->orderBy('l.id', 'ASC')
@@ -121,6 +120,21 @@ class LocationRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findByIdJoinUser($id, $userId) {
+        return $this->createQueryBuilder('l')
+            ->select('l loc', 'f.id fid')
+            ->orderBy('l.id', 'ASC')
+            ->leftJoin('App\Entity\Favorite', 'f', Join::WITH, '(f.location = l.id AND f.user = :uid)' )
+            ->andWhere('l.id = :id')
+            ->setParameter('uid', $userId)
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+        ;
+    }
+
+
 
 
 
