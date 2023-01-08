@@ -56,10 +56,20 @@ body {
     position: relative;
     height: 100%;
     overflow-y: scroll;
-    padding: 30px;
+    padding: 20px;
     border-right: 1px solid #303030;
     background-color: #232323;
     width: 250px;
+}
+
+.pin-search .btn-info {
+    background-color: #404040;
+}
+.pin-search #submit {
+    margin-top: 25px;
+}
+.pin-search legend {
+    color: #17a2b8;
 }
 
 /* width */

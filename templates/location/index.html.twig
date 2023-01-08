@@ -9,7 +9,10 @@
 
 <div class="pin-wrapper">
     <div class="pin-search-wrapper">
-        <div class="pin-search"> {{form(form)}}<a href="/locations">Reset filters</a></div>
+        <div class="pin-search">
+            {{form(form)}}
+            <a class="pin-search-reset btn-block btn-info btn" href="/locations">Reset filters</a>
+        </div>
     </div>
     <div class="pin-wrapper-inner">
         {% include 'location_list.html.twig' %}
