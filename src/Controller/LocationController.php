@@ -67,11 +67,13 @@ class LocationController extends AbstractController
         ]);
     }
 
-    #[Route('how/{id}', name: 'app_location_show', methods: ['GET'])]
-    public function show(Location $location): Response
+    #[Route('/{id}', name: 'app_location_show', methods: ['GET'])]
+    public function show(Location $location, LocationRepository $locationRepository, Security $security): Response
     {
+        $location = $locationRepository->findByIdJoinUser($location->getId(), $security->getUser()->getId());
+
         return $this->render('location/show.html.twig', [
-            'location' => $location,
+            'item' => $location,
         ]);
     }
 

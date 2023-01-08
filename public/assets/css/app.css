@@ -189,29 +189,29 @@ input[type=checkbox]::before {
     font-size: 10px;
     color: #8d8d8d;
 }
-.pin-user {
+
+.pin-action {
     color: #8d8d8d;
+}
+.pin-action a {
+    color: #8d8d8d;
+}
+
+.pin-user {
     border-top-right-radius: 7px;
     border-right: 1px solid #ffffff59;
     padding-right: 10px;
     padding-top: 2px;
 }
-.pin-user > a {
-    color: #8d8d8d;
-}
 
 .pin-edit {
     width: fit-content;
-    color: #717171;
     float: right;
     border-top-left-radius: 7px;
     border-left: 1px solid #ff000059;
     padding-left: 10px;
 }
-.pin-edit > a {
-    color: #8d8d8d;
-}
-.pin-title{
+.pin-title {
     font-size: 13px;
     padding-top: 10px;
 }
@@ -280,9 +280,31 @@ input[type=checkbox]::before {
     padding-top: 50px;
     width: 100%;
 }
+
+.pin-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+.pin-page-img img {
+    max-width: 100%;
+}
+.pin-page .pin-page-title {
+    margin: 0;
+    margin-top: 10px;
+}
+.pin-page .pin-action {
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+}
+.pin-page .pin-action a {
+    margin: 0 8px;
+    font-size: 20px;
+}
+
 @media screen and (max-width: 1024px) {
-
-
     .pin-open-search {
         display: block;
     }
