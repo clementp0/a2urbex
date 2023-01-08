@@ -63,7 +63,21 @@
 			font-size: 12px;
 			height: 40px;
 			border-radius: 0;
+			padding: .375rem .75rem;
 		}
+		input:-webkit-autofill,
+		input:-webkit-autofill:hover, 
+		input:-webkit-autofill:focus {
+			-webkit-text-fill-color: #6d6d6d;
+			transition: background-color 50000s ease-in-out 0s;
+		}
+		input:focus {
+			box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+		}
+		input:focus-visible {
+			outline: 0;
+		}
+
 		button {
 			margin: auto;
 			width: 80%;
