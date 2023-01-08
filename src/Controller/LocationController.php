@@ -67,7 +67,7 @@ class LocationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_location_show', methods: ['GET'])]
+    #[Route('how/{id}', name: 'app_location_show', methods: ['GET'])]
     public function show(Location $location, LocationRepository $locationRepository, Security $security): Response
     {
         $location = $locationRepository->findByIdJoinUser($location->getId(), $security->getUser()->getId());
