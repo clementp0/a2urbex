@@ -4,8 +4,8 @@
 
 {% block content %}
     {# <h1>Location index</h1> #}
-
-    {{form(form)}}
+<div class="pin-body">
+   <div class="pin-search"> {{form(form)}}<a href="/locations">Reset filters</a></div>
     <div class="pin-box">
         {% for location in location %}
         <div class="pin-container"> 
@@ -33,16 +33,37 @@
             </tr>
         {% endfor %}
 </div>
+</div>
 
 
 <style>
+
+.pin-body{
+}
+.pin-search{
+    height: 100%;
+    padding-right: 30px;
+    padding-left: 29px;
+    padding-top: 40px;
+    position: fixed;
+    top: 30px;
+    border-right: 1px solid white;
+    left: 0px;
+    background-color: #232323;
+}
+#country{
+    text-transform: capitalize;
+}
+#type{
+    text-transform: capitalize;
+}
 .pin-box{
     display: grid;
     grid-template-columns: 250px 250px 250px;
     justify-content: space-evenly;
-  justify-items: center;
-  align-content: space-evenly;
-  {# align-items: center; #}
+    justify-items: center;
+    align-content: space-evenly;
+    margin-left: 20%;
 }
 .pin-container{
     display: block;
