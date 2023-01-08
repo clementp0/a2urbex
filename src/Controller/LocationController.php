@@ -32,15 +32,20 @@ class LocationController extends AbstractController
             $locations = $locationRepository->findWithSearch($search, $security->getUser()->getId());
         }
 
+            $totalResults = 0;
+            $totalResults = count($locations);
+
         $locationData = $paginator->paginate(
             $locations,
             $request->query->getInt('page', 1),
             50
         );  
 
+
         return $this->render('location/index.html.twig', [
             'locations' => $locationData,
             'form' => $form->createView(),
+            'total_result' => $totalResults,
         ]);
     }
 
