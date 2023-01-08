@@ -65,50 +65,37 @@ class LocationRepository extends ServiceEntityRepository
      * @return Location[]
      */
     
-    public function findWithSearch(Search $search, $userId)
-        {
+    public function findWithSearch(Search $search, $userId) {
         $query = $this
             ->createQueryBuilder('l')
             ->leftJoin('App\Entity\Favorite', 'f', Join::WITH, '(f.location = l.id AND f.user = :uid)' )
             ->setParameter('uid', $userId)
             ->select('l loc', 'f.id fid')
-            ;
+        ;
 
-            if (!empty($search->country && $search->type )){
-                $query = $query
-                    // ->join('l.country', 'c')
-                    // ->join('l.type', 't')
-                    ->andWhere('c.id IN (:country)')
-                    ->andWhere('t.id IN (:type)')
-                    ->setParameters(array(
-                        'type' => $search->type,
-                        'country'=> $search->country
-                    ));
-            }
+        if (!empty($search->country)){
+            $query = $query
+            ->join( 'l.country', 'c')
+            ->andWhere('c.id IN (:country)')
+            ->setParameter('country', $search->country)
+            ->select('c' , 'l loc', 'f.id fid');
+        }
 
-            if (!empty($search->country)){
-                $query = $query
-                ->join( 'l.country', 'c')
-                ->andWhere('c.id IN (:country)')
-                ->setParameter('country', $search->country)
-                ->select('c' , 'l loc', 'f.id fid');
-            }
+        if (!empty($search->type)){
+            $query = $query
+            ->join( 'l.type', 't')
+            ->andWhere('t.id IN (:type)')
+            ->setParameter('type', $search->type)
+            ->select('t' , 'l loc', 'f.id fid');
+        }
 
-            if (!empty($search->type)){
-                $query = $query
-                ->join( 'l.type', 't')
-                ->andWhere('t.id IN (:type)')
-                ->setParameter('type', $search->type)
-                ->select('t' , 'l loc', 'f.id fid');
-            }
-
-            if (!empty($search->string)){
-                $query = $query
-                    ->andWhere('l.name LIKE :string')
-                    ->setParameter('string', "%$search->string%");
-            }
-            
-            return $query->getQuery()->getResult();
+        if (!empty($search->string)){
+            $query = $query
+                ->andWhere('l.name LIKE :string')
+                ->setParameter('string', "%$search->string%");
+        }
+        
+        return $query->getQuery()->getResult();
     }
 
     public function findByAllJoinUser($userId) {
