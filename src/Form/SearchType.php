@@ -16,8 +16,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class SearchType extends AbstractType
 {
 
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $options = array('csrf_protection' => false);
         $builder
             ->add('string', TextType::class, [
                 'label' => false,
@@ -45,16 +47,18 @@ class SearchType extends AbstractType
                     'class' => 'btn-block btn-info'
                 ]
             ])
+            ->setMethod('GET')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
             'data_class' => Search::class,
-            'method' => 'GET',
-            'crsf_protection' => false,
-        ]);
+            'allow_extra_fields' => true,
+            'csrf_protection' => false
+            
+        ));
     }
 
     public function getBlockPrefix()

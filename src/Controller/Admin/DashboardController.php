@@ -93,7 +93,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('<i class="fas fa-globe-europe"></i> _Urbex ');
+            ->setTitle('<i class="fas fa-globe-europe"></i> _a2urbex ');
     }
 
 

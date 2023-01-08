@@ -104,6 +104,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
     },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.9.0"
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
     },

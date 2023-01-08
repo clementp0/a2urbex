@@ -7,6 +7,7 @@ use App\Class\Search;
 use App\Form\LocationType;
 use App\Form\SearchType;
 use App\Repository\LocationRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LocationController extends AbstractController
 {
     #[Route('/', name: 'app_location_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, LocationRepository $locationRepository): Response
+    public function index(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator ): Response
     {
         $location = $locationRepository->findAll();
 
@@ -28,11 +29,15 @@ class LocationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             // dd($search);
             $location = $locationRepository->findWithSearch($search);
-
         }
+            $locationData = $paginator->paginate(
+                $location,
+                $request->query->getInt('page', 1),
+                50
+            );
 
         return $this->render('location/index.html.twig', [
-            'location' => $location,
+            'location' => $locationData,
             'form' => $form->createView(),
         ]);
     }
