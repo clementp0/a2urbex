@@ -14,21 +14,24 @@
     <div class="pin-wrapper-inner">
         <div class="pin-dd">
             <div class="pin-box">
-                {% for location in location %}
+                {% for item in location %}
                 <div class="pin-container"> 
-                <div class="pin-img" style="background-image:url('/img/locations/{{ location.image }}')"></div>
-                <p class="pin-title">{{ location.name |u.truncate(70, '...') }}</p>
+                <div class="pin-img" style="background-image:url('/img/locations/{{ item.loc.image }}')"></div>
+                <p class="pin-title">{{ item.loc.name |u.truncate(70, '...') }}</p>
             
                 <div class="pin-bottom-container">
-                    <a class="pin-map" target="blank" href="https://www.google.com/maps?q={{ location.lon }},{{ location.lat }}"><i class="fa-solid fa-earth-europe"></i></a>
-                    <p class="pin-id">id : {{ location.id }}</p>
+                    <div class="pin-user">
+                        <a class="pin-fav" href="/favorite/toggle" data-id="{{ item.loc.id }}"><i class="{{ item.fid ? 'fa-solid' : 'fa-regular' }} fa-heart"></i></a>
+                        <a class="pin-map" target="blank" href="https://www.google.com/maps?q={{ item.loc.lon }},{{ item.loc.lat }}"><i class="fa-solid fa-earth-europe"></i></a>
+                    </div>
+                    <p class="pin-id">id : {{ item.loc.id }}</p>
                     {% if app.user %}
                     <div class="pin-edit">
-                    <a href="{{ path('app_location_show', {'id': location.id}) }}"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                    <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ location.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="{{ path('app_location_show', {'id': item.loc.id}) }}"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                        </div>
                     </div>
-            </div>
-                {% endif %}
+                    {% endif %}
                 </div>
 
                 
@@ -53,6 +56,28 @@
         $('.pin-search-wrapper').on('click', function(e) {
             if(e.target != this) return
             $('.pin-wrapper').removeClass('menu-open')
+        })
+
+        $('.pin-fav').on('click', function(e) {
+            e.preventDefault()
+            let item = $(this)
+            let icon = $(this).children()
+
+            $.ajax({
+                url: item.attr('href'),
+                method: 'POST',
+                dataType: 'json',
+                data: {id: item.data('id')}           
+            }).done((json) => {
+                if(json.success) {
+                    if(icon.hasClass('fa-regular')) icon.removeClass('fa-regular').addClass('fa-solid')
+                    else icon.addClass('fa-regular').removeClass('fa-solid')
+                } else {
+                    alert('Error')
+                }
+            }).fail(() => {
+                alert('Error')
+            })
         })
     })
 </script>
@@ -151,14 +176,18 @@
     font-size: 10px;
     color: #8d8d8d;
 }
-.pin-map{
-    padding-top: 5px;
+.pin-user {
     color: #8d8d8d;
-     border-top-right-radius: 7px;
+    border-top-right-radius: 7px;
     border-right: 1px solid #ffffff59;
     padding-right: 10px;
+    padding-top: 2px;
 }
-.pin-edit{
+.pin-user > a {
+    color: #8d8d8d;
+}
+
+.pin-edit {
     width: fit-content;
     color: #717171;
     float: right;
@@ -166,7 +195,7 @@
     border-left: 1px solid #ff000059;
     padding-left: 10px;
 }
-.pin-edit > a{
+.pin-edit > a {
     color: #8d8d8d;
 }
 .pin-title{

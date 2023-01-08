@@ -7,19 +7,22 @@ use App\Class\Search;
 use App\Form\LocationType;
 use App\Form\SearchType;
 use App\Repository\LocationRepository;
+use App\Repository\FavoriteRepository;
+
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('/locations')]
 class LocationController extends AbstractController
 {
     #[Route('/', name: 'app_location_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator ): Response
+    public function index(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator, Security $security, FavoriteRepository $favoriteRepository): Response
     {
-        $location = $locationRepository->findAll();
+        $locations = $locationRepository->findByAllJoinUser($security->getUser()->getId());
 
         $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
@@ -27,14 +30,14 @@ class LocationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-            // dd($search);
-            $location = $locationRepository->findWithSearch($search);
+            $locations = $locationRepository->findWithSearch($search, $security->getUser()->getId());
         }
-            $locationData = $paginator->paginate(
-                $location,
-                $request->query->getInt('page', 1),
-                50
-            );
+
+        $locationData = $paginator->paginate(
+            $locations,
+            $request->query->getInt('page', 1),
+            50
+        );  
 
         return $this->render('location/index.html.twig', [
             'location' => $locationData,

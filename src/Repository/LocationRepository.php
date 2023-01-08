@@ -1,14 +1,20 @@
 <?php
 
 namespace App\Repository;
+
 use App\Entity\Location;
 use App\Class\Search;
 use App\Entity\Country;
 use App\Entity\Type;
+
+use App\Entity\User;
+use App\Entity\Favorite;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * @method Location|null find($id, $lockMode = null, $lockVersion = null)
@@ -59,10 +65,15 @@ class LocationRepository extends ServiceEntityRepository
      * @return Location[]
      */
     
-    public function findWithSearch(Search $search)
+    public function findWithSearch(Search $search, $userId)
         {
         $query = $this
             ->createQueryBuilder('l');
+
+            $query
+                ->leftJoin('App\Entity\Favorite', 'f', Join::WITH, '(f.location = l.id AND f.user = :uid)' )
+                ->setParameter('uid', $userId)
+            ;
 
 
             if (!empty($search->country && $search->type )){
@@ -79,7 +90,7 @@ class LocationRepository extends ServiceEntityRepository
 
             if (!empty($search->country)){
                 $query = $query
-                    ->select('c' , 'l')
+                    ->select('c' , 'l loc', 'f.id fid')
                     ->join( 'l.country', 'c')
                     ->andWhere('c.id IN (:country)')
                     ->setParameter('country', $search->country);
@@ -93,13 +104,37 @@ class LocationRepository extends ServiceEntityRepository
 
             if (!empty($search->type)){
                 $query = $query
-                    ->select('t' , 'l')
+                    ->select('t' , 'l loc', 'f.id fid')
                     ->join( 'l.type', 't')
                     ->andWhere('t.id IN (:type)')
                     ->setParameter('type', $search->type);
             }
-            // echo($query);
+    
             return $query->getQuery()->getResult();
+    }
+
+    public function findByAllJoinUser($userId) {
+        
+        return $this->createQueryBuilder('l')
+            ->select('l loc', 'f.id fid')
+            ->orderBy('l.id', 'ASC')
+            ->leftJoin('App\Entity\Favorite', 'f', Join::WITH, '(f.location = l.id AND f.user = :uid)' )
+            ->setParameter('uid', $userId)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByUser($userId) {
+        
+        return $this->createQueryBuilder('l')
+            ->select('l loc', 'f.id fid')
+            ->orderBy('l.id', 'ASC')
+            ->join('App\Entity\Favorite', 'f', Join::WITH, '(f.location = l.id AND f.user = :uid)' )
+            ->setParameter('uid', $userId)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 
