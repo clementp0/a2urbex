@@ -23,7 +23,7 @@ class SearchType extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Search for...',
+                    'placeholder' => 'Abandonned Rocket...',
                     'class' => 'form-control-sm'
                 ]
             ])
@@ -35,7 +35,6 @@ class SearchType extends AbstractType
                 'expanded' => true
             ])
             ->add('type', EntityType::class, [
-                // 'mapped' => false,
                 'class' => Type::class,
                 'multiple' => true,
                 'expanded' => true

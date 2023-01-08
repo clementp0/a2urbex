@@ -64,6 +64,19 @@ class LocationRepository extends ServiceEntityRepository
         $query = $this
             ->createQueryBuilder('l');
 
+
+            if (!empty($search->country && $search->type )){
+                $query = $query
+                    // ->join('l.country', 'c')
+                    // ->join('l.type', 't')
+                    ->andWhere('c.id IN (:country)')
+                    ->andWhere('t.id IN (:type)')
+                    ->setParameters(array(
+                        'type' => $search->type,
+                        'country'=> $search->country
+                    ));
+            }
+
             if (!empty($search->country)){
                 $query = $query
                     ->select('c' , 'l')
@@ -80,12 +93,12 @@ class LocationRepository extends ServiceEntityRepository
 
             if (!empty($search->type)){
                 $query = $query
-                    ->select('c' , 'l')
-                    ->join( 'l.type', 'c')
-                    ->andWhere('c.id IN (:type)')
+                    ->select('t' , 'l')
+                    ->join( 'l.type', 't')
+                    ->andWhere('t.id IN (:type)')
                     ->setParameter('type', $search->type);
             }
-            echo($query);
+            // echo($query);
             return $query->getQuery()->getResult();
     }
 
