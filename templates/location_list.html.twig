@@ -3,7 +3,7 @@
     {% for item in locations %}
     <div class="pin-container"> 
         <div class="pin-img" style="background-image:url('/img/locations/{{ item.loc.image }}')"></div>
-        <p class="pin-title">{{ item.loc.name |u.truncate(70, '...') }}</p>
+        <p class="pin-title">{{ item.loc.name |u.truncate(50, '...') }}</p>
 
         <div class="pin-bottom-container">
         <div class="pin-user">
