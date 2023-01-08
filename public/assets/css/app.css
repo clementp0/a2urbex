@@ -285,7 +285,7 @@ input[type=checkbox]::before {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px 0;
+    margin: 20px 10px;
 }
 .pin-page-img img {
     max-width: 100%;
@@ -293,6 +293,7 @@ input[type=checkbox]::before {
 .pin-page .pin-page-title {
     margin: 0;
     margin-top: 10px;
+    text-align: center;
 }
 .pin-page .pin-action {
     margin-top: 5px;
