@@ -4,50 +4,57 @@
 
 {% block content %}
 
-<div class="main-wrap">
-    <input id="slide-sidebar" type="checkbox" role="button" />
-        <label for="slide-sidebar"><span>close</span></label>
-    <div class="sidebar"><h1>Settings</h1></div>
-    <div class="portfolio"><h1>My Portfolio</h1></div>
-</div>
-
 {# IL FAUT ANIMER CA  #}
-<div class="pin-search"> {{form(form)}}<a href="/locations">Reset filters</a></div>
-
 <div class="pin-open-search toggle"><i class="fa fa-fw fa-bars"></i></div>
-<div class="pin-dd">
-    <div class="pin-box">
-        {% for location in location %}
-        <div class="pin-container"> 
-        <div class="pin-img" style="background-image:url('/img/locations/{{ location.image }}')"></div>
-        <p class="pin-title">{{ location.name |u.truncate(70, '...') }}</p>
-    
-        <div class="pin-bottom-container">
-            <a class="pin-map" target="blank" href="https://www.google.com/maps?q={{ location.lon }},{{ location.lat }}"><i class="fa-solid fa-earth-europe"></i></a>
-            <p class="pin-id">id : {{ location.id }}</p>
-            {% if app.user %}
-            <div class="pin-edit">
-            <a href="{{ path('app_location_show', {'id': location.id}) }}"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-            <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ location.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
-            </div>
-    </div>
-        {% endif %}
-        </div>
 
-        
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-</div>
-<div class="pin-pagination">
-{{knp_pagination_render(location)}}
-</div>
+<div class="pin-wrapper">
+    <div class="pin-search-wrapper">
+        <div class="pin-search"> {{form(form)}}<a href="/locations">Reset filters</a></div>
+    </div>
+    <div class="pin-wrapper-inner">
+        <div class="pin-dd">
+            <div class="pin-box">
+                {% for location in location %}
+                <div class="pin-container"> 
+                <div class="pin-img" style="background-image:url('/img/locations/{{ location.image }}')"></div>
+                <p class="pin-title">{{ location.name |u.truncate(70, '...') }}</p>
+            
+                <div class="pin-bottom-container">
+                    <a class="pin-map" target="blank" href="https://www.google.com/maps?q={{ location.lon }},{{ location.lat }}"><i class="fa-solid fa-earth-europe"></i></a>
+                    <p class="pin-id">id : {{ location.id }}</p>
+                    {% if app.user %}
+                    <div class="pin-edit">
+                    <a href="{{ path('app_location_show', {'id': location.id}) }}"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ location.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                    </div>
+            </div>
+                {% endif %}
+                </div>
+
+                
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+        </div>
+    </div>
+    <div class="pin-pagination">
+        {{knp_pagination_render(location)}}
+    </div>
+    </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-{# COUCOU HUGO #}
+    $(() => {
+        $('.pin-open-search').on('click', () => {
+            $('.pin-wrapper').toggleClass('menu-open')
+        })
+        $('.pin-search-wrapper').on('click', function(e) {
+            if(e.target != this) return
+            $('.pin-wrapper').removeClass('menu-open')
+        })
+    })
 </script>
 <style>
 .pin-open-search{
@@ -60,20 +67,48 @@
     top: 10px;
     z-index: 2000;
     left: 11px;
+    display: none;
 }
-.pin-pin-menu-toggle{
-}
-.pin-search{
-    height: 100%;
-    padding-right: 30px;
-    padding-left: 29px;
-    padding-top: 40px;
+
+.pin-search-wrapper {
+    height: calc(100% - 44px);
     position: fixed;
-    top: 30px;
-    border-right: 1px solid #303030;
+    top: 44px;
     left: 0px;
-    background-color: #232323;
 }
+
+.pin-search{
+    position: relative;
+    height: 100%;
+    overflow-y: scroll;
+    padding: 30px;
+    border-right: 1px solid #303030;
+    background-color: #232323;
+    width: 250px;
+}
+
+/* width */
+.pin-search::-webkit-scrollbar {
+  width: 16px;
+}
+
+/* Track */
+.pin-search::-webkit-scrollbar-track {
+  background: #232323;
+}
+
+/* Handle */
+.pin-search::-webkit-scrollbar-thumb {
+  background: #404040;
+  border: 3px solid #232323;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.pin-search::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
 .sidebar {
     background-color: black;
     width: 150px;
@@ -96,7 +131,7 @@
     padding: 10px;
     margin: 10px;
     border-radius: 4px;
-        height: fit-content;
+    height: fit-content;
 }
 .pin-img{
     width: 100%;
@@ -146,41 +181,50 @@
 }
 
 .pin-box{
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     justify-items: center;
     align-content: space-evenly;
-   grid-template-columns: 300px 300px 300px 300px 300px;
 }
 
-@media only screen and (max-width: 1800px) {
-.pin-box {
-    grid-template-columns: 300px 300px 300px 300px;
-}
-}
-@media only screen and (max-width: 1500px) {
-.pin-box {
-    grid-template-columns: 300px 300px 300px 300px;
-}
-@media only screen and (max-width: 1400px) {
-.pin-box {
-    grid-template-columns: 300px 300px 300px;
-}
-@media only screen and (max-width: 1100px) {
-.pin-box {
-    grid-template-columns: 300px 300px ;
-}
-@media only screen and (max-width: 1100px) {
-.pin-box {
-    grid-template-columns: 300px 300px ;
+.pin-wrapper {
 
 }
-@media only screen and (max-width: 800px) {
-.pin-box {
-    grid-template-columns: 300px ;
+.pin-wrapper-inner {
+    margin-left: 250px;
+    padding: 20px;
+}
 
+@media screen and (max-width: 1024px) {
+    .pin-open-search {
+        display: block;
+    }
+    .pin-wrapper-inner {
+        margin-left: 0;
+    }
+    .pin-wrapper .pin-search-wrapper {
+        width: 100%;
+        background-color: rgba(0,0,0,0);
+        transition: 1s;
+        visibility: hidden;
+        opacity: 0;
+    }
+    .pin-wrapper .pin-search-wrapper .pin-search {
+        left: -250px;
+        transition: all 1s;
+    }
+
+    .pin-wrapper.menu-open .pin-search-wrapper {
+        visibility: visible;
+        opacity: 1;
+        background-color: rgba(0,0,0,.5);
+    }
+    .pin-wrapper.menu-open .pin-search-wrapper .pin-search {
+        transform: translateX(100%);
+    }
 }
-}
+
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 {% endblock %}
