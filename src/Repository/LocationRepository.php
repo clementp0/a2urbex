@@ -68,13 +68,11 @@ class LocationRepository extends ServiceEntityRepository
     public function findWithSearch(Search $search, $userId)
         {
         $query = $this
-            ->createQueryBuilder('l');
-
-            $query
-                ->leftJoin('App\Entity\Favorite', 'f', Join::WITH, '(f.location = l.id AND f.user = :uid)' )
-                ->setParameter('uid', $userId)
+            ->createQueryBuilder('l')
+            ->leftJoin('App\Entity\Favorite', 'f', Join::WITH, '(f.location = l.id AND f.user = :uid)' )
+            ->setParameter('uid', $userId)
+            ->select('l loc', 'f.id fid')
             ;
-
 
             if (!empty($search->country && $search->type )){
                 $query = $query
@@ -90,10 +88,18 @@ class LocationRepository extends ServiceEntityRepository
 
             if (!empty($search->country)){
                 $query = $query
-                    ->select('c' , 'l loc', 'f.id fid')
-                    ->join( 'l.country', 'c')
-                    ->andWhere('c.id IN (:country)')
-                    ->setParameter('country', $search->country);
+                ->join( 'l.country', 'c')
+                ->andWhere('c.id IN (:country)')
+                ->setParameter('country', $search->country)
+                ->select('c' , 'l loc', 'f.id fid');
+            }
+
+            if (!empty($search->type)){
+                $query = $query
+                ->join( 'l.type', 't')
+                ->andWhere('t.id IN (:type)')
+                ->setParameter('type', $search->type)
+                ->select('t' , 'l loc', 'f.id fid');
             }
 
             if (!empty($search->string)){
@@ -101,15 +107,7 @@ class LocationRepository extends ServiceEntityRepository
                     ->andWhere('l.name LIKE :string')
                     ->setParameter('string', "%$search->string%");
             }
-
-            if (!empty($search->type)){
-                $query = $query
-                    ->select('t' , 'l loc', 'f.id fid')
-                    ->join( 'l.type', 't')
-                    ->andWhere('t.id IN (:type)')
-                    ->setParameter('type', $search->type);
-            }
-    
+            
             return $query->getQuery()->getResult();
     }
 
