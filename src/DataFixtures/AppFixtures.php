@@ -54,7 +54,30 @@ class AppFixtures extends Fixture {
             'italy',
             'germany',
             'belgium',
-            'serbia'
+            'serbia',
+            'denmark',
+            'slovenia',
+            'slovakia',
+            'portugal',
+            'scotland',
+            'croatia',
+            'latvia',
+            'czechia',
+            'netherlands',
+            'switzerland',
+            'austria',
+            'wales',
+            'luxembourg',
+            'hungary',
+            'japan',
+            'finland',
+            'ukraine',
+            'russia',
+            'united kingdom',
+            'estonia',
+            'morocco',
+            'georgia',
+            'australia'
         ];
 
         foreach($countries as $country) {
