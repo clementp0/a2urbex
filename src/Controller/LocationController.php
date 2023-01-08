@@ -70,7 +70,9 @@ class LocationController extends AbstractController
     #[Route('how/{id}', name: 'app_location_show', methods: ['GET'])]
     public function show(Location $location, LocationRepository $locationRepository, Security $security): Response
     {
-        $location = $locationRepository->findByIdJoinUser($location->getId(), $security->getUser()->getId());
+        $user = $security->getUser();
+        if($user) $location = $locationRepository->findByIdJoinUser($location->getId(), $user->getId());
+        else $location = ['loc' => $location];
 
         return $this->render('location/show.html.twig', [
             'item' => $location,
