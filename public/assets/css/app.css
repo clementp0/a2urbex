@@ -40,17 +40,12 @@ body {
     color: #e5e5e5;
     position: fixed;
     top: 10px;
-    z-index: 2000;
+    z-index: 1049;
     left: 11px;
     display: none;
 }
 
-.pin-search-wrapper {
-    height: calc(100% - 44px);
-    position: fixed;
-    top: 44px;
-    left: 0px;
-}
+.pin-search-wrapper { height: calc(100% - 44px); position: fixed; top: 44px; left: 0px; }
 
 .pin-search{
     position: relative;
@@ -58,19 +53,73 @@ body {
     overflow-y: scroll;
     padding: 20px;
     border-right: 1px solid #303030;
-    background-color: #232323;
+    background-color: #303030;
     width: 250px;
+    font-size: 0.875rem;
+    font-weight: 500;
 }
 
 .pin-search .btn-info {
     background-color: #404040;
 }
-.pin-search #submit {
-    margin-top: 25px;
-}
+
 .pin-search legend {
-    color: #17a2b8;
+    color: #60a5fa;
+    background-color: #404040;
+    border-radius: 5px;
+    padding-left: 10px;
+    line-height: 1;
+    margin-bottom: 10px;
 }
+
+.pin-search legend i{
+    margin-right: 7px;
+}
+
+.pin-search #string{
+    color: #6d6d6d;
+    margin: auto auto 20px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ffffff24;
+    font-size: 12px;
+    height: 40px;
+    border-radius: 0;
+}
+.pin-search #string:focus{
+    color: #6d6d6d;
+    margin: auto auto 20px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ffffff24;
+    font-size: 12px;
+    height: 40px;
+    border-radius: 0;
+}
+
+input[type=checkbox]::before {
+    content: "";
+    display: block;
+    position: absolute;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    border: 1px solid #ffffff24;
+    background-color: #404040;
+  }
+
+  input[type=checkbox]:checked::before {
+    content: "";
+    display: block;
+    position: absolute;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    border: 3px solid #404040;
+    background-color: #60a5fa;
+  }
 
 /* width */
 .pin-search::-webkit-scrollbar {
@@ -79,7 +128,7 @@ body {
 
 /* Track */
 .pin-search::-webkit-scrollbar-track {
-  background: #232323;
+  background: #303030;
 }
 
 /* Handle */
@@ -189,7 +238,30 @@ body {
     padding: 20px;
 }
 
+.pin-filter-btn{
+    margin: auto;
+    width: 75%;
+    height: 40px;
+    border: none;
+    background-color: #222222;
+    color: #a2a2a2;
+    border-radius: 0;
+    float: left;
+}
+
+.pin-search-reset{
+    float: right;
+    width: 20%;
+    margin-left: 5%;
+    font-size: 18px;
+    line-height: 40px;
+    height: 40px;
+    color:#6d6d6d;
+    text-align: center;
+}
 @media screen and (max-width: 1024px) {
+
+
     .pin-open-search {
         display: block;
     }
@@ -199,19 +271,28 @@ body {
     .pin-wrapper .pin-search-wrapper {
         width: 100%;
         background-color: rgba(0,0,0,0);
-        transition: 1s;
+        transition: .5s;
         visibility: hidden;
-        opacity: 0;
+        opacity: 1;
     }
+
+    .pin-search-wrapper {
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0px;
+        z-index: 1050;
+    }
+
     .pin-wrapper .pin-search-wrapper .pin-search {
         left: -250px;
-        transition: all 1s;
+        transition: all .5s;
     }
 
     .pin-wrapper.menu-open .pin-search-wrapper {
         visibility: visible;
         opacity: 1;
-        background-color: rgba(0,0,0,.5);
+        background-color: rgba(0,0,0,.6);
     }
     .pin-wrapper.menu-open .pin-search-wrapper .pin-search {
         transform: translateX(100%);
