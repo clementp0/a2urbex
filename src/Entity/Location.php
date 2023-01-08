@@ -34,7 +34,7 @@ class Location
     private ?float $lat = null;
 
     #[ORM\ManyToOne(inversedBy: 'locations')]
-    private ?country $country = null;
+    private ?Country $country = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
@@ -120,12 +120,12 @@ class Location
         return $this;
     }
 
-    public function getCountry(): ?country
+    public function getCountry(): ?Country
     {
         return $this->country;
     }
 
-    public function setCountry(?country $country): self
+    public function setCountry(?Country $country): self
     {
         $this->country = $country;
 
