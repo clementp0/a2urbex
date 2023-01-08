@@ -15,6 +15,10 @@
 			<div class="logo"><i class="fas fa-globe-europe"></i> _a2urbex</div>
 			<div class="settings">
 				{% if app.user %}
+					<a href="{{ path('app_location_index') }}"><i class="fa fa-fw fa-location-dot"></i></a>
+					|
+					<a href="{{ path('app_favorite_locations') }}"><i class="fa fa-fw fa-heart"></i></a>
+					|
 					<a href="{{ path('admin') }}">Admin</a>
 					|
 					<a href="{{ path('app_logout') }}"><i class="fa fa-fw fa-sign-out"></i></a>
@@ -26,8 +30,8 @@
 			</nav>
 		</header>
 		<body>
-			<script src="{{ asset('assets/js/app.js') }}"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+			<script src="{{ asset('assets/js/app.js') }}"></script>
 			{% block content %}{% endblock %}
 		</body>
 	</html>

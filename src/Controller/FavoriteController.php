@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
+use Knp\Component\Pager\PaginatorInterface;
 
 use App\Entity\Favorite;
 use App\Repository\FavoriteRepository;
@@ -20,7 +21,7 @@ class FavoriteController extends AbstractController
        $this->security = $security;
     }
 
-    #[Route('/favorite/toggle', name: 'app_favorite')]
+    #[Route('/favorite/toggle', name: 'app_favorite_toggle')]
     public function toggle(Request $request, FavoriteRepository $favoriteRepository, LocationRepository $locationRepository) : Response {
         $success = true;
         $user = $this->security->getUser();
@@ -40,5 +41,20 @@ class FavoriteController extends AbstractController
         }
         
         echo json_encode(['success' => $success]);exit();
+    }
+
+    #[Route('/favorite/locations', name: 'app_favorite_locations')]
+    public function location(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator, Security $security) : Response {
+        $locations = $locationRepository->findByUser($security->getUser()->getId());
+        
+        $locationData = $paginator->paginate(
+            $locations,
+            $request->query->getInt('page', 1),
+            50
+        );
+
+        return $this->render('favorite/index.html.twig', [
+            'locations' => $locationData
+        ]);
     }
 }
