@@ -87,7 +87,7 @@ class LocationRepository extends ServiceEntityRepository
 
             if (!empty($search->string)){
                 $query = $query
-                    ->andWhere('l.description LIKE :string')
+                    ->andWhere('l.name LIKE :string')
                     ->setParameter('string', "%$search->string%");
             }
 

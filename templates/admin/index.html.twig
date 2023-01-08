@@ -10,9 +10,14 @@
 {# Fetch #}
 	<section class="fetch-part text-center">
 		<div class="container">
-			<p class="text-muted">Current time : <br> <div class="time">{{current_time}}</div></p>
+		<div class="last">
+		<div>
+			<p class="text-muted">Current time : <br> <div class="time">{{current_time}}</div></p></div>
+			<div class="updated"><p class="text-muted ">Last Updated : <br> <div class="time">{{last_updated}}</div></p></div>
+		</div>
 			<p class="text-muted">Last Fetched : <br> <div class="time">{{last_fetched}}</div></p>
-			<a class="action-new btn btn-primary" href="/fetch">Fetch Now</a>
+			<a class="action-new btn btn-success" href="/fetch">Fetch Now</a>
+			<a class="action-new btn btn-primary" href="/update">Update</a>
 			<a class="btn btn-secondary" href="https://www.pinterest.fr/patrimoine43/" target="_blank">Check Source</a>
 		</div>
 		<div class="output-area">
@@ -30,12 +35,18 @@
 
 {# Stylesheets #}
 <style>
+.last{
+	display:flex;
+}
 .content-wrapper{ 
 	margin: auto;
 }
 
 .content-wrapper{
 	display:block;
+}
+.updated{
+	margin-left:50px
 }
 .heading-part{
 	width:100%;
@@ -55,6 +66,7 @@
 }
 .fetch-part > .container{
 	width: 50%;
+	padding-right: 40px;
     text-align: left;
 	border-right:1px solid var(--sidebar-border-color);
 }
@@ -92,6 +104,7 @@
 	border-bottom:1px solid var(--sidebar-border-color);
 	padding : 12px;
 	padding-bottom: 30px;
+	padding-right: 0px;
   }
   .output-area {
 	--bs-gutter-x: 1.5rem;
@@ -102,6 +115,12 @@
   .fetch-part{
   display:block;
   }
+  .last{
+	justify-content: space-between;
+}
+.updated{
+	margin-left:0px
+}
 }
 
 </style>

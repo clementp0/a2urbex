@@ -21,8 +21,8 @@ class LocationCrudController extends AbstractCrudController
     {
         return [
             IdField::new('pid' , 'Pin ID'),
-            TextEditorField::new('description'),
-            TextField::new('url'),
+            // TextEditorField::new('description'),
+            // TextField::new('url'),
             TextField::new('image'),
             TextField::new('lon', 'Longitude'),
             TextField::new('lat', 'Latitude'),

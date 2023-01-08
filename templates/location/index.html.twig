@@ -9,8 +9,8 @@
     <div class="pin-box">
         {% for location in location %}
         <div class="pin-container"> 
-        <div class="pin-img" style="background-image:url('{{ location.image }}')"></div>
-        <p class="pin-title">{{ location.description }}</p>
+        <div class="pin-img" style="background-image:url('/img/locations/{{ location.image }}')"></div>
+        <p class="pin-title">{{ location.name |u.truncate(70, '...') }}</p>
         {# <p class="pin-lon">{{ location.lon }}</p>
         <p class="pin-lat">{{ location.lat }}</p> #}
     
@@ -47,7 +47,7 @@
     padding-top: 40px;
     position: fixed;
     top: 30px;
-    border-right: 1px solid white;
+    border-right: 1px solid #303030;
     left: 0px;
     background-color: #232323;
 }
@@ -110,7 +110,10 @@
 .pin-edit > a{
     color: #8d8d8d;
 }
-
+.pin-title{
+    font-size: 13px;
+    padding-top: 10px;
+}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 {% endblock %}
