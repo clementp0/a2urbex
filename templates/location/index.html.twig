@@ -4,14 +4,13 @@
 
 {% block content %}
 
-{# IL FAUT ANIMER CA  #}
 <div class="pin-open-search toggle"><i class="fa fa-fw fa-bars"></i></div>
 
 <div class="pin-wrapper">
     <div class="pin-search-wrapper">
         <div class="pin-search">
             {{form(form)}}
-            <a class="pin-search-reset btn-block btn-info btn" href="/locations">Reset filters</a>
+            <a class="pin-search-reset" href="/locations"><i class="fa-sharp fa-solid fa-trash"></i></a>
         </div>
     </div>
     <div class="pin-wrapper-inner">

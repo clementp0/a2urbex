@@ -34,9 +34,10 @@ class SearchType extends AbstractType
                 'required' => false,
                 'class' => Country::class,
                 'multiple' => true,
-                'expanded' => true
+                'expanded' => true,
             ])
             ->add('type', EntityType::class, [
+                'label' => 'Type',
                 'class' => Type::class,
                 'multiple' => true,
                 'expanded' => true
@@ -44,7 +45,7 @@ class SearchType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Filter',
                 'attr' => [
-                    'class' => 'btn-block btn-info'
+                    'class' => 'pin-filter-btn'
                 ]
             ])
             ->setMethod('GET')
