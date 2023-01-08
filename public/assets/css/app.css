@@ -249,6 +249,18 @@ input[type=checkbox]::before {
     float: left;
 }
 
+.pin-filter-btn:hover{
+    background-color: #1d1c1c;
+    color: #a2a2a2;
+    transition: .5s;
+
+}
+.pin-search-reset:hover{
+    color: #a2a2a2;
+    transition: .5s;
+
+}
+
 .pin-search-reset{
     float: right;
     width: 20%;
@@ -258,6 +270,11 @@ input[type=checkbox]::before {
     height: 40px;
     color:#6d6d6d;
     text-align: center;
+}
+
+.pin-results{
+    padding-top: 50px;
+    width: 100%;
 }
 @media screen and (max-width: 1024px) {
 
