@@ -4,42 +4,9 @@
 		<title>Urbex</title>
 
 		<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<style>
-			body {
-				background-color: #222222;
-
-				padding-top: 3rem;
-				padding-bottom: 3rem;
-				color: #5a5a5a;
-				margin: auto;
-			}
-			.fixed-top {
-				height:44px;
-				text-align: right;
-				background-color: #303030;
-				box-shadow: inset 0 -1px 0 #525252;
-				padding: 8px 15px;
-			}
-			.settings > a {
-				color: #737373;
-    			font-size: .9rem;
-    			font-weight: 500;
-				}
-			.logo{
-				color:#d4d4d4;
-				font-weight: 500;
-				font-size:0.875rem
-			}
-			.navbar-collapse{
-				display: flex;
-    			justify-content: space-between;
-			}
-			.filter{
-				width:37px;
-			}
-		</style>
+		<link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<header>
 		<nav class="navbar navbar-expend-md navbar-dark fixed-top">
@@ -59,6 +26,8 @@
 			</nav>
 		</header>
 		<body>
+			<script src="{{ asset('assets/js/app.js') }}"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 			{% block content %}{% endblock %}
 		</body>
 	</html>
