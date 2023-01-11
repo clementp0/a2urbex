@@ -7,7 +7,7 @@
 
         <div class="pin-bottom-container">
         <div class="pin-user pin-action">
-            <a class="pin-fav" href="/favorite/toggle" data-id="{{ item.loc.id }}"><i class="{{ item.fid ? 'fa-solid' : 'fa-regular' }} fa-heart"></i></a>
+            <a class="pin-fav" href="/favorite/toggle" data-id="{{ item.loc.id }}"><i class="{{ item.fids ? 'fa-solid' : 'fa-regular' }} fa-heart"></i></a>
             <a class="pin-map" target="blank" href="https://www.google.com/maps?q={{ item.loc.lon }},{{ item.loc.lat }}"><i class="fa-solid fa-earth-europe"></i></a>
         </div>
         <p class="pin-id">id : {{ item.loc.id }}</p>

@@ -13,15 +13,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
 #[Route('/locations')]
 class LocationController extends AbstractController
 {
     #[Route('/', name: 'app_location_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator, Security $security): Response
+    public function index(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator): Response
     {
-        $locations = $locationRepository->findByAllJoinUser($security->getUser()->getId());
+        $locations = $locationRepository->findByAll();
 
         $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
@@ -29,11 +28,11 @@ class LocationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-            $locations = $locationRepository->findWithSearch($search, $security->getUser()->getId());
+            $locations = $locationRepository->findWithSearch($search);
         }
 
-            $totalResults = 0;
-            $totalResults = count($locations);
+        $totalResults = 0;
+        $totalResults = count($locations);
 
         $locationData = $paginator->paginate(
             $locations,
@@ -68,11 +67,9 @@ class LocationController extends AbstractController
     }
 
     #[Route('how/{id}', name: 'app_location_show', methods: ['GET'])]
-    public function show(Location $location, LocationRepository $locationRepository, Security $security): Response
+    public function show(Location $location, LocationRepository $locationRepository): Response
     {
-        $user = $security->getUser();
-        if($user) $location = $locationRepository->findByIdJoinUser($location->getId(), $user->getId());
-        else $location = ['loc' => $location];
+        $location = $locationRepository->findById($location->getId());
 
         return $this->render('location/show.html.twig', [
             'item' => $location,

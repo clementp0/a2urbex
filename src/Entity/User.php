@@ -36,8 +36,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $ProfilePicture = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, orphanRemoval: true)]
+    #[ORM\ManyToMany(targetEntity: Favorite::class, mappedBy: 'users')]
     private Collection $favorites;
+
+    // #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, orphanRemoval: true)]
+    // private Collection $favorites;
 
     public function __construct()
     {
@@ -169,6 +172,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    // /**
+    //  * @return Collection<int, Favorite>
+    //  */
+    // public function getFavorites(): Collection
+    // {
+    //     return $this->favorites;
+    // }
+
+    // public function addFavorite(Favorite $favorite): self
+    // {
+    //     if (!$this->favorites->contains($favorite)) {
+    //         $this->favorites->add($favorite);
+    //         $favorite->setUser($this);
+    //     }
+
+    //     return $this;
+    // }
+
+    // public function removeFavorite(Favorite $favorite): self
+    // {
+    //     if ($this->favorites->removeElement($favorite)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($favorite->getUser() === $this) {
+    //             $favorite->setUser(null);
+    //         }
+    //     }
+
+    //     return $this;
+    // }
+
     /**
      * @return Collection<int, Favorite>
      */
@@ -181,7 +214,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->favorites->contains($favorite)) {
             $this->favorites->add($favorite);
-            $favorite->setUser($this);
+            $favorite->addUser($this);
         }
 
         return $this;
@@ -190,10 +223,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeFavorite(Favorite $favorite): self
     {
         if ($this->favorites->removeElement($favorite)) {
-            // set the owning side to null (unless already changed)
-            if ($favorite->getUser() === $this) {
-                $favorite->setUser(null);
-            }
+            $favorite->removeUser($this);
         }
 
         return $this;

@@ -15,6 +15,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query\Expr\Join;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method Location|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,8 +25,11 @@ use Doctrine\ORM\Query\Expr\Join;
  */
 class LocationRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $security;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
+        $this->security = $security;
         parent::__construct($registry, Location::class);
     }
 
@@ -60,25 +64,16 @@ class LocationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
-    /**
-     * @return Location[]
-     */
     
-    public function findWithSearch(Search $search, $userId) {
-        $query = $this
-            ->createQueryBuilder('l')
-            ->leftJoin('App\Entity\Favorite', 'f', Join::WITH, '(f.location = l.id AND f.user = :uid)' )
-            ->setParameter('uid', $userId)
-            ->select('l loc', 'f.id fid')
-        ;
+    public function findWithSearch(Search $search) {
+        $query = $this->getBaseQuery($userId);
 
         if (!empty($search->country)){
             $query = $query
             ->join( 'l.country', 'c')
             ->andWhere('c.id IN (:country)')
             ->setParameter('country', $search->country)
-            ->select('c' , 'l loc', 'f.id fid');
+            ->addSelect('c');
         }
 
         if (!empty($search->type)){
@@ -86,7 +81,7 @@ class LocationRepository extends ServiceEntityRepository
             ->join( 'l.type', 't')
             ->andWhere('t.id IN (:type)')
             ->setParameter('type', $search->type)
-            ->select('t' , 'l loc', 'f.id fid');
+            ->addSelect('t');
         }
 
         if (!empty($search->string)){
@@ -98,19 +93,11 @@ class LocationRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
-    public function findByAllJoinUser($userId) {
-        
-        return $this->createQueryBuilder('l')
-            ->select('l loc', 'f.id fid')
-            ->orderBy('l.id', 'ASC')
-            ->leftJoin('App\Entity\Favorite', 'f', Join::WITH, '(f.location = l.id AND f.user = :uid)' )
-            ->setParameter('uid', $userId)
-            ->getQuery()
-            ->getResult()
-        ;
+    public function findByAll() {
+        return $this->getBaseQuery()->getQuery()->getResult();
     }
 
-    public function findByUser($userId) {    
+    public function findByUser($userId) {     //todo
         return $this->createQueryBuilder('l')
             ->select('l loc', 'f.id fid')
             ->orderBy('l.id', 'ASC')
@@ -121,50 +108,32 @@ class LocationRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByIdJoinUser($id, $userId) {
-        return $this->createQueryBuilder('l')
-            ->select('l loc', 'f.id fid')
-            ->orderBy('l.id', 'ASC')
-            ->leftJoin('App\Entity\Favorite', 'f', Join::WITH, '(f.location = l.id AND f.user = :uid)' )
+    public function findById($id) {
+        return $this->getBaseQuery()
             ->andWhere('l.id = :id')
-            ->setParameter('uid', $userId)
             ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
         ;
     }
 
+    private function getBaseQuery() {
+        $user = $this->security->getUser();
 
+        $qb = $this->createQueryBuilder('l')
+            ->select('l loc')
+            ->orderBy('l.id', 'ASC');
+        
+            if($user) {
+                $qb
+                    ->leftJoin('l.favorites', 'f')
+                    ->leftJoin('f.users', 'u')
+                    ->addSelect('GROUP_CONCAT(CASE WHEN u.id = :uid THEN f.id ELSE :null END) fids')
+                    ->setParameter('null', NULL)
+                    ->setParameter('uid', $user->getId())
+                    ->groupBy('l.id');
+            }
 
-
-
-
-    // /**
-    //  * @return Location[] Returns an array of Location objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        return  $qb;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Location
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
