@@ -10,43 +10,10 @@
             <p class="pin-action">
                 <a class="pin-map" target="blank" href="https://www.google.com/maps?q={{ item.loc.lon }},{{ item.loc.lat }}"><i class="fa-solid fa-earth-europe"></i></a>
                 {% if app.user %}
-                    <a class="pin-fav" href="/favorite/toggle" data-id="{{ item.loc.id }}"><i class="{{ item.fid ? 'fa-solid' : 'fa-regular' }} fa-heart"></i></a>
+                    <a class="pin-fav" href="/favorite/toggle" data-id="{{ item.loc.id }}"><i class="{{ item.fids ? 'fa-solid' : 'fa-regular' }} fa-heart"></i></a>
                     <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
                 {% endif %}
             </p>
         </div>
     </div>
-
-    {# <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ location.id }}</td>
-            </tr>
-            <tr>
-                <th>Pid</th>
-                <td>{{ location.pid }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ location.description }}</td>
-            </tr>
-            <tr>
-                <th>Url</th>
-                <td>{{ location.url }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ location.image }}</td>
-            </tr>
-            <tr>
-                <th>Lon</th>
-                <td>{{ location.lon }}</td>
-            </tr>
-            <tr>
-                <th>Lat</th>
-                <td>{{ location.lat }}</td>
-            </tr>
-        </tbody>
-    </table> #}
 {% endblock %}
