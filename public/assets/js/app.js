@@ -22,8 +22,7 @@ $(() => {
         $.ajax({
             url: item.attr('href'),
             method: 'POST',
-            dataType: 'json',
-            // data: {id: item.data('id')}  
+            dataType: 'json'
         }).done((json) => {
             if(json && json.length) {
                 parent.find('.pin-fav-list').empty()
@@ -49,6 +48,7 @@ $(() => {
     $('.pin-fav-add-close').on('click', function(e) {
         e.preventDefault()
         $(this).parents('.pin-fav-add').removeClass('show')
+        $(this).parents('.pin-fav-add').find('.pin-fav-add-new-field').removeClass('show')
     })
 
     $('.pin-fav-wrapper').on('click', '.pin-fav-item', function() {
@@ -64,13 +64,50 @@ $(() => {
             data: {lid, fid, checked}  
         }).done(json => {
             if(json.success) {
-                parent.attr('data-fids', json.fids)
+                parent.attr('data-fids', json.fids ? json.fids : '')
+                if(json.fids) parent.find('.pin-fav i').addClass('fa-solid').removeClass('fa-regular')
+                else parent.find('.pin-fav i').addClass('fa-regular').removeClass('fa-solid')
             } else {
                 alert('Error')
             }
         }) .fail(() => {
             alert('Error')
         })
+    })
+
+    $('.pin-fav-add-new').on('click', function(e) {
+        e.preventDefault()
+        $(this).siblings().addClass('show')
+    })
+    $('.pin-fav-add-new-confirm').on('click', function(e) {
+        e.preventDefault()
+
+        let parent = $(this).parents('.pin-fav-wrapper')
+        let input = $(this).siblings()
+        let lid = parent.data('id')
+        let name = input.val()
+        
+        if(name.length && confirm('Confirmer l\'ajout')) {
+            $.ajax({
+                url: parent.data('url'),
+                method: 'POST',
+                dataType: 'json',
+                data: {lid, name}  
+            }).done(json => {
+                if(json.success) {
+                    input.val('')
+                    input.parents('.pin-fav-add-new-field').removeClass('show')
+                    parent.attr('data-fids', json.fids ? json.fids : '')
+                    if(json.fids) parent.find('.pin-fav i').addClass('fa-solid').removeClass('fa-regular')
+                    else parent.find('.pin-fav i').addClass('fa-regular').removeClass('fa-solid')
+                    parent.find('.pin-fav').click()
+                } else {
+                    alert('Error')
+                }
+            }) .fail(() => {
+                alert('Error')
+            })
+        }
     })
 
     // below replace with ajax later
