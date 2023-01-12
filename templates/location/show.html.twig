@@ -4,13 +4,15 @@
 
 {% block content %}
     <div class="pin-page">
-        <div class="pin-page-img"><img src="/img/locations/{{ item.loc.image }}"></div>
+        <div class="pin-page-img">
+            <img src="/img/locations/{{ item.loc.image }}">
+            {% include 'location/_pin_fav.html.twig' %}
+        </div>
         <div>
             <p class="pin-page-title">{{ item.loc.name }}</p>
             <p class="pin-action">
                 <a class="pin-map" target="blank" href="https://www.google.com/maps?q={{ item.loc.lon }},{{ item.loc.lat }}"><i class="fa-solid fa-earth-europe"></i></a>
                 {% if app.user %}
-                    <a class="pin-fav" href="/favorite/toggle" data-id="{{ item.loc.id }}"><i class="{{ item.fids ? 'fa-solid' : 'fa-regular' }} fa-heart"></i></a>
                     <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
                 {% endif %}
             </p>

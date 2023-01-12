@@ -207,6 +207,9 @@ input[type=checkbox]::before {
     justify-content: center;
     align-items: center;
 }
+.pin-fav:hover {
+    text-decoration: none;
+}
 .pin-fav-add {
     background-color: #303030;
     border: 1px solid #404040;
@@ -391,6 +394,9 @@ input[type=checkbox]::before {
     flex-direction: column;
     align-items: center;
     margin: 20px 10px;
+}
+.pin-page-img {
+    position: relative;
 }
 .pin-page-img img {
     max-width: 100%;
