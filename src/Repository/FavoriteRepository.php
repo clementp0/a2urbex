@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Favorite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @extends ServiceEntityRepository<Favorite>
@@ -16,8 +17,9 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FavoriteRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
+        $this->userId = $security->getUser()->getId();
         parent::__construct($registry, Favorite::class);
     }
 
@@ -39,39 +41,26 @@ class FavoriteRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByLocationAndUser($locationId, $userId) {
+    public function findByDefault() {
+        return $this->createQueryBuilder('f')
+            ->select('f fav', 'COUNT(l) AS count')
+            ->leftJoin('f.locations', 'l')
+            ->leftJoin('f.users', 'u')
+            ->groupBy('f.id')
+            ->andWhere('u.id = '.$this->userId)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByLocation($locationId) { // todo rework
         return $this->createQueryBuilder('f')
             ->andWhere('f.location = :lid')
             ->andWhere('f.user = :uid')
             ->setParameter('lid', $locationId)
-            ->setParameter('uid', $userId)
+            ->setParameter('uid', $this->userId)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-
-//    /**
-//     * @return Favorite[] Returns an array of Favorite objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('f.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Favorite
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

@@ -32,4 +32,20 @@ $(() => {
             alert('Error')
         })
     })
+
+    // below replace with ajax later
+    $('.fav-item-delete').on('click', function(e) {
+        if(!confirm('Confirmer la suppression')) e.preventDefault()
+    })
+    $('.fav-item-share-link').on('click', function(e) {
+        if(!confirm('Confirmer le partage du lien')) e.preventDefault()
+    })
+
+    $('.fav-item-share-user').on('click', function(e) {
+        $(this).siblings('.share-select-wrapper').toggleClass('show')
+    })
+
+    $('.share-select').on('change', function(e) {
+        $(this).siblings('.share-select-link').attr('href', $(this).val())
+    })
  })
