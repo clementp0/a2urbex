@@ -196,11 +196,13 @@ input[type=checkbox]::before {
     top: 10px;
     right: 10px;
 }
-.pin-fav {
+.pin-fav2 {
     background-color: #ddd;
     border-radius: 50%;
     width: 25px;
     height: 25px;
+}
+.pin-fav {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -209,9 +211,10 @@ input[type=checkbox]::before {
     background-color: #303030;
     border: 1px solid #404040;
     border-radius: 3px;
-    padding: 5px;
-    min-width: 130px;
-    max-width: 200px;
+    padding: 10px;
+    padding-bottom: 13px;
+    min-width: 180px;
+    max-width: 220px;
     position: absolute;
     top: 0;
     right: 0;
@@ -237,6 +240,48 @@ input[type=checkbox]::before {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    right: -5px;
+}
+
+.pin-fav-add-new-wrapper {
+    position: relative;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+.pin-fav-add-new {
+    font-size: 14px;
+}
+.pin-fav-add-new-field {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #303030;
+    transition: opacity .5s, visibility .5s;
+    opacity: 0;
+    visibility: hidden;
+}
+.pin-fav-add-new-field.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.pin-fav-add-new-input {
+    color: #6d6d6d;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ffffff24;
+    font-size: 12px;
+    border-radius: 0;
+}
+.pin-fav-add-new-input:focus-visible {
+    outline: 0;
+}
+.pin-fav-add-new-confirm {
+    margin-left: 5px;
 }
 
 .pin-img{

@@ -117,7 +117,7 @@ class FavoriteController extends AbstractController
             } elseif(strlen($name) && $name !== 'like') {
                 $fav = new Favorite();
                 $fav->setName($name)->addUser($user)->addLocation($location);
-                $this->favoriteRepositery->save($fav, true);
+                $this->favoriteRepository->save($fav, true);
             }
             $fids = $this->locationRepository->findById($lid)['fids'];
         }
