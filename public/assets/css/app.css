@@ -10,6 +10,9 @@ body {
 body a {
     color: #8d8d8d;
 }
+body a:hover {
+    color: #60a5fa;
+}
 
 a.disabled {
     pointer-events: none;
@@ -181,6 +184,61 @@ input[type=checkbox]::before {
     border-radius: 4px;
     height: fit-content;
 }
+.pin-top-container a:hover {
+    text-decoration: none;
+}
+
+.pin-top-container {
+    position: relative;
+}
+.pin-fav-wrapper {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.pin-fav {
+    background-color: #ddd;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pin-fav-add {
+    background-color: #303030;
+    border: 1px solid #404040;
+    border-radius: 3px;
+    padding: 5px;
+    min-width: 130px;
+    max-width: 200px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: all .5s;
+    opacity: 0;
+    visibility: hidden;
+}
+.pin-fav-add.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.pin-fav-add-top {
+    display: flex;
+    justify-content: space-between;
+}
+.pin-fav-add-top p {
+    margin-right: 20px;
+}
+.pin-fav-add-close {
+    height: 24px;
+    width: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .pin-img{
     width: 100%;
     height: 200px;
@@ -265,7 +323,6 @@ input[type=checkbox]::before {
 .pin-search-reset:hover{
     color: #a2a2a2;
     transition: .5s;
-
 }
 
 .pin-search-reset{

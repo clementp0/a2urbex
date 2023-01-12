@@ -1,19 +1,34 @@
 <div class="pin-box">
     {% if locations|length %}
     {% for item in locations %}
-    <div class="pin-container"> 
-        <div class="pin-img" style="background-image:url('/img/locations/{{ item.loc.image }}')"></div>
-        <p class="pin-title">{{ item.loc.name |u.truncate(50, '...') }}</p>
+    <div class="pin-container">
+        <div class="pin-top-container">
+            <a href="{{ path('app_location_show', {'id': item.loc.id}) }}">
+                <div class="pin-img" style="background-image:url('/img/locations/{{ item.loc.image }}')"></div>
+                <p class="pin-title">{{ item.loc.name |u.truncate(50, '...') }}</p>
+            </a>
+
+            <div class="pin-fav-wrapper" data-id="{{ item.loc.id }}" data-fids="{{ item.fids }}" data-url="{{ path('app_favorite_item_toggle') }}">
+                <a class="pin-fav" href="{{ path('app_favorite_user') }}"><i class="{{ item.fids ? 'fa-solid' : 'fa-regular' }} fa-heart"></i></a>
+                <div class="pin-fav-add">
+                    <div class="pin-fav-add-top">
+                        <p>Save to...</p>
+                        <a href="#" class="pin-fav-add-close"><i class="fa-solid fa-xmark"></i></a>
+                    </div>
+                    <div class="pin-fav-list">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="pin-bottom-container">
         <div class="pin-user pin-action">
-            <a class="pin-fav" href="/favorite/toggle" data-id="{{ item.loc.id }}"><i class="{{ item.fids ? 'fa-solid' : 'fa-regular' }} fa-heart"></i></a>
             <a class="pin-map" target="blank" href="https://www.google.com/maps?q={{ item.loc.lon }},{{ item.loc.lat }}"><i class="fa-solid fa-earth-europe"></i></a>
         </div>
         <p class="pin-id">id : {{ item.loc.id }}</p>
         {% if app.user %}
         <div class="pin-edit pin-action">
-            <a href="{{ path('app_location_show', {'id': item.loc.id}) }}"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
             </div>
         </div>

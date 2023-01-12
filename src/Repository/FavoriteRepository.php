@@ -52,15 +52,4 @@ class FavoriteRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-
-    public function findByLocation($locationId) { // todo rework
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.location = :lid')
-            ->andWhere('f.user = :uid')
-            ->setParameter('lid', $locationId)
-            ->setParameter('uid', $this->userId)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
 }
