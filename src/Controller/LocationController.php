@@ -7,6 +7,7 @@ use App\Class\Search;
 use App\Form\LocationType;
 use App\Form\SearchType;
 use App\Repository\LocationRepository;
+use App\Repository\FavoriteRepository;
 
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LocationController extends AbstractController
 {
     #[Route('/', name: 'app_location_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request, LocationRepository $locationRepository, FavoriteRepository $favoriteRepository, PaginatorInterface $paginator): Response
     {
         $locations = $locationRepository->findByAll();
 

@@ -15,6 +15,8 @@ use App\Repository\FavoriteRepository;
 use App\Repository\LocationRepository;
 use App\Repository\UserRepository;
 
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+
 class FavoriteController extends AbstractController
 {
     public function __construct(LocationRepository $locationRepository, FavoriteRepository $favoriteRepository, Security $security) {
@@ -29,6 +31,14 @@ class FavoriteController extends AbstractController
             'favorites' => $this->favoriteRepository->findByDefault(),
             'users' => $userRepository->findAllButCurrent()
         ]);
+    }
+
+    #[Route('/favorite/user', name: 'app_favorite_user')] 
+    public function user(): Response {
+        $serializer = $this->container->get('serializer');
+        $favorites = $this->favoriteRepository->findByDefault();
+        $favorites = $serializer->serialize($favorites, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['users', 'locations']]);
+        echo $favorites;exit();
     }
     
     #[Route('/favorite/{id}',name: 'app_favorite_locations')] 
@@ -85,29 +95,33 @@ class FavoriteController extends AbstractController
     }
 
 
-
-    // todo rework
-    #[Route('/favorite/toggle', name: 'app_favorite_toggle')]
-    public function toggle(Request $request) : Response {
-        return false;
-
+    #[Route('/favorite/item/toggle', name: 'app_favorite_item_toggle')]
+    public function additem(Request $request) : Response {
         $success = true;
-        $user = $this->security->getUser();
-        $location = $this->locationRepository->find($request->get('id'));
+        $lid = $request->get('lid');
+        $fid = $request->get('fid');
+        $name = $request->get('name');
+        $fids = '';
 
-        if(!$user) {
+        $user = $this->security->getUser();
+        $location = $this->locationRepository->find($lid);
+
+        if(!$user && !$location) {
             $success = false;
         } else {
-            $fav = $this->favoriteRepository->findByLocation($location->getId());
-            if($fav) {
-                $this->favoriteRepository->remove($fav, true);
-            } else {
-                $fav = new Favorite();
-                $fav->setLocation($location)->setUser($user);
+            if($fid) {
+                $fav = $this->favoriteRepository->find($fid);
+                if((int)$request->get('checked') === 1) $fav->addLocation($location);
+                else $fav->removeLocation($location);
                 $this->favoriteRepository->save($fav, true);
+            } elseif(strlen($name) && $name !== 'like') {
+                $fav = new Favorite();
+                $fav->setName($name)->addUser($user)->addLocation($location);
+                $this->favoriteRepositery->save($fav, true);
             }
+            $fids = $this->locationRepository->findById($lid)['fids'];
         }
         
-        echo json_encode(['success' => $success]);exit();
+        echo json_encode(['success' => $success, 'fids' => $fids]);exit();
     }
 }
