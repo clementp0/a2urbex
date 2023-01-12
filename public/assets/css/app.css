@@ -6,6 +6,16 @@ body {
     color: #5a5a5a;
     margin: auto;
 }
+
+body a {
+    color: #8d8d8d;
+}
+
+a.disabled {
+    pointer-events: none;
+    opacity: .5;
+}
+
 .fixed-top {
     height:44px;
     text-align: right;
@@ -14,10 +24,10 @@ body {
     padding: 8px 15px;
 }
 .settings > a {
-    color: #737373;
     font-size: .9rem;
     font-weight: 500;
-    }
+}
+
 .logo{
     position: absolute;
     top: 50%;
@@ -187,13 +197,6 @@ input[type=checkbox]::before {
 .pin-id{
     margin: auto;
     font-size: 10px;
-    color: #8d8d8d;
-}
-
-.pin-action {
-    color: #8d8d8d;
-}
-.pin-action a {
     color: #8d8d8d;
 }
 

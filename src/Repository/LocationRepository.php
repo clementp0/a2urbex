@@ -97,12 +97,9 @@ class LocationRepository extends ServiceEntityRepository
         return $this->getBaseQuery()->getQuery()->getResult();
     }
 
-    public function findByUser($userId) {     //todo
-        return $this->createQueryBuilder('l')
-            ->select('l loc', 'f.id fid')
-            ->orderBy('l.id', 'ASC')
-            ->join('App\Entity\Favorite', 'f', Join::WITH, '(f.location = l.id AND f.user = :uid)' )
-            ->setParameter('uid', $userId)
+    public function findByIdFav($idFav) {
+        return $this->getBaseQuery()
+            ->andWhere('f.id = '.$idFav)
             ->getQuery()
             ->getResult()
         ;
