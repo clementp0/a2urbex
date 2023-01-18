@@ -132,4 +132,13 @@ $(() => {
         $(this).siblings('.share-select-link').attr('href', $(this).val())
     })
 
+
+
+
+    $('#map-filter').on('click', function(e) {
+        e.preventDefault()
+        $('.pin-search form')
+            .attr('action', $(this).attr('href'))
+            .find('#submit').click()
+    })
  })
