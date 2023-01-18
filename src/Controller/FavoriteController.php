@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Favorite;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,18 +10,21 @@ use Symfony\Component\Security\Core\Security;
 use Knp\Component\Pager\PaginatorInterface;
 use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
 use Danilovl\HashidsBundle\Service\HashidsService;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+
+use App\Repository\UserRepository;
+use App\Entity\Favorite;
 use App\Entity\User;
 use App\Repository\FavoriteRepository;
 use App\Repository\LocationRepository;
-use App\Repository\UserRepository;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 class FavoriteController extends AbstractController
 {
-    public function __construct( private HashidsServiceInterface $hashidsService, LocationRepository $locationRepository, FavoriteRepository $favoriteRepository, Security $security) {
+    public function __construct(HashidsServiceInterface $hashidsService, LocationRepository $locationRepository, FavoriteRepository $favoriteRepository, Security $security) {
         $this->security = $security;
         $this->locationRepository = $locationRepository;
         $this->favoriteRepository = $favoriteRepository;
+        $this->hashidsService = $hashidsService;
     }
     
     #[Route('/favorite', name: 'app_favorite')] 
@@ -45,7 +47,9 @@ class FavoriteController extends AbstractController
 
     // add security block deletion from other user ?
     #[Route('/favorite/{id}/delete', name: 'app_favorite_delete')] 
-    public function delete(Favorite $favorite): Response {
+    public function delete($id): Response {
+        $favorite = $this->favoriteRepository->find($id);
+        
         if(!$favorite->isMaster()) {
             $favorite->removeUser($this->security->getUser());
             if(count($favorite->getUsers()) === 0) {
@@ -57,9 +61,9 @@ class FavoriteController extends AbstractController
         return $this->redirectToRoute('app_favorite');
     }
 
-    // add security block share link from other user ?
     #[Route('/favorite/{id}/share/link', name: 'app_favorite_share_link')] 
-    public function shareLink(Favorite $favorite): Response {
+    public function shareLink($id): Response {
+        $favorite = $this->favoriteRepository->find($id);
         // allow share button
         if($favorite->isShare()) $favorite->setShare(0);
         else $favorite->setShare(1);
@@ -69,11 +73,10 @@ class FavoriteController extends AbstractController
         return $this->redirectToRoute('app_favorite');
     }
     
-    // add security block share user from other user ?
     #[Route('/favorite/{id}/share/user/{uid}', name: 'app_favorite_share_user')]
-    
-    public function shareUser(Favorite $favorite, UserRepository $userRepository, $uid): Response {
-        $user = $userRepository->find($uid); // todo replace by param converter
+    public function shareUser($id, $uid, UserRepository $userRepository): Response {
+        $favorite = $this->favoriteRepository->find($id);
+        $user = $userRepository->find($uid);
         $favorite->addUser($user);
         
         $this->favoriteRepository->save($favorite, true);
