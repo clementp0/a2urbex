@@ -416,6 +416,10 @@ input[type=checkbox]::before {
     font-size: 20px;
 }
 
+.fav-list i {
+    width: 16px;
+}
+
 @media screen and (max-width: 1024px) {
     .pin-open-search {
         display: block;
