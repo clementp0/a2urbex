@@ -19,13 +19,18 @@
         <div class="pin-edit pin-action">
             <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
             </div>
-        </div>
+        
         {% endif %}
+        </div>
         </div>
 
     {% endfor %}
     {% else %}
-        <p>no records found</p>
+    {% if private|default(null) %}
+        This list is private
+        {% else %}
+        <p>No records found</p>
+        {% endif %}
     {% endif %}
 </div>
 <div class="pin-pagination">

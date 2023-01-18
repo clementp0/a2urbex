@@ -19,7 +19,7 @@ class FavoriteRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry, Security $security)
     {
-        $this->userId = $security->getUser()->getId();
+        $this->security = $security;
         parent::__construct($registry, Favorite::class);
     }
 
@@ -41,7 +41,20 @@ class FavoriteRepository extends ServiceEntityRepository
         }
     }
 
+    public function isOpen(){
+        return $this->createQueryBuilder('f')
+            ->select('f fav', 'COUNT(l) AS count')
+            ->leftJoin('f.locations', 'l')
+            ->leftJoin('f.users', 'u')
+            ->groupBy('f.id')
+            ->andWhere('f.share', 1)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function findByDefault() {
+        $this->userId = $this->security->getUser()->getId();
         return $this->createQueryBuilder('f')
             ->select('f fav', 'COUNT(l) AS count')
             ->leftJoin('f.locations', 'l')
