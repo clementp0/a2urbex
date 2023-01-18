@@ -78,7 +78,7 @@ class LocationController extends AbstractController
         $hash_key = $_ENV["HASH_KEY"];
         $location_key = $this->hashidsService->decode($request->get('key'));
         $location_id = str_replace($hash_key,'',$location_key);
-        $location = $locationRepository->findById($location_id);
+        $location = $locationRepository->findById(is_array($location_id) ? $location_id[0] : $location_id);
         return $this->render('location/show.html.twig', [
             'item' => $location,
         ]);

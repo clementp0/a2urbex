@@ -23,7 +23,7 @@
 							<select class="share-select">
 								<option value="">Choisir un utilisateur</option>
 								{% for user in users %}
-									<option value="{{ path('app_favorite_share_user', {'id': key, 'uid': user.id}) }}">{{user.lastname}}
+									<option value="{{ path('app_favorite_share_user', {'id': item.fav.id, 'uid': user.id}) }}">{{user.lastname}}
 										{{user.firstname}}</option>
 								{% endfor %}
 							</select>
