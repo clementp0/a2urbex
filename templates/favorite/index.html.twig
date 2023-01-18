@@ -36,7 +36,7 @@
 					<i class="fa-solid fa-share"></i>
 				</a>
 				<a href="{{ path('app_favorite_share_link', {'id': item.fav.id}) }}" class="fav-item-share-link{{ item.fav.master ? ' disabled' : '' }}">
-					<i class="fa-solid{{ item.fav.share ? ' fa-lock' : ' fa-lock-open' }}"></i>
+					<i class="fa-solid{{ item.fav.share ? ' fa-lock-open' : ' fa-lock' }}"></i>
 				</a>
 				<a href="{{ path('app_favorite_delete', {'id': item.fav.id}) }}" class="fav-item-delete{{ item.fav.master ? ' disabled' : '' }}">
 					<i class="fa-solid fa-trash"></i>
