@@ -6,4 +6,5 @@
     <div style="padding:20px">
         {% include 'location/list.html.twig' %}
     </div>
+    <a href="{{ path('app_map_favorite', {'id': id}) }}" class="map-link"><i class="fa-solid fa-map-location-dot"></i></a>
 {% endblock %}

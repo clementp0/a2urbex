@@ -49,12 +49,13 @@
 </div>
 <script>
 	$('.fav-item-copy-link').click(function (e) {
-e.preventDefault();
-var copyText = $(this).attr('href');
-document.addEventListener('copy', function (e) {
-e.clipboardData.setData('text/plain', copyText);
-e.preventDefault();
-}, true);
-document.execCommand('copy');
+	e.preventDefault();
+	var copyText = $(this).attr('href');
+	document.addEventListener('copy', function (e) {
+	e.clipboardData.setData('text/plain', copyText);
+	e.preventDefault();
+	}, true);
+	document.execCommand('copy');
 });
-</script>{% endblock %}
+</script>
+{% endblock %}
