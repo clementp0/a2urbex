@@ -1,5 +1,5 @@
 function initMap() {
-    const map = new google.maps.Map(document.getElementById("maps"), {
+    const map = new google.maps.Map(document.getElementById('map'), {
         zoom: 6,
         center: { lat: 46.71109, lng: 1.7191036 },
     });
@@ -14,7 +14,7 @@ function setMarkers(map) {
     // Origins, anchor positions and coordinates of the marker increase in the X
     // direction to the right and in the Y direction down.
     const image = {
-        url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+        url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
         // This marker is 20 pixels wide by 32 pixels high.
         size: new google.maps.Size(20, 32),
         // The origin for this image is (0, 0).
@@ -32,14 +32,44 @@ function setMarkers(map) {
 
     const items = JSON.parse(locations)
     for(let key in items) {
-        new google.maps.Marker({
-            position: { lat: Number.parseFloat(items[key].loc.lon), lng: Number.parseFloat(items[key].loc.lat) },
+        const marker = new google.maps.Marker({
+            position: { lat: Number.parseFloat(items[key].loc.lat), lng: Number.parseFloat(items[key].loc.lon) },
             map,
             icon: image,
             shape: shape,
             title: items[key].loc.name,
         })
+
+        marker.addListener('click', () => {
+            console.log(items[key]);
+            map.setZoom(8)
+            map.setCenter(marker.getPosition())
+
+            $('#map-overlay').addClass('show')
+            let imgUrl = $('#map-overlay .map-overlay-img').data('url') + items[key].loc.image
+            $('#map-overlay .map-overlay-img').css('backgroundImage', 'url('+imgUrl+')')
+            $('#map-overlay .map-overlay-title').text(items[key].loc.name)
+
+            $('.pin-fav-wrapper').attr('data-id', items[key].loc.id)
+            $('.pin-fav-wrapper').attr('data-fids', items[key].fids)
+
+            let mapsUrl = $('.map-overlay-action .pin-map').data('url') + items[key].loc.lat + ',' + items[key].loc.lon
+            $('.map-overlay-action .pin-map').attr('href', mapsUrl)
+            let editUrl = $('.map-overlay-action .pin-conf').data('url') + items[key].loc.id
+            $('.map-overlay-action .pin-conf').attr('href', editUrl)
+
+            if(items[key].fids) $('#map-overlay').find('.pin-fav i').addClass('fa-solid').removeClass('fa-regular')
+            else $('#map-overlay').find('.pin-fav i').addClass('fa-regular').removeClass('fa-solid')
+        })
     }
 }
 
 window.initMap = initMap;
+
+
+$(() => {
+    $('.map-overlay-close').on('click', e => {
+        e.preventDefault()
+        $('#map-overlay').removeClass('show')
+    })
+})
