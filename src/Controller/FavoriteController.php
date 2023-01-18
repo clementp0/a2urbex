@@ -34,10 +34,13 @@ class FavoriteController extends AbstractController
     }
 
     #[Route('/favorite/user', name: 'app_favorite_user')] 
-    public function user(): Response {
+    public function user(Request $request): Response {
+        $lid = $request->get('lid');
+        $loc = $this->locationRepository->findById($lid);
+
         $serializer = $this->container->get('serializer');
         $favorites = $this->favoriteRepository->findByDefault();
-        $favorites = $serializer->serialize($favorites, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['users', 'locations']]);
+        $favorites = $serializer->serialize(['favs' => $favorites, 'fids' => $loc['fids']], 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['users', 'locations']]);
         echo $favorites;exit();
     }
     
