@@ -6,7 +6,11 @@
         <div class="pin-top-container">
             <a href="{{ path('app_location_show', {'key': key | hashids_encode }) }}">
                 <div class="pin-img" style="background-image:url('/img/locations/{{ item.loc.image }}')"></div>
+                {% if app.user %}
                 <p class="pin-title">{{ item.loc.name |u.truncate(50, '...') }}</p>
+                {% else %}
+                <p class="pin-title" style="text-align:center;">{{ item.loc.type.name }}</p>
+                {% endif %}
             </a>
             {% include 'location/_pin_fav.html.twig' %}
         </div>
@@ -17,13 +21,13 @@
         </div>
         <p class="pin-id">id : {{ item.loc.id }}</p>
         <p class="pin-id">key : {{ key | hashids_encode }}</p>
-        {% if app.user %}
         
+        {% if app.user %}
         <div class="pin-edit pin-action">
             <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
-            </div>
-        
+        </div>
         {% endif %}
+
         </div>
         </div>
 
