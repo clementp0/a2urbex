@@ -66,7 +66,7 @@ class LocationRepository extends ServiceEntityRepository
     }
     
     public function findWithSearch(Search $search) {
-        $query = $this->getBaseQuery($userId);
+        $query = $this->getBaseQuery();
 
         if (!empty($search->country)){
             $query = $query
