@@ -2,24 +2,24 @@
 
 namespace App\Controller;
 
+use App\Entity\Favorite;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Knp\Component\Pager\PaginatorInterface;
-
-use App\Entity\Favorite;
+use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
+use Danilovl\HashidsBundle\Service\HashidsService;
 use App\Entity\User;
 use App\Repository\FavoriteRepository;
 use App\Repository\LocationRepository;
 use App\Repository\UserRepository;
-
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 class FavoriteController extends AbstractController
 {
-    public function __construct(LocationRepository $locationRepository, FavoriteRepository $favoriteRepository, Security $security) {
+    public function __construct( private HashidsServiceInterface $hashidsService, LocationRepository $locationRepository, FavoriteRepository $favoriteRepository, Security $security) {
         $this->security = $security;
         $this->locationRepository = $locationRepository;
         $this->favoriteRepository = $favoriteRepository;
@@ -27,7 +27,9 @@ class FavoriteController extends AbstractController
     
     #[Route('/favorite', name: 'app_favorite')] 
     public function index(UserRepository $userRepository): Response {
+        $hash_key = $_ENV["HASH_KEY"];
         return $this->render('favorite/index.html.twig', [
+            'hashkey' => $hash_key,
             'favorites' => $this->favoriteRepository->findByDefault(),
             'users' => $userRepository->findAllButCurrent()
         ]);
@@ -39,28 +41,6 @@ class FavoriteController extends AbstractController
         $favorites = $this->favoriteRepository->findByDefault();
         $favorites = $serializer->serialize($favorites, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['users', 'locations']]);
         echo $favorites;exit();
-    }
-    
-    #[Route('/favorite/{id}',name: 'app_favorite_locations')] 
-    public function item($id, Request $request, PaginatorInterface $paginator): Response {
-        $locations = $this->locationRepository->findByIdFav($id);
-        $locationData = $paginator->paginate(
-            $locations,
-            $request->query->getInt('page', 1),
-            50
-        );
-        
-        if($locations){
-            return $this->render('favorite/locations.html.twig', [
-                'locations' => $locationData
-            ]);
-        }
-        else{
-            return $this->render('favorite/locations.html.twig', [
-                'locations' => $locationData,
-                'private' => 'yes'
-            ]);
-        }
     }
 
     // add security block deletion from other user ?
@@ -130,5 +110,34 @@ class FavoriteController extends AbstractController
         }
         
         echo json_encode(['success' => $success, 'fids' => $fids]);exit();
+    }
+
+    #[Route('/list/{key}',name: 'app_favorite_locations')] 
+    public function item(Request $request, PaginatorInterface $paginator): Response {
+
+        $hash_key = $_ENV["HASH_KEY"];
+        $list_key = $this->hashidsService->decode($request->get('key'));
+        $list_id = str_replace($hash_key,'',$list_key);
+
+        $locations = $this->locationRepository->findByIdFav($list_id[0]);
+        $locationData = $paginator->paginate(
+            $locations,
+            $request->query->getInt('page', 1),
+            50
+        );
+        
+        if($locations){
+            return $this->render('favorite/locations.html.twig', [
+                'locations' => $locationData,
+                'hashkey' => $_ENV["HASH_KEY"],
+            ]);
+        }
+        else{
+            return $this->render('favorite/locations.html.twig', [
+                'locations' => $locationData,
+                'hashkey' => $_ENV["HASH_KEY"],
+                'private' => 'yes'
+            ]);
+        }
     }
 }
