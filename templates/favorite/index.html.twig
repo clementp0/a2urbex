@@ -1,32 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Favorite Page{% endblock %}
+{% block title %}Favorite Page
+{% endblock %}
 
 {% block content %}
-    <div class="fav-list">
-        {% for item in favorites %}
-        <div class="fav-item">
-            <div class="fav-item-name">{{ item.fav.name }}</div>
-            <div class="fav-item-number">{{ item.count }} loc.</div>
-            <div class="fav-item-action">
-                <a href="{{ path('app_favorite_locations', {'id': item.fav.id}) }}" class="fav-item-view"><i class="fa-solid fa-list"></i></a>
-                <div class="share-user-wrapper">
-                    <a href="#" class="fav-item-share-user{{ item.fav.master ? ' disabled' : '' }}"><i class="fa-solid fa-user"></i></a>
-                    <div class="share-select-wrapper">
-                        <select class="share-select">
-                            <option value="">Choisir un utilisateur</option>
-                            {% for user in users %}
-                            <option value="{{ path('app_favorite_share_user', {'id': item.fav.id, 'uid': user.id}) }}">{{user.lastname}} {{user.firstname}}</option>
-                            {% endfor %}
-                        </select>
-                        <a href="" class="share-select-link"><i class="fa-solid fa-check"></i></a>
-                    </div>
-                </div>
-                </a>
-                <a href="{{ path('app_favorite_share_link', {'id': item.fav.id}) }}" class="fav-item-share-link{{ item.fav.master ? ' disabled' : '' }}"><i class="fa-solid{{ item.fav.share ? ' fa-lock' : ' fa-lock-open' }}"></i></a>
-                <a href="{{ path('app_favorite_delete', {'id': item.fav.id}) }}" class="fav-item-delete{{ item.fav.master ? ' disabled' : '' }}"><i class="fa-solid fa-trash"></i></a>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-{% endblock %}
+	<div class="fav-list">
+		{% for item in favorites %}
+			<div class="fav-item">
+				<div class="fav-item-name">{{ item.fav.name }}</div>
+				<div class="fav-item-number">{{ item.count }}
+					loc.</div>
+				<div class="fav-item-action">
+					<a href="{{ path('app_favorite_locations', {'id': item.fav.id}) }}" class="fav-item-view">
+						<i class="fa-solid fa-list"></i>
+					</a>
+					<div class="share-user-wrapper">
+						<a href="#" class="fav-item-share-user{{ item.fav.master ? ' disabled' : '' }}">
+							<i class="fa-solid fa-user"></i>
+						</a>
+						<div class="share-select-wrapper">
+							<select class="share-select">
+								<option value="">Choisir un utilisateur</option>
+								{% for user in users %}
+									<option value="{{ path('app_favorite_share_user', {'id': item.fav.id, 'uid': user.id}) }}">{{user.lastname}}
+										{{user.firstname}}</option>
+								{% endfor %}
+							</select>
+							<a href="" class="share-select-link">
+								<i class="fa-solid fa-check"></i>
+							</a>
+						</div>
+					</div>
+				</a>
+				<a class="fav-item-copy-link" data-toggle="tooltip" href="{{ url('app_favorite_locations', {'id': item.fav.id}) }}">
+					<i class="fa-solid fa-share"></i>
+				</a>
+				<a href="{{ path('app_favorite_share_link', {'id': item.fav.id}) }}" class="fav-item-share-link{{ item.fav.master ? ' disabled' : '' }}">
+					<i class="fa-solid{{ item.fav.share ? ' fa-lock' : ' fa-lock-open' }}"></i>
+				</a>
+				<a href="{{ path('app_favorite_delete', {'id': item.fav.id}) }}" class="fav-item-delete{{ item.fav.master ? ' disabled' : '' }}">
+					<i class="fa-solid fa-trash"></i>
+				</a>
+			</div>
+
+		</div>
+	{% endfor %}
+</div>
+<script>
+	$('.fav-item-copy-link').click(function (e) {
+e.preventDefault();
+var copyText = $(this).attr('href');
+document.addEventListener('copy', function (e) {
+e.clipboardData.setData('text/plain', copyText);
+e.preventDefault();
+}, true);
+document.execCommand('copy');
+});
+</script>{% endblock %}

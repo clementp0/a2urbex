@@ -112,10 +112,13 @@ $(() => {
 
     // below replace with ajax later
     $('.fav-item-delete').on('click', function(e) {
-        if(!confirm('Confirmer la suppression')) e.preventDefault()
+        if(!confirm('Delete list')) e.preventDefault()
     })
     $('.fav-item-share-link').on('click', function(e) {
-        if(!confirm('Confirmer le partage du lien')) e.preventDefault()
+        if(!confirm('Change list permission')) e.preventDefault()
+    })
+    $('.fav-item-copy-link').on('click', function(e) {
+        if(!confirm('Copy list link')) e.preventDefault()
     })
 
     $('.fav-item-share-user').on('click', function(e) {
