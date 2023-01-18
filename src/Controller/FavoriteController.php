@@ -136,6 +136,7 @@ class FavoriteController extends AbstractController
             return $this->render('favorite/locations.html.twig', [
                 'locations' => $locationData,
                 'hashkey' => $_ENV["HASH_KEY"],
+                'id' => $list_id[0]
             ]);
         }
         else{
