@@ -144,7 +144,7 @@ class FetchController extends AbstractController
             preg_match('#(.*".{1}) (.*".{1}) (.*)#', $item['description'], $matches);
             if(isset($matches[1])) $location->setLat((float)$this->convertCoord($matches[1]));
             if(isset($matches[2])) $location->setLon((float)$this->convertCoord($matches[2]));
-            if(isset($matches[3])) $location->setName(substr($matches[3], 0, 250));
+            if(isset($matches[3])) $location->setName(substr(str_replace('"', "''", $matches[3]), 0, 250));
 
             $location
                 ->setPid((int)$item['id'])
