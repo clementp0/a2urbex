@@ -1,9 +1,10 @@
 <div class="pin-box">
     {% if locations|length %}
     {% for item in locations %}
+    {% set key = "#{item.loc.id}#{hashkey}" %}
     <div class="pin-container">
         <div class="pin-top-container">
-            <a href="{{ path('app_location_show', {'id': item.loc.id}) }}">
+            <a href="{{ path('app_location_show', {'key': key | hashids_encode }) }}">
                 <div class="pin-img" style="background-image:url('/img/locations/{{ item.loc.image }}')"></div>
                 <p class="pin-title">{{ item.loc.name |u.truncate(50, '...') }}</p>
             </a>
@@ -15,7 +16,9 @@
             <a class="pin-map" target="blank" href="https://www.google.com/maps?q={{ item.loc.lon }},{{ item.loc.lat }}"><i class="fa-solid fa-earth-europe"></i></a>
         </div>
         <p class="pin-id">id : {{ item.loc.id }}</p>
+        <p class="pin-id">key : {{ key | hashids_encode }}</p>
         {% if app.user %}
+        
         <div class="pin-edit pin-action">
             <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
             </div>

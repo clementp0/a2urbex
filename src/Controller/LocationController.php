@@ -8,17 +8,22 @@ use App\Form\LocationType;
 use App\Form\SearchType;
 use App\Repository\LocationRepository;
 use App\Repository\FavoriteRepository;
-
+use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
+use Danilovl\HashidsBundle\Service\HashidsService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/locations')]
 class LocationController extends AbstractController
 {
-    #[Route('/', name: 'app_location_index', methods: ['GET', 'POST'])]
+
+    public function __construct(private HashidsServiceInterface $hashidsService)
+    {
+    }
+    
+    #[Route('/locations', name: 'app_location_index', methods: ['GET', 'POST'])]
     public function index(Request $request, LocationRepository $locationRepository, FavoriteRepository $favoriteRepository, PaginatorInterface $paginator): Response
     {
         $locations = $locationRepository->findByAll();
@@ -41,15 +46,15 @@ class LocationController extends AbstractController
             50
         );  
 
-
         return $this->render('location/index.html.twig', [
             'locations' => $locationData,
+            'hashkey' => $_ENV["HASH_KEY"],
             'form' => $form->createView(),
             'total_result' => $totalResults,
         ]);
     }
 
-    #[Route('/new', name: 'app_location_new', methods: ['GET', 'POST'])]
+    #[Route('location/new', name: 'app_location_new', methods: ['GET', 'POST'])]
     public function new(Request $request, LocationRepository $locationRepository): Response
     {
         $location = new Location();
@@ -67,17 +72,19 @@ class LocationController extends AbstractController
         ]);
     }
 
-    #[Route('how/{id}', name: 'app_location_show', methods: ['GET'])]
-    public function show(Location $location, LocationRepository $locationRepository): Response
+    #[Route('location/{key}', name: 'app_location_show', methods: ['GET'])]
+    public function show(Request $request, LocationRepository $locationRepository): Response
     {
-        $location = $locationRepository->findById($location->getId());
-
+        $hash_key = $_ENV["HASH_KEY"];
+        $location_key = $this->hashidsService->decode($request->get('key'));
+        $location_id = str_replace($hash_key,'',$location_key);
+        $location = $locationRepository->findById($location_id);
         return $this->render('location/show.html.twig', [
             'item' => $location,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
+    #[Route('location/{id}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Location $location, LocationRepository $locationRepository): Response
     {
         $form = $this->createForm(LocationType::class, $location);
@@ -94,7 +101,7 @@ class LocationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_location_delete', methods: ['POST'])]
+    #[Route('location/{id}', name: 'app_location_delete', methods: ['POST'])]
     public function delete(Request $request, Location $location, LocationRepository $locationRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$location->getId(), $request->request->get('_token'))) {
