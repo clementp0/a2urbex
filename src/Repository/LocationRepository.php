@@ -134,7 +134,6 @@ class LocationRepository extends ServiceEntityRepository
             else{
                 $qb
                     ->leftJoin('l.favorites', 'f')
-                    ->andWhere('f.share = '. 1)
                     ->groupBy('l.id');
             }
 
