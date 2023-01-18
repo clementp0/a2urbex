@@ -6,12 +6,13 @@
 {% block content %}
 	<div class="fav-list">
 		{% for item in favorites %}
+		{% set key = "#{item.fav.id}#{hashkey}" %}
 			<div class="fav-item">
 				<div class="fav-item-name">{{ item.fav.name }}</div>
 				<div class="fav-item-number">{{ item.count }}
 					loc.</div>
 				<div class="fav-item-action">
-					<a href="{{ path('app_favorite_locations', {'id': item.fav.id}) }}" class="fav-item-view">
+					<a href="{{ path('app_favorite_locations', {'key': key | hashids_encode}) }}" class="fav-item-view">
 						<i class="fa-solid fa-list"></i>
 					</a>
 					<div class="share-user-wrapper">
@@ -32,7 +33,7 @@
 						</div>
 					</div>
 				</a>
-				<a class="fav-item-copy-link" data-toggle="tooltip" href="{{ url('app_favorite_locations', {'id': item.fav.id}) }}">
+				<a class="fav-item-copy-link" data-toggle="tooltip" href="{{ url('app_favorite_locations', {'key': key | hashids_encode}) }}">
 					<i class="fa-solid fa-share"></i>
 				</a>
 				<a href="{{ path('app_favorite_share_link', {'id': item.fav.id}) }}" class="fav-item-share-link{{ item.fav.master ? ' disabled' : '' }}">
