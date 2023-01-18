@@ -8,14 +8,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\LocationRepository;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
+use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
+use Danilovl\HashidsBundle\Service\HashidsService;
 use Symfony\Component\HttpFoundation\Request;
 use App\Class\Search;
 use App\Form\SearchType;
 
 class MapController extends AbstractController
 {
-    public function __construct(LocationRepository $locationRepository) {
+    public function __construct(LocationRepository $locationRepository, private HashidsServiceInterface $hashidsService) {
         $this->locationRepository = $locationRepository;
     }
 
@@ -31,9 +32,12 @@ class MapController extends AbstractController
         ]);
     }
 
-    #[Route('/map/favorite/{id}', name: 'app_map_favorite')]
-    public function fav($id): Response {
-        $locations = $this->locationRepository->findByIdFav($id);
+    #[Route('/map/list/{key}', name: 'app_map_favorite')]
+    public function fav(Request $request): Response {
+        $hash_key = $_ENV["HASH_KEY"];
+        $map_key = $this->hashidsService->decode($request->get('key'));
+        $map_id = str_replace($hash_key,'',$map_key);
+        $locations = $this->locationRepository->findByIdFav($map_id[0]);
         return $this->default($locations);
     }
 

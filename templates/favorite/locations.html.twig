@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% set key = "#{id}#{hashkey}" %}
 
 {% block title %}Hello FavoriteController!{% endblock %}
 
@@ -6,5 +7,5 @@
     <div style="padding:20px">
         {% include 'location/list.html.twig' %}
     </div>
-    <a href="{{ path('app_map_favorite', {'id': id}) }}" class="map-link"><i class="fa-solid fa-map-location-dot"></i></a>
+    <a href="{{ path('app_map_favorite', {'key': key | hashids_encode}) }}" class="map-link"><i class="fa-solid fa-map-location-dot"></i></a>
 {% endblock %}

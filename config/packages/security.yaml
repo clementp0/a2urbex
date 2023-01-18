@@ -41,6 +41,7 @@ security:
           - { path: ^/update, roles: ROLE_USER }
           - { path: ^/favorite, roles: ROLE_USER }
           - { path: ^/register, roles: ROLE_USER }
+          - { path: ^/map/filter, roles: ROLE_USER }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
