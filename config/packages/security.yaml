@@ -39,7 +39,7 @@ security:
           - { path: ^/admin, roles: ROLE_USER }
           - { path: ^/locations/, roles: ROLE_USER }
           - { path: ^/update, roles: ROLE_USER }
-          - { path: ^/favorite, roles: ROLE_USER }
+        #   - { path: ^/favorite, roles: ROLE_USER }
           - { path: ^/register, roles: ROLE_USER }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

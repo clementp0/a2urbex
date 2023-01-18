@@ -116,12 +116,13 @@ class LocationRepository extends ServiceEntityRepository
 
     private function getBaseQuery() {
         $user = $this->security->getUser();
-
+        
         $qb = $this->createQueryBuilder('l')
             ->select('l loc')
             ->orderBy('l.id', 'ASC');
         
             if($user) {
+            
                 $qb
                     ->leftJoin('l.favorites', 'f')
                     ->leftJoin('f.users', 'u')
@@ -130,7 +131,14 @@ class LocationRepository extends ServiceEntityRepository
                     ->setParameter('uid', $user->getId())
                     ->groupBy('l.id');
             }
+            else{
+                $qb
+                    ->leftJoin('l.favorites', 'f')
+                    ->andWhere('f.share = '. 1)
+                    ->groupBy('l.id');
+            }
 
         return  $qb;
     }
 }
+

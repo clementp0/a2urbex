@@ -42,18 +42,25 @@ class FavoriteController extends AbstractController
     }
     
     #[Route('/favorite/{id}',name: 'app_favorite_locations')] 
-    public function item(Favorite $favorite, Request $request, PaginatorInterface $paginator): Response { // todo rework
-        $locations = $this->locationRepository->findByIdFav($favorite->getId());
-        
+    public function item($id, Request $request, PaginatorInterface $paginator): Response {
+        $locations = $this->locationRepository->findByIdFav($id);
         $locationData = $paginator->paginate(
             $locations,
             $request->query->getInt('page', 1),
             50
         );
         
-        return $this->render('favorite/locations.html.twig', [
-            'locations' => $locationData
-        ]);
+        if($locations){
+            return $this->render('favorite/locations.html.twig', [
+                'locations' => $locationData
+            ]);
+        }
+        else{
+            return $this->render('favorite/locations.html.twig', [
+                'locations' => $locationData,
+                'private' => 'yes'
+            ]);
+        }
     }
 
     // add security block deletion from other user ?
