@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MapsController!{% endblock %}
+
+{% block content %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<div id="maps"></div>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&callback=initMap&v=weekly" defer></script>
+<script>const locations=`{{ locations|raw }}`;</script>
+{% endblock %}
