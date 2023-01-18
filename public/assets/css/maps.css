@@ -1,0 +1,68 @@
+#map-wrapper {
+    max-height: calc(100vh - 100px);
+    max-width: 1000px;
+    position: relative;
+    overflow: hidden;
+    margin: auto;
+}
+
+#map {
+    height: 1000px;
+    width: 1000px;
+    max-width: 100%;
+    max-height: calc(100vh - 100px);
+}
+
+#map-overlay {
+    height: 300px;
+    padding: 20px;
+    padding-top: 36px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #303030;
+    transition: all .5s;
+    transform: translateY(100%);
+}
+#map-overlay a:hover {
+    text-decoration: none;
+}
+
+#map-overlay.show {
+    transform: translateY(0);
+}
+
+.map-overlay-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.map-overlay-img-wrapper {
+    position: relative;
+}
+.map-overlay-img {
+    width: 100%;
+    height: 150px;
+    background-color: #3c3c3c;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.map-overlay-title {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+.map-overlay-action {
+    text-align: center;
+}
+.map-overlay-action > * {
+    margin: 0 5px;
+}

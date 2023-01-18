@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MapsController!{% endblock %}
+
+{% block content %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<div id="map-wrapper">
+    <div id="map"></div>
+    <div id="map-overlay">
+        <a href="#" class="map-overlay-close"><i class="fa-solid fa-xmark"></i></a>
+        <div class="map-overlay-img-wrapper">
+            <div class="map-overlay-img" data-url="/img/locations/"></div>
+            {% include 'location/_pin_fav.html.twig' %}
+        </div>
+        <p class="map-overlay-title"></p>
+        <div class="map-overlay-action">
+            <a class="pin-map" target="blank" data-url="https://www.google.com/maps?q="><i class="fa-solid fa-earth-europe"></i></a>
+            {% if app.user %}
+                <a class="pin-conf" target="blank" data-url="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId="><i class="fa-solid fa-pen-to-square"></i></a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&callback=initMap&v=weekly" defer></script>
+<script>const locations=`{{ locations|raw }}`;</script>
+{% endblock %}

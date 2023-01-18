@@ -22,12 +22,15 @@ $(() => {
         $.ajax({
             url: item.attr('href'),
             method: 'POST',
-            dataType: 'json'
+            dataType: 'json',
+            data: {lid: id}
         }).done((json) => {
-            if(json && json.length) {
+            if(json) {
                 parent.find('.pin-fav-list').empty()
 
-                json.forEach(item => {
+                if(json.fids) fids = json.fids.length ? json.fids.split(',').map(item => parseInt(item)) : null
+
+                json.favs.forEach(item => {
                     let cid = 'fav_'+id+'_'+item.fav.id
                     let line = $('<div>').addClass('form-check')
                     let input = $('<input type="checkbox" class="form-check-input pin-fav-item" value="'+item.fav.id+'" id="'+cid+'">')
