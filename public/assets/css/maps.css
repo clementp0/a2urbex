@@ -56,9 +56,13 @@
 }
 .map-overlay-title {
     margin-top: 10px;
+    margin-bottom: 0;
     text-align: center;
     font-size: 12px;
-    margin-bottom: 5px;
+}
+p.map-overlay-type {
+    margin: 5px auto;
+    background-color: #222222;
 }
 .map-overlay-action {
     text-align: center;

@@ -17,7 +17,7 @@
         <div class="pin-user pin-action">
             <a class="pin-map" target="blank" href="https://www.google.com/maps?q={{ item.loc.lat }},{{ item.loc.lon }}"><i class="fa-solid fa-earth-europe"></i></a>
         </div>
-        <p class="pin-type" style="text-align:center;">{{ item.loc.type }}</p>
+        <p class="pin-type" style="text-align:center;">{{ item.loc.type ? item.loc.type : 'other' }}</p>
         <p class="pin-id">key : {{ key | hashids_encode }}</p>
         {% if app.user %}
         <div class="pin-edit pin-action">
