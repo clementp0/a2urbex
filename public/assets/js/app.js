@@ -16,7 +16,6 @@ $(() => {
         let item = $(this)
         let parent = item.parents('.pin-fav-wrapper')
 
-        let fids = parent.attr('data-fids').length ? parent.attr('data-fids').split(',').map(item => parseInt(item)) : null
         let id = parent.data('id')
 
         $.ajax({
@@ -28,7 +27,7 @@ $(() => {
             if(json) {
                 parent.find('.pin-fav-list').empty()
 
-                if(json.fids) fids = json.fids.length ? json.fids.split(',').map(item => parseInt(item)) : null
+                let fids = json.fids && json.fids.length ? json.fids.split(',').map(item => parseInt(item)) : null
 
                 json.favs.forEach(item => {
                     let cid = 'fav_'+id+'_'+item.fav.id
