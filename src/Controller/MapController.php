@@ -11,19 +11,35 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
 use Danilovl\HashidsBundle\Service\HashidsService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use App\Class\Search;
 use App\Form\SearchType;
 
 class MapController extends AbstractController
 {
-    public function __construct(LocationRepository $locationRepository, private HashidsServiceInterface $hashidsService) {
+    public function __construct(LocationRepository $locationRepository, private HashidsServiceInterface $hashidsService, Security $security) {
         $this->locationRepository = $locationRepository;
+        $this->security = $security;
     }
 
     private function default($locations) {
+        $ignoreList = [
+            'favorites', 
+            'country', 
+            'typeOptions', 
+            'locations', 
+            'description', 
+            'url', 
+            'pid',
+            '__initializer__', 
+            '__cloner__', 
+            '__isInitialized__'
+        ];
+        // todo filter out location name if not connected
+
         $serializer = $this->container->get('serializer');
         $locations = $serializer->serialize($locations, 'json', [
-            AbstractNormalizer::IGNORED_ATTRIBUTES => ['favorites', 'country', 'typeOptions', 'locations', '__initializer__', '__cloner__', '__isInitialized__', 'description'],
+            AbstractNormalizer::IGNORED_ATTRIBUTES => $ignoreList,
         ]);
 
         return $this->render('map/index.html.twig', [
