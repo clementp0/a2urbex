@@ -45,6 +45,7 @@ function setMarkers(map) {
             //map.setZoom(8)
             //map.setCenter(marker.getPosition())
 
+            $('.pin-fav-add').removeClass('show')
             $('#map-overlay').addClass('show')
             let imgUrl = $('#map-overlay .map-overlay-img').data('url') + items[key].loc.image
             $('#map-overlay .map-overlay-img').css('backgroundImage', 'url('+imgUrl+')')
