@@ -83,31 +83,4 @@ class LocationController extends AbstractController
             'item' => $location,
         ]);
     }
-
-    #[Route('location/{id}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Location $location, LocationRepository $locationRepository): Response
-    {
-        $form = $this->createForm(LocationType::class, $location);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $locationRepository->add($location);
-            return $this->redirectToRoute('app_location_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('location/edit.html.twig', [
-            'location' => $location,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('location/{id}', name: 'app_location_delete', methods: ['POST'])]
-    public function delete(Request $request, Location $location, LocationRepository $locationRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$location->getId(), $request->request->get('_token'))) {
-            $locationRepository->remove($location);
-        }
-
-        return $this->redirectToRoute('app_location_index', [], Response::HTTP_SEE_OTHER);
-    }
 }
