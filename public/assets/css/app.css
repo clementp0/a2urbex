@@ -256,6 +256,11 @@ input[type=checkbox]::before {
 .pin-fav-add-new {
     font-size: 14px;
 }
+
+.private-list{
+    text-align: center;
+    margin: 10px;
+}
 .pin-fav-add-new-field {
     display: flex;
     position: absolute;

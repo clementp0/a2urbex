@@ -1,10 +1,17 @@
 {% extends 'base.html.twig' %}
+{% if id|default(null) %}
 {% set key = "#{id}#{hashkey}" %}
+{% else %}
+
+{% endif %}
 
 {% block content %}
-
+{% if id|default(null) %}
     <div style="padding:20px">
         {% include 'location/list.html.twig' %}
     </div>
-    <a href="{{ path('app_map_favorite', {'key': key | hashids_encode}) }}" class="map-link"><i class="fa-solid fa-map-location-dot"></i></a>
+     <a href="{{ path('app_map_favorite', {'key': key | hashids_encode}) }}" class="map-link"><i class="fa-solid fa-map-location-dot"></i></a>
+    {% else %}
+    <p class="private-list">This list is private</p>
+    {% endif %}
 {% endblock %}
