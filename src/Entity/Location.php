@@ -15,7 +15,7 @@ class Location
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'bigint')]
+    #[ORM\Column(type: 'bigint', nullable: true)]
     private ?string $pid = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
