@@ -12,8 +12,10 @@
             <div class="map-overlay-img" data-url="/img/locations/"></div>
             {% include 'location/_pin_fav.html.twig' %}
         </div>
-        {# <p class="map-overlay-title"></p> #}
-         <p class="map-overlay-type"></p>
+        {% if app.user %}
+        <p class="map-overlay-title"></p>
+        {% endif %}
+        <p class="map-overlay-type pin-type"></p>
         <div class="map-overlay-action">
             <a class="pin-map" target="blank" data-url="https://www.google.com/maps?q="><i class="fa-solid fa-earth-europe"></i></a>
             {% if app.user %}
