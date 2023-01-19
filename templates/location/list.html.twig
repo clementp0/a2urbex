@@ -8,8 +8,6 @@
                 <div class="pin-img" style="background-image:url('/img/locations/{{ item.loc.image }}')"></div>
                 {% if app.user %}
                 <p class="pin-title">{{ item.loc.name |u.truncate(50, '...') }}</p>
-                {% else %}
-                <p class="pin-title" style="text-align:center;">{{ item.loc.type.name }}</p>
                 {% endif %}
             </a>
             {% include 'location/_pin_fav.html.twig' %}
