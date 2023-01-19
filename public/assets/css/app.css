@@ -293,6 +293,7 @@ input[type=checkbox]::before {
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    margin-bottom: 10px;
 }
 
 
