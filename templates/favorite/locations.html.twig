@@ -5,6 +5,7 @@
 
 {% block content %}
 {% if id|default(null) %}
+  <p class="favorite_page_title">{{title}}</p>
     <div style="padding:20px">
         {% include 'location/list.html.twig' %}
     </div>
