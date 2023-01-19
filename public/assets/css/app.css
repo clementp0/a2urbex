@@ -277,6 +277,13 @@ input[type=checkbox]::before {
     visibility: visible;
 }
 
+p.favorite_page_title {
+    text-align: center;
+    margin: 20px 0px 20px -1px;
+    font-size: 1.3rem;
+}
+
+
 .pin-fav-add-new-input {
     color: #6d6d6d;
     background-color: transparent;
