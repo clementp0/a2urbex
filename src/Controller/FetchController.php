@@ -149,7 +149,7 @@ class FetchController extends AbstractController
             $location
                 ->setPid((int)$item['id'])
                 ->setUrl($this->pinBaseUrl.$item['id'])
-                ->setImage($imgName)
+                ->setImage($this->imagePath.$imgName)
                 ->setDescription(substr($item['description'], 0, 250))
             ;
 

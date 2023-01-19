@@ -47,8 +47,8 @@ function setMarkers(map) {
 
             $('.pin-fav-add').removeClass('show')
             $('#map-overlay').addClass('show')
-            let imgUrl = $('#map-overlay .map-overlay-img').data('url') + items[key].loc.image
-            $('#map-overlay .map-overlay-img').css('backgroundImage', 'url('+imgUrl+')')
+            
+            $('#map-overlay .map-overlay-img').css('backgroundImage', 'url('+items[key].loc.image+')')
 
             if(items[key].loc.name) $('#map-overlay .map-overlay-title').text(items[key].loc.name)
             $('#map-overlay .map-overlay-type .pin-type-text').text(items[key].loc.type !== null ? items[key].loc.type.name : 'other')
