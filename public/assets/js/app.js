@@ -16,7 +16,7 @@ $(() => {
         let item = $(this)
         let parent = item.parents('.pin-fav-wrapper')
 
-        let id = parent.data('id')
+        let id = parent.attr('data-id')
 
         $.ajax({
             url: item.attr('href'),
@@ -56,7 +56,7 @@ $(() => {
     $('.pin-fav-wrapper').on('click', '.pin-fav-item', function() {
         let parent = $(this).parents('.pin-fav-wrapper')
         let fid = $(this).val()
-        let lid = parent.data('id')
+        let lid = parent.attr('data-id')
         let checked = $(this).prop('checked') ? 1 : 0
 
         $.ajax({
