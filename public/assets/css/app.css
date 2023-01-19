@@ -428,6 +428,13 @@ p.pin-type {
     padding: 0px 5px 0px 5px;
     width: fit-content;
     font-size: 0.835rem;
+    margin: auto;
+}
+.pin-page-img{
+margin-bottom: 10px;
+}
+.pin-page-title{
+margin-bottom: 10px!important;
 }
 
 @media screen and (max-width: 1024px) {
