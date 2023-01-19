@@ -132,7 +132,10 @@ class FavoriteController extends AbstractController
             50
         );
         
-        if($locations){
+        $favorite = $this->favoriteRepository->find($list_id[0]);
+        
+
+        if($favorite->isShare()){
             return $this->render('favorite/locations.html.twig', [
                 'locations' => $locationData,
                 'hashkey' => $_ENV["HASH_KEY"],
@@ -143,7 +146,7 @@ class FavoriteController extends AbstractController
             return $this->render('favorite/locations.html.twig', [
                 'locations' => $locationData,
                 'hashkey' => $_ENV["HASH_KEY"],
-                'private' => 'yes'
+                'private' => 'yes',
             ]);
         }
     }
