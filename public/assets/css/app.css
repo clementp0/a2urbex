@@ -437,6 +437,10 @@ p.pin-type {
     margin: auto;
     text-align: center;
 }
+p.pin-type .pin-type-text {
+    text-transform: capitalize;
+}
+
 .pin-page-img{
 margin-bottom: 10px;
 }
