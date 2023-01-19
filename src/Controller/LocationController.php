@@ -75,10 +75,10 @@ class LocationController extends AbstractController
     #[Route('location/{key}', name: 'app_location_show', methods: ['GET'])]
     public function show(Request $request, LocationRepository $locationRepository): Response
     {
-        $hash_key = $_ENV["HASH_KEY"];
-        $location_key = $this->hashidsService->decode($request->get('key'));
-        $location_id = str_replace($hash_key,'',$location_key);
-        $location = $locationRepository->findById(is_array($location_id) ? $location_id[0] : $location_id);
+        $hashKey = $_ENV["HASH_KEY"];
+        $locationKey = $this->hashidsService->decode($request->get('key'));
+        $locationId = str_replace($hashKey,'',$locationKey);
+        $location = $locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
         return $this->render('location/show.html.twig', [
             'item' => $location,
         ]);
