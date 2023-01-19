@@ -20,9 +20,8 @@ class LocationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('pid' , 'Pin ID'),
-            // TextEditorField::new('description'),
-            // TextField::new('url'),
+            //IdField::new('pid' , 'Pin ID'),
+            TextField::new('name'),
             TextField::new('image'),
             TextField::new('lon', 'Longitude'),
             TextField::new('lat', 'Latitude'),
