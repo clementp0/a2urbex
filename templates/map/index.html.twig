@@ -15,7 +15,10 @@
         {% if app.user %}
         <p class="map-overlay-title"></p>
         {% endif %}
-        <p class="map-overlay-type pin-type"></p>
+        <p class="map-overlay-type pin-type">
+            <span class="pin-type-icon"></span>
+            <span class="pin-type-text"></span>
+        </p>
         <div class="map-overlay-action">
             <a class="pin-map" target="blank" data-url="https://www.google.com/maps?q="><i class="fa-solid fa-earth-europe"></i></a>
             {% if app.user %}

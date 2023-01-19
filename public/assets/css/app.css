@@ -435,6 +435,7 @@ p.pin-type {
     width: fit-content;
     font-size: 0.835rem;
     margin: auto;
+    text-align: center;
 }
 .pin-page-img{
 margin-bottom: 10px;
