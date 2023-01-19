@@ -29,9 +29,9 @@ class FavoriteController extends AbstractController
     
     #[Route('/favorite', name: 'app_favorite')] 
     public function index(UserRepository $userRepository): Response {
-        $hash_key = $_ENV["HASH_KEY"];
+        $hashKey = $_ENV["HASH_KEY"];
         return $this->render('favorite/index.html.twig', [
-            'hashkey' => $hash_key,
+            'hashkey' => $hashKey,
             'favorites' => $this->favoriteRepository->findByDefault(),
             'users' => $userRepository->findAllButCurrent()
         ]);
@@ -121,25 +121,25 @@ class FavoriteController extends AbstractController
     #[Route('/list/{key}',name: 'app_favorite_locations')] 
     public function item(Request $request, PaginatorInterface $paginator): Response {
 
-        $hash_key = $_ENV["HASH_KEY"];
-        $list_key = $this->hashidsService->decode($request->get('key'));
-        $list_id = str_replace($hash_key,'',$list_key);
+        $hashKey = $_ENV["HASH_KEY"];
+        $listKey = $this->hashidsService->decode($request->get('key'));
+        $listId = str_replace($hashKey,'',$listKey);
 
-        $locations = $this->locationRepository->findByIdFav($list_id[0]);
+        $locations = $this->locationRepository->findByIdFav($listId[0]);
         $locationData = $paginator->paginate(
             $locations,
             $request->query->getInt('page', 1),
             50
         );
         
-        $favorite = $this->favoriteRepository->find($list_id[0]);
+        $favorite = $this->favoriteRepository->find($listId[0]);
         
 
         if($favorite->isShare()){
             return $this->render('favorite/locations.html.twig', [
                 'locations' => $locationData,
                 'hashkey' => $_ENV["HASH_KEY"],
-                'id' => $list_id[0]
+                'id' => $listId[0]
             ]);
         }
         else{

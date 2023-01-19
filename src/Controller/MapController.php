@@ -34,10 +34,10 @@ class MapController extends AbstractController
 
     #[Route('/map/list/{key}', name: 'app_map_favorite')]
     public function fav(Request $request): Response {
-        $hash_key = $_ENV["HASH_KEY"];
-        $map_key = $this->hashidsService->decode($request->get('key'));
-        $map_id = str_replace($hash_key,'',$map_key);
-        $locations = $this->locationRepository->findByIdFav($map_id[0]);
+        $hashKey = $_ENV["HASH_KEY"];
+        $mapKey = $this->hashidsService->decode($request->get('key'));
+        $mapId = str_replace($hashKey,'',$mapKey);
+        $locations = $this->locationRepository->findByIdFav($mapId[0]);
         return $this->default($locations);
     }
 
