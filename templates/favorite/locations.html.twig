@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
 {% if id|default(null) %}
 {% set key = "#{id}#{hashkey}" %}
-{% else %}
-
 {% endif %}
 
 {% block content %}
