@@ -38,6 +38,7 @@ function setMarkers(map) {
             icon: image,
             shape: shape,
             title: items[key].loc.name,
+            type: items[key].loc.type,
         })
 
         marker.addListener('click', () => {

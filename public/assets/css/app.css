@@ -420,6 +420,16 @@ input[type=checkbox]::before {
     width: 16px;
 }
 
+p.pin-type {
+    background-color: #303030;
+    color: #60a5fa;
+    border-radius: 5px;
+    text-align: center;
+    padding: 0px 5px 0px 5px;
+    width: fit-content;
+    font-size: 0.835rem;
+}
+
 @media screen and (max-width: 1024px) {
     .pin-open-search {
         display: block;

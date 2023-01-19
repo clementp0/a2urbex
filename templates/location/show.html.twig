@@ -9,7 +9,11 @@
             {% include 'location/_pin_fav.html.twig' %}
         </div>
         <div>
-            <p class="pin-page-title">{{ item.loc.name }}</p>
+                {% if app.user %}
+                <p class="pin-page-title">{{ item.loc.name }}</p>
+                {% else %}
+                <p class="pin-type" style="text-align:center;">{{ item.loc.type.name }}</p>
+                {% endif %}
             <p class="pin-action">
                 <a class="pin-map" target="blank" href="https://www.google.com/maps?q={{ item.loc.lon }},{{ item.loc.lat }}"><i class="fa-solid fa-earth-europe"></i></a>
                 {% if app.user %}
