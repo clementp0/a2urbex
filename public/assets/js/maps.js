@@ -51,7 +51,8 @@ function setMarkers(map) {
             $('#map-overlay .map-overlay-img').css('backgroundImage', 'url('+imgUrl+')')
 
             if(items[key].loc.name) $('#map-overlay .map-overlay-title').text(items[key].loc.name)
-            $('#map-overlay .map-overlay-type').text(items[key].loc.type !== null ? items[key].loc.type.name : 'other')
+            $('#map-overlay .map-overlay-type .pin-type-text').text(items[key].loc.type !== null ? items[key].loc.type.name : 'other')
+            $('#map-overlay .map-overlay-type .pin-type-icon').html(items[key].loc.type !== null ? '<i class="fa-solid ' + items[key].loc.type.icon + '"></i>' : '<i class="fa-solid fa-map-pin"></i>')
 
             $('.pin-fav-wrapper').attr('data-id', items[key].loc.id)
             $('.pin-fav-wrapper').attr('data-fids', items[key].fids)

@@ -25,6 +25,9 @@ class Type implements Stringable
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: Location::class)]
     private Collection $locations;
 
+    #[ORM\Column(length: 255)]
+    private ?string $icon = null;
+
     public function __construct()
     {
         $this->typeOptions = new ArrayCollection();
@@ -109,6 +112,18 @@ class Type implements Stringable
                 $location->setType(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(string $icon): self
+    {
+        $this->icon = $icon;
 
         return $this;
     }
