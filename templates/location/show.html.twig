@@ -10,7 +10,7 @@
         </div>
         <div>
                 {% if app.user %}
-                <p class="pin-page-title">{{ item.loc.name }}</p>
+                <p class="pin-page-title">{{ item.loc.name }}</p><p class="pin-type" style="text-align:center;">{{ item.loc.type.name }}</p>
                 {% else %}
                 <p class="pin-type" style="text-align:center;">{{ item.loc.type.name }}</p>
                 {% endif %}
