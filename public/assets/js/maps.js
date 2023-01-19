@@ -41,9 +41,8 @@ function setMarkers(map) {
         })
 
         marker.addListener('click', () => {
-            console.log(items[key]);
-            map.setZoom(8)
-            map.setCenter(marker.getPosition())
+            //map.setZoom(8)
+            //map.setCenter(marker.getPosition())
 
             $('#map-overlay').addClass('show')
             let imgUrl = $('#map-overlay .map-overlay-img').data('url') + items[key].loc.image
