@@ -8,13 +8,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Location;
 use App\Repository\LocationRepository;
-use App\Repository\TypeRepository;
-use App\Repository\CountryRepository;
+use App\Service\LocationService;
 
 class FetchController extends AbstractController
 {
-    public function __construct(LocationRepository $locationRepository, TypeRepository $typeRepository, CountryRepository $countryRepository) {
+    public function __construct(LocationRepository $locationRepository, LocationService $locationService) {
         $this->locationRepository = $locationRepository;
+        $this->locationService = $locationService;
 
         $this->boardId = $_ENV['BOARD_ID'];
         $this->url = $_ENV['FETCH_BASE_URL'];
@@ -29,15 +29,6 @@ class FetchController extends AbstractController
         $this->newPins = '';
         $this->finished = '';
         $this->error = 'Without Error(s)';
-
-        $this->countries = $countryRepository->findAll();
-        $this->typeOptions = [];
-        foreach($typeRepository->findAll() as $type) {
-            $typeOptions = $type->getTypeOptions();
-            foreach($typeOptions as $item) {
-                $this->typeOptions[] = $item;
-            }
-        }
     }
     
     #[Route('/fetch', name: 'app_fetch')]
@@ -52,8 +43,8 @@ class FetchController extends AbstractController
     public function update(): Response {
         $locations = $this->locationRepository->findAll();
         foreach($locations as $location) {
-            $this->addCountry($location);
-            $this->addType($location);
+            $this->locationService->addCountry($location);
+            $this->locationService->addType($location);
             $this->locationRepository->add($location);
         }
 
@@ -153,8 +144,8 @@ class FetchController extends AbstractController
                 ->setDescription(substr($item['description'], 0, 250))
             ;
 
-            $this->addType($location);
-            $this->addCountry($location);
+            $this->locationService->addType($location);
+            $this->locationService->addCountry($location);
 
             
             $this->locationRepository->add($location);
@@ -172,26 +163,6 @@ class FetchController extends AbstractController
             return $pos*($matches[1]+$matches[2]/60+$matches[3]/3600);
         }
         return $str;
-    }
-
-    private function addType($location) {
-        $name = $location->getName();
-        foreach($this->typeOptions as $typeOption) {
-            if(strpos(strtolower($name), $typeOption->getName())) {
-                $location->setType($typeOption->getType());
-                break;
-            }
-        }
-    }
-
-    private function addCountry($location) {
-        $name = $location->getName();
-        foreach($this->countries as $country) {
-            if(strpos(strtolower($name), $country->getName())) {
-                $location->setCountry($country);
-                break;
-            }
-        }
     }
 
     private function error($error) {
