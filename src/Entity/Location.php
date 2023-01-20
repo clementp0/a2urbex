@@ -45,6 +45,12 @@ class Location
     #[ORM\ManyToMany(targetEntity: Favorite::class, mappedBy: 'locations')]
     private Collection $favorites;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $comments = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $done = null;
+
     public function __construct()
     {
         $this->favorites = new ArrayCollection();
@@ -187,6 +193,30 @@ class Location
         if ($this->favorites->removeElement($favorite)) {
             $favorite->removeLocation($this);
         }
+
+        return $this;
+    }
+
+    public function getComments(): ?string
+    {
+        return $this->comments;
+    }
+
+    public function setComments(?string $comments): self
+    {
+        $this->comments = $comments;
+
+        return $this;
+    }
+
+    public function isDone(): ?bool
+    {
+        return $this->done;
+    }
+
+    public function setDone(?bool $done): self
+    {
+        $this->done = $done;
 
         return $this;
     }

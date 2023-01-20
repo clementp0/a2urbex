@@ -257,6 +257,29 @@ input[type=checkbox]::before {
     font-size: 14px;
 }
 
+.pin-warning {
+    margin: 0;
+    margin-top: 10px;
+    text-align: center;
+    background-color: #303030;
+    border-radius: 4px;
+    color: #883131;
+    padding: 0px 10px 0px 10px;
+}
+
+.pin-done {
+    margin: 0;
+    margin-top: 10px;
+    text-align: center;
+    background-color: #303030;
+    border-radius: 4px;
+    padding: 0px 10px 0px 10px;
+}
+
+.pin-info-icon {
+    margin-right: 10px;
+}
+
 .private-list{
     text-align: center;
     margin: 10px;

@@ -23,6 +23,16 @@
                 <span class="pin-type-text">other</span>
             </p>
             {% endif %}
+            {% if item.loc.comments|default(null) %}
+            <div class="pin-warning">
+            <p><i class="fa-solid fa-triangle-exclamation"></i> : {{ item.loc.comments}}</p>
+            </div>
+            {% endif %}
+            {% if item.loc.done|default(null) %}
+            <div class="pin-done">
+            <p><i class="fas fa-check-square"></i> : This location has been done </p>
+            </div>
+            {% endif %}
             <p class="pin-action">
                 <a class="pin-map" target="blank" href="https://www.google.com/maps?t=k&q={{ item.loc.lat }},{{ item.loc.lon }}"><i class="fa-solid fa-earth-europe"></i></a>
                 {% if app.user %}
