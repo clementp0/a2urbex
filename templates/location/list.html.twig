@@ -28,7 +28,13 @@
             <span class="pin-type-text">other</span>
         </p>
         {% endif %}
-        <p class="pin-id">key : {{ key | hashids_encode }}</p>
+        {% if item.loc.comments %}
+        <p class="pin-info-icon"><i class="fa-solid fa-triangle-exclamation"></i> </p>
+        {% endif %}
+        {% if item.loc.done %}
+        <p class="pin-info-icon"><i class="fas fa-check-square"></i></p>
+        {% endif %}
+        {# <p class="pin-id">key : {{ key | hashids_encode }}</p> #}
         {% if app.user %}
         <div class="pin-edit pin-action">
             <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
