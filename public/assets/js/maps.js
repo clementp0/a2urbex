@@ -47,9 +47,11 @@ function setMarkers(map) {
 
             $('.pin-fav-add').removeClass('show')
             $('#map-overlay').addClass('show')
-            
+            if (items[key].loc.image === null){
+            $('#map-overlay .map-overlay-img').css('backgroundImage', 'url("/assets/default.png")')
+            }else{
             $('#map-overlay .map-overlay-img').css('backgroundImage', 'url('+items[key].loc.image+')')
-
+            }
             if(items[key].loc.name) $('#map-overlay .map-overlay-title').text(items[key].loc.name)
             $('#map-overlay .map-overlay-type .pin-type-text').text(items[key].loc.type !== null ? items[key].loc.type.name : 'other')
             $('#map-overlay .map-overlay-type .pin-type-icon').html(items[key].loc.type !== null ? '<i class="fa-solid ' + items[key].loc.type.icon + '"></i>' : '<i class="fa-solid fa-map-pin"></i>')
