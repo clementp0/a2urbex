@@ -5,7 +5,11 @@
 {% block content %}
     <div class="pin-page">
         <div class="pin-page-img">
+            {% if item.loc.image|default(null) %}
             <img src="{{ item.loc.image }}">
+            {% else %}
+            <img src="/assets/default.png">
+            {% endif %}
             {% include 'location/_pin_fav.html.twig' %}
         </div>
         <div>
