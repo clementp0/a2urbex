@@ -55,9 +55,6 @@
     background-repeat: no-repeat;
 }
 
-.map-overlay-img{
-    background-image: url('/assets/default.png');
-}
 .map-overlay-title {
     margin-top: 10px;
     margin-bottom: 0;
