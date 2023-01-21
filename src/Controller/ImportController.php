@@ -64,6 +64,8 @@ class ImportController extends AppController
         $name = str_replace("\n", ' ', (string)$el->name);
         $name = str_replace('"', "'", $name);
 
+        if(empty($matches)) return false;
+
         $location = new Location();
         $location
             ->setName($name)
