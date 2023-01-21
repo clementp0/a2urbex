@@ -11,13 +11,14 @@ use App\Service\LocationService;
 
 class FetchController extends AppController
 {
-    public function __construct(LocationRepository $locationRepository, LocationService $locationService) {
+    public function __construct(LocationRepository $locationRepository, LocationService $locationService, string $publicDir) {
         $this->locationRepository = $locationRepository;
         $this->locationService = $locationService;
 
         $this->boardId = $_ENV['BOARD_ID'];
         $this->url = $_ENV['FETCH_BASE_URL'];
         $this->pinBaseUrl = $_ENV['PIN_BASE_URL'];
+        $this->publicDir = $publicDir;
         $this->imgPath = $_ENV['IMG_LOCATION_PATH'];
 
         $this->count = 0;
@@ -60,8 +61,8 @@ class FetchController extends AppController
     }
 
     private function verifyImgFolder() {
-        if(file_exists('.'.$this->imgPath)) return;
-        mkdir('.'.$this->imgPath, 0777, true);
+        if(file_exists($this->publicDir.$this->imgPath)) return;
+        mkdir($this->publicDir.$this->imgPath, 0777, true);
     }
 
 
@@ -129,7 +130,7 @@ class FetchController extends AppController
 
             $imgUrl = $item['images']['orig']['url'];
             $imgName = $item['id'].'.'.pathinfo($imgUrl)['extension'];
-            copy($imgUrl, '.'.$this->imgPath.$imgName);
+            copy($imgUrl, $this->publicDir.$this->imgPath.$imgName);
             
             preg_match('#(.*".{1}) (.*".{1}) (.*)#', $item['description'], $matches);
             if(isset($matches[1])) $location->setLat((float)$this->convertCoord($matches[1]));
