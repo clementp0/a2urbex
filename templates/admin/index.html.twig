@@ -40,14 +40,14 @@
 			<p class="text-muted">Import File : <br></p></div>
 		</div>
 			<a class="action-new btn btn-success" href="{{ path('upload')}}">Import File</a>
-			<a class="btn btn-secondary" href="https://docs.google.com/spreadsheets/d/1Veejs4eV6jSwfYGeRJ9xDydqoECl_I0ig0_ND_lN8VQ/edit?usp=sharing" target="_blank">Data Sheet</a>
+			<a class="btn btn-primary run-target" href="#" >Run</a>
 			<a class="btn btn-danger delete-target" href="#">Delete</a>
 		</div>
 		<div class="output-area">
 		<p class="text-muted">Sources ({{uploads_count}}) : </b></p>
 		<select class="output-uploads">
 		{% for item in uploads %}
-		<option>{{item.Name}}</option>
+		<option value="{{item.id}}">{{item.Name}}</option>
 		{% endfor %}
 		</select>
 		</div>
@@ -58,12 +58,23 @@ $(function(){
    $(document).attr("title", "@a2urbex");
 });
 
+{# Delete #}
 $(document).ready(function(){ 
   $('.delete-target').click(function(){ 
-	var delete_target = $('.output-uploads :selected').text();
-	var delete_link = "delete/" + delete_target;
-    alert("Delete " + delete_target + " source ?");
-	$( ".delete-target" ).attr("href", delete_link );
+	var target_name = $('.output-uploads :selected').text();
+	var target_to_delete = "delete/" + target_name;
+    alert("Delete " + target_name + " source ?");
+	$( ".delete-target" ).attr("href", target_to_delete );
+  });
+});
+{# Run #}
+$(document).ready(function(){ 
+  $('.run-target').click(function(){ 
+	var target_name = $('.output-uploads :selected').text();
+	var target_id = $('.output-uploads :selected').val();
+	var target_import_link  = "import/" + target_id;
+    alert("Run for " + target_name + " ?");
+	$( ".run-target" ).attr("href", target_import_link );
   });
 });
 
