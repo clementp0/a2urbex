@@ -91,14 +91,19 @@ class LocationController extends AbstractController
     public function delete(ManagerRegistry $doctrine, Request $request, LocationRepository $locationRepository): Response
     {
         $source = $request->get('source');
-        $remove_sources = $locationRepository->findBySource($source);
-        $entityManager = $doctrine->getManager();
-        foreach ($remove_sources as $remove_source) {
-            $entityManager->remove($remove_source['loc']);
+        if($source){
+            $remove_sources = $locationRepository->findBySource($source);
+            $entityManager = $doctrine->getManager();
+            foreach ($remove_sources as $remove_source) {
+                $entityManager->remove($remove_source['loc']);
+            }
+            $entityManager->flush();
         }
-        $entityManager->flush();
+        return $this->redirect('/admin');
+    }
+
+    #[Route('delete/', name: 'delete_location_source_empty', methods: ['GET'])]
+    public function deleteEmpty(){
         return $this->redirect('/admin');
     }
 }
-
-// EntityManager#remove() expects parameter 1 to be an entity object, array given.
