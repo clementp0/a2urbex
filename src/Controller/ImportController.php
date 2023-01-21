@@ -12,10 +12,9 @@ use App\Service\LocationService;
 
 class ImportController extends AppController
 {
-    public function __construct(LocationRepository $locationRepository, LocationService $locationService, string $publicDir) {
+    public function __construct(LocationRepository $locationRepository, LocationService $locationService) {
         $this->locationRepository = $locationRepository;
         $this->locationService = $locationService;
-        $this->publicDir = $publicDir;
         $this->imgPath = $_ENV['IMG_LOCATION_PATH'];
         $this->source = '';
     }
@@ -56,6 +55,8 @@ class ImportController extends AppController
     }
 
     private function parseEl($el) {
+        $publicDir = $this->getParameter('public_directory');
+        
         preg_match('#(-?[0-9]+\.[0-9]+),(-?[0-9]+\.[0-9]+)#', (string)$el->Point->coordinates, $matches);
         preg_match('#<img src="([^"]*)"#', (string)$el->description, $matches2);
 
@@ -76,7 +77,7 @@ class ImportController extends AppController
             $mimeType = finfo_buffer(finfo_open(), $file, FILEINFO_MIME_TYPE);
             $ext = explode('/', $mimeType)[1];
             $imgName = $this->locationService->generateImgUid().'.'.$ext;
-            file_put_contents($this->publicDir.$this->imgPath.$imgName, $file);
+            file_put_contents($publicDir.$this->imgPath.$imgName, $file);
 
             $location->setImage($this->imgPath.$imgName);
         }

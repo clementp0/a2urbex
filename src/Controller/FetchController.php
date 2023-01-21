@@ -11,14 +11,13 @@ use App\Service\LocationService;
 
 class FetchController extends AppController
 {
-    public function __construct(LocationRepository $locationRepository, LocationService $locationService, string $publicDir) {
+    public function __construct(LocationRepository $locationRepository, LocationService $locationService) {
         $this->locationRepository = $locationRepository;
         $this->locationService = $locationService;
 
         $this->boardId = $_ENV['BOARD_ID'];
         $this->url = $_ENV['FETCH_BASE_URL'];
         $this->pinBaseUrl = $_ENV['PIN_BASE_URL'];
-        $this->publicDir = $publicDir;
         $this->imgPath = $_ENV['IMG_LOCATION_PATH'];
 
         $this->count = 0;
@@ -61,8 +60,10 @@ class FetchController extends AppController
     }
 
     private function verifyImgFolder() {
-        if(file_exists($this->publicDir.$this->imgPath)) return;
-        mkdir($this->publicDir.$this->imgPath, 0777, true);
+        $publicDir = $this->getParameter('public_directory');
+
+        if(file_exists($publicDir.$this->imgPath)) return;
+        mkdir($publicDir.$this->imgPath, 0777, true);
     }
 
 
@@ -123,14 +124,16 @@ class FetchController extends AppController
     }
 
 
-    private function savePin($item) {        
+    private function savePin($item) {      
+        $publicDir = $this->getParameter('public_directory');
+
         $exist = $this->locationRepository->findByPid($item['id']) !== null;
         if(!$exist) {
             $location = new Location();
 
             $imgUrl = $item['images']['orig']['url'];
             $imgName = $this->locationService->generateImgUid().'.'.pathinfo($imgUrl)['extension'];
-            copy($imgUrl, $this->publicDir.$this->imgPath.$imgName);
+            copy($imgUrl, $publicDir.$this->imgPath.$imgName);
             
             preg_match('#(.*".{1}) (.*".{1}) (.*)#', $item['description'], $matches);
             if(isset($matches[1])) $location->setLat((float)$this->convertCoord($matches[1]));
