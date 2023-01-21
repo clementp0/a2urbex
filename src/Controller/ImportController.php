@@ -58,7 +58,7 @@ class ImportController extends AppController
     private function parseEl($el) {
         $publicDir = $this->getParameter('public_directory');
         
-        preg_match('#(-?[0-9]+\.[0-9]+),(-?[0-9]+\.[0-9]+)#', (string)$el->Point->coordinates, $matches);
+        preg_match('#(-?[0-9]+(\.[0-9]+)?),(-?[0-9]+(\.[0-9]+)?)#', (string)$el->Point->coordinates, $matches);
         preg_match('#<img src="([^"]*)"#', (string)$el->description, $matches2);
 
         $name = str_replace("\n", ' ', (string)$el->name);
@@ -69,18 +69,21 @@ class ImportController extends AppController
             ->setName($name)
             ->setDescription(strip_tags((string)$el->description))
             ->setLon($matches[1])
-            ->setLat($matches[2])
+            ->setLat($matches[3])
             ->setSource($this->source)
         ;
 
         if(isset($matches2[1])) {
-            $file = file_get_contents($matches2[1]);
-            $mimeType = finfo_buffer(finfo_open(), $file, FILEINFO_MIME_TYPE);
-            $ext = explode('/', $mimeType)[1];
-            $imgName = $this->locationService->generateImgUid().'.'.$ext;
-            file_put_contents($publicDir.$this->imgPath.$imgName, $file);
+            $file = @file_get_contents($matches2[1]);
 
-            $location->setImage($this->imgPath.$imgName);
+            if($file !== false) {
+                $mimeType = finfo_buffer(finfo_open(), $file, FILEINFO_MIME_TYPE);
+                $ext = explode('/', $mimeType)[1];
+                $imgName = $this->locationService->generateImgUid().'.'.$ext;
+                file_put_contents($publicDir.$this->imgPath.$imgName, $file);
+    
+                $location->setImage($this->imgPath.$imgName);
+            }
         }
 
         $this->locationService->addType($location);
