@@ -12,11 +12,6 @@ class HomeController extends AppController
      */
     public function index(): Response
     {
-
-        $first_name = "Florence";
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-            'first_name' => $first_name,
-        ]);
+        return $this->render('home/index.html.twig');
     }
 }
