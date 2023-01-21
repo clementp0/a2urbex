@@ -62,6 +62,7 @@ class ImportController extends AppController
         preg_match('#<img src="([^"]*)"#', (string)$el->description, $matches2);
 
         $name = str_replace("\n", ' ', (string)$el->name);
+        $name = str_replace("\t", '', (string)$name);
         $name = str_replace('"', "'", $name);
 
         if(empty($matches)) return false;
