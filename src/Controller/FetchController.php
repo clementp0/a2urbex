@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -10,7 +9,7 @@ use App\Entity\Location;
 use App\Repository\LocationRepository;
 use App\Service\LocationService;
 
-class FetchController extends AbstractController
+class FetchController extends AppController
 {
     public function __construct(LocationRepository $locationRepository, LocationService $locationService) {
         $this->locationRepository = $locationRepository;

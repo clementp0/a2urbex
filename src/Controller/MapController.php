@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\LocationRepository;
@@ -15,7 +14,7 @@ use Symfony\Component\Security\Core\Security;
 use App\Class\Search;
 use App\Form\SearchType;
 
-class MapController extends AbstractController
+class MapController extends AppController
 {
     public function __construct(LocationRepository $locationRepository, private HashidsServiceInterface $hashidsService, Security $security) {
         $this->locationRepository = $locationRepository;
