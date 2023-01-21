@@ -9,6 +9,7 @@ parameters:
         salt: 'BonjourQueFaisTuIciHug0'
         min_hash_length: 20
         alphabet: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+    uploads_directory: '%kernel.project_dir%/public/uploads/exports'
 
 
 services:
@@ -28,6 +29,5 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

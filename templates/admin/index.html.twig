@@ -32,7 +32,25 @@
 		<div>
 		</div>
 	</section>
-
+{# Import #}
+	<section class="fetch-part text-center">
+		<div class="container">
+		<div class="last">
+		<div>
+			<p class="text-muted">Import File : <br></p></div>
+		</div>
+			<a class="action-new btn btn-success" href="{{ path('upload')}}">Import File</a>
+			<a class="btn btn-secondary" href="https://docs.google.com/spreadsheets/d/1Veejs4eV6jSwfYGeRJ9xDydqoECl_I0ig0_ND_lN8VQ/edit?usp=sharing" target="_blank">Data Sheet</a>
+		</div>
+		<div class="output-area">
+		<p class="text-muted">Available files ({{uploads_count}}) : </b></p>
+		<select class="output-uploads">
+		{% for item in uploads %}
+		<option>{{item.Name}}</option>
+		{% endfor %}
+		</select>
+		</div>
+	</section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 $(function(){
@@ -130,7 +148,17 @@ $(function(){
 	margin-left:0px
 }
 }
-
+.output-uploads{
+    overflow: hidden;
+    background-color: var(--form-control-bg);
+    border: 1px solid var(--form-input-border-color);
+    border-radius: 5px;
+    font-size: 11px;
+    width: 100%;
+    height: fit-content;
+    padding: 8px;
+	text-transform: capitalize;
+}
 </style>
 
 {% endblock %}
