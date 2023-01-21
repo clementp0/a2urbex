@@ -51,6 +51,9 @@ class Location
     #[ORM\Column(nullable: true)]
     private ?bool $done = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Source = null;
+
     public function __construct()
     {
         $this->favorites = new ArrayCollection();
@@ -217,6 +220,18 @@ class Location
     public function setDone(?bool $done): self
     {
         $this->done = $done;
+
+        return $this;
+    }
+
+    public function getSource(): ?string
+    {
+        return $this->Source;
+    }
+
+    public function setSource(?string $Source): self
+    {
+        $this->Source = $Source;
 
         return $this;
     }

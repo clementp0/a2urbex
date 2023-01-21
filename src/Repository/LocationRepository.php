@@ -114,6 +114,15 @@ class LocationRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findBySource($source){
+        return $this->getBaseQuery()
+            ->andwhere('l.Source = :source')
+            ->setParameter('source', $source)
+            ->getQuery()
+            ->execute();
+        ;
+    }
+
     private function getBaseQuery() {
         $user = $this->security->getUser();
         
