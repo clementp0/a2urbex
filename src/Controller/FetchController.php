@@ -19,7 +19,7 @@ class FetchController extends AbstractController
         $this->boardId = $_ENV['BOARD_ID'];
         $this->url = $_ENV['FETCH_BASE_URL'];
         $this->pinBaseUrl = $_ENV['PIN_BASE_URL'];
-        $this->imgPath = './img/locations/';
+        $this->imgPath = $_ENV['IMG_LOCATION_PATH'];
 
         $this->count = 0;
         $this->maxLoopCount = false; // false = no max 
@@ -61,8 +61,8 @@ class FetchController extends AbstractController
     }
 
     private function verifyImgFolder() {
-        if(file_exists($this->imgPath)) return;
-        mkdir($this->imgPath, 0777, true);
+        if(file_exists('.'.$this->imgPath)) return;
+        mkdir('.'.$this->imgPath, 0777, true);
     }
 
 
@@ -130,7 +130,7 @@ class FetchController extends AbstractController
 
             $imgUrl = $item['images']['orig']['url'];
             $imgName = $item['id'].'.'.pathinfo($imgUrl)['extension'];
-            copy($imgUrl, $this->imgPath.$imgName);
+            copy($imgUrl, '.'.$this->imgPath.$imgName);
             
             preg_match('#(.*".{1}) (.*".{1}) (.*)#', $item['description'], $matches);
             if(isset($matches[1])) $location->setLat((float)$this->convertCoord($matches[1]));
