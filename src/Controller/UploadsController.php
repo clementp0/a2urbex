@@ -21,7 +21,7 @@ class UploadsController extends AbstractController
         $uploads = new Uploads();
         $form = $this->createForm(UploadsType::class, $uploads);
         $form->handleRequest($request);
-
+        $status = 'Waiting for data...';
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $Filename */
             $Filename = $form->get('uploads')->getData();
@@ -42,11 +42,16 @@ class UploadsController extends AbstractController
                 $uploads->setName($safeFilename);
                 $uploads->setDate(new \DateTime());
                 $this->uploadsRepository->save($uploads, true);
+                $status = 'Uploaded successfully';
             }
-            return $this->redirectToRoute('upload');
+            return $this->renderForm('uploads/index.html.twig', [
+                'form' => $form,
+                'status' => $status,
+            ]);
         }
         return $this->renderForm('uploads/index.html.twig', [
             'form' => $form,
+            'status' => $status,
         ]);
     }
 }
