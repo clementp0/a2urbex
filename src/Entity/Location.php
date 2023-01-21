@@ -39,7 +39,7 @@ class Location
     #[ORM\ManyToOne(inversedBy: 'locations')]
     private ?Type $type = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
 
     #[ORM\ManyToMany(targetEntity: Favorite::class, mappedBy: 'locations')]
@@ -52,7 +52,7 @@ class Location
     private ?bool $done = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Source = null;
+    private ?string $source = null;
 
     public function __construct()
     {
@@ -226,12 +226,12 @@ class Location
 
     public function getSource(): ?string
     {
-        return $this->Source;
+        return $this->source;
     }
 
-    public function setSource(?string $Source): self
+    public function setSource(?string $source): self
     {
-        $this->Source = $Source;
+        $this->source = $source;
 
         return $this;
     }

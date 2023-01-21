@@ -63,8 +63,9 @@ $(document).ready(function(){
   $('.delete-target').click(function(){ 
 	var target_name = $('.output-uploads :selected').text();
 	var target_to_delete = "delete/" + target_name;
-    alert("Delete " + target_name + " source ?");
-	$( ".delete-target" ).attr("href", target_to_delete );
+    if(confirm("Delete " + target_name + " source ?")) {
+		$( ".delete-target" ).attr("href", target_to_delete );
+	}
   });
 });
 {# Run #}
@@ -73,8 +74,9 @@ $(document).ready(function(){
 	var target_name = $('.output-uploads :selected').text();
 	var target_id = $('.output-uploads :selected').val();
 	var target_import_link  = "import/" + target_id;
-    alert("Run for " + target_name + " ?");
-	$( ".run-target" ).attr("href", target_import_link );
+    if(confirm("Run for " + target_name + " ?")) {
+		$( ".run-target" ).attr("href", target_import_link );
+	}
   });
 });
 

@@ -9,7 +9,7 @@ parameters:
         salt: 'BonjourQueFaisTuIciHug0'
         min_hash_length: 20
         alphabet: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-    uploads_directory: '%kernel.project_dir%/public/uploads/exports'
+    uploads_directory: '%kernel.project_dir%/public/uploads/exports/'
 
 
 services:
