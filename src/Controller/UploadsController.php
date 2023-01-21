@@ -5,14 +5,13 @@ namespace App\Controller;
 use App\Entity\Uploads;
 use App\Form\UploadsType;
 use App\Repository\UploadsRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class UploadsController extends AbstractController
+class UploadsController extends AppController
 {
 
     #[Route('/upload', name: 'upload', methods: ['GET', 'POST'])]
