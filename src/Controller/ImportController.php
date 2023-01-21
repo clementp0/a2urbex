@@ -2,35 +2,33 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Location;
 use App\Repository\LocationRepository;
+use App\Repository\UploadRepository;
 use App\Service\LocationService;
 
-class ImportController extends AbstractController
+class ImportController extends AppController
 {
-    public function __construct(LocationRepository $locationRepository, LocationService $locationService) {
+    public function __construct(LocationRepository $locationRepository, LocationService $locationService, string $publicDir) {
         $this->locationRepository = $locationRepository;
         $this->locationService = $locationService;
+        $this->publicDir = $publicDir;
+        $this->imgPath = $_ENV['IMG_LOCATION_PATH'];
+        $this->source = '';
     }
 
-    #[Route('/import', name: 'app_import')]
-    public function import(): Response {
-        $this->test();
-        die;
-        return false;
-    }
+    #[Route('/import/{id}', name: 'app_import')]
+    public function import($id, UploadRepository $uploadRepository): Response {
+        $upload = $uploadRepository->find($id);
+        $uploadsDir = $this->getParameter('uploads_directory');
+        $this->source = $upload->getName();
+        
+        $this->parseFile($uploadsDir.$upload->getFilename());
 
-    private function test() {
-        $path = '/Users/hugo/Desktop/urbexkml/';
-        $files = scandir($path);
-        unset($files[0], $files[1], $files[2]);
-        foreach($files as $f) {
-            $this->parseFile($path.$f);
-        }
+        return $this->redirect('/admin');
     }
 
     private function parseFile($f) {
@@ -45,7 +43,6 @@ class ImportController extends AbstractController
                 foreach($item as $el) {
                     if($el->name) {
                         $this->parseEl($el);
-                        break 2;
                     }
                 }
             }
@@ -53,23 +50,40 @@ class ImportController extends AbstractController
             foreach($xml->Document->Placemark as $el) {
                 if($el->name) {
                     $this->parseEl($el);
-                    break;
                 }
             }
         }
     }
 
     private function parseEl($el) {
-        $name = (string)$el->name;
-        $description = strip_tags((string)$el->description);
-        $point = (string)$el->Point->coordinates;
-        preg_match('#(-?[0-9]+\.[0-9]+),(-?[0-9]+\.[0-9]+)#', $point, $matches);
-        $lon = $matches[1];
-        $lat = $matches[2];
+        preg_match('#(-?[0-9]+\.[0-9]+),(-?[0-9]+\.[0-9]+)#', (string)$el->Point->coordinates, $matches);
         preg_match('#<img src="([^"]*)"#', (string)$el->description, $matches2);
-        $image = '';
-        if(isset($matches2[1])) $image = $matches2[1]; // generate uuid
 
-        dump($image);
+        $name = str_replace("\n", ' ', (string)$el->name);
+        $name = str_replace('"', "'", $name);
+
+        $location = new Location();
+        $location
+            ->setName($name)
+            ->setDescription(strip_tags((string)$el->description))
+            ->setLon($matches[1])
+            ->setLat($matches[2])
+            ->setSource($this->source)
+        ;
+
+        if(isset($matches2[1])) {
+            $file = file_get_contents($matches2[1]);
+            $mimeType = finfo_buffer(finfo_open(), $file, FILEINFO_MIME_TYPE);
+            $ext = explode('/', $mimeType)[1];
+            $imgName = $this->locationService->generateImgUid().'.'.$ext;
+            file_put_contents($this->publicDir.$this->imgPath.$imgName, $file);
+
+            $location->setImage($this->imgPath.$imgName);
+        }
+
+        $this->locationService->addType($location);
+        $this->locationService->addCountry($location);
+
+        $this->locationRepository->add($location);
     }
 }

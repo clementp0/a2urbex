@@ -30,7 +30,7 @@ class LocationCrudController extends AbstractCrudController
             TextField::new('comments'),
             AssociationField::new('country'),
             AssociationField::new('type'),
-            TextField::new('Source', 'Source'),
+            TextField::new('source', 'source'),
         ];
     }
     

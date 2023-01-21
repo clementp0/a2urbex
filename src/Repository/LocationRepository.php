@@ -89,7 +89,7 @@ class LocationRepository extends ServiceEntityRepository
                 ->andWhere('l.name LIKE :string')
                 ->setParameter('string', "%$search->string%");
         }
-        
+
         return $query->getQuery()->getResult();
     }
 
@@ -116,7 +116,7 @@ class LocationRepository extends ServiceEntityRepository
 
     public function findBySource($source){
         return $this->getBaseQuery()
-            ->andwhere('l.Source = :source')
+            ->andWhere('l.source = :source')
             ->setParameter('source', $source)
             ->getQuery()
             ->execute();
