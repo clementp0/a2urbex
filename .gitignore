@@ -20,3 +20,4 @@ yarn-error.log
 yarn.lock
 public/assets/export.json
 public/img/
+public/uploads
