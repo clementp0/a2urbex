@@ -28,7 +28,7 @@ class LocationService {
         }
     }
 
-    private function addType($location) {
+    public function addType($location) {
         $name = $location->getName();
         foreach($this->typeOptions as $typeOption) {
             if(strpos(strtolower($name), $typeOption->getName()) !== false) {
@@ -38,5 +38,9 @@ class LocationService {
         }
     }
 
-
+    public function generateImgUid() {
+        $k = $_ENV['HASH_KEY'];
+        $kp = substr($k, rand(0, strlen($k) - 2), 2);
+        return $kp.uniqid();
+    }
 }

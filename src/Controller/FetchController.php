@@ -129,7 +129,7 @@ class FetchController extends AppController
             $location = new Location();
 
             $imgUrl = $item['images']['orig']['url'];
-            $imgName = $item['id'].'.'.pathinfo($imgUrl)['extension'];
+            $imgName = $this->locationService->generateImgUid().'.'.pathinfo($imgUrl)['extension'];
             copy($imgUrl, $this->publicDir.$this->imgPath.$imgName);
             
             preg_match('#(.*".{1}) (.*".{1}) (.*)#', $item['description'], $matches);
