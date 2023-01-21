@@ -90,12 +90,19 @@ class LocationController extends AppController
     #[Route('delete/{source}', name: 'delete_location_source', methods: ['GET'])]
     public function delete(ManagerRegistry $doctrine, Request $request, LocationRepository $locationRepository,  UploadRepository $uploadRepository): Response
     {
+        $publicDir = $this->getParameter('public_directory');
         $source = $request->get('source');
-        if($source){
-            $remove_sources = $locationRepository->findBySource($source);
+
+        if($source) {
+            $removeSources = $locationRepository->findBySource($source);
             $entityManager = $doctrine->getManager();
-            foreach ($remove_sources as $remove_source) {
-                $entityManager->remove($remove_source['loc']);
+            foreach ($removeSources as $removeSource) {
+                $entityManager->remove($removeSource['loc']);
+
+                $image = $removeSource['loc']->getImage();
+                if(strlen($image) > 4 && file_exists($publicDir.$image)) {
+                    unlink($publicDir.$image);
+                }
             }
 
             $entityManager->flush();
