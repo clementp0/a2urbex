@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\UploadsRepository;
+use App\Repository\UploadRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: UploadsRepository::class)]
-class Uploads
+#[ORM\Entity(repositoryClass: UploadRepository::class)]
+class Upload
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

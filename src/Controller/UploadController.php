@@ -2,28 +2,28 @@
 
 namespace App\Controller;
 
-use App\Entity\Uploads;
-use App\Form\UploadsType;
-use App\Repository\UploadsRepository;
+use App\Entity\Upload;
+use App\Form\UploadType;
+use App\Repository\UploadRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class UploadsController extends AppController
+class UploadController extends AppController
 {
 
     #[Route('/upload', name: 'upload', methods: ['GET', 'POST'])]
-    public function new(Request $request, SluggerInterface $slugger, UploadsRepository $uploadsRepository)
+    public function new(Request $request, SluggerInterface $slugger, UploadRepository $uploadRepository)
     {
-        $uploads = new Uploads();
-        $form = $this->createForm(UploadsType::class, $uploads);
+        $upload = new Upload();
+        $form = $this->createForm(UploadType::class, $upload);
         $form->handleRequest($request);
         $status = 'Waiting for data...';
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $Filename */
-            $Filename = $form->get('uploads')->getData();
+            $Filename = $form->get('upload')->getData();
             if ($Filename) {
                 $originalFilename = pathinfo($Filename->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
@@ -36,19 +36,19 @@ class UploadsController extends AppController
                     );
                 } catch (FileException $e) {
                 }
-                $this->uploadsRepository = $uploadsRepository;
-                $uploads->setFilename($newFilename);
-                $uploads->setName($safeFilename);
-                $uploads->setDate(new \DateTime());
-                $this->uploadsRepository->save($uploads, true);
+                $this->uploadRepository = $uploadRepository;
+                $upload->setFilename($newFilename);
+                $upload->setName($safeFilename);
+                $upload->setDate(new \DateTime());
+                $this->uploadRepository->save($upload, true);
                 $status = 'Uploaded successfully';
             }
-            return $this->renderForm('uploads/index.html.twig', [
+            return $this->renderForm('upload/index.html.twig', [
                 'form' => $form,
                 'status' => $status,
             ]);
         }
-        return $this->renderForm('uploads/index.html.twig', [
+        return $this->renderForm('upload/index.html.twig', [
             'form' => $form,
             'status' => $status,
         ]);

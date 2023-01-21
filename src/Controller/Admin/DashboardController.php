@@ -16,7 +16,7 @@ use App\Entity\Location;
 use App\Entity\Country;
 use App\Entity\Type;
 use App\Entity\TypeOption;
-use App\Entity\Uploads;
+use App\Entity\Upload;
 use App\Repository\LocationRepository;
 
 class DashboardController extends AbstractDashboardController
@@ -75,9 +75,9 @@ class DashboardController extends AbstractDashboardController
         $updated = $array_updated["last_updated"];
 
     //Upload list
-        $repoUploads = $em->getRepository(Uploads::class);
-        $uploads = $repoUploads->findAll();
-        $uploads_count = $repoUploads->createQueryBuilder('a')
+        $repoUpload = $em->getRepository(Upload::class);
+        $uploads = $repoUpload->findAll();
+        $uploads_count = $repoUpload->createQueryBuilder('a')
             ->select('count(a.id)')
             ->getQuery()
             ->getSingleScalarResult();
@@ -125,9 +125,9 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud('Type Options', 'fas fa-wrench', TypeOption::class)
         ]);
 
-        yield MenuItem::subMenu('Uploads', 'fa fa-upload')->setSubItems([
+        yield MenuItem::subMenu('Upload', 'fa fa-upload')->setSubItems([
                 MenuItem::linkToUrl('Import File', 'fa fa-upload', 'upload'),
-                MenuItem::linkToCrud('Uploads', 'fas fa-file', Uploads::class),
+                MenuItem::linkToCrud('Upload', 'fas fa-file', Upload::class),
         ]);
 
         yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems([
