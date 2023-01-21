@@ -138,6 +138,7 @@ class FetchController extends AbstractController
             if(isset($matches[3])) $location->setName(substr(str_replace('"', "''", $matches[3]), 0, 250));
 
             $location
+                ->setSource('Pinterest')
                 ->setPid((int)$item['id'])
                 ->setUrl($this->pinBaseUrl.$item['id'])
                 ->setImage($this->imgPath.$imgName)

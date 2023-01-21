@@ -15,6 +15,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr\Join;
 
 class LocationController extends AbstractController
 {
@@ -83,4 +86,19 @@ class LocationController extends AbstractController
             'item' => $location,
         ]);
     }
+
+    #[Route('delete/{source}', name: 'delete_location_source', methods: ['GET'])]
+    public function delete(ManagerRegistry $doctrine, Request $request, LocationRepository $locationRepository): Response
+    {
+        $source = $request->get('source');
+        $remove_sources = $locationRepository->findBySource($source);
+        $entityManager = $doctrine->getManager();
+        foreach ($remove_sources as $remove_source) {
+            $entityManager->remove($remove_source['loc']);
+        }
+        $entityManager->flush();
+        return $this->redirect('/admin');
+    }
 }
+
+// EntityManager#remove() expects parameter 1 to be an entity object, array given.

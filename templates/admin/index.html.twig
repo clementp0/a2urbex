@@ -43,7 +43,7 @@
 			<a class="btn btn-secondary" href="https://docs.google.com/spreadsheets/d/1Veejs4eV6jSwfYGeRJ9xDydqoECl_I0ig0_ND_lN8VQ/edit?usp=sharing" target="_blank">Data Sheet</a>
 		</div>
 		<div class="output-area">
-		<p class="text-muted">Available files ({{uploads_count}}) : </b></p>
+		<p class="text-muted">Source Name ({{uploads_count}}) : </b></p>
 		<select class="output-uploads">
 		{% for item in uploads %}
 		<option>{{item.Name}}</option>
@@ -51,11 +51,33 @@
 		</select>
 		</div>
 	</section>
+
+{# Delete #}
+	<section class="fetch-part text-center">
+		<div class="container">
+		<div class="last">
+		<div>
+			<p class="text-muted">Delete ALL items from selected source... <br></p></div>
+		</div>
+		<a class="btn btn-danger delete-target" href="#">Delete</a>
+		</div>
+		<div class="output-area">
+		<p class="text-muted">Delete Source : </b></p>
+		<input class="delete-target-source" placeholder="Ex: Pinterest"></input>
+		<a class="result"></p>
+		</div>
+	</section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 $(function(){
    $(document).attr("title", "@a2urbex");
 });
+$( ".delete-target-source" )
+  .keyup(function() {
+    var value = 'delete/' + $( this ).val();
+    $( ".delete-target" ).attr("href", value );
+  })
+  .keyup();
 
 </script>
 {# Stylesheets #}
@@ -122,6 +144,13 @@ $(function(){
     border-radius: 5px;
     font-size: 11px;
     height: fit-content;
+}
+
+input.delete-target-source {
+    width: 100%;
+    color: white;
+     font-size: 11px;
+    padding: 8px;
 }
 @media screen and (max-width: 550px) {
   .fetch-part > .container {

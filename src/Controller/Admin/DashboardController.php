@@ -65,7 +65,6 @@ class DashboardController extends AbstractDashboardController
         $strJsonFileContentsu = file_get_contents($update_date);
         $array_updated = json_decode($strJsonFileContentsu, true);
         $last_updated = $array_updated["last_updated"];
-    
     //Output
         $board = $array["board"];
         $finished = $array["finished"];
