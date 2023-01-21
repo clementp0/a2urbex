@@ -521,3 +521,53 @@ margin-bottom: 10px!important;
         transform: translateX(100%);
     }
 }
+
+.upload-form-item .custom-file {
+    margin-top: 30px;
+    max-width: 80%;
+}
+.import-form {
+    text-align: center;
+    font-weight: 500;
+    width: 300px;
+    height: fit-content;
+    border: 1px solid #404040;
+    background-color: #303030;
+    padding: 50px 11px 50px 11px;
+    border-radius: 5px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.custom-file-label::after {
+    width: 100%;
+    background-color: #303030;
+    border: 1px solid #404040;
+    border-radius: 0px;
+    font-weight: 400;
+    line-height: 2;
+    color: #495057;
+    font-size: 12px!important;
+    height: 100%;
+}
+
+.custom-file-label{
+    border-radius: 0;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #303030;
+    border: 1px solid #404040;
+}
+
+.import-btn {
+    margin: auto!important;
+    width: 80%!important;
+    height: 40px!important;
+    border: none!important;
+    background-color: #222222!important;
+    color: #a2a2a2!important;
+    border-radius: 0px!important;
+}

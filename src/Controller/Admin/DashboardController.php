@@ -8,12 +8,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use App\Service\FileUploader;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Entity\Location;
 use App\Entity\Country;
 use App\Entity\Type;
 use App\Entity\TypeOption;
+use App\Entity\Uploads;
 use App\Repository\LocationRepository;
 
 class DashboardController extends AbstractDashboardController
@@ -71,8 +74,17 @@ class DashboardController extends AbstractDashboardController
         $newpins = $array["newpins"];
         $token = $array["token"];
         $updated = $array_updated["last_updated"];
-    //Return data 
 
+    //Upload list
+        $repoUploads = $em->getRepository(Uploads::class);
+        $uploads = $repoUploads->findAll();
+        $uploads_count = $repoUploads->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        
+
+    //Return data 
         return $this->render('admin/index.html.twig', [
             'pins' => $pins_count,
             'country' => $country_count,
@@ -86,10 +98,12 @@ class DashboardController extends AbstractDashboardController
             'newpins' => $newpins,
             'token' => $token,
             'last_updated' => $updated,
+            'uploads' => $uploads,
+            'uploads_count' => $uploads_count,
         ]);
     }
 
-
+    //Basic config
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
@@ -98,18 +112,23 @@ class DashboardController extends AbstractDashboardController
     }
 
 
-
+    //Side Menu Config
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linkToUrl('Home', 'fas fa-home', 'locations');
 
-        yield MenuItem::linkToUrl('Pins', 'fas fa-map-signs', 'locations');
+        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-columns');
 
         yield MenuItem::subMenu('Locations', 'fas fa-map')->setSubItems([
                 MenuItem::linkToCrud('Pins', 'fas fa-map-marker', Location::class),
                 MenuItem::linkToCrud('Country', 'fas fa-globe-europe', Country::class),
                 MenuItem::linkToCrud('Type', 'fas fa-clinic-medical', Type::class),
                 MenuItem::linkToCrud('Type Options', 'fas fa-wrench', TypeOption::class)
+        ]);
+
+        yield MenuItem::subMenu('Uploads', 'fa fa-upload')->setSubItems([
+                MenuItem::linkToUrl('Import File', 'fa fa-upload', 'upload'),
+                MenuItem::linkToCrud('Uploads', 'fas fa-file', Uploads::class),
         ]);
 
         yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems([
