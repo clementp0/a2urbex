@@ -25,6 +25,7 @@ class ImportController extends AppController
         $upload = $uploadRepository->find($id);
         $uploadsDir = $this->getParameter('uploads_directory');
         $this->source = $upload->getName();
+        $upload->setDone(1);
         
         $this->parseFile($uploadsDir.$upload->getFilename());
 

@@ -8,6 +8,7 @@ use App\Form\LocationType;
 use App\Form\SearchType;
 use App\Repository\LocationRepository;
 use App\Repository\FavoriteRepository;
+use App\Repository\UploadRepository;
 use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
 use Danilovl\HashidsBundle\Service\HashidsService;
 use Knp\Component\Pager\PaginatorInterface;
@@ -87,7 +88,7 @@ class LocationController extends AppController
     }
 
     #[Route('delete/{source}', name: 'delete_location_source', methods: ['GET'])]
-    public function delete(ManagerRegistry $doctrine, Request $request, LocationRepository $locationRepository): Response
+    public function delete(ManagerRegistry $doctrine, Request $request, LocationRepository $locationRepository,  UploadRepository $uploadRepository): Response
     {
         $source = $request->get('source');
         if($source){
@@ -96,6 +97,7 @@ class LocationController extends AppController
             foreach ($remove_sources as $remove_source) {
                 $entityManager->remove($remove_source['loc']);
             }
+
             $entityManager->flush();
         }
         return $this->redirect('/admin');

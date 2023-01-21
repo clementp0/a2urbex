@@ -23,6 +23,9 @@ class Upload
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $Date = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $done = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +63,18 @@ class Upload
     public function setDate(?\DateTimeInterface $Date): self
     {
         $this->Date = $Date;
+
+        return $this;
+    }
+
+    public function isDone(): ?bool
+    {
+        return $this->done;
+    }
+
+    public function setDone(?bool $done): self
+    {
+        $this->done = $done;
 
         return $this;
     }
