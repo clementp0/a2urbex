@@ -35,6 +35,17 @@ a.disabled {
     font-weight: 500;
 }
 
+i.fa-brands.fa-waze {
+
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+.waze{
+    margin-right: 5px;
+}
+
+
 .logo{
     position: absolute;
     top: 50%;
