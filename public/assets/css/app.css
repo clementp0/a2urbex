@@ -227,7 +227,7 @@ input[type=checkbox]::before {
 }
 
 .pin-fav-list .form-check-label {
-    max-width: 190px;
+    max-width: 180px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -248,11 +248,35 @@ input[type=checkbox]::before {
     transition: all .5s;
     opacity: 0;
     visibility: hidden;
+    overflow-y: scroll;
+    max-height: 250px;
 }
 
 .pin-fav-add.show {
     opacity: 1;
     visibility: visible;
+}
+
+/* width */
+.pin-fav-add::-webkit-scrollbar, #map-overlay::-webkit-scrollbar {
+    width: 10px;
+}
+  
+/* Track */
+.pin-fav-add::-webkit-scrollbar-track, #map-overlay::-webkit-scrollbar-track {
+    background: #303030;
+}
+
+/* Handle */
+.pin-fav-add::-webkit-scrollbar-thumb, #map-overlay::-webkit-scrollbar-thumb {
+    background: #404040;
+    border: 3px solid #303030;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+.pin-fav-add::-webkit-scrollbar-thumb:hover, #map-overlay::-webkit-scrollbar-thumb:hover {
+    background: #999;
 }
 
 .pin-fav-add-top {
