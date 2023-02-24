@@ -88,4 +88,8 @@ $(() => {
         e.preventDefault()
         $('#map-overlay').removeClass('show')
     })
+
+    $('#map-wrapper').on('click', '.gm-fullscreen-control', function() {
+        $('#map-overlay').appendTo($('#map').find('div')[0])
+    })
 })
