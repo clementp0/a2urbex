@@ -54,15 +54,29 @@ class FavoriteRepository extends ServiceEntityRepository
     }
 
     public function findByDefault() {
-        $this->userId = $this->security->getUser()->getId();
+        return $this->getBaseQuery()
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByEnabled() {
+        return $this->getBaseQuery()
+            ->andWhere('(f.disabled IS NULL OR f.disabled = 0)')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    private function getBaseQuery() {
+        $userId = $this->security->getUser()->getId();
+
         return $this->createQueryBuilder('f')
             ->select('f fav', 'COUNT(l) AS count')
             ->leftJoin('f.locations', 'l')
             ->leftJoin('f.users', 'u')
             ->groupBy('f.id')
-            ->andWhere('u.id = '.$this->userId)
-            ->getQuery()
-            ->getResult()
+            ->andWhere('u.id = '.$userId)
         ;
     }
 }

@@ -30,6 +30,9 @@ class Favorite
     #[ORM\ManyToMany(targetEntity: Location::class, inversedBy: 'favorites')]
     private Collection $locations;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $disabled = null;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -121,6 +124,18 @@ public function addLocation(Location $location): self
 public function removeLocation(Location $location): self
 {
     $this->locations->removeElement($location);
+
+    return $this;
+}
+
+public function isDisabled(): ?bool
+{
+    return $this->disabled;
+}
+
+public function setDisabled(?bool $disabled): self
+{
+    $this->disabled = $disabled;
 
     return $this;
 }

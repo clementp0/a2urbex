@@ -42,9 +42,9 @@ class FavoriteController extends AppController
         $loc = $this->locationRepository->findById($lid);
 
         $serializer = $this->container->get('serializer');
-        $favorites = $this->favoriteRepository->findByDefault();
+        $favorites = $this->favoriteRepository->findByEnabled();
         $favorites = $serializer->serialize(['favs' => $favorites, 'fids' => $loc['fids']], 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['users', 'locations']]);
-        echo $favorites;exit();
+        return new Response($favorites);
     }
 
     // add security block deletion from other user ?
@@ -60,6 +60,16 @@ class FavoriteController extends AppController
                 $this->favoriteRepository->save($favorite, true);
             }
         }
+        return $this->redirectToRoute('app_favorite');
+    }
+
+    #[Route('/favorite/{id}/disable', name: 'app_favorite_disable')] 
+    public function disable($id): Response {
+        $favorite = $this->favoriteRepository->find($id);
+
+        $favorite->setDisabled(!$favorite->isDisabled());
+        $this->favoriteRepository->save($favorite, true);
+
         return $this->redirectToRoute('app_favorite');
     }
 
