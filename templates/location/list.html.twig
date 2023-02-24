@@ -2,7 +2,7 @@
     {% if locations|length %}
     {% for item in locations %}
     {% set key = "#{item.loc.id}#{hashkey}" %}
-    <div class="pin-container">
+    <div class="pin-container" {% if item.loc.disabled == 1 %}id="disabled"{% endif %}>
         <div class="pin-top-container">
             <a href="{{ path('app_location_show', {'key': key | hashids_encode }) }}">
              {% if item.loc.image|default(null) %}
