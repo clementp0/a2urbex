@@ -54,6 +54,9 @@ class Location
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $source = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $disabled = null;
+
     public function __construct()
     {
         $this->favorites = new ArrayCollection();
@@ -232,6 +235,18 @@ class Location
     public function setSource(?string $source): self
     {
         $this->source = $source;
+
+        return $this;
+    }
+
+    public function isDisabled(): ?bool
+    {
+        return $this->disabled;
+    }
+
+    public function setDisabled(?bool $disabled): self
+    {
+        $this->disabled = $disabled;
 
         return $this;
     }

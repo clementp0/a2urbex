@@ -7,6 +7,10 @@ body {
     margin: auto;
 }
 
+#disabled{
+    filter: blur(1.4px) saturate(0%);
+    opacity: .4;
+}
 body a {
     color: #8d8d8d;
 }
