@@ -45,22 +45,24 @@ function setMarkers(map) {
             //map.setZoom(8)
             //map.setCenter(marker.getPosition())
 
-            if(items[key].loc.disabled == 1){ $('.map-overlay-img').attr('id', 'disabled')
+            if(items[key].loc.disabled == 1){ 
+                $('.map-overlay-img').attr('id', 'disabled')
             }else{
-            $('.map-overlay-img').removeAttr('id')
+                $('.map-overlay-img').removeAttr('id')
             }
 
             $('.pin-fav-add').removeClass('show')
             $('#map-overlay').addClass('show')
             if (items[key].loc.image === null){
-            $('#map-overlay .map-overlay-img').css('backgroundImage', 'url("/assets/default.png")')
+                $('#map-overlay .map-overlay-img').css('backgroundImage', 'url("/assets/default.png")')
             }else{
-            $('#map-overlay .map-overlay-img').css('backgroundImage', 'url('+items[key].loc.image+')')
+                $('#map-overlay .map-overlay-img').css('backgroundImage', 'url('+items[key].loc.image+')')
             }
             if(items[key].loc.name) $('#map-overlay .map-overlay-title').text(items[key].loc.name)
             $('#map-overlay .map-overlay-type .pin-type-text').text(items[key].loc.type !== null ? items[key].loc.type.name : 'other')
             $('#map-overlay .map-overlay-type .pin-type-icon').html(items[key].loc.type !== null ? '<i class="fa-solid ' + items[key].loc.type.icon + '"></i>' : '<i class="fa-solid fa-map-pin"></i>')
 
+            $('.pin-fav-wrapper').attr('data-id', items[key].loc.id)
             $('.pin-fav-wrapper').attr('data-fids', items[key].fids)
 
             let mapsUrl = $('.map-overlay-action .pin-map').data('url') + items[key].loc.lat + ',' + items[key].loc.lon
