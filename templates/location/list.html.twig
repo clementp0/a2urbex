@@ -19,6 +19,7 @@
 
         <div class="pin-bottom-container">
         <div class="pin-user pin-action">
+            <a class="waze" target="blank" href="https://waze.com/ul?q={{ item.loc.lat }},{{ item.loc.lon }}&navigate=yes&zoom=17'"><i class="fa-brands fa-waze"></i></a>
             <a class="pin-map" target="blank" href="https://www.google.com/maps?t=k&q={{ item.loc.lat }},{{ item.loc.lon }}"><i class="fa-solid fa-earth-europe"></i></a>
         </div>
         {% if item.loc.type %}
