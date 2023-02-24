@@ -23,6 +23,7 @@
     background-color: #303030;
     transition: all .5s;
     transform: translateY(100%);
+    overflow-y: scroll;
 }
 #map-overlay a:hover {
     text-decoration: none;
