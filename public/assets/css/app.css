@@ -225,6 +225,15 @@ input[type=checkbox]::before {
 .pin-fav:hover {
     text-decoration: none;
 }
+
+.pin-fav-list .form-check-label {
+    max-width: 190px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+}
+
 .pin-fav-add {
     background-color: #303030;
     border: 1px solid #404040;
@@ -232,7 +241,7 @@ input[type=checkbox]::before {
     padding: 10px;
     padding-bottom: 13px;
     min-width: 180px;
-    max-width: 220px;
+    max-width: 230px;
     position: absolute;
     top: 0;
     right: 0;
@@ -240,6 +249,7 @@ input[type=checkbox]::before {
     opacity: 0;
     visibility: hidden;
 }
+
 .pin-fav-add.show {
     opacity: 1;
     visibility: visible;
@@ -266,10 +276,10 @@ input[type=checkbox]::before {
     position: relative;
     margin-top: 10px;
     display: flex;
-    justify-content: center;
 }
 .pin-fav-add-new {
     font-size: 14px;
+    padding-left: 2px;
 }
 
 .pin-warning {
@@ -303,8 +313,8 @@ input[type=checkbox]::before {
     display: flex;
     position: absolute;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    width: 100%;
     background-color: #303030;
     transition: opacity .5s, visibility .5s;
     opacity: 0;
@@ -323,6 +333,7 @@ p.favorite_page_title {
 
 
 .pin-fav-add-new-input {
+    flex-grow: 1;
     color: #6d6d6d;
     background-color: transparent;
     border: none;
