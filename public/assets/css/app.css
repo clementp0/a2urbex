@@ -454,6 +454,25 @@ p.favorite_page_title {
     transition: .5s;
 
 }
+
+.pin-search .form-check-label {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 190px;
+    vertical-align: bottom;
+}
+
+.pin-search fieldset.form-group > legend {
+    cursor: pointer;
+}
+
+.pin-search fieldset.form-group > div {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 1s;
+}
+
 .pin-search-reset:hover{
     color: #a2a2a2;
     transition: .5s;

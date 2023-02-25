@@ -1,7 +1,8 @@
 $(() => {
 
-    $( "legend:eq( 0 )" ).replaceWith( "<legend class='col-form-label required'><i class='fa-solid fa-earth-europe'></i>Country</legend>" );
-    $( "legend:eq( 1 )" ).replaceWith( "<legend class='col-form-label required'><i class='fa-solid fa-gear'></i></i>Type</legend>" );
+    $('legend:eq( 0 )').prepend('<i class="fa-solid fa-earth-europe"></i>')
+    $('legend:eq( 1 )').prepend('<i class="fa-solid fa-gear"></i>')
+    $('legend:eq( 2 )').prepend('<i class="fa-solid fa-sliders"></i>')
 
     $('.pin-open-search').on('click', () => {
         $('.pin-wrapper').toggleClass('menu-open')
@@ -132,12 +133,24 @@ $(() => {
     })
 
 
-
-
     $('#map-filter').on('click', function(e) {
         e.preventDefault()
         $('.pin-search form')
             .attr('action', $(this).attr('href'))
             .find('#submit').click()
+    })
+
+    $('.pin-search fieldset.form-group > legend').on('click', function() {
+        let div = $(this).siblings('div')
+
+        let open = $(this).attr('data-open') && $(this).attr('data-open') == 'true' ? false : true
+        $(this).attr('data-open', open)
+
+        if(open) {
+            let height = div.children().length * 21
+            div.css('maxHeight', height + 'px')
+        } else {
+            div.css('maxHeight', '0px')
+        }
     })
  })
