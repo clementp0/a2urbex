@@ -29,15 +29,16 @@ class LocationController extends AppController
     #[Route('/locations', name: 'app_location_index', methods: ['GET', 'POST'])]
     public function index(Request $request, LocationRepository $locationRepository, FavoriteRepository $favoriteRepository, PaginatorInterface $paginator): Response
     {
-        $locations = $locationRepository->findByAll();
-
+        
         $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
-
+        
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()){
             $locations = $locationRepository->findWithSearch($search);
+        } else {
+            $locations = $locationRepository->findByAll();
         }
 
         $totalResults = 0;
