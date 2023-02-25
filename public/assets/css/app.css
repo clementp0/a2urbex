@@ -459,7 +459,7 @@ p.favorite_page_title {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    max-width: 190px;
+    max-width: 170px;
     vertical-align: bottom;
 }
 
