@@ -90,6 +90,20 @@ class LocationRepository extends ServiceEntityRepository
                 ->setParameter('string', "%$search->string%");
         }
 
+        if (!empty($search->source)) {
+            $sources = [];
+            $other = false;
+            foreach($search->source as $item) {
+                if($item === '0') $other = true;
+                else $sources[] = $item;
+            }
+
+            $query = $query
+                ->andWhere('l.source IN (:sources)'.($other ? ' OR l.source IS NULL' : ''))
+                ->setParameter('sources', $sources)
+            ;
+        }
+
         return $query->getQuery()->getResult();
     }
 
@@ -147,6 +161,14 @@ class LocationRepository extends ServiceEntityRepository
             }
 
         return  $qb;
+    }
+
+    public function findAllSource() {
+        return $this->createQueryBuilder('l')
+            ->select('DISTINCT(l.source)')
+            ->getQuery()
+            ->execute()    
+        ;
     }
 }
 

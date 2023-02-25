@@ -24,4 +24,9 @@ use App\Entity\Type;
     */
 
     public $type = [];
+    
+   /*
+    * @var string 
+    */
+    public $source = [];
  }
