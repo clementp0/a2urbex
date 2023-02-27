@@ -4,7 +4,8 @@ function initMap() {
         center: { lat: 46.71109, lng: 1.7191036 },
     });
 
-    setMarkers(map);
+    setMarkers(map)
+    setUserPosition(map)
 }
 
 function setMarkers(map) {
@@ -74,10 +75,19 @@ function setMarkers(map) {
 
             if(items[key].fids) $('#map-overlay').find('.pin-fav i').addClass('fa-solid').removeClass('fa-regular')
             else $('#map-overlay').find('.pin-fav i').addClass('fa-regular').removeClass('fa-solid')
-
-            
         })
     }
+}
+
+function setUserPosition(map) {
+    navigator.geolocation.getCurrentPosition(position => {
+        const marker = new google.maps.Marker({
+            position: { lat: position.coords.latitude, lng: position.coords.longitude },
+            map
+        })
+    }, error => {
+        alert(error.message)
+    })
 }
 
 window.initMap = initMap;
