@@ -1,6 +1,11 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
-{% block title %}Hello FavoriteController!{% endblock %}
+{% block title %}a2urbex!{% endblock %}
 {% block content %}
+
+		<link rel="manifest" href="{{ ('manifest.json') }}">
+		<script src="{{ ('assets/js/notifications.js') }}"></script>
+		<script src="{{ ('assets/js/registersw.js') }}"></script>
+
 	<section class="heading-part text-center">
 		<div class="container">
 			<h1 class="jumbotron-heading">Hey {{app.user.firstname}}!</h1><br>
@@ -52,6 +57,42 @@
 		</select>
 		</div>
 	</section>
+
+{# Notification #}<section class="fetch-part text-center">
+<div class="container">
+	<div class="last">
+		<div>
+			<p class="text-muted">Send Test Notification :
+				<br></p>
+		</div>
+	</div>
+	<button class="action-new btn btn-success" onclick="displayNotification('a2urbex', 'Salut!')">Notification</button>
+</div>
+<div class="output-area">
+	<p class="text-muted">Send Notification(s) :</p>
+</b></p></div></section>
+
+
+  <label for="notification-title">Notification Title:</label>
+  <input type="text" id="notification-title"><br>
+  <label for="notification-message">Notification Message:</label>
+  <input type="text" id="notification-message"><br>
+  <button id="send-notification-button">Send Notification</button>
+<script>
+
+    var sendNotificationButton = document.querySelector('#send-notification-button');
+    sendNotificationButton.addEventListener('click', function() {
+      var titleInput = document.querySelector('#notification-title');
+      var messageInput = document.querySelector('#notification-message');
+      var notificationChannel = new BroadcastChannel('notification-channel');
+      var notificationData = {
+        title: titleInput.value,
+        message: messageInput.value
+      };
+      notificationChannel.postMessage({ type: 'notification', notificationData });
+    });
+
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 $(function(){
