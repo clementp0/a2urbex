@@ -1,4 +1,4 @@
-const CACHE_NAME = 'a2urbex-v1';
+const CACHE_NAME = 'a2urbex';
 const urlsToCache = [
   '/',
 ];
@@ -53,9 +53,33 @@ self.addEventListener('fetch', function(event) {
       var notificationData = event.data.notificationData;
       var options = {
         body: notificationData.message,
-        icon: '../a2urbex192x192eee.png'
+        icon: '../a2urbex192x192.png'
       };
       event.waitUntil(self.registration.showNotification(notificationData.title, options));
     }
   });
   
+  self.addEventListener('fetch', event => {
+    // Exclude requests with 'chrome-extension' scheme from being cached
+    if (event.request.url.startsWith('chrome-extension://')) {
+      return;
+    }
+  
+    event.respondWith(
+      caches.match(event.request).then(response => {
+        if (response) {
+          return response;
+        }
+  
+        return fetch(event.request).then(response => {
+          const responseClone = response.clone();
+  
+          caches.open('a2urbex').then(cache => {
+            cache.put(event.request, responseClone);
+          });
+  
+          return response;
+        });
+      })
+    );
+  });

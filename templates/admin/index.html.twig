@@ -57,8 +57,8 @@
 		</div>
 	</section>
 
-{# Notification #}
-<section style="display:none" class="fetch-part text-center">
+{# Notification 
+<section class="fetch-part text-center">
 <div class="container">
 	<div class="last">
 		<div>
@@ -70,7 +70,20 @@
 </div>
 <div class="output-area">
 	<p class="text-muted">Send Notification(s) :</p>
-</b></p></div></section>
+</b></p></div>
+</section>
+#}
+
+
+{# Clear cache #}
+<section class="fetch-part text-center">
+<div class="container cache">
+		<div>
+			<p class="text-muted">Cache : <br></p>
+		</div>
+<button class="btn btn-danger" id="clear-cache-button">Clear Cache</button>
+</div>
+</section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
@@ -99,6 +112,20 @@ $(document).ready(function(){
 	}
   });
 });
+</script>
+<script>
+
+const clearCacheButton = document.getElementById('clear-cache-button');
+clearCacheButton.addEventListener('click', async () => {
+  try {
+    await caches.delete('a2urbex');
+    console.log('Cache deleted successfully');
+    location.reload(true);
+  } catch (err) {
+    console.error('Error deleting cache:', err);
+  }
+});
+
 
 </script>
 {# Stylesheets #}
@@ -208,6 +235,12 @@ input.delete-target-source {
     height: fit-content;
     padding: 8px;
 	text-transform: capitalize;
+}
+
+.cache {
+    text-align: left;
+    margin: 0;
+    border-right: 0px!important;
 }
 </style>
 
