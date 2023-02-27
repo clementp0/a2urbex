@@ -364,6 +364,7 @@ p.favorite_page_title {
     border-bottom: 1px solid #ffffff24;
     font-size: 12px;
     border-radius: 0;
+    max-width: calc(100% - 16px);
 }
 .pin-fav-add-new-input:focus-visible {
     outline: 0;
