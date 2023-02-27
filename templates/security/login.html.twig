@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!
+{% endblock %}
+
+{% block content %}
+	<form class="login-form" method="post">
+		{% if error %}
+			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		{% endif %}
+
+		{% if app.user %}
+			<div class="mb-3">
+				You are logged in as
+				{{ app.user.username }},
+				<a href="{{ path('app_logout') }}">Logout</a>
+			</div>
+		{% endif %}
+		<h1>Login</h1>
+		<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="email" autocomplete="email" placeholder="Email" required autofocus>
+		<input type="password" name="password" id="inputPassword" autocomplete="password" class="password" placeholder="Password" required>
+
+		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+		<button class="" type="submit">
+			Login
+		</button>
+	</form>
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		.login-form {
+			text-align: center;
+			font-weight: 500;
+			width: 300px;
+			height: 380px;
+			border: 1px solid #404040;
+			background-color: #303030;
+			padding: 50px 11px 11px;
+			border-radius: 5px;
+			margin: 0;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+		h1 {
+			text-align: center;
+			margin-bottom: 50px;
+			color: #ffffffd4;
+		}
+		input {
+			color: #6d6d6d;
+			margin: auto auto 20px;
+			background-color: transparent;
+			border: none;
+			border-bottom: 1px solid #ffffff24;
+			width: 80%;
+			font-size: 12px;
+			height: 40px;
+			border-radius: 0;
+			padding: .375rem .75rem;
+		}
+		input:-webkit-autofill,
+		input:-webkit-autofill:hover, 
+		input:-webkit-autofill:focus {
+			-webkit-text-fill-color: #6d6d6d;
+			transition: background-color 50000s ease-in-out 0s;
+		}
+		input:focus {
+			box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+		}
+		input:focus-visible {
+			outline: 0;
+		}
+
+		button {
+			margin: auto;
+			width: 80%;
+			height: 40px;
+			border: none;
+			background-color: #222222;
+			color: #a2a2a2;
+		}
+		button:hover {
+			transition: 0.3s;
+			background-color: #1e1e1e;
+			t
+		}
+	</style>
+{% endblock %}

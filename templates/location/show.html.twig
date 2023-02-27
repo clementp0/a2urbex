@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Location{% endblock %}
+
+{% block content %}
+    <div class="pin-page">
+        <div class="pin-page-img">
+            {% if item.loc.image|default(null) %}
+            <img src="{{ item.loc.image }}">
+            {% else %}
+            <img src="/assets/default.png">
+            {% endif %}
+            {% include 'location/_pin_fav.html.twig' %}
+        </div>
+        <div>
+            {% if app.user %}
+            <p class="pin-page-title">{{ item.loc.name }}</p>
+            {% endif %}
+            {% if item.loc.type %}
+            <p class="pin-type">
+                <span class="pin-type-icon"><i class="fa-solid {{ item.loc.type.icon }}"></i></span>
+                <span class="pin-type-text">{{ item.loc.type }}</span>
+            </p>
+            {% else %}
+            <p class="pin-type">
+                <span class="pin-type-icon"><i class="fa-solid fa-map-pin"></i></span>
+                <span class="pin-type-text">other</span>
+            </p>
+            {% endif %}
+            {% if item.loc.comments|default(null) %}
+            <div class="pin-warning">
+            <p><i class="fa-solid fa-triangle-exclamation"></i> : {{ item.loc.comments}}</p>
+            </div>
+            {% endif %}
+            {% if item.loc.done|default(null) %}
+            <div class="pin-done">
+            <p><i class="fas fa-check-square"></i> : This location has been done </p>
+            </div>
+            {% endif %}
+            <p class="pin-action">
+                 <a class="" target="blank" href="https://waze.com/ul?q={{ item.loc.lat }},{{ item.loc.lon }}&navigate=yes&zoom=17'"><i class="fa-brands fa-waze"></i></a>
+                <a class="pin-map" target="blank" href="https://www.google.com/maps?t=k&q={{ item.loc.lat }},{{ item.loc.lon }}"><i class="fa-solid fa-earth-europe"></i></a>
+                {% if app.user %}
+                    <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Location index{% endblock %}
+
+{% block content %}
+
+<div class="pin-open-search toggle"><i class="fa fa-fw fa-bars"></i></div>
+
+<div class="pin-wrapper">
+    <div class="pin-search-wrapper">
+        <div class="pin-search">
+            {{form(form)}}
+            <a class="pin-search-reset" href="/locations"><i class="fa-sharp fa-solid fa-trash"></i></a>
+            <p class="pin-results">Displaying <b>{{total_result}}</b> Result(s)</p>
+        </div>
+    </div>
+    <div class="pin-wrapper-inner">
+        {% include 'location/list.html.twig' %}
+    </div>
+</div>
+<a href="{{ path('app_map_filter') }}" id="map-filter" class="map-link"><i class="fa-solid fa-map-location-dot"></i></a>
+{% endblock %}

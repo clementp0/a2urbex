@@ -1,0 +1,63 @@
+<div class="pin-box">
+    {% if locations|length %}
+    {% for item in locations %}
+    {% set key = "#{item.loc.id}#{hashkey}" %}
+    <div class="pin-container" {% if item.loc.disabled == 1 %}id="disabled"{% endif %}>
+        <div class="pin-top-container">
+            <a href="{{ path('app_location_show', {'key': key | hashids_encode }) }}">
+             {% if item.loc.image|default(null) %}
+            <div class="pin-img" style="background-image:url('{{ item.loc.image }}')"></div>
+            {% else %}
+            <div class="pin-img" style="background-image:url('/assets/default.png')"></div>
+            {% endif %}
+            {% if app.user %}
+                <p class="pin-title">{{ item.loc.name |u.truncate(50, '...') }}</p>
+                {% endif %}
+            </a>
+            {% include 'location/_pin_fav.html.twig' %}
+        </div>
+
+        <div class="pin-bottom-container">
+        <div class="pin-user pin-action">
+            <a class="waze" target="blank" href="https://waze.com/ul?q={{ item.loc.lat }},{{ item.loc.lon }}&navigate=yes&zoom=17'"><i class="fa-brands fa-waze"></i></a>
+            <a class="pin-map" target="blank" href="https://www.google.com/maps?t=k&q={{ item.loc.lat }},{{ item.loc.lon }}"><i class="fa-solid fa-earth-europe"></i></a>
+        </div>
+        {% if item.loc.type %}
+        <p class="pin-type">
+            <span class="pin-type-icon"><i class="fa-solid {{ item.loc.type.icon }}"></i></span>
+            <span class="pin-type-text">{{ item.loc.type }}</span>
+        </p>
+        {% else %}
+        <p class="pin-type">
+            <span class="pin-type-icon"><i class="fa-solid fa-map-pin"></i></span>
+            <span class="pin-type-text">other</span>
+        </p>
+        {% endif %}
+        {% if item.loc.comments %}
+        <p class="pin-info-icon"><i class="fa-solid fa-triangle-exclamation"></i> </p>
+        {% endif %}
+        {% if item.loc.done %}
+        <p class="pin-info-icon"><i class="fas fa-check-square"></i></p>
+        {% endif %}
+        {# <p class="pin-id">key : {{ key | hashids_encode }}</p> #}
+        {% if app.user %}
+        <div class="pin-edit pin-action">
+            <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
+        </div>
+        {% endif %}
+
+        </div>
+        </div>
+
+    {% endfor %}
+    {% else %}
+    {% if private|default(null) %}
+        This list is private
+        {% else %}
+        <p>No records found</p>
+        {% endif %}
+    {% endif %}
+</div>
+<div class="pin-pagination">
+    {{knp_pagination_render(locations)}}
+</div>

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Upload{% endblock %}
+
+{% block content %}
+
+<div class="import-form">
+<h1>Import</h1>
+<p>{{status}}<p>
+{{ form_start(form) }}
+    {{ form_row(form.upload) }}
+        <button class="import-btn">Submit</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

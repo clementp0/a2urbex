@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr">
+	<head>
+		<title>@a2urbex</title>
+		<link rel="icon" type="image/ico" href="{{ asset('favicon.ico') }}"/>
+		<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+		<link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
+		<link href="{{ asset('assets/css/favorite.css') }}" rel="stylesheet">
+		<link href="{{ asset('assets/css/maps.css') }}" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+		<meta
+		name="viewport" content="width=device-width, initial-scale=1">
+
+		{# PWA DATA #}
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="manifest" href="{{ ('manifest.json') }}">
+		<script src="{{ ('assets/js/notifications.js') }}"></script>
+		<script src="{{ ('assets/js/registersw.js') }}"></script>
+		
+	</head>
+	<header>
+		<nav class="navbar navbar-expend-md navbar-dark fixed-top">
+			<div class="navbar-collapse" id="navbarCollapse">
+				<div class="filter"></div>
+				<div class="logo">
+					<a href="/">
+						<i class="fas fa-globe-europe"></i>
+						a2urbex</a>
+				</div>
+				<div class="settings">
+					{% if app.user %}
+						<a href="{{ path('app_location_index') }}">
+							<i class="fa fa-fw fa-location-dot"></i>
+						</a>
+						|
+						<a href="{{ path('app_favorite') }}">
+							<i class="fa fa-fw fa-heart"></i>
+						</a>
+						|
+						<a href="{{ path('admin') }}">
+							<i class="fa-solid fa-gear"></i>
+						</a>
+						|
+						<a href="{{ path('app_logout') }}">
+							<i class="fa fa-fw fa-sign-out"></i>
+						</a>
+					{% else %}
+						<a href="{{ path('app_login') }}">Login
+						</a>
+					{% endif %}
+				</div>
+			</div>
+		</nav>
+	</header>
+	<body>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="{{ asset('assets/js/app.js') }}"></script>
+		<script src="{{ asset('assets/js/maps.js') }}"></script>
+
+		<footer>
+			<div class="love">Made with ❤️ by
+				<a target="blank" href="https://github.com/clementp0">Clement Po</a>
+				&
+				<a target="blank" href="https://github.com/LahaxeHugo">LahaxeHugo</a>
+			</div>
+		</footer>
+		<style>
+			.logo a {
+				color: #d4d4d4;
+			}
+			.logo {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				color: #d4d4d4;
+				font-weight: 500;
+				font-size: 0.875rem;
+			}
+
+			body {
+				min-height: 100vh;
+				position: relative;
+			}
+			iframe {
+				margin: auto;
+				text-align: center;
+				width: 100vw;
+				height: 50vh;
+			}
+
+			footer {
+				padding: 10px;
+				font-size: 0.895rem;
+				position: absolute;
+				bottom: 0;
+				display: flex;
+				text-align: center;
+				width: 100%;
+				justify-content: center;
+				box-shadow: inset 0 1px 0 #525252;
+				background-color: #222222;
+			}
+
+			footer a {
+				color: #60a5fa;
+			}
+		</style>
+		{% block content %}{% endblock %}
+	</body>
+</html></html>
