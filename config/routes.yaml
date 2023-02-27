@@ -1,3 +1,10 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+sw:
+  path: /sw.js
+  controller: Symfony\Bundle\FrameworkBundle\Controller\AbstractController::renderFile
+  defaults:
+      path: '%kernel.project_dir%/public/assets/js/sw.js'
+      mime_type: 'application/javascript'

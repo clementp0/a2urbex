@@ -1,4 +1,7 @@
 {
+    "bentools/webpush-bundle": {
+        "version": "0.9"
+    },
     "danilovl/hashids-bundle": {
         "version": "v1.1.6"
     },
