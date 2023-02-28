@@ -15,11 +15,16 @@ security:
             security: false
         main:
             lazy: true
-            lifetime: 604800
             provider: app_user_provider
             custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
+            remember_me:
+                secret: '%env(APP_SECRET)%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
+                domain: ~
+                secure: true # set to true if using HTTPS
 
     access_control:
           - { path: ^/compte, roles: ROLE_USER }
