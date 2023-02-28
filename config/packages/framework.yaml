@@ -21,4 +21,5 @@ when@test:
     framework:
         test: true
         session:
+            cookie_lifetime: 31536000 # 1 year in seconds
             storage_factory_id: session.storage.factory.mock_file
