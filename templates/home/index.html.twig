@@ -8,20 +8,29 @@
 <p class="pers"><a target="blank" href="https://www.instagram.com/clement.po/"> @clement.po</a> | <a target="blank" href="https://www.instagram.com/hugolahaxe/"> @hugolahaxe</a></p>
 </div>
 
-<div id="instafeed"></div>
+<script>
 
-<script type="text/javascript" src="https://unpkg.com/instafeed.js@2.0.0/dist/instafeed.js"></script>
-
-<script type="text/javascript">
-    var feed = new Instafeed({
-      accessToken: '9f7efca432af438c3463fa47509066fa'
-    });
-    feed.run();
+var userId = '42833105106';
+var accessToken = '9f7efca432af438c3463fa47509066fa';
+var url = 'https://api.instagram.com/v1/users/' + userId + '/media/recent/?access_token=' + accessToken;
+var xhr = new XMLHttpRequest();
+xhr.open('GET', url, true);
+xhr.onreadystatechange = function() {
+  if (xhr.readyState == 4) {
+    var data = JSON.parse(xhr.responseText);
+    for (var i = 0; i < data.data.length; i++) {
+      var img = document.createElement('img');
+      img.src = data.data[i].images.standard_resolution.url;
+      document.body.appendChild(img);
+    }
+  }
+};
+xhr.send();
 </script>
 
 
-<style>
 
+<style>
 .ytp-cued-thumbnail-overlay-image {
         background-size: unset!important;
 }
