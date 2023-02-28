@@ -34,6 +34,10 @@ a.disabled {
     font-size: .9rem;
     font-weight: 500;
 }
+.settings > p {
+    font-size: .9rem;
+    font-weight: 500;
+}
 
 i.fa-brands.fa-waze {
 
@@ -58,10 +62,19 @@ i.fa-brands.fa-waze {
 .navbar-collapse{
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 }
-.filter{
+
+p#clear-cache-button {
+    color: #A2A2A2;
+}
+p#clear-cache-button:hover {
+    color: #60A5FA;
+    cursor: pointer;
+}
+/* .filter{
     width:37px;
-}
+} */
 
 
 .pin-open-search{
