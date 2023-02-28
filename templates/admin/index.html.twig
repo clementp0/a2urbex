@@ -90,6 +90,13 @@ $(function(){
    $(document).attr("title", "@a2urbex");
 });
 
+var meta = $('<meta>').attr({
+  'name': 'apple-mobile-web-app-status-bar-style',
+  'content': 'default'
+});
+$('head').append(meta);
+
+
 {# Delete #}
 $(document).ready(function(){ 
   $('.delete-target').click(function(){ 
