@@ -1,6 +1,7 @@
 const CACHE_NAME = 'a2urbex';
 const urlsToCache = [
-  '/',
+  'assets/',
+  'img/'
 ];
 
 self.addEventListener('install', function(event) {
