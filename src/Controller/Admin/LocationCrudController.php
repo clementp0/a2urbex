@@ -27,6 +27,7 @@ class LocationCrudController extends AbstractCrudController
             TextField::new('image'),
             TextField::new('lat', 'Latitude'),
             TextField::new('lon', 'Longitude'),
+            BooleanField::new('ai', 'Ai Generated'),
             BooleanField::new('done'),
             TextField::new('comments'),
             AssociationField::new('country'),
