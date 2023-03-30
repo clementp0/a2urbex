@@ -13,10 +13,11 @@
 
 		{# PWA DATA #}
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
 		<link rel="manifest" href="{{ ('manifest.json') }}">
 		<script src="{{ ('assets/js/notifications.js') }}"></script>
 		<script src="{{ ('assets/js/registersw.js') }}"></script>
-		
+
 	</head>
 	<header>
 		<nav class="navbar navbar-expend-md navbar-dark fixed-top">
@@ -26,7 +27,8 @@
 					<a href="/">
 						<i class="fas fa-globe-europe"></i>
 						a2urbex</a>
-				</div>
+
+										</div>
 				<div class="settings">
 					{% if app.user %}
 						<a href="{{ path('app_location_index') }}">
@@ -35,6 +37,10 @@
 						|
 						<a href="{{ path('app_favorite') }}">
 							<i class="fa fa-fw fa-heart"></i>
+						</a>
+						|
+						<a href="" id="clear-cache-button">
+							<i class="fa-solid fa-rotate-right"></i>
 						</a>
 						|
 						<a href="{{ path('admin') }}">
@@ -106,6 +112,21 @@
 				color: #60a5fa;
 			}
 		</style>
+
+		<script>
+
+			const clearCacheButton = document.getElementById('clear-cache-button');
+clearCacheButton.addEventListener('click', async () => {
+try {
+await caches.delete('a2urbex');
+console.log('Cache deleted successfully');
+location.reload(true);
+} catch (err) {
+console.error('Error deleting cache:', err);
+}
+});
+		</script>
+
 		{% block content %}{% endblock %}
 	</body>
 </html></html>

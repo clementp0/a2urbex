@@ -12,6 +12,8 @@
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
+/public/a2urbex192x192.png
+/public/public/a2urbex512x512.png
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###

@@ -19,7 +19,11 @@
 		<h1>Login</h1>
 		<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="email" autocomplete="email" placeholder="Email" required autofocus>
 		<input type="password" name="password" id="inputPassword" autocomplete="password" class="password" placeholder="Password" required>
-
+		{# <div class="remember_container">
+		<input type="checkbox" id="remember_me">
+		<label for="remember_me">Remember me</label>
+		</div> #}
+		
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 		<button class="" type="submit">
