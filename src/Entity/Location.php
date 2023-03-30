@@ -57,6 +57,9 @@ class Location
     #[ORM\Column(nullable: true)]
     private ?bool $disabled = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $ai = null;
+
     public function __construct()
     {
         $this->favorites = new ArrayCollection();
@@ -247,6 +250,18 @@ class Location
     public function setDisabled(?bool $disabled): self
     {
         $this->disabled = $disabled;
+
+        return $this;
+    }
+
+    public function isAi(): ?bool
+    {
+        return $this->ai;
+    }
+
+    public function setAi(?bool $ai): self
+    {
+        $this->ai = $ai;
 
         return $this;
     }
