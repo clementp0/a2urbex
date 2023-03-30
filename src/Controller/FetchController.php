@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 use App\Entity\Location;
 use App\Repository\LocationRepository;
 use App\Service\LocationService;

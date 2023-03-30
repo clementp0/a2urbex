@@ -14,6 +14,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.11",
         "easycorp/easyadmin-bundle": "^4.0.7",
+        "guzzlehttp/guzzle": "^7.5",
         "knplabs/knp-paginator-bundle": "^5.9",
         "oro/doctrine-extensions": "^2.0",
         "phpdocumentor/reflection-docblock": "^5.3",
