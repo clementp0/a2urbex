@@ -46,12 +46,13 @@ class ImageGenerationController extends AbstractController
             $s_path = $_ENV['STABLE_PATH'];
             $s_port = $_ENV['STABLE_PORT'];
             $s_url = $_ENV['STABLE_URL'];
-            $s_date = date('Y-m-d');
+            // $s_date = date('Y-m-d');
+            $s_date = "2023-03-31";
 
             if ($location->getImage() == "") {
 
+                shell_exec('cd && cd ' . $s_path .'outputs/txt2img-images/' . $s_date . '/ && mkdir render_a2urbex');
                 $url = $s_url . ':' . $s_port . '/sdapi/v1/txt2img';
-                shell_exec('cd && cd ' . $s_path .'outputs/txt2img-images/' . $s_date . ' && mkdir render_a2urbex');
                 $locationName = $location->getName() . " urbex";
                 $imgName = $this->locationService->generateImgUid() . '.png';
                 $data = array(
@@ -106,6 +107,6 @@ class ImageGenerationController extends AbstractController
         }
 
         return $this->redirect('admin');
-        
+
     }
 }
