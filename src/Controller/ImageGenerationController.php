@@ -46,8 +46,7 @@ class ImageGenerationController extends AbstractController
             $s_path = $_ENV['STABLE_PATH'];
             $s_port = $_ENV['STABLE_PORT'];
             $s_url = $_ENV['STABLE_URL'];
-            // $s_date = date('Y-m-d');
-            $s_date = "2023-03-31";
+            $s_date = date('Y-m-d');
 
             if ($location->getImage() == "") {
 

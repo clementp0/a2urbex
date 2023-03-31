@@ -27,18 +27,24 @@ security:
                 secure: true # set to true if using HTTPS
 
     access_control:
-          - { path: ^/compte, roles: ROLE_USER }
-          - { path: ^/admin, roles: ROLE_USER }
-          - { path: ^/locations, roles: ROLE_USER }
-          - { path: ^/update, roles: ROLE_USER }
-          - { path: ^/favorite, roles: ROLE_USER }
-          - { path: ^/register, roles: ROLE_USER }
-          - { path: ^/map/filter, roles: ROLE_USER }
-          - { path: ^/upload, roles: ROLE_USER }
-          - { path: ^/delete, roles: ROLE_USER }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
-
+        # ADMIN Access
+            - { path: ^/admin, roles: ROLE_ADMIN}
+            - { path: ^/upload, roles: ROLE_ADMIN }
+            - { path: ^/delete, roles: ROLE_ADMIN }
+            - { path: ^/compte, roles: ROLE_ADMIN }
+            - { path: ^/generation, roles: ROLE_ADMIN }
+        # USER Access
+            - { path: ^/locations, roles: ROLE_USER }
+            - { path: ^/update, roles: ROLE_USER }
+            - { path: ^/favorite, roles: ROLE_USER }
+            # - { path: ^/register, roles: ROLE_USER }
+            - { path: ^/map/filter, roles: ROLE_USER }
+        # Wrong Access Handler
+    access_denied_url: /
+        # Default User Access
+    role_hierarchy:
+        ROLE_DEFAULT: [ROLE_PENDING]
+            
 when@test:
     security:
         password_hashers:

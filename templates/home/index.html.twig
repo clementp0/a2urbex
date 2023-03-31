@@ -6,9 +6,45 @@
 <iframe src="https://www.youtube.com/embed/HEW0atdGn4A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 <p class="adeux"><i class="fa-brands fa-instagram"></i> Follow us on instagram<a target="blank" href="https://www.instagram.com/a2urbex/"> @a2urbex</a> </p>
 <p class="pers"><a target="blank" href="https://www.instagram.com/clement.po/"> @clement.po</a> | <a target="blank" href="https://www.instagram.com/hugolahaxe/"> @hugolahaxe</a></p>
+<br>
+<div> We are currently referencing <b>{{pins}}</b> locations, in <b>{{country}}</b> Country and  <b>{{type}}</b> categories.<br><br>
+
+{% if app.user %}
+{% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles %}
+<a class="locationslist" href="/locations">Browse our locations</a>
+{% else %}
+<a class="locationslist waiting" href="#">Waiting for approval...</a>
+{% endif %}
+{% else %}
+<a class="locationslist" href="/locations">Login / Register</a>
+{% endif %}
+
+</div>
+
+
+
 </div>
 
 <style>
+.locationslist{
+    color: white!important;
+    background-color: #007bff;
+    padding: 7px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+.locationslist:hover{
+    color: white!important;
+    transition: all .3s;*
+    text-decoration: none;
+    text-decoration-line:none;
+    background-color:#0059b9;
+    cursor : pointer;
+}
+.waiting{
+    pointer-events:none;
+}
+
 .ytp-cued-thumbnail-overlay-image {
         background-size: unset!important;
 }

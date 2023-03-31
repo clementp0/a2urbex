@@ -99,8 +99,10 @@ class DashboardController extends AbstractDashboardController
         $headers = @get_headers($url);
         if ($headers && strpos($headers[0], '200') !== false) {
             $stable_status = "<p class='online'>Running on Port : " . $port . "</p>";
+            $stable_status_current = "on";
         } else {
             $stable_status = "<p class='offline'>Currently offline..</p>";
+            $stable_status_current = "off";
         }
 
         //Return data 
@@ -122,6 +124,7 @@ class DashboardController extends AbstractDashboardController
             'to_be_generated' => $to_be_generated,
             'port' => $port,
             'stable_status' => $stable_status,
+            'stable_status_current' => $stable_status_current,
             'ai' => $ai,
         ]);
     }

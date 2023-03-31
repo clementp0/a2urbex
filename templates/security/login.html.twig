@@ -29,14 +29,37 @@
 		<button class="" type="submit">
 			Login
 		</button>
+		<a class="register" href="/register">
+			Register
+		</a>
 	</form>
 
 	<style>
+
 		* {
 			margin: 0;
 			padding: 0;
 			box-sizing: border-box;
 		}
+
+		.register {
+    display: block;
+    width: 80%;
+    margin: auto;
+    margin-top: 13px;
+    line-height: 35px;
+    height: 40px;
+    border: none;
+    background-color: #282828;
+    color: #7a7a7a;
+		}
+
+				.register:hover {
+					
+			transition: 0.3s;
+			background-color: #1e1e1e;
+		}
+
 		.login-form {
 			text-align: center;
 			font-weight: 500;
@@ -93,7 +116,6 @@
 		button:hover {
 			transition: 0.3s;
 			background-color: #1e1e1e;
-			t
 		}
 	</style>
 {% endblock %}
