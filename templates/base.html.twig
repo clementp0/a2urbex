@@ -23,20 +23,21 @@
 		<nav class="navbar navbar-expend-md navbar-dark fixed-top">
 			<div class="navbar-collapse" id="navbarCollapse">
 				<div class="filter"></div>
-				{% if app.user %}
-
+				
 				<div class="logo">
-					<a href="/locations">
-						<i class="fas fa-globe-europe"></i>a2urbex</a>
-				</div
-				{% else %}
-				<div class="logo">
-					<a href="/">
+					<a 
+					{% if app.user %}
+					href="/locations"
+					{% else %}
+					href="/"
+				{% endif %}
+					
+					
+					
+					
+					>
 						<i class="fas fa-globe-europe"></i>a2urbex</a>
 				</div>
-					
-				{% endif %}
-				
 				<div class="settings">
 				{% if app.user %}
 					{% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles %}
