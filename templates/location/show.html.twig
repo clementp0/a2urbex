@@ -41,7 +41,9 @@
                  <a class="" target="blank" href="https://waze.com/ul?q={{ item.loc.lat }},{{ item.loc.lon }}&navigate=yes&zoom=17'"><i class="fa-brands fa-waze"></i></a>
                 <a class="pin-map" target="blank" href="https://www.google.com/maps?t=k&q={{ item.loc.lat }},{{ item.loc.lon }}"><i class="fa-solid fa-earth-europe"></i></a>
                 {% if app.user %}
+                {% if 'ROLE_ADMIN' in app.user.roles %}
                     <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                {% endif %}
                 {% endif %}
             </p>
         </div>

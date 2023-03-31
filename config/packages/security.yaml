@@ -34,11 +34,10 @@ security:
             - { path: ^/compte, roles: ROLE_ADMIN }
             - { path: ^/generation, roles: ROLE_ADMIN }
         # USER Access
-            - { path: ^/locations, roles: ROLE_USER }
-            - { path: ^/update, roles: ROLE_USER }
-            - { path: ^/favorite, roles: ROLE_USER }
-            # - { path: ^/register, roles: ROLE_USER }
-            - { path: ^/map/filter, roles: ROLE_USER }
+            - { path: ^/locations, roles: [ROLE_ADMIN, ROLE_USER] }
+            - { path: ^/update, roles: [ROLE_ADMIN, ROLE_USER] }
+            - { path: ^/favorite, roles: [ROLE_ADMIN, ROLE_USER] }
+            - { path: ^/map/filter, roles: [ROLE_ADMIN, ROLE_USER] }
         # Wrong Access Handler
     access_denied_url: /
         # Default User Access
