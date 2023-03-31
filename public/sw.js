@@ -1,6 +1,5 @@
 const CACHE_NAME = 'a2urbex';
 const urlsToCache = [
-  'assets/',
   'img/'
 ];
 
