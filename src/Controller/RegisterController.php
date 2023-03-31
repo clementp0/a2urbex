@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Entity\Favorite;
@@ -46,6 +47,9 @@ class RegisterController extends AppController
             $fav = new Favorite();
             $fav->setName('like')->setMaster(1)->addUser($user);
             $favoriteRepository->save($fav, true);
+
+            return new RedirectResponse($this->generateUrl('app_login'));
+
         }
         return $this->render('register/index.html.twig', [
             'form' => $form->createView(),
