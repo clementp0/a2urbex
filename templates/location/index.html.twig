@@ -12,9 +12,8 @@
             {{form(form)}}
             <a class="pin-search-reset" href="/locations"><i class="fa-sharp fa-solid fa-trash"></i></a>
             <p class="pin-results">Displaying <b>{{total_result}}</b> Result(s)</p>
+            <p class="online_title"><i class="fa-solid fa-user"></i> Online Users</p>
             <div class="online">
-
-            <h6>Online Users :</h6> <br>
             {% for user in onlineUsers %}
             <div class="useractive {% if user.status is defined %}{{ user.status }}{% endif %}">{{ user.firstname }} {{ user.lastname}} {% if user.active is defined %}<span class="ago">{{ user.active }}</span>{% endif %}</div>
             {% endfor %}

@@ -50,12 +50,14 @@ class UserOnlineService
     foreach ($offlineUsers as $user) {
         $lastActiveAt = $user->getLastActiveAt();
         $diff = $lastActiveAt->diff(new \DateTime())->i;
-        $user = [
-            'firstname' => $user->getFirstname(),
-            'lastname' => $user->getLastname(),
-            'active' => ' (' . $diff . 'min ago)',
-            'status' => 'offline'
-        ];
+        if ($diff < 60) {
+            $user = [
+                'firstname' => $user->getFirstname(),
+                'lastname' => $user->getLastname(),
+                'active' => ' (' . $diff . 'm ago)',
+                'status' => 'offline'
+            ];
+        }
         $onlineUsers[] = $user;
     }
 
