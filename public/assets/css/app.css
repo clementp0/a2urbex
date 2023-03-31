@@ -7,6 +7,21 @@ body {
     margin: auto;
 }
 
+
+.useractive::before {
+    content: '';
+    background-color: #00ff50;
+    display: inline-block;
+    width: 8px;
+    border-radius: 50px;
+    height: 8px;
+    margin-right: 10px;
+}
+
+.useractive.offline::before {
+    background-color: grey;
+}
+
 i.fa-solid.fa-robot {
     color: white;
     margin-left: 10px;
@@ -533,9 +548,17 @@ p.favorite_page_title {
     text-align: center;
 }
 
+
+
+span.ago {
+    font-size: 10px;
+}
+
 .pin-results{
     padding-top: 50px;
     width: 100%;
+    border-bottom: 1px solid #585858;
+    padding-bottom: 30px;
 }
 
 .pin-page {

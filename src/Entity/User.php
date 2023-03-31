@@ -39,6 +39,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Favorite::class, mappedBy: 'users')]
     private Collection $favorites;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $lastActiveAt = null;
+
     // #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, orphanRemoval: true)]
     // private Collection $favorites;
 
@@ -116,6 +119,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
     /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
@@ -172,36 +176,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // /**
-    //  * @return Collection<int, Favorite>
-    //  */
-    // public function getFavorites(): Collection
-    // {
-    //     return $this->favorites;
-    // }
-
-    // public function addFavorite(Favorite $favorite): self
-    // {
-    //     if (!$this->favorites->contains($favorite)) {
-    //         $this->favorites->add($favorite);
-    //         $favorite->setUser($this);
-    //     }
-
-    //     return $this;
-    // }
-
-    // public function removeFavorite(Favorite $favorite): self
-    // {
-    //     if ($this->favorites->removeElement($favorite)) {
-    //         // set the owning side to null (unless already changed)
-    //         if ($favorite->getUser() === $this) {
-    //             $favorite->setUser(null);
-    //         }
-    //     }
-
-    //     return $this;
-    // }
-
     /**
      * @return Collection<int, Favorite>
      */
@@ -225,6 +199,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->favorites->removeElement($favorite)) {
             $favorite->removeUser($this);
         }
+
+        return $this;
+    }
+
+    public function getLastActiveAt(): ?\DateTime
+    {
+        return $this->lastActiveAt;
+    }
+
+    public function setLastActiveAt(?\DateTime $lastActiveAt): self
+    {
+        $this->lastActiveAt = $lastActiveAt;
 
         return $this;
     }

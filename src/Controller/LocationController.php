@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query\Expr\Join;
+use App\Service\UserOnlineService;
 
 class LocationController extends AppController
 {
@@ -27,7 +28,7 @@ class LocationController extends AppController
     }
     
     #[Route('/locations', name: 'app_location_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, LocationRepository $locationRepository, FavoriteRepository $favoriteRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request, LocationRepository $locationRepository, FavoriteRepository $favoriteRepository, PaginatorInterface $paginator, UserOnlineService $userOnlineService): Response
     {
         
         $search = new Search();
@@ -49,12 +50,18 @@ class LocationController extends AppController
             $request->query->getInt('page', 1),
             50
         );  
+        
+        $user = $this->getUser();
+        $userOnlineService->addUser($user);
+        $onlineUsers = $userOnlineService->getOnlineUsers();
+        // dd($onlineUsers);
 
         return $this->render('location/index.html.twig', [
             'locations' => $locationData,
             'hashkey' => $_ENV["HASH_KEY"],
             'form' => $form->createView(),
             'total_result' => $totalResults,
+            'onlineUsers' => $onlineUsers,
         ]);
     }
 
