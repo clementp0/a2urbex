@@ -190,7 +190,6 @@ class DashboardController extends AbstractDashboardController
             $databaseName,
             $dumpFile
         );
-        dd($command);
         exec($command);
     
         $response = new Response(file_get_contents($dumpFile));
