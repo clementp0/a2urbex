@@ -2,6 +2,8 @@
 
 namespace App\Controller\Admin;
 
+
+use Symfony\Component\Process\Process;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -166,4 +168,38 @@ class DashboardController extends AbstractDashboardController
         ]);
 
     }
+
+
+    // Download Database
+
+    public function downloadDatabase()
+    {
+        $url = $_ENV['DATABASE_URL'];
+
+        $parsedUrl = parse_url($url);
+
+        $databaseUser = isset($parsedUrl['user']) ? $parsedUrl['user'] : null;
+        $databasePassword = isset($parsedUrl['pass']) ? $parsedUrl['pass'] : null;
+        $databaseName = isset($parsedUrl['path']) ? ltrim($parsedUrl['path'], '/') : null;
+        $dumpFile = 'a2urbex_dump.sql';
+    
+        $command = sprintf(
+            'mysqldump -u%s -p%s %s > %s',
+            $databaseUser,
+            $databasePassword,
+            $databaseName,
+            $dumpFile
+        );
+        dd($command);
+        exec($command);
+    
+        $response = new Response(file_get_contents($dumpFile));
+        $response->headers->set('Content-Type', 'application/sql');
+        $response->headers->set('Content-Disposition', 'attachment; filename="a2urbex_dump.sql"');
+    
+        unlink($dumpFile);
+    
+        return $response;
+    
+    }   
 }

@@ -15,11 +15,15 @@ body {
     width: 8px;
     border-radius: 50px;
     height: 8px;
-    margin-right: 10px;
+    margin-right: 4px;
+}
+
+.useractive.away::before {
+    background-color: grey;
 }
 
 .useractive.offline::before {
-    background-color: grey;
+    background-color: red;
 }
 
 i.fa-solid.fa-robot {
@@ -552,6 +556,7 @@ p.favorite_page_title {
     background-color: #262626;
     padding: 5px;
     border-radius: 5px;
+    margin-bottom: 10px;
 }
 .online_title{
     color: #60a5fa;

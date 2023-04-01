@@ -49,12 +49,22 @@ class UserOnlineService
 
     foreach ($offlineUsers as $user) {
         $lastActiveAt = $user->getLastActiveAt();
-        $diff = $lastActiveAt->diff(new \DateTime())->i;
-        if ($diff < 60) {
+        $diff = $lastActiveAt->diff(new \DateTime())->format('%a:%h:%i');
+        list($days, $hours, $minutes) = explode(':', $diff);
+        $totalMinutes = ($days * 24 * 60) + ($hours * 60) + $minutes;
+        if ($totalMinutes < 59) {
             $user = [
                 'firstname' => $user->getFirstname(),
                 'lastname' => $user->getLastname(),
                 'active' => ' (' . $diff . 'm ago)',
+                'status' => 'away'
+            ];
+        }
+        else {
+                $user = [
+                'firstname' => $user->getFirstname(),
+                'lastname' => $user->getLastname(),
+                'active' => '(Offline)',
                 'status' => 'offline'
             ];
         }

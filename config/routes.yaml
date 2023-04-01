@@ -8,3 +8,7 @@ sw:
   defaults:
       path: '%kernel.project_dir%/public/assets/js/sw.js'
       mime_type: 'application/javascript'
+
+download_database:
+    path: /download-database
+    controller: App\Controller\Admin\DashboardController::downloadDatabase
