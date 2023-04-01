@@ -56,7 +56,7 @@ class UserOnlineService
             $user = [
                 'firstname' => $user->getFirstname(),
                 'lastname' => $user->getLastname(),
-                'active' => ' (' . $diff . 'm ago)',
+                'active' => ' (' . $minutes . 'm ago)',
                 'status' => 'away'
             ];
         }
