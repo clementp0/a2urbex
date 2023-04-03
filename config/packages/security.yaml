@@ -33,6 +33,9 @@ security:
             - { path: ^/delete, roles: ROLE_ADMIN }
             - { path: ^/compte, roles: ROLE_ADMIN }
             - { path: ^/generation, roles: ROLE_ADMIN }
+            - { path: ^/fetch, roles: ROLE_ADMIN }
+            - { path: ^/update, roles: ROLE_ADMIN }
+            - { path: ^/patch, roles: ROLE_ADMIN }
         # USER Access
             - { path: ^/locations, roles: [ROLE_ADMIN, ROLE_USER] }
             - { path: ^/update, roles: [ROLE_ADMIN, ROLE_USER] }
