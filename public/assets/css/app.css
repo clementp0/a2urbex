@@ -65,11 +65,16 @@ body a {
 }
 body a:hover {
     color: #60a5fa;
+    text-decoration: none;
 }
 
 a.disabled {
     pointer-events: none;
     opacity: .5;
+}
+
+body .intro-container a:hover {
+    text-decoration: underline;
 }
 
 .fixed-top {
