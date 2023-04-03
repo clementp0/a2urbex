@@ -58,6 +58,23 @@ class FetchController extends AppController
         return $this->redirect('admin');
     }
 
+    #[Route('/patch', name: 'app_patch')]
+    public function patch(): Response {
+        $dup = $this->locationRepository->findPidDuplicate();
+
+        foreach($dup as $row) {
+            $items = explode(',', $row['ids']);
+            unset($items[0]);
+
+            foreach($items as $item) {
+                $loc = $this->locationRepository->find($item);
+                $this->locationRepository->remove($loc);
+            }
+        }
+
+        return $this->redirect('admin');
+    }
+
     private function verifyImgFolder() {
         $publicDir = $this->getParameter('public_directory');
 

@@ -57,6 +57,17 @@ class LocationRepository extends ServiceEntityRepository
         }
     }
 
+    public function findPidDuplicate() {
+        return $this->createQueryBuilder('l')
+            ->select('GROUP_CONCAT(l.id) AS ids')
+            ->andWhere('l.pid IS NOT NULL')
+            ->groupby('l.pid')
+            ->having('COUNT(l.id) > 1')
+            ->getQuery()
+            ->getResult();
+        ;
+    }
+
     public function findByPid($pid) {
         return $this->createQueryBuilder('l')
             ->andWhere('l.pid = :pid')
