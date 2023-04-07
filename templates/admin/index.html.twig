@@ -1,0 +1,315 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+{% block title %}a2urbex!{% endblock %}
+{% block content %}
+		<link rel="manifest" href="{{ ('manifest.json') }}">
+		<script src="{{ ('assets/js/notifications.js') }}"></script>
+		<script src="{{ ('assets/js/registersw.js') }}"></script>
+
+	<section class="heading-part text-center">
+		<div class="container">
+			<h1 class="jumbotron-heading">Hey {{app.user.firstname}}!</h1><br>
+			<p class="lead text-muted">Currently <b>{{pins}}</b> pins, located in <b>{{country}}</b> country and sorted in <b>{{type}}</b> categories</p>
+		</div>
+	</section>
+{# Fetch #}
+	<section class="fetch-part text-center">
+		<div class="container">
+		<div class="last">
+		<div>
+			<p class="text-muted">Current time : <br> <div class="time">{{current_time}}</div></p></div>
+			<div class="updated"><p class="text-muted ">Last Updated : <br> <div class="time">{{last_updated}}</div></p></div>
+		</div>
+			<p class="text-muted">Last Fetched : <br> <div class="time">{{last_fetched}}</div></p>
+			<a class="action-new btn btn-success" href="/fetch">Fetch Now</a>
+			<a class="action-new btn btn-primary" href="/update">Update</a>
+			<a class="action-new btn btn-warning" href="/patch">Patch</a>
+		</div>
+		<div class="output-area">
+		<p class="text-muted">Output : </b></p>
+		<div class="output">
+		<p>BoardId = {{board}}<br>
+		Status = {{finished}}<br>
+		Error = {{error}}<br>
+		Total Parsed = {{total}}<br>
+		NewPins = {{newpins}}<br>---------</p>
+		Key = {{token}}
+		<div>
+		</div>
+	</section>
+{# Import #}
+	<section class="fetch-part text-center">
+		<div class="container">
+		<div class="last">
+		<div>
+			<p class="text-muted">Import File : <br></p></div>
+		</div>
+			<a class="action-new btn btn-success" href="{{ path('upload')}}">Import File</a>
+			<a class="btn btn-primary run-target" href="#" >Run</a>
+			<a class="btn btn-danger delete-target" href="#">Delete</a>
+		</div>
+		<div class="output-area">
+		<p class="text-muted">Sources ({{uploads_count}}) : </b></p>
+		<select class="output-uploads">
+		{% for item in uploads %}
+		<option value="{{item.id}}">{{item.Name}}</option>
+		{% endfor %}
+		</select>
+		</div>
+	</section>
+
+{# Ai Generation #}
+<section class="fetch-part text-center">
+<div class="container">
+		<div>
+			<p class="text-muted">Ai Generation ({{to_be_generated}} locations are waiting to be processed): <br></p>
+		</div>
+<div class="generated">{{ai}} locations already generated</div>
+<a class="btn btn-success {{stable_status_current}}" href="{{ path('app_image_generation')}}">Generate</a>
+<a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui" class="btn btn-secondary" target="_blank"> Documentation</a> 
+
+</div>
+<div class="output-area">
+		<p class="text-muted">Server Status : </b></p>
+		{{ stable_status|raw}}
+		</div>
+</section>
+
+{# Clear cache #}
+<section class="fetch-part text-center">
+<div class="container">
+		<div>
+			<p class="text-muted">Cache : <br></p>
+		</div>
+<button class="btn btn-danger" id="clear-cache-button">Clear Cache</button>
+</div>
+
+
+{# Database Download #}
+<div class="output-area">
+		<p class="text-muted">Database : </b></p>
+<a href="{{ path('download_database') }}" class="btn btn-secondary " style="pointer-events:none;">Download Database</a>
+
+		</div>
+
+
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+$(function(){
+   $(document).attr("title", "@a2urbex");
+});
+
+var meta = $('<meta>').attr({
+  'name': 'apple-mobile-web-app-status-bar-style',
+  'content': 'default'
+});
+var link = $('<link>').attr({
+  'rel': 'manifest',
+  'href': '{{ ('manifest.json') }}'
+});
+$('head').append(meta, link);
+
+
+{# Delete #}
+$(document).ready(function(){ 
+  $('.delete-target').click(function(){ 
+	var target_name = $('.output-uploads :selected').text();
+	var target_to_delete = "delete/" + target_name;
+    if(confirm("Delete " + target_name + " source ?")) {
+		$( ".delete-target" ).attr("href", target_to_delete );
+	}
+  });
+});
+{# Run #}
+$(document).ready(function(){ 
+  $('.run-target').click(function(){ 
+	var target_name = $('.output-uploads :selected').text();
+	var target_id = $('.output-uploads :selected').val();
+	var target_import_link  = "import/" + target_id;
+    if(confirm("Run for " + target_name + " ?")) {
+		$( ".run-target" ).attr("href", target_import_link );
+	}
+  });
+});
+</script>
+<script>
+
+const clearCacheButton = document.getElementById('clear-cache-button');
+clearCacheButton.addEventListener('click', async () => {
+  try {
+    await caches.delete('a2urbex');
+    console.log('Cache deleted successfully');
+    location.reload(true);
+  } catch (err) {
+    console.error('Error deleting cache:', err);
+  }
+});
+
+
+</script>
+{# Stylesheets #}
+
+<style>
+
+a.btn.btn-success.off {
+    opacity: 0.6;
+	cursor:not-allowed;
+    pointer-events: none;
+}
+a.btn.btn-success.off:hover {
+	cursor:not-allowed;
+}
+.generated{
+	    padding-left: 4px;
+    padding-right: 4px;
+    padding-bottom: 1px;
+    border-radius: 5px;
+    font-size: 11px;
+    background-color: var(--form-control-bg);
+    border: 1px solid var(--form-input-border-color);
+    height: fit-content;
+    width: fit-content;
+	margin-bottom:15px;
+}
+p.offline {
+    display: inline-block;
+}
+.offline::before{
+	content:'';
+	display: inherit;
+	width: 10px;
+    height: 10px;
+	margin-right:10px;
+    background-color: red;
+    border-radius: 50px;
+}
+p.online {
+    display: inline-block;
+	margin-left:5px;
+}
+.online::before{
+	content:'';
+	display: inherit;
+	width: 10px;
+    height: 10px;
+	margin-right:10px;
+    background-color: red;
+    background-color: green;
+    border-radius: 50px;
+}
+
+.last{
+	display:flex;
+}
+.content-wrapper{ 
+	margin: auto;
+}
+
+.content-wrapper{
+	display:block;
+}
+.updated{
+	margin-left:50px
+}
+.heading-part{
+	width:100%;
+    padding: 2rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+    height: fit-content;
+}
+.fetch-part{
+	display: flex;
+	width:100%;
+    padding: 2rem;
+    margin-top: 1rem;
+    border: 1px solid var(--sidebar-border-color);
+    border-radius: 8px;
+    height: fit-content;
+}
+.fetch-part > .container{
+	width: 50%;
+	padding-right: 40px;
+    text-align: left;
+	border-right:1px solid var(--sidebar-border-color);
+}
+
+.time{
+    padding-left: 4px;
+    padding-right: 4px;
+	padding-bottom : 1px;
+    border-radius: 5px;
+    font-size: 11px;
+    background-color: var(--form-control-bg);
+    border: 1px solid var(--form-input-border-color);
+    height: fit-content;
+    width: fit-content;
+}
+.output-area{
+	width: 50%;
+	padding-left: 40px;
+    text-align: left;
+}
+.output{
+	overflow: hidden;
+	background-color: var(--form-control-bg);
+	border : 1px solid var(--form-input-border-color);
+    padding: 8px;
+	padding-bottom:0;
+    border-radius: 5px;
+    font-size: 11px;
+    height: fit-content;
+}
+
+input.delete-target-source {
+    width: 100%;
+    color: white;
+     font-size: 11px;
+    padding: 8px;
+}
+@media screen and (max-width: 550px) {
+  .fetch-part > .container {
+	width: 100%;
+	border-right:none;
+	border-bottom:1px solid var(--sidebar-border-color);
+	padding : 12px;
+	padding-bottom: 30px;
+	padding-right: 0px;
+  }
+  .output-area {
+	--bs-gutter-x: 1.5rem;
+	width: 100%;
+	padding: 12px;
+	padding-top:20px;
+  }
+  .fetch-part{
+  display:block;
+  }
+  .last{
+	justify-content: space-between;
+}
+.updated{
+	margin-left:0px
+}
+}
+.output-uploads{
+    overflow: hidden;
+    background-color: var(--form-control-bg);
+    border: 1px solid var(--form-input-border-color);
+    border-radius: 5px;
+    font-size: 11px;
+    width: 100%;
+    height: fit-content;
+    padding: 8px;
+	text-transform: capitalize;
+}
+
+.cache {
+    text-align: left;
+    margin: 0;
+    border-right: 0px!important;
+}
+</style>
+
+{% endblock %}
