@@ -104,6 +104,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function hasRole($role)
+    {
+        $roles = $this->roles;
+        return in_array($role, $roles);
+    }
+
     /**
      * @see PasswordAuthenticatedUserInterface
      */
