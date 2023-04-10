@@ -22,7 +22,7 @@ class AccountPasswordController extends AppController
     }     
 
     /**
-     * @Route("/compte/password", name="app_account_password")
+     * @Route("/password", name="app_account_password")
      */
 
 

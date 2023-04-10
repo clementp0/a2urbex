@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Location;
 use App\Class\Search;
 use App\Form\LocationType;
+use App\Form\NewLocationType;
 use App\Form\SearchType;
 use App\Repository\LocationRepository;
 use App\Repository\FavoriteRepository;
@@ -65,23 +66,61 @@ class LocationController extends AppController
         ]);
     }
 
-    #[Route('location/new', name: 'app_location_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, LocationRepository $locationRepository): Response
+    #[Route('locations/{key}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator): Response
     {
-        $location = new Location();
+        $hashKey = $_ENV["HASH_KEY"];
+        $locationKey = $this->hashidsService->decode($request->get('key'));
+        $locationId = str_replace($hashKey,'',$locationKey);
+        $locationData = $locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
+        $location = $locationData["loc"];
+
         $form = $this->createForm(LocationType::class, $location);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $locationRepository->add($location);
-            return $this->redirectToRoute('app_location_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('new_location', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('location/new.html.twig', [
+        $locations =$locationRepository->findByUser();
+
+        $totalResults = 0;
+        $totalResults = count($locations);
+
+        $locationData = $paginator->paginate(
+            $locations,
+            $request->query->getInt('page', 1),
+            6
+        );  
+
+        return $this->render('location/new.html.twig', [
+            'locations' => $locationData,
             'location' => $location,
-            'form' => $form,
+            'hashkey' => $_ENV["HASH_KEY"],
+            'form' => $form->createView(),
+            'total_result' => $totalResults,
         ]);
     }
+    
+
+    #[Route('/locations/{key}/delete', name: 'app_location_delete', methods: ['POST'])]
+    public function delete_location(Request $request, LocationRepository $locationRepository): Response
+    {
+
+        $hashKey = $_ENV["HASH_KEY"];
+        $locationKey = $this->hashidsService->decode($request->get('key'));
+        $locationId = str_replace($hashKey,'',$locationKey);
+        $locationData = $locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
+        $location = $locationData["loc"];
+
+        if ($this->isCsrfTokenValid('delete'.$location->getId(), $request->request->get('_token'))) {
+            $locationRepository->remove($location);
+        }
+
+        return $this->redirectToRoute('new_location', [], Response::HTTP_SEE_OTHER);
+    }
+
 
     #[Route('location/{key}', name: 'app_location_show', methods: ['GET'])]
     public function show(Request $request, LocationRepository $locationRepository): Response

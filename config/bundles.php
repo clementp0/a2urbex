@@ -20,4 +20,5 @@ return [
     Danilovl\HashidsBundle\HashidsBundle::class => ['all' => true],
     BenTools\WebPushBundle\WebPushBundle::class => ['all' => true],
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
+    Vich\UploaderBundle\VichUploaderBundle::class => ['all' => true],
 ];

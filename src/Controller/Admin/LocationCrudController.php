@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 class LocationCrudController extends AbstractCrudController
 {
@@ -32,7 +33,7 @@ class LocationCrudController extends AbstractCrudController
             TextField::new('comments'),
             AssociationField::new('country'),
             AssociationField::new('type'),
-            TextField::new('source', 'source'),
+            AssociationField::new('user'),
         ];
     }
     

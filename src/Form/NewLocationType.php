@@ -20,7 +20,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 
-class LocationType extends AbstractType
+class NewLocationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -31,6 +31,10 @@ class LocationType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Abandonned Castel'
                 ]
+            ])
+            ->add('image', FileType::class, [
+                'label' => 'Image (JPG, JPEG, PNG file)',
+                'required' => false,
             ])
             ->add('country', EntityType::class, [
                 'class' => Country::class,
@@ -47,6 +51,7 @@ class LocationType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Police with dog..',
+ 
                 ]
             ])
             ->add('lat', TextType::class, [
@@ -64,7 +69,7 @@ class LocationType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Edit Location',
+                'label' => 'Create Location',
             ]);
     }
 

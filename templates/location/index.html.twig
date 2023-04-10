@@ -22,32 +22,35 @@
 					<p class="online_title">
 						<i class="fa-solid fa-user"></i>
 						Online Users</p>
-					<div class="online">
-{# ONLINE USERS :  #}
+					<div
+						class="online">
+						{# ONLINE USERS :  #}
 
-                    {% for user in onlineUsers %}
-                        {% if user.status is defined %}
-                        {% else %}
+						{% for user in onlineUsers %}
+							{% if user.status is defined %}
+								{% else %}
 									<div class="useractive ">
-										{{ user.firstname }} {{ user.lastname}}
+										{{ user.firstname }}
+										{{ user.lastname}}
 									</div>
-                        {% endif %}
-					{% endfor %}
- 
- {# AWAY USERS :  #}
+							{% endif %}
+						{% endfor %}
+
+						{# AWAY USERS :  #}
 
 						{% for user in onlineUsers %}
 							{% if user.status is defined %}
 								{% if user.status == "away" %}
 									<div class="useractive away">
-										{{ user.firstname }} {{ user.lastname}}<span class="ago">{{ user.active }}</span>
+										{{ user.firstname }}
+										{{ user.lastname}}<span class="ago">{{ user.active }}</span>
 									</div>
 								{% endif %}
 							{% endif %}
 						{% endfor %}
 
 					</div>
-{# OFFLINE USERS :  #}
+					{# OFFLINE USERS :  #}
 
 					<p class="online_title">
 						<i class="fa-solid fa-user"></i>
@@ -69,6 +72,9 @@
 				{% include 'location/list.html.twig' %}
 			</div>
 		</div>
+		<a href="{{ path('new_location') }}" id="new-filter" class="new-link">
+			<i class="fa-solid fa-plus"></i>
+		</a>
 		<a href="{{ path('app_map_filter') }}" id="map-filter" class="map-link">
 			<i class="fa-solid fa-map-location-dot"></i>
 		</a>

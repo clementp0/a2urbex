@@ -759,3 +759,208 @@ margin-bottom: 10px!important;
     font-size: 12px;
     margin-bottom:0px;
 }
+
+
+a#new-filter {
+    position: fixed;
+    bottom: 110px;
+    right: 25px;
+    background-color: #60A5FA;
+    color: #222222;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+.my_locations {
+    margin-left: 20px
+}
+.title_location {
+    color: #60a5fa;
+    width: fit-content;
+    background-color: #404040;
+    border-radius: 5px;
+    line-height: 1;
+    margin-bottom: 10px;
+    padding: calc(0.375rem + 1px) 8px;
+}
+.personal_locations {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.my_locations {
+    width: 50%;
+}
+
+
+#new_location {
+    text-align: center;
+    font-weight: 500;
+    border: 1px solid #404040;
+    background-color: #303030;
+    border-radius: 5px;
+    padding: 20px;
+    min-width: 550px;
+}
+
+#new_location > .form-group > label {
+    color: #60a5fa;
+    width: fit-content;
+    background-color: #404040;
+    font-size: 14px;
+    border-radius: 5px;
+    line-height: 1;
+    margin: auto;
+    padding: calc(0.375rem + 1px) 8px;
+    text-align: left;
+    width: 80%;
+}
+
+#new_location > .form-group > input::placeholder {
+    color: #6d6d6d;
+}
+
+#new_location > .form-group > select::placeholder {
+    color: #6d6d6d;
+}
+
+#new_location > .form-group > input {
+    color: white;
+    margin: auto auto 20px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ffffff24;
+    width: 80%;
+    font-size: 12px;
+    height: 40px;
+    border-radius: 0;
+    padding: 0.375rem 0.75rem;
+}
+#new_location > .form-group > select {
+    color: white;
+    margin: auto auto 20px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ffffff24;
+    width: 80%;
+    font-size: 12px;
+    height: 40px;
+    border-radius: 0;
+    padding: 0.375rem 0.75rem;
+}
+
+#new_location > .form-group > .custom-file {
+    width: 80%;
+}
+
+#new_location_submit {
+    border-radius: 2px;
+    margin: auto;
+    width: 80%;
+    height: 40px;
+    border: none;
+    background-color: #222222;
+    color: #a2a2a2;
+}
+#location {
+    min-width: 550px;
+    text-align: center;
+    font-weight: 500;
+    border: 1px solid #404040;
+    background-color: #303030;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+#location > .form-group > label {
+    color: #60a5fa;
+    width: fit-content;
+    background-color: #404040;
+    font-size: 14px;
+    border-radius: 5px;
+    line-height: 1;
+    margin: auto;
+    padding: calc(0.375rem + 1px) 8px;
+    text-align: left;
+    width: 80%;
+}
+
+#location > .form-group > input::placeholder {
+    color: #6d6d6d;
+}
+
+#location > .form-group > select::placeholder {
+    color: #6d6d6d;
+}
+
+#location > .form-group > input {
+    color: white;
+    margin: auto auto 20px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ffffff24;
+    width: 80%;
+    font-size: 12px;
+    height: 40px;
+    border-radius: 0;
+    padding: 0.375rem 0.75rem;
+}
+#location > .form-group > select {
+    color: white;
+    margin: auto auto 20px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ffffff24;
+    width: 80%;
+    font-size: 12px;
+    height: 40px;
+    border-radius: 0;
+    padding: 0.375rem 0.75rem;
+}
+
+#location > .form-group > .custom-file {
+    width: 80%;
+}
+
+#location_submit {
+    border-radius: 2px;
+    margin: auto;
+    width: 80%;
+    height: 40px;
+    border: none;
+    background-color: #222222;
+    color: #a2a2a2;
+}
+.coordinates {
+    border-radius: 2px;
+    margin: auto;
+    display: inherit;
+    width: 80%;
+    height: 40px;
+    padding: 8px;
+    border: none;
+    background-color: #3e3d3d;
+    color: #a2a2a2;
+}
+
+@media screen and (max-width: 850px) {
+    .personal_locations {
+        display: block;
+    }
+    .my_locations {
+        width: 100%;
+        margin: auto;
+        margin-top: 10px;
+    }
+
+}
+
+.delete{
+    color: white;
+}

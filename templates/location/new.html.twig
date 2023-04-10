@@ -1,11 +1,122 @@
 {% extends 'base.html.twig' %}
+{% block content %}
+	<div class="personal_locations">
+		<div class="new_location">
+			<p class="title_location">
+				<i class="fa-solid fa-plus"></i>
+				Create new Location</p>
+			{{ form(form) }}
+				<a href="" target="_blank" class="coordinates">
+					Check coordinates</a>
+			</div>
 
-{% block title %}New Location{% endblock %}
+			<div class="my_locations">
+				<p class="title_location my_locations">
+					<i class="fa-solid fa-location-dot"></i>
+					My Locations ({{ total_result }})</p>
+				<div class="pin-box">
+					{% if locations|length %}
+						{% for item in locations %}
+							{% set key = "#{item.loc.id}#{hashkey}" %}
 
-{% block body %}
-    <h1>Create new Location</h1>
+							<div class="pin-container" {% if item.loc.disabled == 1 %} id="disabled" {% endif %}>
+								<div class="pin-top-container">
 
-    {{ include('location/_form.html.twig') }}
+									{% if item.loc.ai == 1 %}
+										<i class="fa-solid fa-robot"></i>
+									{% endif %}
 
-    <a href="{{ path('app_location_index') }}">back to list</a>
-{% endblock %}
+									<a href="{{ path('app_location_show', {'key': key | hashids_encode }) }}">
+										{% if item.loc.image|default(null) %}
+											<div class="pin-img" style="background-image:url('{{ item.loc.image }}')"></div>
+										{% else %}
+											<div class="pin-img" style="background-image:url('/assets/default.png')"></div>
+										{% endif %}
+										{% if app.user %}
+											<p class="pin-title">{{ item.loc.name |u.truncate(50, '...') }}</p>
+										{% endif %}
+									</a>
+									{% include 'location/_pin_fav.html.twig' %}
+								</div>
+
+								<div class="pin-bottom-container">
+									<div class="pin-user pin-action">
+										{% if app.user %}
+											{% if 'ROLE_ADMIN' in app.user.roles %}
+												<a class="waze" target="blank" href="https://waze.com/ul?q={{ item.loc.lat }},{{ item.loc.lon }}&navigate=yes&zoom=17'">
+													<i class="fa-brands fa-waze"></i>
+												</a>
+											{% endif %}
+										{% endif %}
+										<a class="pin-map" target="blank" href="https://www.google.com/maps?t=k&q={{ item.loc.lat }},{{ item.loc.lon }}">
+											<i class="fa-solid fa-earth-europe"></i>
+										</a>
+									</div>
+									{% if item.loc.type %}
+										<p class="pin-type">
+											<span class="pin-type-icon">
+												<i class="fa-solid {{ item.loc.type.icon }}"></i>
+											</span>
+											<span class="pin-type-text">{{ item.loc.type }}</span>
+										</p>
+									{% else %}
+										<p class="pin-type">
+											<span class="pin-type-icon">
+												<i class="fa-solid fa-map-pin"></i>
+											</span>
+											<span class="pin-type-text">other</span>
+										</p>
+									{% endif %}
+									{% if item.loc.comments %}
+										<p class="pin-info-icon">
+											<i class="fa-solid fa-triangle-exclamation"></i>
+										</p>
+									{% endif %}
+									{% if item.loc.done %}
+										<p class="pin-info-icon">
+											<i class="fas fa-check-square"></i>
+										</p>
+									{% endif %}
+									{# <p class="pin-id">key : {{ key | hashids_encode }}</p> #}
+									{% if app.user %}
+										{% if 'ROLE_ADMIN' in app.user.roles %}
+											<div class="pin-edit pin-action">
+												<a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}">
+													<i class="fa-solid fa-pen-to-square"></i>
+												</a>
+											</div>
+										{% endif %}
+									{% endif %}
+
+								</div>
+							</div>
+
+						{% endfor %}
+					{% else %}
+						{% if private|default(null) %}
+							This list is private
+						{% else %}
+							<p>No records found</p>
+						{% endif %}
+					{% endif %}
+				</div>
+				<div class="pin-pagination">
+					{{knp_pagination_render(locations)}}
+				</div>
+			</div>
+		</div>
+
+		<script>
+			$(".coordinates").insertAfter("#new_location_lon");
+			$(".coordinates").insertAfter("#location_lon");
+$(document).ready(function () {
+$("#new_location_lon, #new_location_lat").keyup(function () {
+var lon = $("#new_location_lon").val();
+var lat = $("#new_location_lat").val();
+var link = "https://www.google.com/maps?t=k&q=" + lat + "," + lon
+$(".coordinates").attr("href", link);
+});
+});
+		</script>
+
+	{% endblock %}

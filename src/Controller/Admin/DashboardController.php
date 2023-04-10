@@ -163,7 +163,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems([
             MenuItem::linkToUrl('Add User', 'fas fa-file', 'register'),
-            MenuItem::linkToUrl('Password', 'fas fa-file', 'compte/password'),
+            MenuItem::linkToUrl('Password', 'fas fa-file', 'password'),
             MenuItem::linkToCrud('Users', 'fas fa-users', User::class),
         ]);
 

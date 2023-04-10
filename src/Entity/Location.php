@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\LocationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LocationRepository::class)]
@@ -60,6 +61,9 @@ class Location
     #[ORM\Column(nullable: true)]
     private ?bool $ai = null;
 
+    #[ORM\ManyToOne(inversedBy: 'locations')]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->favorites = new ArrayCollection();
@@ -100,11 +104,22 @@ class Location
         return $this->image;
     }
 
-    public function setImage(?string $image): self
+    public function setImage(?\Symfony\Component\HttpFoundation\File\UploadedFile $file): self
     {
-        $this->image = $image;
+        if ($file) {
+            $filename = "/img/locations/" . md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $this->getUploadDir(),
+                $filename
+            );
+            $this->image = $filename;
+        }
 
         return $this;
+    }
+    private function getUploadDir()
+    {
+        return __DIR__ . '/../../public/img/locations';
     }
 
     public function getLon(): ?string
@@ -262,6 +277,18 @@ class Location
     public function setAi(?bool $ai): self
     {
         $this->ai = $ai;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

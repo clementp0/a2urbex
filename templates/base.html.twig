@@ -23,46 +23,47 @@
 		<nav class="navbar navbar-expend-md navbar-dark fixed-top">
 			<div class="navbar-collapse" id="navbarCollapse">
 				<div class="filter"></div>
-				
+
 				<div class="logo">
-					<a 
-					{% if app.user %}
-					href="/locations"
-					{% else %}
-					href="/"
-				{% endif %}
-					>
+					<a {% if app.user %} href="/locations" {% else %} href="/" {% endif %}>
 						<i class="fas fa-globe-europe"></i>a2urbex</a>
 				</div>
 				<div class="settings">
-				{% if app.user %}
-					{% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles %}
-						<a href="{{ path('app_location_index') }}">
-							<i class="fa fa-fw fa-location-dot"></i>
-						</a>
-						|
-						<a href="{{ path('app_favorite') }}">
-							<i class="fa fa-fw fa-heart"></i>
-						</a>
-						|
-						<a href="" id="clear-cache-button">
-							<i class="fa-solid fa-rotate-right"></i>
-						</a>
-						|
+					{% if app.user %}
+						{% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles %}
+							<a href="{{ path('app_location_index') }}">
+								<i class="fa fa-fw fa-location-dot"></i>
+							</a>
+							|
+							<a href="{{ path('app_favorite') }}">
+								<i class="fa fa-fw fa-heart"></i>
+							</a>
+							|
+							<a href="" id="clear-cache-button">
+								<i class="fa-solid fa-rotate-right"></i>
+							</a>
+							|
 
-						{% if 'ROLE_ADMIN' in app.user.roles %}
-						<a href="{{ path('admin') }}">
-							<i class="fa-solid fa-gear"></i>
-						</a>
-						|
-						{% endif %}
-						<a href="{{ path('app_logout') }}">
-							<i class="fa fa-fw fa-sign-out"></i>
-						</a>
+							{% if 'ROLE_ADMIN' in app.user.roles %}
+								<a href="{{ path('admin') }}">
+									<i class="fa-solid fa-gear"></i>
+								</a>
+								|
+								{% else %}
+								<a href="{{ path('app_account_password') }}">
+									<i class="fa-solid fa-gear"></i>
+								</a>
+								|
+							{% endif %}
+							<a href="{{ path('app_logout') }}">
+								<i class="fa fa-fw fa-sign-out"></i>
+							</a>
 						{% else %}
-						<div class="approval">Your account is still waiting for approval please wait.. or contact us <a target="blank" href="https://www.instagram.com/a2urbex/">@a2urbex</a> </div>
+							<div class="approval">Your account is still waiting for approval please wait.. or contact us
+								<a target="blank" href="https://www.instagram.com/a2urbex/">@a2urbex</a>
+							</div>
 						{% endif %}
-						{% else %}
+					{% else %}
 						<a href="{{ path('app_login') }}">Login / Register
 						</a>
 					{% endif %}
@@ -84,21 +85,21 @@
 		</footer>
 		<style>
 			.approval {
-    		color: white;
-    		background-color: #007bff;
-    		z-index: 2;
-    		position: relative;
-    		width: 98vw;
-    		border-radius: 5px;
-    		text-align: center;
-    		padding: 3px;
-    		margin-left: -10px;
+				color: white;
+				background-color: #007bff;
+				z-index: 2;
+				position: relative;
+				width: 98vw;
+				border-radius: 5px;
+				text-align: center;
+				padding: 3px;
+				margin-left: -10px;
 			}
-			.approval a{
+			.approval a {
 				color: white;
 				font-weight: 700;
 			}
-			.approval a:hover{
+			.approval a:hover {
 				color: white;
 			}
 

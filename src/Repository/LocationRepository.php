@@ -148,6 +148,18 @@ class LocationRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findByUser(){
+        $user = $this->security->getUser();
+        return $this->getBaseQuery()
+            ->andWhere('l.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->execute();
+        ;
+
+    }
+    
+    
     private function getBaseQuery() {
         $user = $this->security->getUser();
         
