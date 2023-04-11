@@ -316,5 +316,17 @@
         "files": [
             "config/packages/vich_uploader.yaml"
         ]
+    },
+    "willdurand/geocoder-bundle": {
+        "version": "5.19",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "5.0",
+            "ref": "b272ad4fbfcd45a20e7cbfdc4ad1b0e27a62fd3b"
+        },
+        "files": [
+            "config/packages/bazinga_geocoder.yaml"
+        ]
     }
 }

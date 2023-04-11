@@ -36,11 +36,6 @@ class NewLocationType extends AbstractType
                 'label' => 'Image (JPG, JPEG, PNG file)',
                 'required' => false,
             ])
-            ->add('country', EntityType::class, [
-                'class' => Country::class,
-                'choice_label' => 'name',
-                'required' => true,
-            ])
             ->add('type', EntityType::class, [
                 'class' => Type::class,
                 'choice_label' => 'name',

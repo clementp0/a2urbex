@@ -22,6 +22,9 @@ class Country implements Stringable
     #[ORM\OneToMany(mappedBy: 'country', targetEntity: Location::class)]
     private Collection $locations;
 
+    #[ORM\Column(length: 10)]
+    private ?string $code = null;
+
     public function __construct()
     {
         $this->locations = new ArrayCollection();
@@ -75,6 +78,18 @@ class Country implements Stringable
                 $location->setCountry(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }

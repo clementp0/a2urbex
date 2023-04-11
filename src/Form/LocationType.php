@@ -32,11 +32,6 @@ class LocationType extends AbstractType
                     'placeholder' => 'Abandonned Castel'
                 ]
             ])
-            ->add('country', EntityType::class, [
-                'class' => Country::class,
-                'choice_label' => 'name',
-                'required' => true,
-            ])
             ->add('type', EntityType::class, [
                 'class' => Type::class,
                 'choice_label' => 'name',

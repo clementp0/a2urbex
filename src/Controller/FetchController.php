@@ -5,8 +5,8 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Location;
-use App\Repository\LocationRepository;
 use App\Service\LocationService;
+use App\Repository\LocationRepository;
 
 class FetchController extends AppController
 {
@@ -41,8 +41,8 @@ class FetchController extends AppController
     public function update(): Response {
         $locations = $this->locationRepository->findAll();
         foreach($locations as $location) {
-            $this->locationService->addCountry($location);
-            $this->locationService->addType($location);
+            if($location->getCountry()) $this->locationService->addCountry($location);
+            if($location->getType()) $this->locationService->addType($location);
             $this->locationRepository->add($location);
         }
 
@@ -81,7 +81,6 @@ class FetchController extends AppController
         if(file_exists($publicDir.$this->imgPath)) return;
         mkdir($publicDir.$this->imgPath, 0777, true);
     }
-
 
     private function getResource($option) {
         $data = urlencode(json_encode(['options' => $option]));

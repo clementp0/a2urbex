@@ -21,4 +21,5 @@ return [
     BenTools\WebPushBundle\WebPushBundle::class => ['all' => true],
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
     Vich\UploaderBundle\VichUploaderBundle::class => ['all' => true],
+    Bazinga\GeocoderBundle\BazingaGeocoderBundle::class => ['all' => true],
 ];
