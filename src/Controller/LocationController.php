@@ -20,6 +20,7 @@ use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query\Expr\Join;
 use App\Service\UserOnlineService;
+use Symfony\Component\Security\Core\Security;
 
 class LocationController extends AppController
 {
@@ -105,16 +106,20 @@ class LocationController extends AppController
     
 
     #[Route('/locations/{key}/delete', name: 'app_location_delete', methods: ['POST'])]
-    public function delete_location(Request $request, LocationRepository $locationRepository): Response
+    public function delete_location(Request $request, LocationRepository $locationRepository, Security $security): Response
     {
-
         $hashKey = $_ENV["HASH_KEY"];
         $locationKey = $this->hashidsService->decode($request->get('key'));
         $locationId = str_replace($hashKey,'',$locationKey);
         $locationData = $locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
         $location = $locationData["loc"];
 
-        if ($this->isCsrfTokenValid('delete'.$location->getId(), $request->request->get('_token'))) {
+        $user = $security->getUser();        
+        if(!$user) $deletable = false;
+        elseif($user->hasRole('ROLE_ADMIN')) $deletable = true;
+        elseif($location->getUser() && $user->getId() === $location->getUser()->getId()) $deletable = true;
+
+        if($deletable && $this->isCsrfTokenValid('delete'.$location->getId(), $request->request->get('_token'))) {
             $locationRepository->remove($location);
         }
         $referer = $request->headers->get('referer');
