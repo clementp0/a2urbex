@@ -24,19 +24,23 @@ class LocationService {
 
     public function addCountry($location) {
         if($location->getLat() && $location->getLon()) {
-            $item = $this->googleMapsGeocoder->reverseQuery(ReverseQuery::fromCoordinates($location->getLat(), $location->getLon()));
-            $c = $item->first()->getCountry();
-
-            if($c) {
-                $country = $this->countryRepository->findOneBy(['code' => $c->getCode()]);
-                if(!$country) {
-                    $country = new Country();
-                    $country->setCode($c->getCode())->setName($c->getName());
-                    $this->countryRepository->add($country);
-                }
-    
-                $location->setCountry($country);
+            $items = $this->googleMapsGeocoder->reverseQuery(ReverseQuery::fromCoordinates($location->getLat(), $location->getLon()));
+            
+            $c = null;
+            foreach($items->getIterator() as $item) {
+                $c = $item->getCountry();
+                if($c) break;
             }
+            if(!$c) return;
+
+            $country = $this->countryRepository->findOneBy(['code' => $c->getCode()]);
+            if(!$country) {
+                $country = new Country();
+                $country->setCode($c->getCode())->setName($c->getName());
+                $this->countryRepository->add($country);
+            }
+
+            $location->setCountry($country);
         }
     }
 
