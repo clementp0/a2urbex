@@ -42,6 +42,7 @@ security:
             - { path: ^/favorite, roles: [ROLE_ADMIN, ROLE_USER] }
             - { path: ^/map/filter, roles: [ROLE_ADMIN, ROLE_USER] }
             - { path: ^/new, roles: [ROLE_ADMIN, ROLE_USER] }
+            - { path: ^/password, roles: [ROLE_ADMIN, ROLE_USER] }
         # Wrong Access Handler
     access_denied_url: /
         # Default User Access

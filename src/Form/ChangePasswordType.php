@@ -23,30 +23,30 @@ class ChangePasswordType extends AbstractType
             ])
             ->add('firstname', TextType::class,[
                 'disabled' => true,
-                'label' => 'Prénom',
+                'label' => 'Firstname',
             ])
             ->add('lastname', TextType::class,[
                 'disabled' => true,
-                'label' => 'Nom',
+                'label' => 'Name',
             ])
             ->add('old_password', PasswordType::class, [
-                'label' => 'Mot de passe',
+                'label' => 'Password',
                 'mapped' => false,
                 'attr' => [
-                    'placeholder' => 'Mot de passe actuel',
+                    'placeholder' => 'SuperPassword123',
                 ],
             ])
             ->add('new_password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,
-                'invalid_message' => 'Le mot de passe et la confirmation doivent etre identiques.',
-                'label' => 'Votre mot de passe',
+                'invalid_message' => 'Password do not match.',
+                'label' => 'New Password',
                 'required' => true,
-                'first_options' => ['label' => 'Nouveau Mot de passe'],
-                'second_options' => ['label' => 'Confirmez Nouveau votre mot de passe']
+                'first_options' => ['label' => 'New Password'],
+                'second_options' => ['label' => 'Confirm your new password']
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Modifier',
+                'label' => 'Save',
                 'attr' => [
                     'class' => 'btn btn-primary',
                 ],

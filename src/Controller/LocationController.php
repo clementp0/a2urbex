@@ -117,8 +117,8 @@ class LocationController extends AppController
         if ($this->isCsrfTokenValid('delete'.$location->getId(), $request->request->get('_token'))) {
             $locationRepository->remove($location);
         }
-
-        return $this->redirectToRoute('new_location', [], Response::HTTP_SEE_OTHER);
+        $referer = $request->headers->get('referer');
+        return $this->redirect($referer);
     }
 
 

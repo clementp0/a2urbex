@@ -78,15 +78,12 @@
 										</p>
 									{% endif %}
 									{# <p class="pin-id">key : {{ key | hashids_encode }}</p> #}
-									{% if app.user %}
-										{% if 'ROLE_ADMIN' in app.user.roles %}
-											<div class="pin-edit pin-action">
-												<a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}">
+												<div class="pin-edit pin-action">
+												<a href="/locations/{{ key | hashids_encode }}/edit">
 													<i class="fa-solid fa-pen-to-square"></i>
 												</a>
+												{% include 'location/_delete_form.html.twig' %}
 											</div>
-										{% endif %}
-									{% endif %}
 
 								</div>
 							</div>
@@ -113,6 +110,14 @@ $(document).ready(function () {
 $("#new_location_lon, #new_location_lat").keyup(function () {
 var lon = $("#new_location_lon").val();
 var lat = $("#new_location_lat").val();
+var link = "https://www.google.com/maps?t=k&q=" + lat + "," + lon
+$(".coordinates").attr("href", link);
+});
+});
+$(document).ready(function () {
+$("#location_lon, #location_lat").keyup(function () {
+var lon = $("#location_lon").val();
+var lat = $("#location_lat").val();
 var link = "https://www.google.com/maps?t=k&q=" + lat + "," + lon
 $(".coordinates").attr("href", link);
 });

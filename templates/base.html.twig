@@ -28,46 +28,81 @@
 					<a {% if app.user %} href="/locations" {% else %} href="/" {% endif %}>
 						<i class="fas fa-globe-europe"></i>a2urbex</a>
 				</div>
-				<div class="settings">
-					{% if app.user %}
-						{% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles %}
-							<a href="{{ path('app_location_index') }}">
-								<i class="fa fa-fw fa-location-dot"></i>
-							</a>
-							|
-							<a href="{{ path('app_favorite') }}">
-								<i class="fa fa-fw fa-heart"></i>
-							</a>
-							|
-							<a href="" id="clear-cache-button">
-								<i class="fa-solid fa-rotate-right"></i>
-							</a>
-							|
+				{% if app.user %}
+					{% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles %}
+						<div class="settings">
+							<div class="dropdown">
+								<button class="dropbtn">
+									<i class="fa fa-user"></i>
+									{{ app.user.firstname }}
+								</button>
+								<div class="dropdown-content">
+									<div class="menu_header">
+										<div class="menu_icon">
+											<i class="fa fa-user"></i>
+										</div>
+										<div class="menu_data">
+											<p>Logged in as</p>
+											{{ app.user.firstname }}</div>
+									</div>
+									<a href="{{ path('app_location_index') }}">
+										<i class="fa fa-fw fa-location-dot"></i>
+										Locations
 
-							{% if 'ROLE_ADMIN' in app.user.roles %}
-								<a href="{{ path('admin') }}">
-									<i class="fa-solid fa-gear"></i>
-								</a>
-								|
-								{% else %}
-								<a href="{{ path('app_account_password') }}">
-									<i class="fa-solid fa-gear"></i>
-								</a>
-								|
-							{% endif %}
-							<a href="{{ path('app_logout') }}">
-								<i class="fa fa-fw fa-sign-out"></i>
-							</a>
-						{% else %}
-							<div class="approval">Your account is still waiting for approval please wait.. or contact us
-								<a target="blank" href="https://www.instagram.com/a2urbex/">@a2urbex</a>
+									</a>
+									<a href="{{ path('new_location') }}">
+										<i class="fa-solid fa-location-pin-lock"></i>
+										My Locations
+
+									</a>
+									<a href="{{ path('app_favorite') }}">
+										<i class="fa fa-fw fa-heart"></i>
+										My favorites
+
+									</a>
+									<a href="" id="clear-cache-button">
+										<i class="fa-solid fa-rotate-right"></i>
+										Refresh
+
+									</a>
+
+									{% if 'ROLE_ADMIN' in app.user.roles %}
+										<a href="{{ path('admin') }}">
+											<i class="fa-solid fa-gear"></i>
+											Admin
+
+										</a>
+										<a href="{{ path('app_account_password') }}">
+											<i class="fa-solid fa-lock"></i>
+											Password
+
+										</a>
+									{% else %}
+										<a href="{{ path('app_account_password') }}">
+											<i class="fa-solid fa-lock"></i>
+											Password
+
+										</a>
+									{% endif %}
+
+									<a class="menu_logout" href="{{ path('app_logout') }}">
+										<i class="fa fa-fw fa-sign-out"></i>
+										Logout
+
+									</a>
+								</div>
 							</div>
-						{% endif %}
+						</div>
 					{% else %}
-						<a href="{{ path('app_login') }}">Login / Register
-						</a>
+						<div class="approval">
+							Your account is still waiting for approval please wait.. or contact us
+							<a target="blank" href="https://www.instagram.com/a2urbex/">@a2urbex</a>
+						</div>
 					{% endif %}
-				</div>
+				{% else %}
+					<a href="{{ path('app_login') }}">Login / Register</a>
+				{% endif %}
+
 			</div>
 		</nav>
 	</header>
@@ -142,6 +177,117 @@
 
 			footer a {
 				color: #60a5fa;
+			}
+
+
+			.settings {
+				position: relative;
+			}
+
+			.dropdown {
+				position: relative;
+				display: inline-block;
+			}
+
+			.dropbtn {
+				background-color: transparent;
+				border: none;
+				color: #adadad;
+				font-size: 14px;
+				cursor: pointer;
+				padding: 0;
+			}
+			.dropbtn > i{
+    padding: 7px;
+    margin-right: 5px;
+				background-color: #404040;
+				color: #737373;
+				border-radius: 4px;
+			}
+
+			.dropdown-content {
+				display: none; 
+				position: absolute;
+				z-index: 1;
+				top: 100%;
+				min-width: 190px;
+				right: 0;
+				background-color: #303030;
+				border: #525252 1px solid;
+				border-radius: 6px;
+				box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+				color: #d4d4d4;
+			}
+
+			.menu_header {
+				display: flex;
+				padding: 7px;
+				border-bottom: #525252 1px solid;
+			}
+			.menu_header > div > i {
+				padding: 10px;
+				background-color: #404040;
+				color: #737373;
+				margin: 5px;
+				border-radius: 4px;
+			}
+			.menu_data {
+				font-size: 15px
+			}
+			.menu_data > p {
+				margin: 5px 0 0;
+				font-size: 10px;
+				color: gray;
+			}
+
+			a.menu_logout {
+				border-top: #525252 1px solid;
+			}
+
+
+			.dropdown-content a {
+				text-align: left;
+				color: #d4d4d4;
+				display: block;
+				padding: 8px 16px;
+				text-decoration: none;
+				font-size: 14px;
+				transition: background-color 0.2s ease-out;
+			}
+
+			.dropdown-content > a > i {
+				margin-right: 5px;
+			}
+
+			.dropdown-content a:hover {
+				background-color: #222222;
+			}
+
+			.dropdown:hover .dropdown-content {
+				display: block;
+				opacity: 1;
+				transform: translateY(0);
+				-webkit-transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+				transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+			}
+
+			@media(max-width: 768px) {
+				.dropdown {
+					display: block;
+				}
+				.dropdown-content {
+					position: static;
+					display: none;
+				}
+				.dropdown-content a {
+					display: block;
+					padding: 10px 20px;
+				}
+				.dropdown:hover .dropdown-content {
+					display: block;
+					-webkit-transition: none;
+					transition: none;
+				}
 			}
 		</style>
 

@@ -473,6 +473,7 @@ p.favorite_page_title {
     border-top-left-radius: 7px;
     border-left: 1px solid #ff000059;
     padding-left: 10px;
+    display: flex;
 }
 .pin-title {
     font-size: 13px;
@@ -959,8 +960,23 @@ a#new-filter {
         margin-top: 10px;
     }
 
+    #location {
+        min-width: 250px;
+    }
+    #new_location {
+        min-width: 250px;
+    }
+
 }
 
-.delete{
-    color: white;
+button.btn.delete {
+    color: #8d8d8d;
+    width: 18px;
+    font-size: 15px;
+    padding: 0px;
+    margin-left: 6px;
+    margin-bottom: 4px;
+}
+button.btn.delete:hover{
+    color:#5E9EEE;
 }

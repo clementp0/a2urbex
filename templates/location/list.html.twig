@@ -52,10 +52,10 @@
         {% if 'ROLE_ADMIN' in app.user.roles %}
         <div class="pin-edit pin-action">
             <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
+            {% include 'location/_delete_form.html.twig' %}
         </div>
         {% endif %}
          {% endif %}
-                  {% include 'location/_delete_form.html.twig' %}
         </div>
         </div>
 
