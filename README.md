@@ -9,7 +9,7 @@ That's how a2urbex.eu was born. A simple and clean platform in Symfony with Easy
 - Image generation by AI 
 - Import of KMZ / KML files  
 - Direct Waze / Map links 
-- A Pinterest scrapper 
+- A Pinterest scraper 
 - Online user management 
 - Progressive Web App 
 - And much much more... 
