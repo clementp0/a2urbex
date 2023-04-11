@@ -41,8 +41,8 @@ class FetchController extends AppController
     public function update(): Response {
         $locations = $this->locationRepository->findAll();
         foreach($locations as $location) {
-            if($location->getCountry()) $this->locationService->addCountry($location);
-            if($location->getType()) $this->locationService->addType($location);
+            if(!$location->getCountry()) $this->locationService->addCountry($location);
+            if(!$location->getType()) $this->locationService->addType($location);
             $this->locationRepository->add($location);
         }
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4fe02f255de4b9e45b3a2a464d3935e0",
+    "content-hash": "2d01dd7079aff2b900cd9620eaa526de",
     "packages": [
         {
             "name": "bentools/webpush-bundle",
