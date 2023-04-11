@@ -67,6 +67,43 @@ class LocationController extends AppController
         ]);
     }
 
+    #[Route('/new', name: 'new_location')]
+    public function newLocation(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator): Response
+    {
+        $location = new Location();
+    
+        $form = $this->createForm(NewLocationType::class, $location);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $location->setUser($this->getUser());
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($location);
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('new_location', ['id' => $location->getId()]);
+        }
+
+        $locations =$locationRepository->findByUser();
+
+        $totalResults = 0;
+        $totalResults = count($locations);
+
+        $locationData = $paginator->paginate(
+            $locations,
+            $request->query->getInt('page', 1),
+            6
+        );  
+
+        return $this->render('location/new.html.twig', [
+            'locations' => $locationData,
+            'hashkey' => $_ENV["HASH_KEY"],
+            'form' => $form->createView(),
+            'total_result' => $totalResults,
+        ]);
+    }
+
     #[Route('locations/{key}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator): Response
     {
