@@ -193,5 +193,13 @@ class LocationRepository extends ServiceEntityRepository
             ->execute()    
         ;
     }
+
+    public function findAllNoCountry() {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.country IS NULL')
+            ->getQuery()
+            ->execute()
+        ;
+    }
 }
 
