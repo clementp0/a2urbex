@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\Security;
 class LocationController extends AppController
 {
 
-    public function __construct(private HashidsServiceInterface $hashidsService)
+    public function __construct(private Security $security, private HashidsServiceInterface $hashidsService)
     {
     }
     
@@ -79,7 +79,7 @@ class LocationController extends AppController
         $form = $this->createForm(LocationType::class, $location);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if($this->isOwned($location) && $form->isSubmitted() && $form->isValid()) {
             $locationRepository->add($location);
             return $this->redirectToRoute('new_location', [], Response::HTTP_SEE_OTHER);
         }
@@ -106,7 +106,7 @@ class LocationController extends AppController
     
 
     #[Route('/locations/{key}/delete', name: 'app_location_delete', methods: ['POST'])]
-    public function delete_location(Request $request, LocationRepository $locationRepository, Security $security): Response
+    public function delete_location(Request $request, LocationRepository $locationRepository): Response
     {
         $hashKey = $_ENV["HASH_KEY"];
         $locationKey = $this->hashidsService->decode($request->get('key'));
@@ -114,12 +114,7 @@ class LocationController extends AppController
         $locationData = $locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
         $location = $locationData["loc"];
 
-        $user = $security->getUser();        
-        if(!$user) $deletable = false;
-        elseif($user->hasRole('ROLE_ADMIN')) $deletable = true;
-        elseif($location->getUser() && $user->getId() === $location->getUser()->getId()) $deletable = true;
-
-        if($deletable && $this->isCsrfTokenValid('delete'.$location->getId(), $request->request->get('_token'))) {
+        if($this->isOwned($location) && $this->isCsrfTokenValid('delete'.$location->getId(), $request->request->get('_token'))) {
             $locationRepository->remove($location);
         }
         $referer = $request->headers->get('referer');
@@ -165,5 +160,12 @@ class LocationController extends AppController
     #[Route('delete/', name: 'delete_location_source_empty', methods: ['GET'])]
     public function deleteEmpty(){
         return $this->redirect('/admin');
+    }
+
+    private function isOwned($location) {
+        $user = $this->security->getUser();        
+        if(!$user) return false;
+        elseif($user->hasRole('ROLE_ADMIN')) return true;
+        elseif($location->getUser() && $user->getId() === $location->getUser()->getId()) return true;
     }
 }
