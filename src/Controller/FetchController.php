@@ -39,11 +39,11 @@ class FetchController extends AppController
 
     #[Route('/update', name: 'app_update')]
     public function update(): Response {
-        $locations = $this->locationRepository->findAllNoCountry();
+        $locations = $this->locationRepository->findAll();
 
         foreach($locations as $location) {
             if(!$location->getCountry()) $this->locationService->addCountry($location);
-            //if(!$location->getType()) $this->locationService->addType($location);
+            if(!$location->getType()) $this->locationService->addType($location);
             $this->locationRepository->add($location);
         }
 
