@@ -7,6 +7,7 @@ use App\Entity\Country;
 use App\Entity\Type;
 use App\Entity\Location;
 use App\Repository\LocationRepository;
+use App\Repository\CountryRepository;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -40,6 +41,9 @@ class SearchType extends AbstractType
                 'label' => 'Country',
                 'required' => false,
                 'class' => Country::class,
+                'query_builder' => function(CountryRepository $repository) { 
+                    return $repository->createQueryBuilder('c')->orderBy('c.name', 'ASC');
+                },
                 'multiple' => true,
                 'expanded' => true,
             ])
