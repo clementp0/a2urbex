@@ -43,6 +43,7 @@ class MapController extends AppController
 
         return $this->render('map/index.html.twig', [
             'maps_api_key' => $_ENV['MAPS_API_KEY'],
+            'pin_location_path' => $_ENV['PIN_LOCATION_PATH'],
             'locations' => $locations
         ]);
     }
