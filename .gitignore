@@ -26,3 +26,5 @@ public/uploads
 .php-version
 chat.json
 public/chat.json
+public/chat.json
+composer.lock

@@ -119,7 +119,7 @@ input:focus{
 
 
 <script type="text/javascript">
-    const socket = new WebSocket("ws://a2urbex.eu:3001");
+    const socket = new WebSocket("ws://{{ websocket }}:3001");
 
     socket.addEventListener("open", function() {
         console.log("CONNECTED");

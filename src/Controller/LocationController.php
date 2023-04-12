@@ -59,6 +59,7 @@ class LocationController extends AppController
         $onlineUsers = $userOnlineService->getOnlineUsers();
 
         return $this->render('location/index.html.twig', [
+            'websocket' => $_ENV["WEBSOCKET_URL"],
             'user' => $this->getUser(),
             'user_role' => $this->getUser()->getRoles(),
             'user_id' => $this->getUser()->getId(),

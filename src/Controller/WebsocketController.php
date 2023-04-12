@@ -14,6 +14,7 @@ class WebsocketController extends AbstractController
     public function index(): Response
     {
         return $this->render('websocket/index.html.twig', [
+            'websocket' => $_ENV["WEBSOCKET_URL"],
             'controller_name' => 'WebsocketController',
             'user' => $this->getUser(),
             'user_role' => $this->getUser()->getRoles(),
@@ -29,6 +30,7 @@ class WebsocketController extends AbstractController
         $onlineUsers = $userOnlineService->getOnlineUsers();
 
         return $this->render('websocket/general.html.twig', [
+            'websocket' => $_ENV["WEBSOCKET_URL"],
             'controller_name' => 'WebsocketController',
             'user' => $this->getUser(),
             'user_role' => $this->getUser()->getRoles(),
