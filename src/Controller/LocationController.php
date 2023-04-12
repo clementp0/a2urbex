@@ -21,6 +21,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query\Expr\Join;
 use App\Service\UserOnlineService;
 use Symfony\Component\Security\Core\Security;
+use App\Service\LocationService;
 
 class LocationController extends AppController
 {
@@ -70,7 +71,7 @@ class LocationController extends AppController
     }
 
     #[Route('/new', name: 'new_location')]
-    public function newLocation(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator): Response
+    public function newLocation(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator, LocationService $locationService): Response
     {
         $location = new Location();
     
@@ -79,6 +80,7 @@ class LocationController extends AppController
     
         if ($form->isSubmitted() && $form->isValid()) {
             $location->setUser($this->getUser());
+            $locationService->addCountry($location);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($location);
@@ -107,7 +109,7 @@ class LocationController extends AppController
     }
 
     #[Route('locations/{key}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator): Response
+    public function edit(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator, LocationService $locationService): Response
     {
         $hashKey = $_ENV["HASH_KEY"];
         $locationKey = $this->hashidsService->decode($request->get('key'));
@@ -119,7 +121,9 @@ class LocationController extends AppController
         $form->handleRequest($request);
 
         if($this->isOwned($location) && $form->isSubmitted() && $form->isValid()) {
+            $locationService->addCountry($location);
             $locationRepository->add($location);
+
             return $this->redirectToRoute('new_location', [], Response::HTTP_SEE_OTHER);
         }
 
