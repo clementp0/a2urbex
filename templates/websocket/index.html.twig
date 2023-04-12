@@ -1,0 +1,203 @@
+{% block content %}
+<style>
+
+#chat{  
+    overflow-y: scroll;
+    padding: 10px;
+}
+.message{
+    clear: both;
+    display: block;
+}
+.message_content{
+    background-color:#737373;
+    font-size: 14px;
+    width:fit-content;
+    padding: 5px;
+    color : white;
+    border-radius: 10px;
+    margin-bottom: 0;
+}
+.name{
+    font-size: 11px;
+    color : #5A5A5A;
+    margin-bottom: 0.2rem;
+    margin-top: 0.2rem;
+}
+.ROLE_ADMIN > .name {
+    color: #ffd000;
+    font-weight: 400;
+}
+.\3{{ user_id }}user{
+    margin-left:200px;
+    text-align:right;
+    color:white;
+    float: right;
+    text-align: right;
+}
+
+.\3{{ user_id }}user > .message_content{
+    background-color:#5DA0F1;
+    float: right;
+    text-align: right;
+}
+
+.messenger_title{
+    margin: 0;
+    padding: 10px;
+    color:#a2a2a2;
+    border-bottom: #525252 1px solid;
+}
+
+.message_send {
+    background-color: #303030;
+    text-align: center;
+    border: #525252 1px solid;
+    padding: 5px;
+    margin-left: -1px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+input#message {
+    width: 80%;
+    background-color: #737373;
+    border: none;
+    border-radius: 40px;
+    color: white;
+    font-size: 13px;
+    padding: 4px;
+    padding-left: 8px;
+}
+
+input:focus{
+    outline: none;
+}
+.message_btn:focus{
+     outline: none;
+}
+.message_btn{
+    background-color: transparent;
+    color: #737373;
+    border: none;
+    color: white;
+}
+
+
+
+			#chat::-webkit-scrollbar {
+				width: 10px;
+			}
+
+			/* Track */
+			#chat::-webkit-scrollbar-track {
+				background: #303030;
+			}
+
+			/* Handle */
+			#chat::-webkit-scrollbar-thumb {
+				background: #404040;
+				margin: 1px;
+				border-radius: 10px;
+			}
+
+			/* Handle on hover */
+			#chat::-webkit-scrollbar-thumb:hover {
+				background: #999;
+			}
+
+
+</style>
+
+    <div id="chat">
+        </div>
+        <div class="form-group message_send">
+        <input type="text" id="message">
+        <button type="button" class="message_btn" id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+
+<script type="text/javascript">
+    const socket = new WebSocket("ws://localhost:3001");
+
+    socket.addEventListener("open", function() {
+        console.log("CONNECTED");
+        fetch('/chat-get')
+            .then(response => response.json())
+            .then(data => {
+                chatHistory = data;
+                renderChatHistory();
+            });
+    });
+
+    function addMessage(name, role, id,  message) {
+        const messageHTML = "<div class='message " + role + id +"user'><p class='name'>" + name + "</p><p class='message_content'> " + message + "</p></div>";
+        document.getElementById("chat").innerHTML += messageHTML
+
+
+    }
+
+    lastMessage = { name,  message };
+
+    socket.addEventListener("message", function(e) {
+        console.log(e.data);
+        try
+        {
+            const message = JSON.parse(e.data);
+            addMessage(message.name, message.role, message.id , message.message);
+            $('#chat').scrollTop($('#chat')[0].scrollHeight);
+        }
+        catch(e)
+        {
+        }
+    });
+
+
+    function renderChatHistory() {
+        const chatHTML = chatHistory.map(item => {
+            return "<div class='message " + item.role + item.id +"user'><p class='name'>"  + item.name + "</p><p class='message_content'> " + item.message + "</p></div>";
+        }).join("");
+        $('#chat').scrollTop($('#chat')[0].scrollHeight); 
+        document.getElementById("chat").innerHTML = chatHTML;
+        $('#chat').scrollTop($('#chat')[0].scrollHeight);   
+    }
+
+
+
+    document.getElementById("message").addEventListener("keydown", function(event) {
+    if (event.keyCode === 13) {
+        event.preventDefault(); 
+        document.getElementById("sendBtn").click();
+    }
+    });
+
+ document.getElementById("sendBtn").addEventListener("click", function(event) {
+  event.preventDefault();
+  const messageInput = document.getElementById("message");
+  const messageValue = messageInput.value.trim();
+  if (messageValue === '') {
+    return;
+  }
+  const message = {
+    name: '{{ user|raw }}',
+    role: '{{ user_role |join(' ')}}',
+    id: '{{ user_id|raw }}',
+    message: messageValue
+  };
+  socket.send(JSON.stringify(message));
+  addMessage(message.name, message.role, message.id, message.message);
+  $('#chat').scrollTop($('#chat')[0].scrollHeight);
+  fetch('/chat-add', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(message)
+  });
+  messageInput.value = '';
+});
+
+$('#chat').scrollTop($('#chat')[0].scrollHeight); 
+</script>
+{% endblock %}

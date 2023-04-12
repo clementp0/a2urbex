@@ -56,9 +56,11 @@ class LocationController extends AppController
         $user = $this->getUser();
         $userOnlineService->addUser($user);
         $onlineUsers = $userOnlineService->getOnlineUsers();
-        // dd($onlineUsers);
 
         return $this->render('location/index.html.twig', [
+            'user' => $this->getUser(),
+            'user_role' => $this->getUser()->getRoles(),
+            'user_id' => $this->getUser()->getId(),
             'locations' => $locationData,
             'hashkey' => $_ENV["HASH_KEY"],
             'form' => $form->createView(),

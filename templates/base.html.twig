@@ -2,6 +2,7 @@
 <html lang="fr">
 	<head>
 		<title>@a2urbex</title>
+
 		<link rel="icon" type="image/ico" href="{{ asset('favicon.ico') }}"/>
 		<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
@@ -13,6 +14,7 @@
 
 		{# PWA DATA #}
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<meta name="apple-mobile-web-app-status-bar-style" content="default">
 		<link rel="manifest" href="{{ ('manifest.json') }}">
 		<script src="{{ ('assets/js/notifications.js') }}"></script>
@@ -58,6 +60,11 @@
 									<a href="{{ path('app_favorite') }}">
 										<i class="fa fa-fw fa-heart"></i>
 										My favorites
+
+									</a>
+									<a href="{{ path('app_general_chat') }}">
+										<i class="fa-solid fa-comment"></i>
+										General Chat
 
 									</a>
 									<a href="" id="clear-cache-button">

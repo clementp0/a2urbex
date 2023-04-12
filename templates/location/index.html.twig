@@ -72,6 +72,9 @@
 				{% include 'location/list.html.twig' %}
 			</div>
 		</div>
+		<div class="messenger_icon">
+			<i class="fa-solid fa-comment"></i>
+		</div>
 		<a href="{{ path('new_location') }}" id="new-filter" class="new-link">
 			<i class="fa-solid fa-plus"></i>
 		</a>
@@ -79,4 +82,135 @@
 			<i class="fa-solid fa-map-location-dot"></i>
 		</a>
 
+		<div class="messenger">
+			<p class="messenger_title">
+				<i class="fa-solid fa-earth-europe"></i>
+				General Chat</p>
+			<div class="messenger_close">
+				<i class="fa-solid fa-xmark"></i>
+			</div>
+
+			{% include 'websocket/index.html.twig' %}
+		</div>
+		<style>
+
+			#chat {
+				height: 450px;
+				border-left: #525252 1px solid;
+				border-right: #525252 1px solid;
+				background-color: #303030;
+				background-color: #303030;
+				box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+			}
+
+			.message_send {
+				width: 100%;
+				margin-left: 0;
+			}
+			.messenger {
+				display: none;
+				position: fixed;
+				bottom: 380px;
+				right: 15px;
+				background-color: #303030;
+				width: 300px;
+				height: 200px;
+				animation: slide-up 0.5s ease;
+			}
+
+			.messenger_title {
+				border: #525252 1px solid;
+				border-top-left-radius: 6px;
+				border-top-right-radius: 6px;
+			}
+
+			.messenger_icon {
+				position: fixed;
+				bottom: 170px;
+				right: 25px;
+				background-color: #787878;
+				color: #222222;
+				width: 50px;
+				height: 50px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				border-radius: 50%;
+				font-size: 20px;
+			}
+			.messenger_icon:hover {
+				cursor: pointer;
+			}
+
+			.messenger_close {
+				position: absolute;
+				top: 7px;
+				right: 6px;
+				width: 20px;
+				height: 20px;
+				cursor: pointer;
+				font-size: 20px;
+			}
+
+			@keyframes slide-up {
+				from {
+					transform: translateX(100%);
+				}
+				to {
+					transform: translateX(0);
+				}
+			}
+		</style>
+
+		<script>
+			// Get the messenger and messenger_icon elements
+const messenger = document.querySelector('.messenger');
+const messengerIcon = document.querySelector('.messenger_icon');
+
+// Add click event listener to messenger_icon
+messengerIcon.addEventListener('click', function () { // Show the messenger with animation
+messenger.style.display = 'block';
+messenger.style.animation = 'slide-up 0.5s ease';
+});
+
+// Get the messenger_close element
+const messengerClose = document.querySelector('.messenger_close');
+
+// Add click event listener to messenger_close
+messengerClose.addEventListener('click', function () { // Hide the messenger with animation
+messenger.style.animation = 'slide-down 0.5s ease';
+setTimeout(function () {
+messenger.style.display = 'none';
+messenger.style.animation = '';
+}, 500);
+});
+
+// Define the slide-up and slide-down animations
+const slideUpAnimation = `
+  @keyframes slide-up {
+    from {
+      transform: translateX(130%);
+    }
+    to {
+      transform: translateX(0%);
+    }
+  }
+`;
+
+const slideDownAnimation = `
+  @keyframes slide-down {
+    from {
+      transform: translateX(0%);
+    }
+    to {
+      transform: translateX(130%);
+    }
+  }
+`;
+
+// Add the slide-up and slide-down animations to the document
+const style = document.createElement('style');
+style.innerHTML = slideUpAnimation + slideDownAnimation;
+document.head.appendChild(style);
+		</script>
 	{% endblock %}
