@@ -109,6 +109,7 @@ class DashboardController extends AbstractDashboardController
 
         //Return data 
         return $this->render('admin/index.html.twig', [
+            'websocket' => $_ENV["WEBSOCKET_URL"],
             'pins' => $pins_count,
             'country' => $country_count,
             'type' => $type_count,
@@ -170,6 +171,25 @@ class DashboardController extends AbstractDashboardController
     }
 
 
+    //Clear Chat
+    public function clearChat()
+    {
+        $filename = 'chat.json';
+        $json = json_encode([
+            'name' => 'a2urbex',
+            'role' => 'ROLE_SERVER ',
+            'id' => '0',
+            'message' => 'WELCOME TO A2URBEX'
+        ]);
+
+        if (file_put_contents($filename, $json)) {
+            return $this->redirect('admin');
+        } else {
+            return $this->redirect('admin');
+        }
+    }
+
+
     // Download Database
 
     public function downloadDatabase()
@@ -182,7 +202,7 @@ class DashboardController extends AbstractDashboardController
         $databasePassword = isset($parsedUrl['pass']) ? $parsedUrl['pass'] : null;
         $databaseName = isset($parsedUrl['path']) ? ltrim($parsedUrl['path'], '/') : null;
         $dumpFile = 'a2urbex_dump.sql';
-    
+
         $command = sprintf(
             'mysqldump -u%s -p%s %s > %s',
             $databaseUser,
@@ -191,14 +211,14 @@ class DashboardController extends AbstractDashboardController
             $dumpFile
         );
         exec($command);
-    
+
         $response = new Response(file_get_contents($dumpFile));
         $response->headers->set('Content-Type', 'application/sql');
         $response->headers->set('Content-Disposition', 'attachment; filename="a2urbex_dump.sql"');
-    
+
         unlink($dumpFile);
-    
+
         return $response;
-    
-    }   
+
+    }
 }

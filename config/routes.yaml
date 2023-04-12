@@ -12,3 +12,6 @@ sw:
 download_database:
     path: /download-database
     controller: App\Controller\Admin\DashboardController::downloadDatabase
+clear_chat:
+    path: /clear_chat
+    controller: App\Controller\Admin\DashboardController::clearChat

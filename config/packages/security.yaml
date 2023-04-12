@@ -36,6 +36,9 @@ security:
             - { path: ^/fetch, roles: ROLE_ADMIN }
             - { path: ^/update, roles: ROLE_ADMIN }
             - { path: ^/patch, roles: ROLE_ADMIN }
+            - { path: ^/clear_chat, roles: ROLE_ADMIN }
+            - { path: ^/download-database, roles: ROLE_ADMIN }
+            
         # USER Access
             - { path: ^/locations, roles: [ROLE_ADMIN, ROLE_USER] }
             - { path: ^/update, roles: [ROLE_ADMIN, ROLE_USER] }

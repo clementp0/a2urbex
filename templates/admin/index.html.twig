@@ -36,6 +36,26 @@
 		<div>
 		</div>
 	</section>
+
+{# Chat #}
+<section class="fetch-part text-center">
+<div class="container">
+		<div>
+			<p class="text-muted">General Chat : <br></p>
+		</div>
+<a class="btn btn-danger" href="{{ path('clear_chat')}}">Clear Chat</a>
+<div class="adminsender">
+<input type="text" id="message" placeholder="Server Restart.."> </input>
+<button class="btn btn-primary" id="message_admin">Send</button>
+</div>
+</div>
+<div class="output-area">
+		<p class="text-muted">Server Status : </b></p>
+<p class="websocket_online" style="display: none;">Online running on : <div class="output">{{ websocket }}</div></p>
+<p class="websocket_offline">Currently Offline.. </p>
+		</div>
+</section>
+
 {# Import #}
 	<section class="fetch-part text-center">
 		<div class="container">
@@ -89,7 +109,7 @@
 		<p class="text-muted">Database : </b></p>
 <a href="{{ path('download_database') }}" class="btn btn-secondary " style="pointer-events:none;">Download Database</a>
 
-		</div>
+</div>
 
 
 </section>
@@ -151,6 +171,14 @@ clearCacheButton.addEventListener('click', async () => {
 {# Stylesheets #}
 
 <style>
+
+.adminsender {
+    margin-top: 20px;
+}
+button#message_admin {
+    margin-top: -4px;
+}
+
 
 a.btn.btn-success.off {
     opacity: 0.6;
@@ -256,7 +284,6 @@ p.online {
 	background-color: var(--form-control-bg);
 	border : 1px solid var(--form-input-border-color);
     padding: 8px;
-	padding-bottom:0;
     border-radius: 5px;
     font-size: 11px;
     height: fit-content;
@@ -310,6 +337,74 @@ input.delete-target-source {
     margin: 0;
     border-right: 0px!important;
 }
+
+.websocket_offline::before {
+    content: '';
+    display: inherit;
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+    background-color: red;
+    border-radius: 50px;
+}
+.websocket_online::before {
+    content: '';
+    display: inherit;
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+    background-color: green;
+    border-radius: 50px;
+}
 </style>
+
+<script type="text/javascript">
+    const socket = new WebSocket("{{ websocket }}");
+
+    socket.addEventListener("open", function() {
+        console.log("CONNECTED");
+        fetch('/chat-get')
+            .then(response => response.json())
+            .then(data => {
+                chatHistory = data;
+                renderChatHistory();
+            });
+        document.querySelector('.websocket_online').style.display = 'inline-block';
+        document.querySelector('.websocket_offline').style.display = 'none';
+    });
+
+    socket.addEventListener("close", function() {
+        console.log("DISCONNECTED");
+        document.querySelector('.websocket_online').style.display = 'none';
+        document.querySelector('.websocket_offline').style.display = 'inline-block';
+    });
+
+	 document.getElementById("message_admin").addEventListener("click", function(event) {
+  event.preventDefault();
+  const messageInput = document.getElementById("message");
+  const messageValue = messageInput.value.trim();
+  if (messageValue === '') {
+    return;
+  }
+  const message = {
+    name: 'a2urbex',
+    role: 'ROLE_SERVER ',
+    id: '0',
+    message: messageValue
+  };
+  socket.send(JSON.stringify(message));
+  addMessage(message.name, message.role, message.id, message.message);
+  $('#chat').scrollTop($('#chat')[0].scrollHeight);
+  fetch('/chat-add', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(message)
+  });
+  messageInput.value = '';
+});
+</script>
+
 
 {% endblock %}
