@@ -43,6 +43,9 @@ security:
             - { path: ^/map/filter, roles: [ROLE_ADMIN, ROLE_USER] }
             - { path: ^/new, roles: [ROLE_ADMIN, ROLE_USER] }
             - { path: ^/password, roles: [ROLE_ADMIN, ROLE_USER] }
+            - { path: ^/general_chat, roles: [ROLE_ADMIN, ROLE_USER] }
+            - { path: ^/chat-get, roles: [ROLE_ADMIN, ROLE_USER] }
+            - { path: ^/chat-add, roles: [ROLE_ADMIN, ROLE_USER] }
         # Wrong Access Handler
     access_denied_url: /
         # Default User Access
