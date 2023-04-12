@@ -24,7 +24,7 @@ class WebsocketServerCommand extends Command
             )
         ),
         $port,
-        'a2urbex.eu'
+        '127.0.0.1'
     );
     $server->run();
     return 0;
