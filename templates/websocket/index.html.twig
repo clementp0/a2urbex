@@ -6,8 +6,9 @@
     padding: 10px;
 }
 .message{
-    clear: both;
     display: block;
+    max-width: 70%;
+    margin-bottom: 10px;
 }
 .message_content{
     background-color:#737373;
@@ -17,7 +18,6 @@
     color : white;
     border-radius: 10px;
     margin-bottom: 0;
-    max-width: 70%;
 }
 .name{
     font-size: 11px;
@@ -25,22 +25,45 @@
     margin-bottom: 0.2rem;
     margin-top: 0.2rem;
 }
+
+.ROLE_SERVER > .message_content {
+    width: 100%!important;
+    max-width: 100%!important;
+    text-align: center;
+    border-radius: 0;
+}
+
 .ROLE_ADMIN > .name {
     color: #ffd000;
     font-weight: 400;
+    display: flex;
 }
-.\3{{ user_id }}user{
-    text-align:right;
-    color:white;
-    float: right;
-    text-align: right;
+.ROLE_ADMIN > .name .shield {
+    margin-left: 3px;
 }
 
-.\3{{ user_id }}user > .message_content{
-    background-color:#5DA0F1;
-    float: right;
-    text-align: left;
+
+.user{{ user_id }} {
+    margin-left: auto;
 }
+.user{{ user_id }} > .name {
+    width: fit-content;
+    margin-left: auto;
+}
+
+.user{{ user_id }} > .message_content{
+    margin-left: auto;
+    background-color:#5DA0F1;
+}
+
+.user{{ user_id }}.ROLE_ADMIN > .name  {
+    flex-direction: row-reverse;
+}
+.user{{ user_id }}.ROLE_ADMIN > .name .shield {
+    margin-left: 0;
+    margin-right: 3px;
+}
+
 
 .messenger_title{
     margin: 0;
@@ -85,26 +108,26 @@ input:focus{
 
 
 
-			#chat::-webkit-scrollbar {
-				width: 10px;
-			}
+#chat::-webkit-scrollbar {
+    width: 10px;
+}
 
-			/* Track */
-			#chat::-webkit-scrollbar-track {
-				background: #303030;
-			}
+/* Track */
+#chat::-webkit-scrollbar-track {
+    background: #303030;
+}
 
-			/* Handle */
-			#chat::-webkit-scrollbar-thumb {
-				background: #404040;
-				margin: 1px;
-				border-radius: 10px;
-			}
+/* Handle */
+#chat::-webkit-scrollbar-thumb {
+    background: #404040;
+    margin: 1px;
+    border-radius: 10px;
+}
 
-			/* Handle on hover */
-			#chat::-webkit-scrollbar-thumb:hover {
-				background: #999;
-			}
+/* Handle on hover */
+#chat::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
 
 
 </style>
@@ -132,10 +155,8 @@ input:focus{
     });
 
     function addMessage(name, role, id,  message) {
-        const messageHTML = "<div class='message " + role + id +"user'><p class='name'>" + name + "</p><p class='message_content'> " + message + "</p></div>";
+        const messageHTML = renderRow(role, id, name, message)
         document.getElementById("chat").innerHTML += messageHTML
-
-
     }
 
     lastMessage = { name,  message };
@@ -156,11 +177,22 @@ input:focus{
 
     function renderChatHistory() {
         const chatHTML = chatHistory.map(item => {
-            return "<div class='message " + item.role + item.id +"user'><p class='name'>"  + item.name + "</p><p class='message_content'> " + item.message + "</p></div>";
+            return renderRow(item.role, item.id, item.name, item.message)
         }).join("");
         $('#chat').scrollTop($('#chat')[0].scrollHeight); 
         document.getElementById("chat").innerHTML = chatHTML;
         $('#chat').scrollTop($('#chat')[0].scrollHeight);   
+    }
+
+    function renderRow(role, id, name, message) {
+        console.log(role)
+        return "<div class='message " + role + " user"+id+"'>"
+        +"<p class='name'>"
+        +"<span>" + name + "</span>"
+        + (role.includes('ROLE_ADMIN') ? '<span class="shield"><i class="fa-solid fa-shield-halved"></i></span>' : '')
+        +"</p>"
+        +"<p class='message_content'> " + message + "</p>"
+        +"</div>";
     }
 
 
