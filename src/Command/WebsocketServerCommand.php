@@ -14,18 +14,20 @@ class WebsocketServerCommand extends Command
     protected static $defaultName = "run:websocket-server";
 
     protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $port = 443;
-        $output->writeln("Starting server on port " . $port);
-        $server = IoServer::factory(
-            new HttpServer(
-                new WsServer(
-                    new MessageHandler()
-                )
-            ),
-            $port
-        );
-        $server->run();
-        return 0;
-    }
+{
+    $port = 3001;
+    $output->writeln("Starting server on port " . $port);
+    $server = IoServer::factory(
+        new HttpServer(
+            new WsServer(
+                new MessageHandler()
+            )
+        ),
+        $port,
+        'a2urbex.eu'
+    );
+    $server->run();
+    return 0;
+}
+
 }
