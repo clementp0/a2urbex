@@ -360,15 +360,15 @@ input.delete-target-source {
 
 <script type="text/javascript">
     const socket = new WebSocket("{{ websocket }}");
-
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
+    const year = String(now.getFullYear()).slice(2);
+    const hour = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const formattedDate = `${day}/${month}/${year} ${hour}:${minutes}`; 
     socket.addEventListener("open", function() {
         console.log("CONNECTED");
-        fetch('/chat-get')
-            .then(response => response.json())
-            .then(data => {
-                chatHistory = data;
-                renderChatHistory();
-            });
         document.querySelector('.websocket_online').style.display = 'inline-block';
         document.querySelector('.websocket_offline').style.display = 'none';
     });
@@ -390,11 +390,10 @@ input.delete-target-source {
     name: 'a2urbex',
     role: 'ROLE_SERVER ',
     id: '0',
+    date: formattedDate,
     message: messageValue
   };
   socket.send(JSON.stringify(message));
-  addMessage(message.name, message.role, message.id, message.message);
-  $('#chat').scrollTop($('#chat')[0].scrollHeight);
   fetch('/chat-add', {
     method: 'POST',
     headers: {

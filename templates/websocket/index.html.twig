@@ -1,5 +1,10 @@
 {% block content %}
 <style>
+.message_date {
+    font-size: 10px;
+    opacity: .6;
+    margin-top: 5px;
+}
 
 #chat{  
     overflow-y: scroll;
@@ -52,6 +57,10 @@
 .user{{ user_id }} > .name {
     width: fit-content;
     margin-left: auto;
+}
+
+.user{{ user_id }} > .message_date {
+  text-align:right;
 }
 
 .user{{ user_id }} > .message_content{
@@ -181,6 +190,14 @@ input:focus{
 <script type="text/javascript">
     const socket = new WebSocket("{{ websocket }}");
 
+const now = new Date();
+const day = String(now.getDate()).padStart(2, '0');
+const month = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
+const year = String(now.getFullYear()).slice(2);
+const hour = String(now.getHours()).padStart(2, '0');
+const minutes = String(now.getMinutes()).padStart(2, '0');
+const formattedDate = `${day}/${month}/${year} ${hour}:${minutes}`;
+
     socket.addEventListener("open", function() {
         console.log("CONNECTED");
         fetch('/chat-get')
@@ -191,8 +208,8 @@ input:focus{
             });
     });
 
-    function addMessage(name, role, id,  message) {
-        const messageHTML = renderRow(role, id, name, message)
+    function addMessage(name, role, id,  message, date) {
+        const messageHTML = renderRow(role, id, name, message, date)
         document.getElementById("chat").innerHTML += messageHTML
     }
 
@@ -206,7 +223,7 @@ input:focus{
             const myDiv = document.getElementById('messenger_dot');
             myDiv.classList.add('messenger_dot_notification');
             // NOTIFICATION
-            addMessage(message.name, message.role, message.id , message.message);
+            addMessage(message.name, message.role, message.id, message.message, message.date);
             $('#chat').scrollTop($('#chat')[0].scrollHeight);
         }
         catch(e)
@@ -217,20 +234,21 @@ input:focus{
 
     function renderChatHistory() {
         const chatHTML = chatHistory.map(item => {
-            return renderRow(item.role, item.id, item.name, item.message)
+            return renderRow(item.role, item.id, item.name, item.message, item.date)
         }).join("");
         $('#chat').scrollTop($('#chat')[0].scrollHeight); 
         document.getElementById("chat").innerHTML = chatHTML;
         $('#chat').scrollTop($('#chat')[0].scrollHeight);   
     }
 
-    function renderRow(role, id, name, message) {
+    function renderRow(role, id, name, message, date) {
         return "<div class='message " + role + " user"+id+"'>"
         +"<p class='name'>"
         +"<span>" + name + "</span>"
         + (role.includes('ROLE_ADMIN') ? '<span class="shield"><i class="fa-solid fa-shield-halved"></i></span>' : '')
         +"</p>"
         +"<p class='message_content'> " + message + "</p>"
+        +"<p class='message_date'> " + date + "</p>"
         +"</div>";
     }
 
@@ -254,10 +272,11 @@ input:focus{
     name: '{{ user|raw }}',
     role: '{{ user_role |join(' ')}}',
     id: '{{ user_id|raw }}',
+    date : formattedDate,
     message: messageValue
   };
   socket.send(JSON.stringify(message));
-  addMessage(message.name, message.role, message.id, message.message);
+  addMessage(message.name, message.role, message.id, message.message, message.date);
   $('#chat').scrollTop($('#chat')[0].scrollHeight);
   fetch('/chat-add', {
     method: 'POST',
