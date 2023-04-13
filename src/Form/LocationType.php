@@ -30,7 +30,7 @@ class LocationType extends AbstractType
                 'label' => 'Name',
                 'required' => true,
                 'attr' => [
-                    'placeholder' => 'Abandonned Castel'
+                    'placeholder' => 'Abandonned Castle'
                 ]
             ])
             ->add('type', EntityType::class, [
