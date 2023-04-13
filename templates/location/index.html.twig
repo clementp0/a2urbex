@@ -73,6 +73,7 @@
 			</div>
 		</div>
 		<div class="messenger_icon">
+			<div id="messenger_dot"></div>
 			<i class="fa-solid fa-comment"></i>
 		</div>
 		<a href="{{ path('new_location') }}" id="new-filter" class="new-link">
@@ -93,6 +94,32 @@
 			{% include 'websocket/index.html.twig' %}
 		</div>
 		<style>
+
+			#messenger_dot {
+				display: none;
+				background-color: #60A5FA;
+				width: 15px;
+				height: 15px;
+				border-radius: 10px;
+				position: absolute;
+				top: 0;
+				left: 0;
+				animation: blink 1.3s linear infinite;
+			}
+			@keyframes blink {
+				0% {
+					opacity: 50%;
+				}
+				50% {
+					opacity: 100%;
+				}
+				100% {
+					opacity: 50%;
+				}
+			}
+			.messenger_dot_notification {
+				display: block !important;
+			}
 
 			#chat {
 				height: 450px;
@@ -170,6 +197,8 @@ const messengerIcon = document.querySelector('.messenger_icon');
 // Add click event listener to messenger_icon
 messengerIcon.addEventListener('click', function () { // Show the messenger with animation
 messenger.style.display = 'block';
+var element = document.getElementById("messenger_dot");
+element.classList.remove("messenger_dot_notification");
 messenger.style.animation = 'slide-up 0.5s ease';
 });
 
@@ -180,6 +209,8 @@ const messengerClose = document.querySelector('.messenger_close');
 messengerClose.addEventListener('click', function () { // Hide the messenger with animation
 messenger.style.animation = 'slide-down 0.5s ease';
 setTimeout(function () {
+var element = document.getElementById("messenger_dot");
+element.classList.remove("messenger_dot_notification");
 messenger.style.display = 'none';
 messenger.style.animation = '';
 }, 500);

@@ -199,10 +199,13 @@ input:focus{
     lastMessage = { name,  message };
 
     socket.addEventListener("message", function(e) {
-        console.log(e.data);
         try
         {
             const message = JSON.parse(e.data);
+            // NOTIFICATION
+            const myDiv = document.getElementById('messenger_dot');
+            myDiv.classList.add('messenger_dot_notification');
+            // NOTIFICATION
             addMessage(message.name, message.role, message.id , message.message);
             $('#chat').scrollTop($('#chat')[0].scrollHeight);
         }
@@ -222,7 +225,6 @@ input:focus{
     }
 
     function renderRow(role, id, name, message) {
-        console.log(role)
         return "<div class='message " + role + " user"+id+"'>"
         +"<p class='name'>"
         +"<span>" + name + "</span>"
