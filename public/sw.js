@@ -6,8 +6,8 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(function(cache) {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
+        console.log('Opened cache [Disable since 13/04/2023]');
+        // return cache.addAll(urlsToCache);
       })
   );
 });
