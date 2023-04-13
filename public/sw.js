@@ -1,4 +1,4 @@
-const CACHE_NAME = 'a2urbex';
+const CACHE_NAME = 'a2urbex_v2';
 const urlsToCache = [  'assets/js/maps.js', 'assets/default.png' ];
 
 self.addEventListener('install', function(event) {
