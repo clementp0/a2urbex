@@ -9,6 +9,7 @@ use App\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use App\Entity\UploadedFile;
@@ -44,19 +45,25 @@ class LocationType extends AbstractType
                     'placeholder' => 'Police with dog..',
                 ]
             ])
-            ->add('lat', TextType::class, [
+            ->add('lat', NumberType::class, [
                 'label' => 'Latitude',
                 'required' => true,
                 'attr' => [
-                    'placeholder' => '43.232166666667'
-                ]
+                    'min' => -90,
+                    'max' => 90,
+                    'class' => 'coord-input',
+                    'inputmode' => 'decimal'
+                ],
             ])
-            ->add('lon', TextType::class, [
+            ->add('lon', NumberType::class, [
                 'label' => 'Longitude',
                 'required' => true,
                 'attr' => [
-                    'placeholder' => '-43.232166666667'
-                ]
+                    'min' => -90,
+                    'max' => 90,
+                    'class' => 'coord-input',
+                    'inputmode' => 'decimal'
+                ],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Edit Location',
