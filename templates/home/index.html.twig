@@ -59,7 +59,7 @@
 	{# SHARE WITH YOUR FRIENDS  #}
 		<div class="home-content">
 		<div class="home-content-image">
-			<img src="./home/add.png">
+			<img src="./home/favorites.png">
 		</div>
 		<div class="home-content-text">
 			<h1>Share with your friends !
@@ -70,13 +70,25 @@
 	{# A2URBEX #}
 	<div class="home-content">
 		<div class="home-content-text">
-			<h1>Look at your map
+			<h1>Who are we?
 			</h1>
-			<p class="home-content-text-p right">All the Pins you've created are available on the map with an icon representing their category. You can also click on the pin of your choice to preview it (and access all the information and links like Waze or Maps!).</p>
+			<p class="home-content-text-p right">		
+				<p class="adeux">
+					<i class="fa-brands fa-instagram"></i>Follow us on instagram<a target="blank" href="https://www.instagram.com/a2urbex/"> @a2urbex</a>
+				</p>
+				<p class="home_urbex">
+				Nice to meet you! We are <a target="blank" href="https://www.instagram.com/clement.po/">@clement.po</a> and <a target="blank" href="https://www.instagram.com/hugolahaxe/">
+				@hugolahaxe</a>, two web developers from Bordeaux but above all two urban explorers for many years. We coded this platform to simplify our expeditions... but after months of coding and adding features to it, it would have been selfish of us not to share it with other enthusiasts!
+				</p>
+			</p>
 		</div>
+		
 		<div class="home-content-image">
-			<img src="./home/map.png">
+		<a href="https://www.youtube.com/embed/HEW0atdGn4" target="_blank">
+			<img src="./home/video.png">
+			</a>
 		</div>
+		
 	</div>
 	<style>
 		button.dropbtn {
@@ -107,6 +119,24 @@
 		.home-content-image > img {
 			width: 100%
 		}
+
+		.home-content-image > a > img {
+			width: 100%;
+			transition: filter 0.5s ease;
+
+		}
+		.home-content-image > a > img:hover {
+			filter: grayscale(1);
+			transition: filter 0.5s ease;
+
+		}
+		.home-content-text-p > p{
+			color: #aeaeae;
+			}
+		p.home_urbex {
+  			color: #aeaeae;	
+		}
+	
 		.home-content-text {
 			text-align: right;
 			width: 50%;
@@ -173,9 +203,11 @@
 		}
 		.intro_img > img {
 			width: 100%;
-			border-radius: 6px;
+			border-radius: 13px;
 			box-shadow: 0 0 19px 3px #000000d6;
 		}
+
+
 
 		.intro_button > a {
 			text-transform: none;
@@ -214,6 +246,10 @@
 			text-transform: uppercase;
 		}
 
+		.adeux{
+			padding: 10px;
+			box-shadow: inset 0 -1px 0 #525252;
+		}
 
 		@media screen and (max-width: 1024px) {
 			.home-content {
@@ -226,6 +262,7 @@
 			.home-content-text {
 				width:100%;
 				text-align: center!important;
+    			padding: 30px;
 			}
 			.home-content-text-p {
 			max-width: 100%;
@@ -258,84 +295,6 @@
 		@media screen and (max-width: 1384px) {
 		.home-content-text {
     		transform: translate(0px, 0%);
-			}
-		}
-	</style>
-
-	<div class="intro-container">
-		<h1>Watch our documentary [FR]</h1>
-		<iframe src="https://www.youtube.com/embed/HEW0atdGn4A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-		<p class="adeux">
-			<i class="fa-brands fa-instagram"></i>
-			Follow us on instagram<a target="blank" href="https://www.instagram.com/a2urbex/">
-				@a2urbex</a>
-		</p>
-		<p class="pers">
-			<a target="blank" href="https://www.instagram.com/clement.po/">
-				@clement.po</a>
-			|
-			<a target="blank" href="https://www.instagram.com/hugolahaxe/">
-				@hugolahaxe</a>
-		</p>
-		<br>
-
-
-	</div>
-
-	<style>
-		.locationslist {
-			color: white !important;
-			background-color: #007bff;
-			padding: 7px;
-			border-radius: 4px;
-			text-decoration: none !important;
-		}
-		.locationslist:hover {
-			color: white !important;
-			transition: all 0.3s;
-			* text-decoration: none;
-			text-decoration-line: none;
-			background-color: #0059b9;
-			cursor: pointer;
-		}
-		.waiting {
-			pointer-events: none;
-		}
-
-		.ytp-cued-thumbnail-overlay-image {
-			background-size: unset !important;
-		}
-		.intro-container {
-			max-width: 1080px;
-			width: 80%;
-			margin: auto;
-			text-align: center;
-		}
-		.intro-container h1 {
-			font-size: 2rem;
-			padding: 20px;
-		}
-		.intro-container a {
-			color: #60a5fa;
-		}
-		.adeux {
-			padding: 10px;
-			box-shadow: inset 0 -1px 0 #525252;
-		}
-		.pers {
-			color: #737373;
-			font-size: 0.7rem;
-		}
-
-		iframe {
-			margin: auto;
-			text-align: center;
-			width: 100%;
-			height: 50vh;
-		}
-		@media screen and(max-width: 500px) {
-			iframe {
-				height: 35vh;
 			}
 		}
 	</style>

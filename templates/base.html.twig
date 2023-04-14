@@ -107,7 +107,7 @@
 						</div>
 					{% endif %}
 				{% else %}
-					<a href="{{ path('app_login') }}">Login / Register</a>
+					<a class="login_register" href="{{ path('app_login') }}">Connect</a>
 				{% endif %}
 
 			</div>
@@ -130,6 +130,18 @@
 		<script>
 		</script>
 		<style>
+		.login_register{
+    		background-color: #007bff;
+    		font-size: 13px;
+    		padding: 3px 10px 3px 10px;
+    		border-radius: 40px;
+			transition: background-color 0.5s ease;
+		}
+		.login_register:hover{
+    		background-color: #0f5fb4;
+			transition: background-color 0.5s ease;
+		}
+
 			.approval {
 				color: white;
 				background-color: #007bff;
