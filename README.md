@@ -5,6 +5,7 @@ That's how a2urbex.eu was born. A simple and clean platform in Symfony with Easy
 **Later on we added features such as :** 
 
 - Favourite lists 
+- WebSocket General Chat
 - User management 
 - Image generation by AI 
 - Import of KMZ / KML files  
@@ -16,9 +17,13 @@ That's how a2urbex.eu was born. A simple and clean platform in Symfony with Easy
 
 We continue to add features very (*very*) regularly... 
 
-## Home
-![Home](https://cdn.discordapp.com/attachments/778932989693526038/1093964003207823370/Capture_decran_2023-04-07_a_20.21.48.png)
+## HomePage
+![HomePage](https://cdn.discordapp.com/attachments/778932989693526038/1096463190486958090/homepage.png)
+## Locations
+![Locations](https://cdn.discordapp.com/attachments/778932989693526038/1096463189845233724/home.png)
+## Add Location
+![Add](https://cdn.discordapp.com/attachments/778932989693526038/1096463188926681169/add.png)
 ## Admin
-![Admin](https://cdn.discordapp.com/attachments/778932989693526038/1093964017875308584/Capture_decran_2023-04-07_a_20.21.58.png)
+![Admin](https://cdn.discordapp.com/attachments/778932989693526038/1096463189199306802/admin.png)
 ## Map
-![Map](https://cdn.discordapp.com/attachments/778932989693526038/1093964112846913536/Capture_decran_2023-04-07_a_20.22.36.png)
+![Map](https://cdn.discordapp.com/attachments/778932989693526038/1096463190776352901/map.png)
