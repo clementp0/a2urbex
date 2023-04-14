@@ -3,14 +3,14 @@
 {% block content %}
 
 	<div class="intro_header">
-		<div class="intro_title">Your Exploration Co-Pilot !
-			<p>Discover, Save, Share ! Everything you need to get ready for your next quest</p>
+		<div class="intro_title">YOUR EXPLORATION CO-PILOT!
+			<p>Discover, Save & Share! Everything you need to prepare for your next quest!</p>
 			<div class="intro_stats">
-				We are currently referencing
+				We currently reference
 				<b>{{pins}}</b>
 				locations, in
 				<b>{{country}}</b>
-				Country and
+				countries and
 				<b>{{type}}</b>
 				categories.<br><br>
 			</div>
@@ -18,7 +18,7 @@
 			{% if app.user %}
 				<a class="intro_login" href="/locations">
 					<i class="fa-solid fa-map-pin"></i>
-					Access your Map !
+					Create your Map !
 				</a>
 			{% else %}
 			<a class="intro_login" href="/login">
@@ -34,6 +34,7 @@
 		</div>
 		<div class="intro_img"><img src="./home/home.png"></div>
 	</div>
+	{# ALL YOUR PINS #}
 	<div class="home-content">
 		<div class="home-content-image">
 			<img src="./home/add.png">
@@ -41,14 +42,37 @@
 		<div class="home-content-text">
 			<h1>Add your pins !
 			</h1>
-			<p class="home-content-text-p">Choose a category, insert your coordinates, import your image... and THAT'S IT ! Country, Waze & Maps link will be automaticly generated ! You can also edit and delete your pin. (You can also add a comment like "Oops.. cops at the entry"</p>
+			<p class="home-content-text-p">Choose a category, enter the coordinates, import your image... and THAT'S IT! Countries, Waze and Maps are automatically generated! You can also edit and delete your pins (you can even add a comment like "Oops... cops at the entrance")</p>
 		</div>
 	</div>
+	{# LOOK AT YOUR MAP #}
 	<div class="home-content">
 		<div class="home-content-text">
 			<h1>Look at your map
 			</h1>
-			<p class="home-content-text-p right">All the pins you created and available on the map, with an icon to represent the category. You can also click on the pin you want and preview it (and access to all the infos and links like Waze or Maps !)</p>
+			<p class="home-content-text-p right">All the Pins you've created are available on the map with an icon representing their category. You can also click on the pin of your choice to preview it (and access all the information and links like Waze or Maps!).</p>
+		</div>
+		<div class="home-content-image">
+			<img src="./home/map.png">
+		</div>
+	</div>
+	{# SHARE WITH YOUR FRIENDS  #}
+		<div class="home-content">
+		<div class="home-content-image">
+			<img src="./home/add.png">
+		</div>
+		<div class="home-content-text">
+			<h1>Share with your friends !
+			</h1>
+			<p class="home-content-text-p">You can add your friends, see their pins on your map! Create collaborative lists and share them with your friends or make them public to share with your travel partners outside the website!</p>
+		</div>
+	</div>
+	{# A2URBEX #}
+	<div class="home-content">
+		<div class="home-content-text">
+			<h1>Look at your map
+			</h1>
+			<p class="home-content-text-p right">All the Pins you've created are available on the map with an icon representing their category. You can also click on the pin of your choice to preview it (and access all the information and links like Waze or Maps!).</p>
 		</div>
 		<div class="home-content-image">
 			<img src="./home/map.png">

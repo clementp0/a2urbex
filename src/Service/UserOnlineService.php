@@ -41,6 +41,8 @@ class UserOnlineService
         ->getQuery()
         ->getResult();
 
+    
+
     $offlineUsers = $this->entityManager->getRepository(User::class)->createQueryBuilder('u')
         ->where('u.lastActiveAt < :threshold')
         ->setParameter('threshold', $threshold)
@@ -55,7 +57,7 @@ class UserOnlineService
         if ($totalMinutes < 59) {
             $user = [
                 'firstname' => $user->getFirstname(),
-                'lastname' => $user->getLastname(),
+                'lastname' => substr($user->getLastname(), 0, 1),
                 'active' => ' (' . $minutes . 'm ago)',
                 'status' => 'away'
             ];
@@ -63,7 +65,7 @@ class UserOnlineService
         else {
                 $user = [
                 'firstname' => $user->getFirstname(),
-                'lastname' => $user->getLastname(),
+                'lastname' => substr($user->getLastname(), 0, 1),
                 'active' => '(Offline)',
                 'status' => 'offline'
             ];
