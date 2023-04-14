@@ -86,11 +86,15 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         
         if($excludeFriends) {
-            $friends = array_map(function($item) {
-                return $item['id'];
-            }, $this->friendRepository->findFriendForSearch($userId));
+            $f = $this->friendRepository->findFriendForSearch($userId);
+            if($f) {
+                $friends = array_map(function($item) {
+                    return $item['id'];
+                }, $f);
+                
+                $q->andWhere('u.id NOT IN ('.implode(', ', $friends).')');
+            }
 
-            $q->andWhere('u.id NOT IN ('.implode(', ', $friends).')');
         }
 
         return $q->setMaxResults(10)->getQuery()->getResult();
