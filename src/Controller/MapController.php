@@ -32,7 +32,8 @@ class MapController extends AppController
             'pid',
             '__initializer__', 
             '__cloner__', 
-            '__isInitialized__'
+            '__isInitialized__',
+            'user'
         ];
         // todo filter out location name if not connected
 
