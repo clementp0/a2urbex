@@ -30,4 +30,18 @@ class SecurityController extends AppController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+
+
+    #[Route('/user-modal', name: 'app_user_modal')]
+    public function modal(): Response 
+    {
+        return $this->render('security/user-modal.html.twig');
+    }
+
+    #[Route('/user-search', name: 'app_user_search')]
+    public function search(): Response 
+    {
+        // Mode search all, exclude current, exclude friend
+
+    }
 }
