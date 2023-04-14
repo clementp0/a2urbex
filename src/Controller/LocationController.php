@@ -22,6 +22,7 @@ use Doctrine\ORM\Query\Expr\Join;
 use App\Service\UserOnlineService;
 use Symfony\Component\Security\Core\Security;
 use App\Service\LocationService;
+use App\Repository\FriendRepository;
 
 class LocationController extends AppController
 {
@@ -31,7 +32,15 @@ class LocationController extends AppController
     }
     
     #[Route('/locations', name: 'app_location_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, LocationRepository $locationRepository, FavoriteRepository $favoriteRepository, PaginatorInterface $paginator, UserOnlineService $userOnlineService): Response
+    public function index(
+        Request $request, 
+        LocationRepository $locationRepository, 
+        FavoriteRepository $favoriteRepository, 
+        PaginatorInterface $paginator, 
+        UserOnlineService $userOnlineService,
+        Security $security,
+        FriendRepository $friendRepository
+    ): Response
     {
         
         $search = new Search();
@@ -55,7 +64,17 @@ class LocationController extends AppController
             }
 
             else{
-                $locations =$locationRepository->findByUser();
+                $user = $security->getUser();
+                $users = $friendRepository->findFriendForSearch($user->getId());
+                if($users) {
+                    $users = array_map(function($item) {
+                        return $item['id'];
+                    }, $users);
+                    $users[] = $user->getId();
+                    $locations = $locationRepository->findByUsers($users);
+                } else {
+                    $locations = $locationRepository->findByUser();
+                }
             }
             
         }

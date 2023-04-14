@@ -157,6 +157,14 @@ class LocationRepository extends ServiceEntityRepository
             ->getQuery()
             ->execute();
         ;
+    }
+
+    public function findByUsers($users) {
+        return $this->getBaseQuery()
+            ->andWhere('l.user IN ('.implode(', ', $users).')')
+            ->getQuery()
+            ->execute();
+        ;
 
     }
     
