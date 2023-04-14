@@ -18,12 +18,13 @@
 		{% endif %}
 		<h1>Login</h1>
 		<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="email" autocomplete="email" placeholder="Email" required autofocus>
-		<input type="password" name="password" id="inputPassword" autocomplete="password" class="password" placeholder="Password" required>
+		<input
+		type="password" name="password" id="inputPassword" autocomplete="password" class="password" placeholder="Password" required>
 		{# <div class="remember_container">
-		<input type="checkbox" id="remember_me">
-		<label for="remember_me">Remember me</label>
-		</div> #}
-		
+				<input type="checkbox" id="remember_me">
+				<label for="remember_me">Remember me</label>
+				</div> #}
+
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 		<button class="login" type="submit">
@@ -43,19 +44,18 @@
 		}
 
 		.register {
-    display: block;
-    width: 80%;
-    margin: auto;
-    margin-top: 13px;
-    line-height: 35px;
-    height: 40px;
-    border: none;
-    background-color: #282828;
-    color: #7a7a7a;
+			display: block;
+			width: 80%;
+			margin: 13px auto auto;
+			line-height: 35px;
+			height: 40px;
+			border: none;
+			background-color: #282828;
+			color: #7a7a7a;
 		}
 
-				.register:hover {
-					
+		.register:hover {
+
 			transition: 0.3s;
 			background-color: #1e1e1e;
 		}
@@ -90,10 +90,10 @@
 			font-size: 12px;
 			height: 40px;
 			border-radius: 0;
-			padding: .375rem .75rem;
+			padding: 0.375rem 0.75rem;
 		}
 		input:-webkit-autofill,
-		input:-webkit-autofill:hover, 
+		input:-webkit-autofill:hover,
 		input:-webkit-autofill:focus {
 			-webkit-text-fill-color: #6d6d6d;
 			transition: background-color 50000s ease-in-out 0s;
