@@ -77,7 +77,7 @@ class LocationRepository extends ServiceEntityRepository
     }
 
 
-    public function findWithSearch(Search $search) {
+    private function getBaseSearch(Search $search) {
         $query = $this->getBaseQuery();
 
         if (!empty($search->country)){
@@ -116,7 +116,18 @@ class LocationRepository extends ServiceEntityRepository
             ;
         }
 
-        return $query->getQuery()->getResult();
+        return $query;
+    }
+
+    public function findWithSearch(Search $search) {
+        return $this->getBaseSearch($search)->getQuery()->getResult();
+    }
+
+    public function findWithSearchAndUsers(Search $search, $users) {
+        $q = $this->getBaseSearch($search);
+        $q->andWhere('l.user IN ('.implode(', ', $users).')');
+
+        return $q->getQuery()->getResult();
     }
 
     public function findByAll() {

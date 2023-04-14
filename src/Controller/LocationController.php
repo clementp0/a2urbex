@@ -55,26 +55,20 @@ class LocationController extends AppController
                 $locations = $locationRepository->findByAll();
             }
         }else{
-            if ($form->isSubmitted() && $form->isValid()){
+            $user = $security->getUser();
+            $users = [$user->getId()];
 
-                dd('Need to be fixed when doing friend display');
-                // $locationsByUser = $locationRepository->findByUser();
-                // $locationsWithSearch = $locationRepository->findWithSearch($search);
-                // $locations = array_merge($locationsByUser, $locationsWithSearch);
+            $f = $friendRepository->findFriendForSearch($user->getId());
+            if($f) {
+                foreach($f as $item) {
+                    $users[] = $item['id'];
+                }
             }
 
-            else{
-                $user = $security->getUser();
-                $users = $friendRepository->findFriendForSearch($user->getId());
-                if($users) {
-                    $users = array_map(function($item) {
-                        return $item['id'];
-                    }, $users);
-                    $users[] = $user->getId();
-                    $locations = $locationRepository->findByUsers($users);
-                } else {
-                    $locations = $locationRepository->findByUser();
-                }
+            if ($form->isSubmitted() && $form->isValid()){
+                $locations = $locationRepository->findWithSearchAndUsers($search, $users);
+            } else {
+                $locations = $locationRepository->findByUsers($users);
             }
             
         }
