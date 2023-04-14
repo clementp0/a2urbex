@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\Security;
+use App\Repository\FriendRepository;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,9 +21,8 @@ use Symfony\Component\Security\Core\Security;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry, Security $security)
+    public function __construct(ManagerRegistry $registry, private Security $security, private FriendRepository $friendRepository)
     {
-        $this->security = $security;
         parent::__construct($registry, User::class);
     }
 
@@ -84,8 +84,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('search', '%'.$search.'%')
         ;
 
+        
         if($excludeFriends) {
-            // TODO exclude user friends with join on friend
+            $friends = array_map(function($item) {
+                return $item['id'];
+            }, $this->friendRepository->findFriendForSearch($userId));
+
+            $q->andWhere('u.id NOT IN ('.implode(', ', $friends).')');
         }
 
         return $q->setMaxResults(10)->getQuery()->getResult();

@@ -67,4 +67,15 @@ class FriendRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findFriendForSearch($user) {
+        return $this->createQueryBuilder('f')
+            ->leftJoin('f.friend', 'ff')
+            ->select('ff.id')
+            ->andWhere('f.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
