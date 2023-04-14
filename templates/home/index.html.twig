@@ -275,7 +275,18 @@ Click on the Waze/Maps links to start your trip instantly! You can also install 
 			box-shadow: inset 0 -1px 0 #525252;
 		}
 
+		@media screen and (max-width: 1490px) {
+			.intro_button > a {
+    		width: fit-content;
+		}
+			.intro_button {
+    		display: grid;
+		}
+		}
 		@media screen and (max-width: 1024px) {
+			a.intro_github {
+    		margin-top: 10px;
+			}
 			.intro_header{
 				height:100vh;
 				background-position-y:0px;
