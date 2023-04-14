@@ -39,10 +39,25 @@ class LocationController extends AppController
         
         $form->handleRequest($request);
         
-        if ($form->isSubmitted() && $form->isValid()){
-            $locations = $locationRepository->findWithSearch($search);
-        } else {
-            $locations = $locationRepository->findByAll();
+        if (in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true) || in_array('ROLE_SUPERUSER', $this->getUser()->getRoles(), true)) {
+            if ($form->isSubmitted() && $form->isValid()){
+                $locations = $locationRepository->findWithSearch($search);
+            } else {
+                $locations = $locationRepository->findByAll();
+            }
+        }else{
+            if ($form->isSubmitted() && $form->isValid()){
+
+                dd('Need to be fixed when doing friend display');
+                // $locationsByUser = $locationRepository->findByUser();
+                // $locationsWithSearch = $locationRepository->findWithSearch($search);
+                // $locations = array_merge($locationsByUser, $locationsWithSearch);
+            }
+
+            else{
+                $locations =$locationRepository->findByUser();
+            }
+            
         }
 
         $totalResults = 0;

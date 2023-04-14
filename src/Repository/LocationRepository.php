@@ -75,7 +75,8 @@ class LocationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-    
+
+
     public function findWithSearch(Search $search) {
         $query = $this->getBaseQuery();
 

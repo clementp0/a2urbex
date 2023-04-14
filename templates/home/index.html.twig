@@ -1,85 +1,290 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-<div class="intro-container">
-<h1>Watch our documentary [FR]</h1>
-<iframe src="https://www.youtube.com/embed/HEW0atdGn4A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-<p class="adeux"><i class="fa-brands fa-instagram"></i> Follow us on instagram<a target="blank" href="https://www.instagram.com/a2urbex/"> @a2urbex</a> </p>
-<p class="pers"><a target="blank" href="https://www.instagram.com/clement.po/"> @clement.po</a> | <a target="blank" href="https://www.instagram.com/hugolahaxe/"> @hugolahaxe</a></p>
-<br>
-<div> We are currently referencing <b>{{pins}}</b> locations, in <b>{{country}}</b> Country and  <b>{{type}}</b> categories.<br><br>
 
-{% if app.user %}
-{% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles %}
-<a class="locationslist" href="/locations">Browse our locations</a>
-{% else %}
-<a class="locationslist waiting" href="#">Waiting for approval...</a>
-{% endif %}
-{% else %}
-<a class="locationslist" href="/locations">Login / Register</a>
-{% endif %}
+	<div class="intro_header">
+		<div class="intro_title">Your Exploration Co-Pilot !
+			<p>Discover, Save, Share ! Everything you need to get ready for your next quest</p>
+			<div class="intro_stats">
+				We are currently referencing
+				<b>{{pins}}</b>
+				locations, in
+				<b>{{country}}</b>
+				Country and
+				<b>{{type}}</b>
+				categories.<br><br>
+			</div>
+			<div class="intro_button">
+				<a class="intro_login" href="/login">
+					<i class="fa-solid fa-map-pin"></i>
+					Create your Map !
+				</a>
+				<a class="intro_github" target="_blank" href="https://github.com/clementp0/a2urbex">
+					<i class="fa-brands fa-github"></i>
+					View the Source</a>
+			</div>
 
-</div>
+		</div>
+		<div class="intro_img"><img src="./home/home.png"></div>
+	</div>
+	<div class="home-content">
+		<div class="home-content-image">
+			<img src="./home/add.png">
+		</div>
+		<div class="home-content-text">
+			<h1>Add your pins !
+			</h1>
+			<p class="home-content-text-p">Choose a category, insert your coordinates, import your image... and THAT'S IT ! Country, Waze & Maps link will be automaticly generated ! You can also edit and delete your pin. (You can also add a comment like "Oops.. cops at the entry"</p>
+		</div>
+	</div>
+	<div class="home-content">
+		<div class="home-content-text">
+			<h1>Look at your map
+			</h1>
+			<p class="home-content-text-p right">All the pins you created and available on the map, with an icon to represent the category. You can also click on the pin you want and preview it (and access to all the infos and links like Waze or Maps !)</p>
+		</div>
+		<div class="home-content-image">
+			<img src="./home/map.png">
+		</div>
+	</div>
+	<style>
+		.intro_stats {
+			font-size: 20px;
+			color: white;
+			text-transform: initial;
+			font-weight: 300;
+		}
+
+		div#navbarCollapse > a {
+			color: white;
+		}
+
+		.home-content {
+			display: flex;
+			padding: 50px;
+			background-color: #2a2a2a;
+		}
+		.home-content-image {
+			width: 50%
+		}
+		.home-content-image > img {
+			width: 100%
+		}
+		.home-content-text {
+			text-align: right;
+			width: 50%;
+			padding: 50px;
+			position: relative;
+			transform: translate(0px, 20%);
+		}
+		.home-content-text:nth-child(even) {
+			text-align: left;
+		}
+		.home-content:nth-child(even) {
+			background-color: #222222;
+		}
 
 
+		.home-content-text > h1 {
+			color: #007bff;
+			font-size: 30px;
+			text-transform: uppercase;
+		}
+		.home-content-text-p {
+			color: #aeaeae;
+			max-width: 70%;
+			float: left;
+		}
+		.right {
+			float: right !important;
+		}
 
-</div>
+		body {
+			padding-top: 0
+		}
+		.fixed-top {
+			background-color: transparent;
+			backdrop-filter: blur(21px);
+		}
+		.intro_header {
+			background-image: url('./home/background.jpg');
+			margin: auto;
+			display: flex;
+			justify-content: space-around;
+			flex-wrap: nowrap;
+			flex-direction: row;
+			padding: calc(70px + 3rem) 50px;
+			background-position-y: -50px;
 
-<style>
-.locationslist{
-    color: white!important;
-    background-color: #007bff;
-    padding: 7px;
-    border-radius: 4px;
-    text-decoration: none!important;
-}
-.locationslist:hover{
-    color: white!important;
-    transition: all .3s;*
-    text-decoration: none;
-    text-decoration-line:none;
-    background-color:#0059b9;
-    cursor : pointer;
-}
-.waiting{
-    pointer-events:none;
-}
+		}
 
-.ytp-cued-thumbnail-overlay-image {
-        background-size: unset!important;
-}
-.intro-container{
-    max-width: 1080px;
-    width: 80%;
-    margin: auto;
-    text-align:center;
-}
-.intro-container h1{
-    font-size: 2rem;
-    padding: 20px;
-}
-.intro-container a{
-    color : #60a5fa;
-}
-.adeux{
-        padding:10px;
-        box-shadow: inset 0 -1px 0 #525252;
-}
-.pers{
-    color:#737373;
-    font-size: 0.7rem;
-}
+		.intro_title {
+			width: 80%;
+			font-size: 40px;
+			color: #e4e4e4;
+			text-transform: uppercase;
+			font-weight: 600;
+			padding: 60px;
+		}
+		.intro_title > p {
+			text-transform: none;
+			font-weight: 200;
+			font-size: 30px;
+			color: #aeaeae;
+		}
+		.intro_img > img {
+			width: 100%;
+			border-radius: 6px;
+			box-shadow: 0 0 19px 3px #000000d6;
+		}
 
-iframe {
-    margin: auto;
-    text-align: center;
-    width: 100%;
-    height: 50vh;
-}
-@media screen and (max-width: 500px) {
-iframe{
-    height: 35vh;
-}}
+		.intro_button > a {
+			text-transform: none;
+			font-size: 20px;
+			padding: 10px 20px;
+			border-radius: 100px;
+			color: white;
+			font-weight: 500;
+		}
 
-</style>
+		.intro_login {
+			background-color: #007bff;
+			transition: background-color 0.5s ease-out;
+
+		}
+
+		.intro_img{
+			display: flex;
+			  justify-content: center;
+  			align-items: center;
+		}
+
+		.intro_login:hover {
+			background-color: #135499;
+			color: white;
+			transition: background-color 0.5s ease-out;
+
+		}
+		.intro-container > h1 {
+			color: #007bff;
+			font-size: 30px;
+			text-transform: uppercase;
+		}
+
+
+		@media screen and (max-width: 1024px) {
+			.home-content {
+				flex-direction: column;
+			}
+			.home-content:nth-child(even) {
+			flex-direction :column-reverse
+			}
+
+			.home-content-text {
+				width:100%;
+				text-align: center!important;
+			}
+			.home-content-text-p {
+			max-width: 100%;
+			}
+			.home-content-image {
+				width:100%
+			}
+			.intro_img {
+    			display: none;
+			}
+			.intro_title {
+    			width: 100%;
+				padding: 0px;
+				font-size: 35px;
+			}
+			.intro_button {
+    			display: inline-grid;
+			}
+		}
+
+		@media screen and (max-width: 1384px) {
+		.home-content-text {
+    		transform: translate(0px, 0%);
+			}
+		}
+	</style>
+
+	<div class="intro-container">
+		<h1>Watch our documentary [FR]</h1>
+		<iframe src="https://www.youtube.com/embed/HEW0atdGn4A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+		<p class="adeux">
+			<i class="fa-brands fa-instagram"></i>
+			Follow us on instagram<a target="blank" href="https://www.instagram.com/a2urbex/">
+				@a2urbex</a>
+		</p>
+		<p class="pers">
+			<a target="blank" href="https://www.instagram.com/clement.po/">
+				@clement.po</a>
+			|
+			<a target="blank" href="https://www.instagram.com/hugolahaxe/">
+				@hugolahaxe</a>
+		</p>
+		<br>
+
+
+	</div>
+
+	<style>
+		.locationslist {
+			color: white !important;
+			background-color: #007bff;
+			padding: 7px;
+			border-radius: 4px;
+			text-decoration: none !important;
+		}
+		.locationslist:hover {
+			color: white !important;
+			transition: all 0.3s;
+			* text-decoration: none;
+			text-decoration-line: none;
+			background-color: #0059b9;
+			cursor: pointer;
+		}
+		.waiting {
+			pointer-events: none;
+		}
+
+		.ytp-cued-thumbnail-overlay-image {
+			background-size: unset !important;
+		}
+		.intro-container {
+			max-width: 1080px;
+			width: 80%;
+			margin: auto;
+			text-align: center;
+		}
+		.intro-container h1 {
+			font-size: 2rem;
+			padding: 20px;
+		}
+		.intro-container a {
+			color: #60a5fa;
+		}
+		.adeux {
+			padding: 10px;
+			box-shadow: inset 0 -1px 0 #525252;
+		}
+		.pers {
+			color: #737373;
+			font-size: 0.7rem;
+		}
+
+		iframe {
+			margin: auto;
+			text-align: center;
+			width: 100%;
+			height: 50vh;
+		}
+		@media screen and(max-width: 500px) {
+			iframe {
+				height: 35vh;
+			}
+		}
+	</style>
 {% endblock %}
