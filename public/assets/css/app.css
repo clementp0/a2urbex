@@ -992,7 +992,7 @@ button.btn.delete:hover {
   visibility: visible;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   z-index: 100000;
 }
 .cmodal-background.hidden {
@@ -1003,7 +1003,6 @@ button.btn.delete:hover {
   width: 1000px;
   min-width: 300px;
   max-width: 80%;
-  min-height: 50vh;
   max-height: 80vh;
   border-radius: 10px;
   background-color: #303030;
@@ -1012,6 +1011,7 @@ button.btn.delete:hover {
   display: flex;
   flex-direction: column;
   color: #828282;
+  margin: 10vh 0;
 }
 
 .cmodal-close {
@@ -1048,6 +1048,7 @@ button.btn.delete:hover {
   padding: 5px;
   text-align: center;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .cmodal-top {
@@ -1072,9 +1073,93 @@ button.btn.delete:hover {
 }
 .cmodal-search-wrapper {
   position: relative;
+  margin-bottom: 10px;
+}
+.cmodal-search-wrapper.hidden {
+  display: none;
 }
 .cmodal-search-icon {
   position: absolute;
   top: 8px;
   left: 8px;
+}
+
+.cmodal-noresult {
+  color: #999797;
+  background-color: #474747;
+  border: 1px solid #525252;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 14px;
+  line-break: anywhere;
+}
+.cmodal-noresult.hidden {
+  display: none;
+}
+.cmodal-noresult .cmodal-string {
+  font-weight: bold;
+}
+.cmodal-result {
+  border: 1px solid #525252;
+  border-radius: 5px;
+  background-color: #3a3a3a;
+}
+.cmodal-result.hidden {
+  display: none;
+}
+.cmodal-item {
+  display: flex;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.cmodal-item:hover {
+  background-color: #474747;
+}
+.cmodal-item-left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+}
+.cmodal-item-right {
+  margin-left: 5px;
+}
+.cmodal-item-name {
+  margin: 0;
+  color: white;
+}
+.cmodal-item-username {
+  margin: 0;
+  font-size: 12px;
+}
+.cmodal-selected {
+  border: 1px solid #525252;
+  border-radius: 5px;
+  background-color: #474747;
+  position: relative;
+}
+.cmodal-selected.hidden {
+  display: none;
+}
+
+.cmodal-selected .cmodal-item {
+  cursor: default;
+}
+
+.cmodal-unselect {
+  font-size: 18px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 20px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.cmodal-unselect:hover {
+  color: white;
 }

@@ -10,9 +10,14 @@
                 <input type="text" placeholder="Search by username" class="cmodal-search" data-url="{{ path('app_user_search') }}">
                 <i class="fa-solid fa-magnifying-glass cmodal-search-icon"></i>
             </div>
+            <div class="cmodal-result hidden"></div>
+            <div class="cmodal-noresult hidden">Could not find a user matching <span class="cmodal-string"></span></div>
+            <div class="cmodal-selected hidden">
+                <div class="cmodal-unselect"><i class="fa-solid fa-xmark"></i></div>
+            </div>
         </div>
         <div class="cmodal-footer">
-            <a href="{{ path('app_friend_add_default') }}" data-alt="Add %user%" class="disabled">Select a user above</a>
+            <a data-href="{{ path('app_friend_add_default') }}" data-origin="Select a user above" data-alt="Add %user%" class="disabled">Select a user above</a>
         </div>
     </div>
 </div>
