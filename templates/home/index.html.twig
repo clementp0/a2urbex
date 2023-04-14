@@ -15,10 +15,17 @@
 				categories.<br><br>
 			</div>
 			<div class="intro_button">
-				<a class="intro_login" href="/login">
+			{% if app.user %}
+				<a class="intro_login" href="/locations">
+					<i class="fa-solid fa-map-pin"></i>
+					Access your Map !
+				</a>
+			{% else %}
+			<a class="intro_login" href="/login">
 					<i class="fa-solid fa-map-pin"></i>
 					Create your Map !
 				</a>
+			{% endif %}
 				<a class="intro_github" target="_blank" href="https://github.com/clementp0/a2urbex">
 					<i class="fa-brands fa-github"></i>
 					View the Source</a>
@@ -48,6 +55,10 @@
 		</div>
 	</div>
 	<style>
+		button.dropbtn {
+    		color: white;
+		}
+
 		.intro_stats {
 			font-size: 20px;
 			color: white;
