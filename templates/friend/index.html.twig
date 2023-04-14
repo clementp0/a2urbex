@@ -3,5 +3,120 @@
 {% block title %}Favorite Page{% endblock %}
 
 {% block content %}
-<a href="{{ path('app_user_modal') }}" class="inmodal">Add Friend</a>
+<div class="friend-wrapper">
+    <a href="{{ path('app_user_modal') }}" class="inmodal add-friend">Add Friend</a>
+
+    <div class="friend-requests">
+        {% for friend in pending %}
+            <div class="friend-item">
+                <div class="friend-item-profil">
+                    <div class="friend-item-profil-left"><i class="fa-solid fa-user"></i></div>
+                    <div class="friend-item-profil-right">
+                        <p class="friend-item-name">{{ friend.user.firstname }} {{ friend.user.lastname|first }}</p>
+                        <p class="friend-item-username">{{ friend.user.firstname }}#{{ friend.user.id }}</p>
+                    </div>
+                </div>
+                <div class="friend-item-action">
+                    <a href={{ path('app_friend_accept', {id: friend.id}) }} class="friend-accept"><i class="fa-solid fa-check"></i></a>
+                    <a href={{ path('app_friend_decline', {id: friend.id}) }} class="friend-decline"><i class="fa-solid fa-xmark"></i></a>
+                </div>
+            </div>
+        {% endfor %}
+        {% for friend in waiting %}
+            <div class="friend-item">
+                <div class="friend-item-profil">
+                    <div class="friend-item-profil-left"><i class="fa-solid fa-user"></i></div>
+                    <div class="friend-item-profil-right">
+                        <p class="friend-item-name">{{ friend.friend.firstname }} {{ friend.friend.lastname|first }}</p>
+                        <p class="friend-item-username">{{ friend.friend.firstname }}#{{ friend.friend.id }}</p>
+                    </div>
+                </div>
+                <div class="friend-item-action">
+                    <div class="waiting">Waiting...</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="friends">
+        {% for friend in friends %}
+            <div class="friend-item">
+                <div class="friend-item-profil">
+                    <div class="friend-item-profil-left"><i class="fa-solid fa-user"></i></div>
+                    <div class="friend-item-profil-right">
+                        <p class="friend-item-name">{{ friend.friend.firstname }} {{ friend.friend.lastname|first }}</p>
+                        <p class="friend-item-username">{{ friend.friend.firstname }}#{{ friend.friend.id }}</p>
+                    </div>
+                </div>
+                <div class="friend-item-action">
+                    <a href={{ path('app_friend_remove', {id: friend.id}) }} class="friend-remove"><i class="fa-solid fa-trash"></i></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.friend-wrapper {
+    padding: 20px;
+}
+.add-friend {
+    display: block;
+    margin: auto;
+    border: 1px solid #525252;
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.friend-requests, .friends {
+    margin: 20px auto;
+    max-width: 700px;
+}
+.friends {
+    margin-top: 50px;
+}
+
+.friend-item {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    border-bottom: 1px solid #404040;
+    align-items: center;
+}
+
+.friend-item-profil {
+    display: flex;
+}
+
+.friend-item-name {
+    margin: 0;
+    color: white;
+}
+.friend-item-username {
+    margin: 0;
+    font-size: 12px;
+}
+
+.friend-item-profil-left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+}
+.friend-item-profil-right {
+  margin-left: 5px;
+}
+
+.waiting {
+    border: 1px solid #404040;
+    border-radius: 5px;
+    padding: 3px 10px;
+}
+
+.friend-item-action a {
+    font-size: 20px;
+    margin: 0 10px;
+}
+</style>
 {% endblock %}

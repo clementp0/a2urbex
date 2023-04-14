@@ -39,28 +39,32 @@ class FriendRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Friend[] Returns an array of Friend objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('f.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findPending($user) {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.friend = :user')
+            ->setParameter('user', $user)
+            ->andWhere('f.pending = true')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    public function findWaiting($user) {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.user = :user')
+            ->setParameter('user', $user)
+            ->andWhere('f.pending = true')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
-//    public function findOneBySomeField($value): ?Friend
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findFriends($user) {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.user = :user')
+            ->setParameter('user', $user)
+            ->andWhere('f.pending = false')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

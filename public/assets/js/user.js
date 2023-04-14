@@ -1,4 +1,6 @@
 $(() => {
+  let prevString = ''
+
   $('.inmodal').on('click', function (e) {
     e.preventDefault()
     const url = $(this).attr('href')
@@ -25,6 +27,7 @@ $(() => {
 
   function closeModal(item) {
     item.addClass('hidden')
+    prevString = ''
     setTimeout(() => {
       item.remove()
     }, 500)
@@ -61,7 +64,6 @@ $(() => {
     validate.addClass('disabled').text(validate.data('origin')).attr('href', '#')
   })
 
-  let prevString = ''
   function searchUser(string, url) {
     const container = $('body').find('.cmodal .cmodal-result')
     const noresult = $('body').find('.cmodal .cmodal-noresult')
@@ -130,4 +132,14 @@ $(() => {
       error: () => {},
     })
   }
+
+  $('.friend-accept').on('click', (e) => {
+    if (!confirm('Accept user ?')) e.preventDefault()
+  })
+  $('.friend-decline').on('click', (e) => {
+    if (!confirm('Decline user ?')) e.preventDefault()
+  })
+  $('.friend-remove').on('click', (e) => {
+    if (!confirm('Remove friend ?')) e.preventDefault()
+  })
 })

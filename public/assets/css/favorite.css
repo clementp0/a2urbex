@@ -1,62 +1,62 @@
 .fav-list {
-    padding: 20px;
-    max-width: 700px;
-    margin: 20px auto 0;
+  padding: 20px;
+  max-width: 700px;
+  margin: 20px auto 0;
 }
 .fav-item {
-    border-bottom: 1px solid #404040;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
+  border-bottom: 1px solid #404040;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 .fav-item-name {
-    padding-left: 5px;
-    flex-grow: 1;
+  padding-left: 5px;
+  flex-grow: 1;
 }
 .fav-item-number {
-    width: 100px;
-    text-align: center;
+  width: 100px;
+  text-align: center;
 }
 .fav-item-action {
-    display: flex;
+  display: flex;
 }
 .fav-item-action > * {
-    padding: 0 5px;
+  padding: 0 5px;
 }
 
 .share-user-wrapper {
-    position: relative;
+  position: relative;
 }
 .share-select-wrapper {
-    position: absolute;
-    top: -5px;
-    right: 25px;
-    display: flex;
-    transition: all .5s;
-    opacity: 0;
-    visibility: hidden;
-    background-color: #303030;
-    border: 1px solid #404040;
-    padding: 4px 8px;
-    border-radius: 3px;
+  position: absolute;
+  top: -5px;
+  right: 25px;
+  display: flex;
+  transition: all 0.5s;
+  opacity: 0;
+  visibility: hidden;
+  background-color: #303030;
+  border: 1px solid #404040;
+  padding: 4px 8px;
+  border-radius: 3px;
 }
 .share-select-wrapper.show {
-    opacity: 1;
-    visibility: visible;
+  opacity: 1;
+  visibility: visible;
 }
 .share-select-link {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .share-select {
-    color: #6d6d6d;
-    background-color: transparent;
-    border: none;
-    border-bottom: 1px solid #ffffff24;
-    font-size: 12px;
-    border-radius: 0;
+  color: #6d6d6d;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #ffffff24;
+  font-size: 12px;
+  border-radius: 0;
 }
 
 .share-select:focus-visible {
-    outline: 0;
+  outline: 0;
 }
