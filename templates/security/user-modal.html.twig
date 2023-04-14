@@ -1,0 +1,18 @@
+<div class="cmodal-background hidden">
+    <div class="cmodal">
+        <div class="cmodal-close"><i class="fa-solid fa-xmark"></i></div>
+        <div class="cmodal-content">
+            <div class="cmodal-top">
+                <i class="fa-solid fa-user"></i>
+                <p>Select a user</p>
+            </div>
+            <div class="cmodal-search-wrapper">
+                <input type="text" placeholder="Search by username" class="cmodal-search" data-url="{{ path('app_user_search') }}">
+                <i class="fa-solid fa-magnifying-glass cmodal-search-icon"></i>
+            </div>
+        </div>
+        <div class="cmodal-footer">
+            <a href="{{ path('app_friend_add_default') }}" data-alt="Add %user%" class="disabled">Select a user above</a>
+        </div>
+    </div>
+</div>

@@ -1,65 +1,68 @@
 security:
-    enable_authenticator_manager: true
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-        App\Entity\User:
-            algorithm: auto
-    providers:
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        main:
-            lazy: true
-            provider: app_user_provider
-            custom_authenticator: App\Security\LoginFormAuthenticator
-            logout:
-                path: app_logout
-            remember_me:
-                secret: '%env(APP_SECRET)%'
-                lifetime: 604800 # 1 week in seconds
-                path: /
-                domain: ~
-                secure: true # set to true if using HTTPS
+  enable_authenticator_manager: true
+  password_hashers:
+    Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    App\Entity\User:
+      algorithm: auto
+  providers:
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: email
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      lazy: true
+      provider: app_user_provider
+      custom_authenticator: App\Security\LoginFormAuthenticator
+      logout:
+        path: app_logout
+      remember_me:
+        secret: '%env(APP_SECRET)%'
+        lifetime: 604800 # 1 week in seconds
+        path: /
+        domain: ~
+        secure: true # set to true if using HTTPS
 
-    access_control:
-        # ADMIN Access
-            - { path: ^/admin, roles: ROLE_ADMIN}
-            - { path: ^/upload, roles: ROLE_ADMIN }
-            - { path: ^/delete, roles: ROLE_ADMIN }
-            - { path: ^/compte, roles: ROLE_ADMIN }
-            - { path: ^/generation, roles: ROLE_ADMIN }
-            - { path: ^/fetch, roles: ROLE_ADMIN }
-            - { path: ^/update, roles: ROLE_ADMIN }
-            - { path: ^/patch, roles: ROLE_ADMIN }
-            - { path: ^/clear_chat, roles: ROLE_ADMIN }
-            - { path: ^/download-database, roles: ROLE_ADMIN }
-            
-        # USER Access
-            - { path: ^/locations, roles: [ROLE_ADMIN, ROLE_USER] }
-            - { path: ^/update, roles: [ROLE_ADMIN, ROLE_USER] }
-            - { path: ^/favorite, roles: [ROLE_ADMIN, ROLE_USER] }
-            - { path: ^/map/filter, roles: [ROLE_ADMIN, ROLE_USER] }
-            - { path: ^/new, roles: [ROLE_ADMIN, ROLE_USER] }
-            - { path: ^/password, roles: [ROLE_ADMIN, ROLE_USER] }
-            - { path: ^/general_chat, roles: [ROLE_ADMIN, ROLE_USER] }
-            - { path: ^/chat-get, roles: [ROLE_ADMIN, ROLE_USER] }
-            - { path: ^/chat-add, roles: [ROLE_ADMIN, ROLE_USER] }
-        # Wrong Access Handler
-    access_denied_url: /
-        # Default User Access
-    role_hierarchy:
-        ROLE_DEFAULT: [ROLE_PENDING]
-            
+  access_control:
+    # ADMIN Access
+    - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/upload, roles: ROLE_ADMIN }
+    - { path: ^/delete, roles: ROLE_ADMIN }
+    - { path: ^/compte, roles: ROLE_ADMIN }
+    - { path: ^/generation, roles: ROLE_ADMIN }
+    - { path: ^/fetch, roles: ROLE_ADMIN }
+    - { path: ^/update, roles: ROLE_ADMIN }
+    - { path: ^/patch, roles: ROLE_ADMIN }
+    - { path: ^/clear_chat, roles: ROLE_ADMIN }
+    - { path: ^/download-database, roles: ROLE_ADMIN }
+
+    # USER Access
+    - { path: ^/locations, roles: [ROLE_ADMIN, ROLE_USER] }
+    - { path: ^/update, roles: [ROLE_ADMIN, ROLE_USER] }
+    - { path: ^/favorite, roles: [ROLE_ADMIN, ROLE_USER] }
+    - { path: ^/map/filter, roles: [ROLE_ADMIN, ROLE_USER] }
+    - { path: ^/new, roles: [ROLE_ADMIN, ROLE_USER] }
+    - { path: ^/password, roles: [ROLE_ADMIN, ROLE_USER] }
+    - { path: ^/general_chat, roles: [ROLE_ADMIN, ROLE_USER] }
+    - { path: ^/chat-get, roles: [ROLE_ADMIN, ROLE_USER] }
+    - { path: ^/chat-add, roles: [ROLE_ADMIN, ROLE_USER] }
+    - { path: ^/user, roles: [ROLE_ADMIN, ROLE_USER] }
+    - { path: ^/friend, roles: [ROLE_ADMIN, ROLE_USER] }
+    # Wrong Access Handler
+  access_denied_url:
+    /
+    # Default User Access
+  role_hierarchy:
+    ROLE_DEFAULT: [ROLE_PENDING]
+
 when@test:
-    security:
-        password_hashers:
-            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-                algorithm: auto
-                cost: 4 # Lowest possible value for bcrypt
-                time_cost: 3 # Lowest possible value for argon
-                memory_cost: 10 # Lowest possible value for argon
+  security:
+    password_hashers:
+      Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+        algorithm: auto
+        cost: 4 # Lowest possible value for bcrypt
+        time_cost: 3 # Lowest possible value for argon
+        memory_cost: 10 # Lowest possible value for argon

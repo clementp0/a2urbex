@@ -8,7 +8,7 @@ body {
 }
 
 .useractive::before {
-  content: "";
+  content: '';
   background-color: #00ff50;
   display: inline-block;
   width: 8px;
@@ -197,8 +197,8 @@ p#clear-cache-button:hover {
   border-radius: 0;
 }
 
-input[type="checkbox"]::before {
-  content: "";
+input[type='checkbox']::before {
+  content: '';
   display: block;
   position: absolute;
   text-align: center;
@@ -209,8 +209,8 @@ input[type="checkbox"]::before {
   background-color: #404040;
 }
 
-input[type="checkbox"]:checked::before {
-  content: "";
+input[type='checkbox']:checked::before {
+  content: '';
   display: block;
   position: absolute;
   text-align: center;
@@ -978,4 +978,103 @@ button.btn.delete {
 }
 button.btn.delete:hover {
   color: #5e9eee;
+}
+
+.cmodal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  height: 100vh;
+  width: 100vw;
+  transition: all 0.5s;
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100000;
+}
+.cmodal-background.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+.cmodal {
+  width: 1000px;
+  min-width: 300px;
+  max-width: 80%;
+  min-height: 50vh;
+  max-height: 80vh;
+  border-radius: 10px;
+  background-color: #303030;
+  border: #525252 1px solid;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: #828282;
+}
+
+.cmodal-close {
+  font-size: 20px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.cmodal-close:hover {
+  color: white;
+}
+
+.cmodal-content {
+  padding: 50px 10px 10px;
+  flex-grow: 1;
+}
+
+.cmodal-footer {
+  padding: 10px;
+  border-top: 1px solid #525252;
+}
+
+.cmodal-footer a {
+  color: #a2a2a2;
+  background-color: #222222;
+  display: block;
+  padding: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.cmodal-top {
+  text-align: center;
+}
+.cmodal-top i {
+  font-size: 24px;
+}
+.cmodal-search {
+  width: 100%;
+  height: 30px;
+  background-color: #222222;
+  border: 1px solid #525252;
+  box-shadow: none;
+  border-radius: 5px;
+  outline: unset;
+  padding: 0 10px 0 30px;
+  color: #828282;
+}
+.cmodal-search:focus {
+  color: #a6a4a4;
+}
+.cmodal-search-wrapper {
+  position: relative;
+}
+.cmodal-search-icon {
+  position: absolute;
+  top: 8px;
+  left: 8px;
 }
