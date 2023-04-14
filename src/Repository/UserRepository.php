@@ -74,4 +74,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getResult()
         ;
     }
+
+    public function findForSearch($search, $userId, $excludeFriends = false) {
+        $q = $this->createQueryBuilder('u')
+            ->select('u.id, u.firstname')
+            ->orderBy('u.firstname', 'ASC')
+            ->andWhere('u.id != '. $userId)
+            ->andWhere('CONCAT(u.firstname, \'#\', u.id) LIKE :search')
+            ->setParameter('search', '%'.$search.'%')
+        ;
+
+
+        if($excludeFriends) {
+            // TODO exclude user friends with join on friend
+        }
+
+        return $q->setMaxResults(10)->getQuery()->getResult();
+    }
 }

@@ -39,4 +39,28 @@ $(() => {
   $('body').on('click', '.cmodal', function (e) {
     e.stopPropagation()
   })
+
+  $('body').on('keyup', '.cmodal-search', function () {
+    let el = $(this)
+    searchUser(el.val(), el.data('url'))
+  })
+  $('body').on('paste', '.cmodal-search', function () {
+    setTimeout(() => {
+      let el = $(this)
+      searchUser(el.val(), el.data('url'))
+    }, 100)
+  })
+
+  function searchUser(string, url) {
+    $.ajax({
+      type: 'POST',
+      url,
+      data: {
+        search: string,
+        exclude_friends: true,
+      },
+      success: (data) => {},
+      error: () => {},
+    })
+  }
 })
