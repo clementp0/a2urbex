@@ -45,6 +45,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Location::class)]
     private Collection $locations;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Friend::class)]
+    private Collection $friends;
+
+    #[ORM\OneToMany(mappedBy: 'friend', targetEntity: Friend::class)]
+    private Collection $friendRequests;
+
     // #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, orphanRemoval: true)]
     // private Collection $favorites;
 
@@ -52,6 +58,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->favorites = new ArrayCollection();
         $this->locations = new ArrayCollection();
+        $this->friends = new ArrayCollection();
+        $this->friendRequests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -254,6 +262,67 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($location->getUser() === $this) {
                 $location->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Friend>
+     */
+    public function getFriends(): Collection
+    {
+        return $this->friends;
+    }
+
+    public function addFriend(Friend $friend): self
+    {
+        if (!$this->friends->contains($friend)) {
+            $this->friends->add($friend);
+            $friend->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFriend(Friend $friend): self
+    {
+        if ($this->friends->removeElement($friend)) {
+            // set the owning side to null (unless already changed)
+            if ($friend->getUser() === $this) {
+                $friend->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Friend[]
+     */
+    public function getFriendRequests(): Collection
+    {
+        return $this->friendRequests;
+    }
+
+    public function addFriendRequest(Friend $friendRequest): self
+    {
+        if (!$this->friendRequests->contains($friendRequest)) {
+            $this->friendRequests[] = $friendRequest;
+            $friendRequest->setFriend($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFriendRequest(Friend $friendRequest): self
+    {
+        if ($this->friendRequests->contains($friendRequest)) {
+            $this->friendRequests->removeElement($friendRequest);
+            // set the owning side to null (unless already changed)
+            if ($friendRequest->getFriend() === $this) {
+                $friendRequest->setFriend(null);
             }
         }
 
