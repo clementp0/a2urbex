@@ -3,7 +3,11 @@
     {# ONLINE USERS :  #}
     <p class="online_title">
         <i class="fa-solid fa-user"></i>
+        {% if 'ROLE_ADMIN' in app.user.roles %}
         Online Users
+        {% else %}
+        Online Friends
+        {% endif %}
     </p>
     <div class="online">
 
@@ -32,7 +36,11 @@
     {# OFFLINE USERS :  #}
     <p class="online_title">
         <i class="fa-solid fa-user"></i>
+       {% if 'ROLE_ADMIN' in app.user.roles %}
         Offline Users
+        {% else %}
+        Offline Friends
+        {% endif %}
     </p>
     <div class="online">
         {% for user in onlineUsers %}
