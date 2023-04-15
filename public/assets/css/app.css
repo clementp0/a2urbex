@@ -79,7 +79,9 @@ body .intro-container a:hover {
 .fixed-top {
   height: 44px;
   text-align: right;
-  background-color: #303030;
+  background-color: transparent;
+  backdrop-filter: blur(21px);
+  -webkit-backdrop-filter: blur(21px);
   box-shadow: inset 0 -1px 0 #525252;
   padding: 8px 15px;
 }
@@ -153,7 +155,9 @@ p#clear-cache-button:hover {
   overflow-y: scroll;
   padding: 20px;
   border-right: 1px solid #303030;
-  background-color: #303030;
+  background-color: #30303085;
+  backdrop-filter: blur(21px);
+  -webkit-backdrop-filter: blur(21px);
   width: 250px;
   font-size: 0.875rem;
   font-weight: 500;
@@ -228,7 +232,7 @@ input[type='checkbox']:checked::before {
 
 /* Track */
 .pin-search::-webkit-scrollbar-track {
-  background: #303030;
+  /* background: #303030; */
 }
 
 /* Handle */
