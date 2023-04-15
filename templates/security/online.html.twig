@@ -8,12 +8,11 @@
     <div class="online">
 
         {% for user in onlineUsers %}
-            {% if user.status is defined %}
-                {% else %}
-                    <div class="useractive ">
-                        {{ user.firstname }}
-                        {{ user.lastname}}
-                    </div>
+            {% if user.status is not defined %}
+                <div class="useractive ">
+                    {{ user.firstname }}
+                    {{ user.lastname}}
+                </div>
             {% endif %}
         {% endfor %}
 
