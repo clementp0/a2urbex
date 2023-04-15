@@ -155,7 +155,7 @@ p#clear-cache-button:hover {
   overflow-y: scroll;
   padding: 20px;
   border-right: 1px solid #303030;
-  background-color: #30303085;
+  background-color: #303030c9;
   backdrop-filter: blur(21px);
   -webkit-backdrop-filter: blur(21px);
   width: 250px;
@@ -181,7 +181,7 @@ p#clear-cache-button:hover {
 }
 
 .pin-search #string {
-  color: #6d6d6d;
+  color: white;
   margin: auto auto 20px;
   background-color: transparent;
   border: none;
