@@ -3,58 +3,9 @@
 {% block content %}
 
 	<div class="general_section">
-		<div class="online_section">
 
-			<p class="online_title">
-				<i class="fa-solid fa-user"></i>
-				Online Users</p>
-			<div
-				class="online">
-				{# ONLINE USERS :  #}
+		{{ include('security/online.html.twig') }}
 
-				{% for user in onlineUsers %}
-					{% if user.status is defined %}
-						{% else %}
-							<div class="useractive ">
-								{{ user.firstname }}
-								{{ user.lastname}}
-							</div>
-					{% endif %}
-				{% endfor %}
-
-				{# AWAY USERS :  #}
-
-				{% for user in onlineUsers %}
-					{% if user.status is defined %}
-						{% if user.status == "away" %}
-							<div class="useractive away">
-								{{ user.firstname }}
-								{{ user.lastname}}<span class="ago">{{ user.active }}</span>
-							</div>
-						{% endif %}
-					{% endif %}
-				{% endfor %}
-
-			</div>
-			{# OFFLINE USERS :  #}
-
-			<p class="online_title">
-				<i class="fa-solid fa-user"></i>
-				Offline Users</p>
-			<div class="online">
-				{% for user in onlineUsers %}
-					{% if user.status is defined %}
-						{% if user.status == "offline" %}
-							<div class="useractive offline">{{ user.firstname }}
-								{{user.lastname}}
-							</div>
-						{% endif %}
-					{% endif %}
-				{% endfor %}
-
-
-			</div>
-		</div>
 		<div class="chat_section">
 			<div class="messenger">
 				<p class="messenger_title">

@@ -19,53 +19,8 @@
 					<p class="pin-results">Displaying
 						<b>{{total_result}}</b>
 						Result(s)</p>
-					<p class="online_title">
-						<i class="fa-solid fa-user"></i>
-						Online Users</p>
-					<div
-						class="online">
-						{# ONLINE USERS :  #}
-
-						{% for user in onlineUsers %}
-							{% if user.status is defined %}
-								{% else %}
-									<div class="useractive ">
-										{{ user.firstname }}
-										{{ user.lastname|slice(0, 1) }}
-									</div>
-							{% endif %}
-						{% endfor %}
-
-						{# AWAY USERS :  #}
-
-						{% for user in onlineUsers %}
-							{% if user.status is defined %}
-								{% if user.status == "away" %}
-									<div class="useractive away">
-										{{ user.firstname }}
-										{{ user.lastname}}<span class="ago">{{ user.active }}</span>
-									</div>
-								{% endif %}
-							{% endif %}
-						{% endfor %}
-
-					</div>
-					{# OFFLINE USERS :  #}
-
-					<p class="online_title">
-						<i class="fa-solid fa-user"></i>
-						Offline Users</p>
-					<div class="online">
-						{% for user in onlineUsers %}
-							{% if user.status is defined %}
-								{% if user.status == "offline" %}
-									<div class="useractive offline">{{ user.firstname }}
-										{{user.lastname}}
-									</div>
-								{% endif %}
-							{% endif %}
-						{% endfor %}
-					</div>
+					
+					{{ include('security/online.html.twig') }}
 				</div>
 			</div>
 			<div class="pin-wrapper-inner">
