@@ -31,6 +31,8 @@
 			<div id="messenger_dot"></div>
 			<i class="fa-solid fa-comment"></i>
 		</div>
+
+		<p class="first_location">Add a new pin! <i class="fa-solid fa-arrow-right"></i></p>
 		<a href="{{ path('new_location') }}" id="new-filter" class="new-link">
 			<i class="fa-solid fa-plus"></i>
 		</a>
@@ -49,6 +51,26 @@
 			{% include 'websocket/index.html.twig' %}
 		</div>
 		<style>
+		.first_location{
+			display:none;
+			position:fixed;
+    		bottom: 107px;
+    		right: 100px;
+			color:white;
+			animation: move 2s infinite;
+		}
+
+		@keyframes move {
+  			0% {
+   			transform: translateX(0); 
+  			}
+			50%{
+			transform: translateX(10px);
+			}
+  			100% {
+    		transform: translateX(0px);
+  			}
+			}
 
 			#messenger_dot {
 				display: none;
