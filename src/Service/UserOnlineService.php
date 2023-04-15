@@ -66,7 +66,8 @@ class UserOnlineService
             $diff = $lastActiveAt->diff(new \DateTime())->format('%a:%h:%i');
             list($days, $hours, $minutes) = explode(':', $diff);
             $totalMinutes = ($days * 24 * 60) + ($hours * 60) + $minutes;
-            if ($totalMinutes < 59) {
+            
+            if ($totalMinutes < 60) {
                 $user = [
                     'firstname' => $user->getFirstname(),
                     'lastname' => substr($user->getLastname(), 0, 1),
@@ -75,10 +76,14 @@ class UserOnlineService
                 ];
             }
             else {
+                if((int)$days > 365) $active = floor($days / 365).'y';
+                elseif((int)$days > 0) $active = $days.'d';
+                else $active = $hours.'h';
+
                 $user = [
                     'firstname' => $user->getFirstname(),
                     'lastname' => substr($user->getLastname(), 0, 1),
-                    'active' => '(Offline)',
+                    'active' => ' (' . $active . ' ago)',
                     'status' => 'offline'
                 ];
             }

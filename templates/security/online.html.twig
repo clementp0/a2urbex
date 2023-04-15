@@ -22,7 +22,7 @@
                 {% if user.status == "away" %}
                     <div class="useractive away">
                         {{ user.firstname }}
-                        {{ user.lastname}}<span class="ago">{{ user.active }}</span>
+                        {{ user.lastname }} <span class="ago">{{ user.active }}</span>
                     </div>
                 {% endif %}
             {% endif %}
@@ -38,8 +38,9 @@
         {% for user in onlineUsers %}
             {% if user.status is defined %}
                 {% if user.status == "offline" %}
-                    <div class="useractive offline">{{ user.firstname }}
-                        {{user.lastname}}
+                    <div class="useractive offline">
+                        {{ user.firstname }}
+                        {{ user.lastname }} <span class="ago">{{ user.active }}</span>
                     </div>
                 {% endif %}
             {% endif %}
