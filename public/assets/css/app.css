@@ -79,7 +79,7 @@ body .intro-container a:hover {
 .fixed-top {
   height: 44px;
   text-align: right;
-  background-color: transparent;
+  background-color: #3030306e;
   backdrop-filter: blur(21px);
   -webkit-backdrop-filter: blur(21px);
   box-shadow: inset 0 -1px 0 #525252;
