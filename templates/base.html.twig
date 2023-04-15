@@ -321,7 +321,7 @@
 				}
 			}
 		</style>
-
+{% if app.user %}
 		<script>
 
 			const clearCacheButton = document.getElementById('clear-cache-button');
@@ -335,7 +335,7 @@ console.error('Error deleting cache:', err);
 }
 });
 		</script>
-
+{% endif %}
 		{% block content %}{% endblock %}
 	</body>
 </html></html>
