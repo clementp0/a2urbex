@@ -15,3 +15,8 @@ download_database:
 clear_chat:
     path: /clear_chat
     controller: App\Controller\Admin\DashboardController::clearChat
+not_found:
+    path: /{catchall}
+    controller: App\Controller\ErrorController::showNotFound
+    requirements:
+        catchall: '.*'
