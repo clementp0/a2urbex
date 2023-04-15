@@ -9,6 +9,14 @@
 
 
 <style>
+		body{
+			background-image: url(../home/register.png);
+    		backdrop-filter: brightness(0.5);
+			-webkit-backdrop-filter: brightness(0.5);
+			background-position: left;
+			max-height:100vh;
+		}
+
 		* {
 			margin: 0;
 			padding: 0;
@@ -18,9 +26,8 @@
 			text-align: center;
 			font-weight: 500;
 			width: 300px;
-			height: 560px;
 			border: 1px solid #404040;
-			background-color: #303030;
+			background-color: #222222;
 			padding: 50px 11px 11px;
 			border-radius: 5px;
 			margin: 0;
@@ -28,6 +35,12 @@
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
+		}
+		h1::before {
+    		content: '';
+    		background-color: #007bff;
+    		padding: 2px;
+   			 margin-right: 18px;
 		}
 		h1 {
 			text-align: center;
@@ -37,8 +50,11 @@
 		label {
 			display:none;
 		}
+		.form-control {
+    		color:#e6e6e6!important;
+		}
 		input {
-            color:#6d6d6d;
+            color:#e6e6e6;
 			margin: auto auto 20px;
 			background-color: transparent!important;
 			border: none!important;
@@ -48,19 +64,36 @@
 			height: 40px!important;
             border-radius:0px!important;
 		}
+				input:-webkit-autofill,
+		input:-webkit-autofill:hover,
+		input:-webkit-autofill:focus {
+			-webkit-text-fill-color: #e6e6e6;
+			transition: background-color 50000s ease-in-out 0s;
+		}
 		button {
-			margin: auto!important;
-			width: 80%!important;
-			height: 40px!important;
-			border: none!important;
-			background-color: #222222!important;
-			color: #a2a2a2!important;
-            border-radius:0px!important;
+    		margin: auto;
+    		width: 80%;
+    		height: 40px;
+    		border: none;
+    		background-color: #007bff;
+    		transition: background-color 0.5s ease-out;
+    		color: white;
+    		border-radius: 40Px!important;
 		}
 		button:hover {
 			transition: 0.3s;
 			background-color: #1e1e1e!important;
-			t
+		}
+		.fixed-top {
+    		background-color: transparent;
+   			backdrop-filter: blur(21px);
+    		-webkit-backdrop-filter: blur(21px);
+		}
+
+			footer{
+			background-color: transparent;
+   			backdrop-filter: blur(21px);
+    		-webkit-backdrop-filter: blur(21px);
 		}
 	</style>
 {% endblock %}

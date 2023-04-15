@@ -1,8 +1,4 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Log in!
-{% endblock %}
-
 {% block content %}
 	<form class="login-form" method="post">
 		{% if error %}
@@ -20,22 +16,29 @@
 		<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="email" autocomplete="email" placeholder="Email" required autofocus>
 		<input
 		type="password" name="password" id="inputPassword" autocomplete="password" class="password" placeholder="Password" required>
-		{# <div class="remember_container">
-				<input type="checkbox" id="remember_me">
-				<label for="remember_me">Remember me</label>
-				</div> #}
-
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 		<button class="login" type="submit">
-			Login
+			<i class="fa-solid fa-right-to-bracket"></i> Login
 		</button>
 		<a class="register" href="/register">
-			Register
+			<i class="fa-solid fa-plus"></i> Create an Account
 		</a>
 	</form>
 
 	<style>
+		body{
+			background-image: url(../home/login.png);
+    		backdrop-filter: brightness(0.5);
+			-webkit-backdrop-filter: brightness(0.5);
+			background-position: center;
+			overflow:hidden;
+		}
+		.fixed-top {
+    		background-color: transparent;
+   			backdrop-filter: blur(21px);
+    		-webkit-backdrop-filter: blur(21px);
+		}
 
 		* {
 			margin: 0;
@@ -50,14 +53,8 @@
 			line-height: 35px;
 			height: 40px;
 			border: none;
-			background-color: #282828;
-			color: #7a7a7a;
-		}
-
-		.register:hover {
-
-			transition: 0.3s;
-			background-color: #1e1e1e;
+			color: white;
+			font-weight: 300;
 		}
 
 		.login-form {
@@ -66,7 +63,7 @@
 			width: 300px;
 			min-height: 380px;
 			border: 1px solid #404040;
-			background-color: #303030;
+			background-color: #222222;
 			padding: 50px 11px 11px;
 			border-radius: 5px;
 			margin: 0;
@@ -74,14 +71,21 @@
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
+			box-shadow: 0px 0px 9px 2px #0000006e
 		}
 		h1 {
 			text-align: center;
 			margin-bottom: 50px;
 			color: #ffffffd4;
 		}
+		h1::before {
+    		content: '';
+    		background-color: #007bff;
+    		padding: 2px;
+   			 margin-right: 18px;
+		}
 		input {
-			color: #6d6d6d;
+			color: #e6e6e6;
 			margin: auto auto 20px;
 			background-color: transparent;
 			border: none;
@@ -95,7 +99,7 @@
 		input:-webkit-autofill,
 		input:-webkit-autofill:hover,
 		input:-webkit-autofill:focus {
-			-webkit-text-fill-color: #6d6d6d;
+			-webkit-text-fill-color: #e6e6e6;
 			transition: background-color 50000s ease-in-out 0s;
 		}
 		input:focus {
@@ -110,12 +114,19 @@
 			width: 80%;
 			height: 40px;
 			border: none;
-			background-color: #222222;
-			color: #a2a2a2;
+			background-color: #007bff;
+    		transition: background-color 0.5s ease-out;
+			color: white;
+			border-radius: 40Px;
 		}
 		.login:hover {
 			transition: 0.3s;
 			background-color: #1e1e1e;
+		}
+		footer{
+			background-color: transparent;
+   			backdrop-filter: blur(21px);
+    		-webkit-backdrop-filter: blur(21px);
 		}
 	</style>
 {% endblock %}
