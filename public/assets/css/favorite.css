@@ -17,32 +17,49 @@
   width: 100px;
   text-align: center;
 }
+i.fa-solid.fa-user-plus {
+  margin-right: 5px;
+}
 .fav-item-action {
-  display: flex;
+  display: block;
 }
 .fav-item-action > * {
-  padding: 0 5px;
+padding: 0px;
 }
+a.menu_delete {
+  color:#b30404!important;
+  border-top: #525252 1px solid;
+}
+
+.location_favorite_loc {
+  color: #4b4b4b;
+  font-size: 13px;
+  margin: 0;
+}
+.location_favorite_name {
+  margin: 0;
+}
+
 
 .share-user-wrapper {
   position: relative;
 }
 .share-select-wrapper {
   position: absolute;
-  top: -5px;
-  right: 25px;
   display: flex;
   transition: all 0.5s;
   opacity: 0;
   visibility: hidden;
   background-color: #303030;
   border: 1px solid #404040;
-  padding: 4px 8px;
+  padding: 2px 6px;
   border-radius: 3px;
+  box-shadow: -1px 8px 9px 0px #0000006b;
 }
 .share-select-wrapper.show {
   opacity: 1;
   visibility: visible;
+  width: 189px;
 }
 .share-select-link {
   margin-left: 10px;
@@ -59,4 +76,71 @@
 
 .share-select:focus-visible {
   outline: 0;
+}
+
+.dropdown-favorite {
+  padding-left: 45px;
+}
+
+.dropdown-favorite {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: transparent;
+  border: none;
+  color: #adadad;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+}
+.dropbtn > i{
+    padding: 7px;
+    margin-right: 5px;
+  background-color: #404040;
+  color: #737373;
+  border-radius: 4px;
+}
+
+.dropdown-favorite-content {
+  display: none; 
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  margin-top: -10px;
+  min-width: 190px;
+  right: 0;
+  background-color: #303030;
+  border: #525252 1px solid;
+  border-radius: 6px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  color: #d4d4d4;
+}
+
+
+.dropdown-favorite-content a {
+  text-align: left;
+  color: #d4d4d4;
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.2s ease-out;
+}
+
+.dropdown-favorite-content > a > i {
+  margin-right: 5px;
+}
+
+.dropdown-favorite-content a:hover {
+  background-color: #222222;
+}
+
+.dropdown-favorite:hover .dropdown-favorite-content {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  -webkit-transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
 }
