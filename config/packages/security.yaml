@@ -51,6 +51,7 @@ security:
     - { path: ^/chat-add, roles: [ROLE_ADMIN, ROLE_USER] }
     - { path: ^/user, roles: [ROLE_ADMIN, ROLE_USER] }
     - { path: ^/friend, roles: [ROLE_ADMIN, ROLE_USER] }
+    
     # Wrong Access Handler
   access_denied_url:
     /
