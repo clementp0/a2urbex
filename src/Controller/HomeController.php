@@ -67,7 +67,7 @@ class HomeController extends AppController
     }
 
      /**
-     * @Route("/contact", name="app_contact")
+     * @Route("/reach_us", name="app_reach_us")
      */
     public function contact(): Response
     {
