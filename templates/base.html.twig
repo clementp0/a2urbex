@@ -126,12 +126,22 @@
 
 		<footer>
 			<div class="love">Your Exploration Co-Pilot.</div>
-			<p id="last-commit-id"></p>
+			<a class="contact_desktop" href="/contact">Contact</a>
+			<a class="contact_mobile" href="/contact"><i class="fa-solid fa-envelope"></i></a>
 		</footer>
 		<script>
 		</script>
 		<style>
-		
+		.contact_desktop{
+			display:block;
+			right: 10px;
+    		position: absolute;
+		}
+		.contact_mobile{
+			display:none;
+			right: 10px;
+    		position: absolute;
+		}
 		.login_register{
     		background-color: #007bff;
     		font-size: 13px;
@@ -300,6 +310,12 @@
 			}
 
 			@media(max-width: 768px) {
+				.contact_desktop{
+					display:none;
+				}
+				.contact_mobile{
+					display:block
+				}
 				.dropdown {
 					display: block;
 				}
