@@ -66,7 +66,9 @@ class HomeController extends AppController
         ]);
     }
 
-    #[Route('/contact', name: 'app_contact')]
+     /**
+     * @Route("/contact", name="app_contact")
+     */
     public function contact(): Response
     {
         return $this->render('contact/index.html.twig');
