@@ -37,19 +37,24 @@ class SecurityController extends AppController
 
 
     #[Route('/user/modal', name: 'app_user_modal')]
-    public function modal(): Response 
+    public function modal(Request $request): Response 
     {
-        return $this->render('security/user-modal.html.twig');
+        return $this->render('security/user-modal.html.twig', [
+            'fav' => $request->get('fav')
+        ]);
     }
 
     #[Route('/user/search', name: 'app_user_search')]
     public function search(Request $request, Security $security, UserRepository $userRepository): Response 
     {
         $search = $request->get('search');
-        $excludeFriends = $request->get('exclude_friends') === 'true';
         $user = $security->getUser();
+        $exclude = $request->get('exclude') === 'true';
+        $favId = $request->get('fav');
+        $type = $favId ? 'fav' : 'friend';
 
-        $result = $userRepository->findForSearch($search, $user->getId(), $excludeFriends);
+        if($type === 'friend') $result = $userRepository->findForSearchFriend($search, $user->getId(), $exclude);
+        if($type === 'fav') $result = $userRepository->findForSearchFav($search, $favId, $exclude);
         
         $serializer = $this->container->get('serializer');
         $serialized = $serializer->serialize($result, 'json');

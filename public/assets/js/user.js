@@ -88,7 +88,7 @@ $(() => {
       url,
       data: {
         search: string,
-        exclude_friends: true,
+        exclude: true,
       },
       success: (data) => {
         container.empty()

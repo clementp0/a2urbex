@@ -92,6 +92,7 @@ class FavoriteController extends AppController
         return $this->redirectToRoute('app_favorite');
     }
     
+    #[Route('/favorite/{id}/share/user/', name: 'app_favorite_share_user_default')]
     #[Route('/favorite/{id}/share/user/{uid}', name: 'app_favorite_share_user')]
     public function shareUser($id, $uid, UserRepository $userRepository): Response { // secure
         $favorite = $this->favoriteRepository->find($id);

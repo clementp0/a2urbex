@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\Security;
 use App\Repository\FriendRepository;
+use App\Repository\FavoriteRepository;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,7 +22,12 @@ use App\Repository\FriendRepository;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry, private Security $security, private FriendRepository $friendRepository)
+    public function __construct(
+        ManagerRegistry $registry, 
+        private Security $security, 
+        private FriendRepository $friendRepository,
+        private FavoriteRepository $favoriteRepository
+    )
     {
         parent::__construct($registry, User::class);
     }
@@ -75,17 +81,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
 
-    public function findForSearch($search, $userId, $excludeFriends = false) {
+    private function getSearchQuery($search, $userId = null) {
         $q = $this->createQueryBuilder('u')
             ->select('u.id, u.firstname, SUBSTRING(u.lastname, 1, 1) lastname, CONCAT(u.firstname, \'#\', u.id) username')
             ->orderBy('u.firstname', 'ASC')
-            ->andWhere('u.id != '. $userId)
             ->andWhere('CONCAT(u.firstname, \'#\', u.id) LIKE :search')
             ->setParameter('search', '%'.$search.'%')
         ;
 
-        
-        if($excludeFriends) {
+        if($userId) $q->andWhere('u.id != '. $userId);
+
+        return $q;
+    }
+
+
+    public function findForSearchFriend($search, $userId, $exclude) {
+        $q = $this->getSearchQuery($search, $userId);
+
+        if($exclude) {
             $f = $this->friendRepository->findFriendForSearch($userId);
             if($f) {
                 $friends = array_map(function($item) {
@@ -94,7 +107,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 
                 $q->andWhere('u.id NOT IN ('.implode(', ', $friends).')');
             }
+        }
 
+        return $q->setMaxResults(10)->getQuery()->getResult();
+    }
+
+    public function findForSearchFav($search, $favId, $exclude) {
+        $q = $this->getSearchQuery($search);
+
+        if($exclude) {
+            $u = $this->favoriteRepository->find($favId)->getUsers();
+            if($u) {
+                $users = [];
+                foreach($u as $item) $users[] = $item->getId();
+
+                $q->andWhere('u.id NOT IN ('.implode(', ', $users).')');
+            }
         }
 
         return $q->setMaxResults(10)->getQuery()->getResult();

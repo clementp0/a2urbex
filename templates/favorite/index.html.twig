@@ -16,27 +16,9 @@
 					<i class="fa-solid fa-ellipsis-vertical"></i>
 				</button>
 				<div class="dropdown-favorite-content">
-								<div class="fav-item-action">
-					<div class="share-user-wrapper">
-						<a href="#" class="fav-item-share-user{{ item.fav.master ? ' disabled' : '' }}">
-							<i class="fa-solid fa-user-plus"> </i>  Add User
-						</a>
-						<div class="share-select-wrapper">
-							<select class="share-select">
-								<option value="">Choose user</option>
-								{% for user in users %}
-									<option value="{{ path('app_favorite_share_user', {'id': item.fav.id, 'uid': user.id}) }}">{{user.lastname}}
-										{{user.firstname}}</option>
-								{% endfor %}
-							</select>
-							<a href="" class="share-select-link">
-								<i class="fa-solid fa-check"></i>
-							</a>
-						</div>
-					</div>
-				</a>
-
-			</div>
+					<a href="/user/modal?fav={{ item.fav.id }}" class="inmodal fav-item-share-user{{ item.fav.master ? ' disabled' : '' }}">
+						<i class="fa-solid fa-user-plus"> </i>  Add User
+					</a>
 					<a class="fav-item-copy-link" data-toggle="tooltip" href="{{ url('app_favorite_locations', {'key': key | hashids_encode}) }}">
 						<i class="fa-solid fa-link"></i>
 						Share link
@@ -65,8 +47,6 @@
 					</a>
 				</div>
 			</div>
-
-
 		</div>
 	{% endfor %}
 </div>
