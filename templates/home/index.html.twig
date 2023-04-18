@@ -287,7 +287,6 @@
     		margin-top: 10px;
 			}
 			.intro_header{
-				height:100vh;
 				background-position-y:0px;
 			}
 			.home-content {
@@ -325,14 +324,22 @@
 			.intro_button {
     			display: inline-grid;
 			}
-			.intro_header{
-				    height: 100vh;
-			}
 		}
 
 		@media screen and (max-width: 1384px) {
 		.home-content-text {
     		transform: translate(0px, 0%);
+			}
+		}
+
+		@media screen and (max-width: 800px) {
+			.intro_header {
+				padding-left: 40px;
+				padding-right: 40px;
+			}
+			.home-content {
+				padding-left: 25px;
+				padding-right: 25px;
 			}
 		}
 	</style>
