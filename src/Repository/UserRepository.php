@@ -99,7 +99,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $q = $this->getSearchQuery($search, $userId);
 
         if($exclude) {
-            $f = $this->friendRepository->findFriendForSearch($userId);
+            $f = $this->friendRepository->findFriendForSearch($userId, true);
             if($f) {
                 $friends = array_map(function($item) {
                     return $item['id'];

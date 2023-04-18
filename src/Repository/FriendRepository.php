@@ -68,14 +68,16 @@ class FriendRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findFriendForSearch($user) {
-        return $this->createQueryBuilder('f')
+    public function findFriendForSearch($user, $bypass = false) {
+        $q = $this->createQueryBuilder('f')
             ->leftJoin('f.friend', 'ff')
             ->select('ff.id')
             ->andWhere('f.user = :user')
             ->setParameter('user', $user)
-            ->getQuery()
-            ->getResult()
         ;
+
+        if(!$bypass) $q->andWhere('f.pending = 0');
+
+        return $q->getQuery()->getResult();
     }
 }
