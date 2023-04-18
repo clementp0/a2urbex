@@ -23,6 +23,7 @@ class MapController extends AppController
 
     private function default($locations) {
         $ignoreList = [
+            'id',
             'favorites', 
             'country', 
             'typeOptions', 
@@ -37,10 +38,16 @@ class MapController extends AppController
         ];
         // todo filter out location name if not connected
 
+        $hashKey = $_ENV["HASH_KEY"];
+        foreach($locations as $loc) {
+            $loc['loc']->lid = $this->hashidsService->encode($loc['loc']->getId().$hashKey);
+        }
+
         $serializer = $this->container->get('serializer');
         $locations = $serializer->serialize($locations, 'json', [
             AbstractNormalizer::IGNORED_ATTRIBUTES => $ignoreList,
         ]);
+
 
         return $this->render('map/index.html.twig', [
             'maps_api_key' => $_ENV['MAPS_API_KEY'],

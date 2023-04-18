@@ -92,7 +92,6 @@ class LocationController extends AppController
             'user_role' => $this->getUser()->getRoles(),
             'user_id' => $this->getUser()->getId(),
             'locations' => $locationData,
-            'hashkey' => $_ENV["HASH_KEY"],
             'form' => $form->createView(),
             'total_result' => $totalResults,
             'onlineUsers' => $onlineUsers,
@@ -131,7 +130,6 @@ class LocationController extends AppController
 
         return $this->render('location/new.html.twig', [
             'locations' => $locationData,
-            'hashkey' => $_ENV["HASH_KEY"],
             'form' => $form->createView(),
             'total_result' => $totalResults,
         ]);

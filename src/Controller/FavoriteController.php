@@ -24,13 +24,12 @@ class FavoriteController extends AppController
         $this->locationRepository = $locationRepository;
         $this->favoriteRepository = $favoriteRepository;
         $this->hashidsService = $hashidsService;
+        $this->user = $this->security->getUser();
     }
     
     #[Route('/favorite', name: 'app_favorite')] 
     public function index(UserRepository $userRepository): Response {
-        $hashKey = $_ENV["HASH_KEY"];
         return $this->render('favorite/index.html.twig', [
-            'hashkey' => $hashKey,
             'favorites' => $this->favoriteRepository->findByDefault(),
             'users' => $userRepository->findAllButCurrent()
         ]);
@@ -39,7 +38,11 @@ class FavoriteController extends AppController
     #[Route('/favorite/user', name: 'app_favorite_user')] 
     public function user(Request $request): Response {
         $lid = $request->get('lid');
-        $loc = $this->locationRepository->findById($lid);
+
+        $hashKey = $_ENV["HASH_KEY"];
+        $listKey = $this->hashidsService->decode($lid);
+        $locid = str_replace($hashKey,'',is_array($listKey) ? $listKey[0] : $listKey);
+        $loc = $this->locationRepository->findById($locid);
 
         $serializer = $this->container->get('serializer');
         $favorites = $this->favoriteRepository->findByEnabled();
@@ -47,13 +50,12 @@ class FavoriteController extends AppController
         return new Response($favorites);
     }
 
-    // add security block deletion from other user ?
     #[Route('/favorite/{id}/delete', name: 'app_favorite_delete')] 
-    public function delete($id): Response {
+    public function delete($id): Response { // secure
         $favorite = $this->favoriteRepository->find($id);
         
         if(!$favorite->isMaster()) {
-            $favorite->removeUser($this->security->getUser());
+            $favorite->removeUser($this->user);
             if(count($favorite->getUsers()) === 0) {
                 $this->favoriteRepository->remove($favorite, true);
             } else {
@@ -64,61 +66,73 @@ class FavoriteController extends AppController
     }
 
     #[Route('/favorite/{id}/disable', name: 'app_favorite_disable')] 
-    public function disable($id): Response {
+    public function disable($id): Response { // secure
         $favorite = $this->favoriteRepository->find($id);
 
-        $favorite->setDisabled(!$favorite->isDisabled());
-        $this->favoriteRepository->save($favorite, true);
+        if($favorite->getUsers()->contains($this->user)) {
+            $favorite->setDisabled(!$favorite->isDisabled());
+            $this->favoriteRepository->save($favorite, true);
+        }
 
         return $this->redirectToRoute('app_favorite');
     }
 
     #[Route('/favorite/{id}/share/link', name: 'app_favorite_share_link')] 
-    public function shareLink($id): Response {
+    public function shareLink($id): Response { // secure
         $favorite = $this->favoriteRepository->find($id);
-        // allow share button
-        if($favorite->isShare()) $favorite->setShare(0);
-        else $favorite->setShare(1);
-    
-        $this->favoriteRepository->save($favorite, true);
+
+        if($favorite->getUsers()->contains($this->user)) {
+            // allow share button
+            if($favorite->isShare()) $favorite->setShare(0);
+            else $favorite->setShare(1);
+        
+            $this->favoriteRepository->save($favorite, true);
+        }
     
         return $this->redirectToRoute('app_favorite');
     }
     
     #[Route('/favorite/{id}/share/user/{uid}', name: 'app_favorite_share_user')]
-    public function shareUser($id, $uid, UserRepository $userRepository): Response {
+    public function shareUser($id, $uid, UserRepository $userRepository): Response { // secure
         $favorite = $this->favoriteRepository->find($id);
-        $user = $userRepository->find($uid);
-        $favorite->addUser($user);
-        
-        $this->favoriteRepository->save($favorite, true);
+
+        if($favorite->getUsers()->contains($this->user)) {
+            $user = $userRepository->find($uid);
+            $favorite->addUser($user);
+            
+            $this->favoriteRepository->save($favorite, true);
+        }
         
         return $this->redirectToRoute('app_favorite');
     }
 
 
     #[Route('/favorite/item/toggle', name: 'app_favorite_item_toggle')]
-    public function additem(Request $request) : Response {
+    public function additem(Request $request) : Response { // secure
         $success = true;
         $lid = $request->get('lid');
         $fid = $request->get('fid');
         $name = $request->get('name');
         $fids = '';
 
-        $user = $this->security->getUser();
-        $location = $this->locationRepository->find($lid);
+        $hashKey = $_ENV["HASH_KEY"];
+        $listKey = $this->hashidsService->decode($lid);
+        $locid = str_replace($hashKey,'',is_array($listKey) ? $listKey[0] : $listKey);
+        $location = $this->locationRepository->find($locid);
 
-        if(!$user && !$location) {
+        if(!$location) {
             $success = false;
         } else {
             if($fid) {
                 $fav = $this->favoriteRepository->find($fid);
-                if((int)$request->get('checked') === 1) $fav->addLocation($location);
-                else $fav->removeLocation($location);
-                $this->favoriteRepository->save($fav, true);
+                if($fav->getUsers()->contains($this->user)) {
+                    if((int)$request->get('checked') === 1) $fav->addLocation($location);
+                    else $fav->removeLocation($location);
+                    $this->favoriteRepository->save($fav, true);
+                }
             } elseif(strlen($name) && $name !== 'like') {
                 $fav = new Favorite();
-                $fav->setName($name)->addUser($user)->addLocation($location);
+                $fav->setName($name)->addUser($this->user)->addLocation($location);
                 $this->favoriteRepository->save($fav, true);
             }
             $fids = $this->locationRepository->findById($lid)['fids'];
@@ -128,7 +142,7 @@ class FavoriteController extends AppController
     }
 
     #[Route('/list/{key}',name: 'app_favorite_locations')] 
-    public function item(Request $request, PaginatorInterface $paginator): Response {
+    public function item(Request $request, PaginatorInterface $paginator): Response { // secure
 
         $hashKey = $_ENV["HASH_KEY"];
         $listKey = $this->hashidsService->decode($request->get('key'));
@@ -145,12 +159,11 @@ class FavoriteController extends AppController
         $name = $favorite->getName();
         
         $private = !$favorite->isShare();
-        if($favorite->getUsers()->contains($this->security->getUser())) $private = false;
+        if($favorite->getUsers()->contains($this->user)) $private = false;
 
         if(!$private) {
             return $this->render('favorite/locations.html.twig', [
                 'locations' => $locationData,
-                'hashkey' => $_ENV["HASH_KEY"],
                 'id' => $listId[0],
                 'title' => $name
             ]);
@@ -158,7 +171,6 @@ class FavoriteController extends AppController
         else{
             return $this->render('favorite/locations.html.twig', [
                 'locations' => $locationData,
-                'hashkey' => $_ENV["HASH_KEY"],
                 'private' => 'yes',
             ]);
         }

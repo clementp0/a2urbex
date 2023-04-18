@@ -1,9 +1,9 @@
 twig:
-    default_path: '%kernel.project_dir%/templates'
-    form_themes: ['bootstrap_4_layout.html.twig']
-    globals:
-        ga_tracking: 'sdx-x'
+  default_path: '%kernel.project_dir%/templates'
+  form_themes: ['bootstrap_4_layout.html.twig']
+  globals:
+    hashkey: '%env(HASH_KEY)%'
 
 when@test:
-    twig:
-        strict_variables: true
+  twig:
+    strict_variables: true

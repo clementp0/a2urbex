@@ -64,11 +64,12 @@ class Location
     #[ORM\ManyToOne(inversedBy: 'locations')]
     private ?User $user = null;
 
+    public ?string $lid = null;
+
     public function __construct()
     {
         $this->favorites = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {

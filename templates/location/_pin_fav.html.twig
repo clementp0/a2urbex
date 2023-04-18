@@ -1,5 +1,5 @@
 {% if app.user %}
-    <div class="pin-fav-wrapper" data-id="{{ item is defined ? item.loc.id : null }}" data-fids="{{ item is defined ? item.fids : null }}" data-url="{{ path('app_favorite_item_toggle') }}">
+    <div class="pin-fav-wrapper" data-id="{{ item is defined ? key | hashids_encode : null }}" data-fids="{{ item is defined ? item.fids : null }}" data-url="{{ path('app_favorite_item_toggle') }}">
         <a class="pin-fav pin-fav2" href="{{ path('app_favorite_user') }}"><i class="{{ item is defined and item.fids ? 'fa-solid' : 'fa-regular' }} fa-heart"></i></a>
         <div class="pin-fav-add">
             <div class="pin-fav-add-top">

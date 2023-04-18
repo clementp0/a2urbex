@@ -50,7 +50,7 @@
 						<i class="fa-solid fa-lock"></i> Private
 					</a>
 					{% endif %}
-					{# {% if  item.fav.disabled %}
+					{% if  item.fav.disabled %}
 					<a href="{{ path('app_favorite_disable', {'id': item.fav.id}) }}" class="fav-item-disable">
 						<i class="fa-solid fa-eye-slash"></i> Hidden
 					</a>
@@ -58,8 +58,8 @@
 					<a href="{{ path('app_favorite_disable', {'id': item.fav.id}) }}" class="fav-item-disable">
 						<i class="fa-solid fa-eye"></i> Visible
 					</a>
-					{% endif %} #}
-					<a class="menu_delete" href="{{ path('app_favorite_delete', {'id': item.fav.id}) }}" class="fav-item-delete{{ item.fav.master ? ' disabled' : '' }}">
+					{% endif %}
+					<a href="{{ path('app_favorite_delete', {'id': item.fav.id}) }}" class="fav-item-delete{{ item.fav.master ? ' disabled' : '' }}">
 						<i class="fa-solid fa-trash"></i>
 						Delete
 					</a>
