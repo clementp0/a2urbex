@@ -24,10 +24,10 @@ i.fa-solid.fa-user-plus {
   display: block;
 }
 .fav-item-action > * {
-padding: 0px;
+  padding: 0px;
 }
 a.menu_delete {
-  color:#b30404!important;
+  color: #b30404 !important;
   border-top: #525252 1px solid;
 }
 
@@ -39,7 +39,6 @@ a.menu_delete {
 .location_favorite_name {
   margin: 0;
 }
-
 
 .share-user-wrapper {
   position: relative;
@@ -84,7 +83,7 @@ a.menu_delete {
 
 .dropdown-favorite {
   position: relative;
-  display: inline-block;
+  display: flex;
 }
 
 .dropbtn {
@@ -95,16 +94,16 @@ a.menu_delete {
   cursor: pointer;
   padding: 0;
 }
-.dropbtn > i{
-    padding: 7px;
-    margin-right: 5px;
+.dropbtn > i {
+  padding: 7px;
+  margin-right: 5px;
   background-color: #404040;
   color: #737373;
   border-radius: 4px;
 }
 
 .dropdown-favorite-content {
-  display: none; 
+  display: none;
   position: absolute;
   z-index: 1;
   top: 100%;
@@ -117,7 +116,6 @@ a.menu_delete {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
   color: #d4d4d4;
 }
-
 
 .dropdown-favorite-content a {
   text-align: left;
