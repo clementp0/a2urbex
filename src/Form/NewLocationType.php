@@ -36,7 +36,7 @@ class NewLocationType extends AbstractType
                 ]
             ])
             ->add('image', FileType::class, [
-                'label' => 'Image (JPG, JPEG, PNG file)',
+                'label' => 'Image (JPG, JPEG, PNG file) MAX 8M',
                 'required' => false,
                 'attr' => [
                     'accept' => "image/*"
