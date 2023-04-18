@@ -71,6 +71,9 @@ a.disabled {
   pointer-events: none;
   opacity: 0.5;
 }
+i.fa-solid.fa-heart {
+  color: #60a6fa;
+}
 
 body .intro-container a:hover {
   text-decoration: underline;
