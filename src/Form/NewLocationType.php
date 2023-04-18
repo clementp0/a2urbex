@@ -19,6 +19,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Image;
+
 
 
 class NewLocationType extends AbstractType
@@ -36,6 +38,9 @@ class NewLocationType extends AbstractType
             ->add('image', FileType::class, [
                 'label' => 'Image (JPG, JPEG, PNG file)',
                 'required' => false,
+                'attr' => [
+                    'accept' => "image/*"
+                ],
             ])
             ->add('type', EntityType::class, [
                 'class' => Type::class,
@@ -47,7 +52,7 @@ class NewLocationType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Police with dog..',
- 
+
                 ]
             ])
             ->add('lat', NumberType::class, [
