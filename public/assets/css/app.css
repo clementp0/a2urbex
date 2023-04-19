@@ -956,6 +956,13 @@ div.my_locations {
 }
 
 @media screen and (max-width: 880px) {
+  #fileSize {
+    font-size: 10px;
+    padding-top: 3px;
+}
+  .custom-file-label::after {
+    padding-top: 5px;
+  }
   .personal_locations {
     display: block;
   }
