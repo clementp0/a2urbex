@@ -168,9 +168,19 @@ $(() => {
   })
 
   const authorizedCoordKey = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '-']
-  function verifyCoordKeyAccess(key, value) {
-    return !(!authorizedCoordKey.includes(key) || (key === '.' && value.includes('.')))
+  function removeUnauthorizedCoordChar(target) {
+    let newString = ''
+
+    for (let i = 0; i < target.value.length; i++) {
+      const letter = target.value.charAt(i)
+      if (letter === '-' && i !== 0) continue
+      if (letter === '.' && newString.includes('.')) continue
+      if (!authorizedCoordKey.includes(letter)) continue
+      newString += letter
+    }
+    target.value = newString
   }
+
   function coordInputValidity(target) {
     let n = parseFloat($(target).val())
     let min = parseFloat($(target).attr('min'))
@@ -183,14 +193,13 @@ $(() => {
     .each(function (e) {
       coordInputValidity(this)
     })
-    .on('keypress', function (e) {
-      if (!verifyCoordKeyAccess(e.key, $(this).val())) e.preventDefault()
-    })
     .on('keyup', function (e) {
+      removeUnauthorizedCoordChar(e.target)
       coordInputValidity(e.target)
     })
     .on('paste', function (e) {
       setTimeout(() => {
+        removeUnauthorizedCoordChar(e.target)
         coordInputValidity(e.target)
       }, 100)
     })
