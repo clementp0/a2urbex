@@ -66,6 +66,8 @@ class Location
 
     public ?string $lid = null;
 
+    public $imageError;
+
     public function __construct()
     {
         $this->favorites = new ArrayCollection();
@@ -113,13 +115,15 @@ class Location
             if (!in_array($extension, $validExtensions)) {
                 throw new \Exception('Invalid file type');
             }
-            
-            $filename = '/img/locations/' . md5(uniqid()) . '.' . $extension;
-            $file->move(
+            else{
+                $filename = '/img/locations/' . md5(uniqid()) . '.' . $extension;
+                $file->move(
                 $this->getUploadDir(),
                 $filename
             );
             $this->image = $filename;
+            }
+            
         }
     
         return $this;

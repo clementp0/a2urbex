@@ -3,6 +3,7 @@
 	<div class="personal_locations">
 		<div class="new_location">
 		<p id="fileSize"></p>
+		<p id="error"></p>
 		 <div id="image-preview"></div>
 			<p class="title_location">
 				<i class="fa-solid fa-plus"></i>
@@ -149,13 +150,34 @@ fileInput.addEventListener('change', function() {
 
 
 window.onload = function() {
-  var imagepreview = document.getElementById("image-preview");
-  var uploader = document.querySelector(".custom-file-label");
+var imagepreview = document.getElementById("image-preview");
+var uploader = document.querySelector(".custom-file-label");
   uploader.appendChild(imagepreview);
 var size = document.getElementById("fileSize");
-  var uploaderlabel = document.querySelector(".image-label-placeholder");
+var uploaderlabel = document.querySelector(".image-label-placeholder");
   uploaderlabel.appendChild(size);
+var error = document.getElementById("error");
+var formtype = document.querySelector("#new_location");
+  formtype.appendChild(error);
 }
+
+
+
+const form = document.querySelector('form[name="new_location"]');
+form.addEventListener('submit', function(event) {
+    const fileInput = document.querySelector('#new_location_image');
+    const fileName = fileInput.value;
+    const fileExtension = fileName.split('.').pop().toLowerCase();
+    if (!['jpg', 'jpeg', 'png'].includes(fileExtension)) {
+        event.preventDefault();
+        const errorMessage = '<span class="alert alert-danger d-block"><span class="d-block"><span class="form-error-icon badge badge-danger text-uppercase">Error</span> <span class="form-error-message">Invalid File Type.</span></span></span>';
+        const errorElement = document.querySelector('#error');
+        errorElement.innerHTML = errorMessage;
+        const newLocationElement = document.querySelector('#new_location');
+        newLocationElement.insertBefore(errorElement, newLocationElement.firstChild);
+    }
+});
+
 </script>
 
 	{% endblock %}

@@ -114,7 +114,9 @@ class LocationController extends AppController
             $entityManager->persist($location);
             $entityManager->flush();
     
-            return $this->redirectToRoute('new_location', ['id' => $location->getId()]);
+            return $this->redirectToRoute('new_location', [
+                'id' => $location->getId()
+        ]);
         }
 
         $locations =$locationRepository->findByUser();
@@ -127,11 +129,15 @@ class LocationController extends AppController
             $request->query->getInt('page', 1),
             6
         );  
+        // if ($location->getImageError()) {
+        //     $form->get('imageError')->setData($location->getImageError());
+        // }
 
         return $this->render('location/new.html.twig', [
             'locations' => $locationData,
             'form' => $form->createView(),
             'total_result' => $totalResults,
+            'location' => $location,
         ]);
     }
 
