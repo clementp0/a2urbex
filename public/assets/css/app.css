@@ -1193,6 +1193,7 @@ button:focus {
   background-image: url(/assets/default.png);
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
   height: 62px;
   z-index: 20;
   position: absolute;
