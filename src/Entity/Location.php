@@ -108,16 +108,23 @@ class Location
     public function setImage(?\Symfony\Component\HttpFoundation\File\UploadedFile $file): self
     {
         if ($file) {
-            $filename = "/img/locations/" . md5(uniqid()) . '.' . $file->guessExtension();
+            $validExtensions = ['jpg', 'jpeg', 'png'];
+            $extension = strtolower($file->getClientOriginalExtension());
+            if (!in_array($extension, $validExtensions)) {
+                throw new \Exception('Invalid file type');
+            }
+            
+            $filename = '/img/locations/' . md5(uniqid()) . '.' . $extension;
             $file->move(
                 $this->getUploadDir(),
                 $filename
             );
             $this->image = $filename;
         }
-
+    
         return $this;
     }
+    
     private function getUploadDir()
     {
         return __DIR__ . '/../../public/img/locations';

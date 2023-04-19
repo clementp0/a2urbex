@@ -32,14 +32,16 @@ class NewLocationType extends AbstractType
                 'label' => 'Name',
                 'required' => true,
                 'attr' => [
-                    'placeholder' => 'Abandonned Castel'
+                    'placeholder' => 'Abandonned Castle'
                 ]
             ])
             ->add('image', FileType::class, [
-                'label' => 'Image (JPG, JPEG, PNG file) MAX 8M',
+                'label' => 'Image',
+                'label_attr' => ['class' => 'image-label-placeholder'],
                 'required' => false,
                 'attr' => [
-                    'accept' => "image/*"
+                    'accept' => ".jpg, .jpeg, .png",
+                    'onchange'=>'previewImage(event)'
                 ],
             ])
             ->add('type', EntityType::class, [

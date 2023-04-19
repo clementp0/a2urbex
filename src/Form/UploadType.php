@@ -22,7 +22,6 @@ class UploadType extends AbstractType
                         // 'mimeTypes' => [
                         //     'application/kmz',
                         //     'application/kml',
-                        //     'application/mp3',
                         // ],
                         'mimeTypesMessage' => 'Please upload a valid KMZ/KML document',
                     ])

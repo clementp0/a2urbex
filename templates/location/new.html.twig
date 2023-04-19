@@ -2,6 +2,8 @@
 {% block content %}
 	<div class="personal_locations">
 		<div class="new_location">
+		<p id="fileSize"></p>
+		 <div id="image-preview"></div>
 			<p class="title_location">
 				<i class="fa-solid fa-plus"></i>
 				Create new Location</p>
@@ -122,6 +124,38 @@ var link = "https://www.google.com/maps?t=k&q=" + lat + "," + lon
 $(".coordinates").attr("href", link);
 });
 });
-		</script>
+function previewImage(event) {
+  const input = event.target;
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const preview = document.getElementById('image-preview');
+      preview.style.backgroundImage = `url(${e.target.result})`;
+      preview.style.backgroundSize = 'cover';
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+var fileInput = document.getElementById('new_location_image');
+var fileSize = document.getElementById('fileSize');
+
+fileInput.addEventListener('change', function() {
+   if (fileInput.files.length > 0) {
+    var sizeInBytes = fileInput.files[0].size;
+    var sizeInMB = (sizeInBytes / 1000000).toFixed(2);
+    fileSize.innerHTML = ' (Selected : ' + sizeInMB + 'MB,<span class="max-size"> Max 8MB</span>)' ;
+  }
+});
+
+
+window.onload = function() {
+  var imagepreview = document.getElementById("image-preview");
+  var uploader = document.querySelector(".custom-file-label");
+  uploader.appendChild(imagepreview);
+var size = document.getElementById("fileSize");
+  var uploaderlabel = document.querySelector(".image-label-placeholder");
+  uploaderlabel.appendChild(size);
+}
+</script>
 
 	{% endblock %}

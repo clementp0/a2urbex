@@ -712,7 +712,7 @@ p.pin-type .pin-type-text {
   transform: translate(-50%, -50%);
 }
 .custom-file-label::after {
-  width: 100%;
+  width: calc(100% - 90px);
   background-color: #303030;
   border: 1px solid #404040;
   border-radius: 0px;
@@ -721,6 +721,7 @@ p.pin-type .pin-type-text {
   color: #495057;
   font-size: 12px !important;
   height: 100%;
+  padding-top: 17px;
 }
 
 .custom-file-label {
@@ -730,6 +731,7 @@ p.pin-type .pin-type-text {
   color: #495057;
   background-color: #303030;
   border: 1px solid #404040;
+  height: 63px;
 }
 
 .import-btn {
@@ -1173,4 +1175,38 @@ button.btn.delete:hover {
 
 button:focus {
   outline: unset;
+}
+
+
+.custom-file {
+  height: 70px;
+}
+
+#image-preview {
+  background-image: url(/assets/default.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 62px;
+  z-index: 20;
+  position: absolute;
+  left: -1px;
+  bottom: -1px;
+  border: 2px solid #404040;
+  width: 90px;
+  position: absolute;
+  z-index: 20;
+  bottom: 0px;
+  left: 0px;
+}
+.custom-file-label:hover{
+  cursor: pointer;
+}
+label.image-label-placeholder {
+  display: flex;
+}
+#fileSize {
+  color: #ffffff61;
+  margin: 0;
+  font-weight: 400;
+  margin-left: 6px;
 }
