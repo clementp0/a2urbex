@@ -63,8 +63,7 @@ class NewLocationType extends AbstractType
                 'attr' => [
                     'min' => -90,
                     'max' => 90,
-                    'class' => 'coord-input',
-                    'inputmode' => 'decimal'
+                    'class' => 'coord-input'
                 ],
             ])
             ->add('lon', NumberType::class, [
@@ -73,8 +72,7 @@ class NewLocationType extends AbstractType
                 'attr' => [
                     'min' => -90,
                     'max' => 90,
-                    'class' => 'coord-input',
-                    'inputmode' => 'decimal'
+                    'class' => 'coord-input'
                 ],
             ])
             ->add('submit', SubmitType::class, [
