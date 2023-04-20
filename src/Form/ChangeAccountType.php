@@ -12,26 +12,20 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ChangePasswordType extends AbstractType
+class ChangeAccountType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('old_password', PasswordType::class, [
-                'label' => 'Password',
-                'mapped' => false,
-                'attr' => [
-                    'placeholder' => 'SuperPassword123',
-                ],
+            ->add('email', EmailType::class,[
+                'disabled' => true,
+                'label' => 'Email',
             ])
-            ->add('new_password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'mapped' => false,
-                'invalid_message' => 'Password do not match.',
-                'label' => 'New Password',
-                'required' => true,
-                'first_options' => ['label' => 'New Password'],
-                'second_options' => ['label' => 'Confirm your new password']
+            ->add('firstname', TextType::class,[
+                'label' => 'Firstname',
+            ])
+            ->add('lastname', TextType::class,[
+                'label' => 'Name',
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Save',

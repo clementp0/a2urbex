@@ -1,11 +1,83 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}compte{% endblock %}
-
 {% block content %}
-<h1>Mon compte - {{ app.user.firstname }}</h1>
-<hr>
-    {{ dump(app) }}
-<hr>
-- <a href="{{ path('app_account_password') }}">Modifier mot de passe</a>
+	{% if notification %}
+		<div class="alert alert-info">
+			{{ notification }}
+		</div>
+	{% endif %}
+    <div id="change_account_wrapper">
+	    {{ form(form) }}
+        <a href="{{ path('app_account_password') }}" class="btn btn-primary, change-password">Change password</a>
+    </div>
+
+    <style>
+
+        #change_account_wrapper {
+            text-align: center;
+            font-weight: 500;
+            width: 300px;
+            min-height: 380px;
+            border: 1px solid #404040;
+            background-color: #303030;
+            padding: 50px 11px 11px;
+            border-radius: 5px;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #change_account > .form-group > label {
+            color: #60a5fa;
+            width: fit-content;
+            background-color: #404040;
+            font-size: 14px;
+            border-radius: 5px;
+            line-height: 1;
+            margin: auto;
+            padding: calc(0.375rem + 1px) 8px;
+            text-align: left;
+            width: 80%;
+        }
+
+        #change_account > .form-group > input::placeholder {
+            color: #6d6d6d;
+        }
+
+        #change_account > .form-group > select::placeholder {
+            color: #6d6d6d;
+        }
+
+        #change_account > .form-group > input {
+            color: white;
+            margin: auto auto 20px;
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid #ffffff24;
+            width: 80%;
+            font-size: 12px;
+            height: 40px;
+            border-radius: 0;
+            padding: 0.375rem 0.75rem;
+        }
+        #change_account > .form-group > input[disabled] {
+            color: #a2a2a2;
+        }
+
+        #change_account_submit, .change-password {
+            border-radius: 2px;
+            margin: auto;
+            width: 80%;
+            height: 40px;
+            border: none;
+            background-color: #222222;
+            color: #a2a2a2;
+        }
+
+        #change_account_submit:hover, .change-password:hover {
+            color: white;
+        }
+    </style>
 {% endblock %}

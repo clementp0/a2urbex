@@ -45,13 +45,13 @@ security:
     - { path: ^/favorite, roles: [ROLE_ADMIN, ROLE_USER] }
     - { path: ^/map/filter, roles: [ROLE_ADMIN, ROLE_USER] }
     - { path: ^/new, roles: [ROLE_ADMIN, ROLE_USER] }
-    - { path: ^/password, roles: [ROLE_ADMIN, ROLE_USER] }
+    - { path: ^/account, roles: [ROLE_ADMIN, ROLE_USER] }
     - { path: ^/general_chat, roles: [ROLE_ADMIN, ROLE_USER] }
     - { path: ^/chat-get, roles: [ROLE_ADMIN, ROLE_USER] }
     - { path: ^/chat-add, roles: [ROLE_ADMIN, ROLE_USER] }
     - { path: ^/user, roles: [ROLE_ADMIN, ROLE_USER] }
     - { path: ^/friend, roles: [ROLE_ADMIN, ROLE_USER] }
-    
+
     # Default User Access
   role_hierarchy:
     ROLE_DEFAULT: [ROLE_PENDING]
