@@ -849,6 +849,7 @@ div.my_locations {
 }
 
 span.user_id_in_name {
+  font-size: 13px;
   color: #A2A2A2;
   font-weight: 300;
 }
