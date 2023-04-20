@@ -85,18 +85,12 @@
 											Admin
 
 										</a>
-										<a href="{{ path('app_account_password') }}">
-											<i class="fa-solid fa-lock"></i>
-											Password
-
-										</a>
-									{% else %}
-										<a href="{{ path('app_account_password') }}">
-											<i class="fa-solid fa-lock"></i>
-											Password
-
-										</a>
 									{% endif %}
+
+									<a href="{{ path('app_account') }}">
+										<i class="fa-solid fa-lock"></i>
+										Account
+									</a>
 
 									<a class="menu_logout" href="{{ path('app_logout') }}">
 										<i class="fa fa-fw fa-sign-out"></i>
