@@ -10,19 +10,6 @@ use App\Service\UserOnlineService;
 
 class WebsocketController extends AbstractController
 {
-    #[Route('/chat', name: 'app_chat')]
-    public function index(): Response
-    {
-        return $this->render('websocket/index.html.twig', [
-            'websocket' => $_ENV["WEBSOCKET_URL"],
-            'controller_name' => 'WebsocketController',
-            'user' => $this->getUser(),
-            'user_role' => $this->getUser()->getRoles(),
-            'user_id' => $this->getUser()->getId()
-
-        ]);
-    }
-
     #[Route('/general_chat', name: 'app_general_chat')]
     public function general(UserOnlineService $userOnlineService): Response
     {
