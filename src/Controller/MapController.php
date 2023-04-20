@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use App\Class\Search;
 use App\Form\SearchType;
+use App\Service\LocationService;
 
 class MapController extends AppController
 {
@@ -66,16 +67,12 @@ class MapController extends AppController
     }
 
     #[Route('/map/filter', name: 'app_map_filter')]
-    public function filter(Request $request): Response {
+    public function filter(Request $request, LocationService $locationService): Response {
         $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
-            $locations = $this->locationRepository->findWithSearch($search);
-        } else {
-            $locations = $this->locationRepository->findByAll();
-        }
+        $locations = $locationService->findSearch($search, $form->isSubmitted() && $form->isValid());
 
         return $this->default($locations);
     }

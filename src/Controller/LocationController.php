@@ -8,7 +8,6 @@ use App\Form\LocationType;
 use App\Form\NewLocationType;
 use App\Form\SearchType;
 use App\Repository\LocationRepository;
-use App\Repository\FavoriteRepository;
 use App\Repository\UploadRepository;
 use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
 use Danilovl\HashidsBundle\Service\HashidsService;
@@ -34,44 +33,16 @@ class LocationController extends AppController
     #[Route('/locations', name: 'app_location_index', methods: ['GET', 'POST'])]
     public function index(
         Request $request, 
-        LocationRepository $locationRepository, 
-        FavoriteRepository $favoriteRepository, 
         PaginatorInterface $paginator, 
         UserOnlineService $userOnlineService,
-        Security $security,
-        FriendRepository $friendRepository
+        LocationService $locationService
     ): Response
-    {
-        
+    {   
         $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
-        
         $form->handleRequest($request);
-        
-        if (in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true) || in_array('ROLE_SUPERUSER', $this->getUser()->getRoles(), true)) {
-            if ($form->isSubmitted() && $form->isValid()){
-                $locations = $locationRepository->findWithSearch($search);
-            } else {
-                $locations = $locationRepository->findByAll();
-            }
-        }else{
-            $user = $security->getUser();
-            $users = [$user->getId()];
 
-            $f = $friendRepository->findFriendForSearch($user->getId());
-            if($f) {
-                foreach($f as $item) {
-                    $users[] = $item['id'];
-                }
-            }
-
-            if ($form->isSubmitted() && $form->isValid()){
-                $locations = $locationRepository->findWithSearchAndUsers($search, $users);
-            } else {
-                $locations = $locationRepository->findByUsers($users);
-            }
-            
-        }
+        $locations = $locationService->findSearch($search, $form->isSubmitted() && $form->isValid());
 
         $totalResults = 0;
         $totalResults = count($locations);
@@ -119,7 +90,7 @@ class LocationController extends AppController
         ]);
         }
 
-        $locations =$locationRepository->findByUser();
+        $locations = $locationRepository->findByUser();
 
         $totalResults = 0;
         $totalResults = count($locations);

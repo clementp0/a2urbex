@@ -7,9 +7,19 @@ use App\Repository\CountryRepository;
 use Geocoder\Provider\Provider;
 use Geocoder\Query\ReverseQuery;
 use App\Entity\Country;
+use Symfony\Component\Security\Core\Security;
+use App\Repository\FriendRepository;
+use App\Repository\LocationRepository;
 
 class LocationService {
-    public function __construct(TypeRepository $typeRepository, CountryRepository $countryRepository, Provider $googleMapsGeocoder) {
+    public function __construct(
+        TypeRepository $typeRepository, 
+        CountryRepository $countryRepository, 
+        Provider $googleMapsGeocoder,
+        private Security $security,
+        private FriendRepository $friendRepository,
+        private LocationRepository $locationRepository
+    ) {
         $this->googleMapsGeocoder = $googleMapsGeocoder;
         $this->countryRepository = $countryRepository;
 
@@ -58,5 +68,32 @@ class LocationService {
         $k = $_ENV['HASH_KEY'];
         $kp = substr($k, rand(0, strlen($k) - 2), 2);
         return $kp.uniqid();
+    }
+
+    public function findSearch($search, $submit = false) {    
+        $user = $this->security->getUser();
+
+        if (in_array('ROLE_ADMIN', $user->getRoles(), true) || in_array('ROLE_SUPERUSER', $user->getRoles(), true)) {
+            if ($submit) {
+                return $this->locationRepository->findWithSearch($search);
+            } else {
+                return $this->locationRepository->findByAll();
+            }
+        } else {
+            $users = [$user->getId()];
+
+            $f = $this->friendRepository->findFriendForSearch($user->getId());
+            if($f) {
+                foreach($f as $item) {
+                    $users[] = $item['id'];
+                }
+            }
+
+            if ($submit) {
+                return $this->locationRepository->findWithSearchAndUsers($search, $users);
+            } else {
+                return $this->locationRepository->findByUsers($users);
+            }
+        }
     }
 }
