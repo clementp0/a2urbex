@@ -13,14 +13,9 @@ use App\Repository\LocationRepository;
 
 class HomeController extends AppController
 {
-    /**
-     * @Route("/", name="app_home")
-     */
+    #[Route('/', name: 'app_home')]
     public function index(): Response
-
-
     {
-
         $em = $this->getDoctrine()->getManager();
 
         //Location_count
@@ -66,9 +61,7 @@ class HomeController extends AppController
         ]);
     }
 
-     /**
-     * @Route("/reach_us", name="app_reach_us")
-     */
+    #[Route('/reach_us', name: 'app_reach_us')]
     public function contact(): Response
     {
         return $this->render('contact/index.html.twig');

@@ -24,9 +24,7 @@ class RegisterController extends AppController
     }
 
 
-    /**
-     * @Route("/register", name="app_register")
-     */
+    #[Route('/register', name: 'app_register')]
     public function index(Request $request, UserPasswordEncoderInterface $encoder, FavoriteRepository $favoriteRepository)
     { 
         $user = new User();
