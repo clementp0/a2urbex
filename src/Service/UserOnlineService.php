@@ -45,7 +45,7 @@ class UserOnlineService
         }
         
         $onlineUsers = $this->entityManager->getRepository(User::class)->createQueryBuilder('u')
-            ->select('u.firstname', 'u.lastname')
+            ->select('u.firstname', 'SUBSTRING(u.lastname, 1, 1) lastname')
             ->where('u.lastActiveAt >= :threshold')
             ->setParameter('threshold', $threshold)
             ->orderBy('u.lastActiveAt', 'DESC');
@@ -53,7 +53,6 @@ class UserOnlineService
         if(!$cuser->hasRole('ROLE_ADMIN')) $onlineUsers->andWhere('u.id IN ('.implode(', ', $users).')');
         $onlineUsers = $onlineUsers->getQuery()->getResult();
 
-        
 
         $offlineUsers = $this->entityManager->getRepository(User::class)->createQueryBuilder('u')
             ->where('u.lastActiveAt < :threshold')
