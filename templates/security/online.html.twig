@@ -3,11 +3,7 @@
     {# ONLINE USERS :  #}
     <p class="online_title">
         <i class="fa-solid fa-user"></i>
-        {% if 'ROLE_ADMIN' in app.user.roles %}
-        Online Users
-        {% else %}
         Online Friends
-        {% endif %}
     </p>
     <div class="online">
 
@@ -34,14 +30,39 @@
     {# OFFLINE USERS :  #}
     <p class="online_title">
         <i class="fa-solid fa-user"></i>
-       {% if 'ROLE_ADMIN' in app.user.roles %}
-        Offline Users
-        {% else %}
         Offline Friends
-        {% endif %}
     </p>
     <div class="online">
         {% for user in onlineUsers %}
+            {% if user.status is defined %}
+                {% if user.status == "offline" %}
+                    <div class="useractive offline">
+                        {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span><span class="ago">{{ user.active }}</span>
+                    </div>
+                {% else %}
+                ...
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+
+    {# EXPLORERS : #}
+        <p class="online_title">
+        <i class="fa-solid fa-user"></i>
+        Explorers
+    </p>
+    <div class="online">
+        {% for user in onlineExplorers %}
+            {% if user.status is defined %}
+                {% if user.status == "away" %}
+                    <div class="useractive away">
+                        {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span><span class="ago">{{ user.active }}</span>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        {% for user in onlineExplorers %}
             {% if user.status is defined %}
                 {% if user.status == "offline" %}
                     <div class="useractive offline">

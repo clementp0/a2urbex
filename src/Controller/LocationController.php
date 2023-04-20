@@ -56,6 +56,7 @@ class LocationController extends AppController
         $user = $this->getUser();
         $userOnlineService->addUser($user);
         $onlineUsers = $userOnlineService->getOnlineUsers();
+        $onlineExplorers = $userOnlineService->getOnlineExplorers();
 
         return $this->render('location/index.html.twig', [
             'websocket' => $_ENV["WEBSOCKET_URL"],
@@ -66,6 +67,7 @@ class LocationController extends AppController
             'form' => $form->createView(),
             'total_result' => $totalResults,
             'onlineUsers' => $onlineUsers,
+            'onlineExplorers' => $onlineExplorers,
         ]);
     }
 
