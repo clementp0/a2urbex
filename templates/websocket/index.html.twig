@@ -244,7 +244,7 @@ const formattedDate = `${day}/${month}/${year} ${hour}:${minutes}`;
     function renderRow(role, id, name, message, date) {
         return "<div class='message " + role + " user"+id+"'>"
         +"<p class='name'>"
-        +"<span>" + name + "</span>"
+        +"<span>" + name + "#" + id + "</span>"
         + (role.includes('ROLE_ADMIN') ? '<span class="shield"><i class="fa-solid fa-shield-halved"></i></span>' : '')
         +"</p>"
         +"<p class='message_content'> " + message + "</p>"
