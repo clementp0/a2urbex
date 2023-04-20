@@ -53,6 +53,13 @@
         Explorers
     </p>
     <div class="online">
+        {% for user in onlineUsers %}
+            {% if user.status is not defined %}
+                <div class="useractive ">
+                    {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
+                </div>
+            {% endif %}
+        {% endfor %}
         {% for user in onlineExplorers %}
             {% if user.status is defined %}
                 {% if user.status == "away" %}
