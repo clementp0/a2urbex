@@ -653,8 +653,27 @@ p.pin-type .pin-type-text {
 .pin-page-title {
   margin-bottom: 10px !important;
 }
+.discord_desktop > a {
+  color: #c2c2c2;
+}
+.discord_mobile{
+  display: none!important;
+}
+.filter {
+  display: none;
+}
 
 @media screen and (max-width: 1024px) {
+  .discord_desktop {
+      display: none;
+  }
+  .discord_mobile{
+    display: block!important;
+  }
+  .filter {
+      display: block;
+  }
+
   .pin-open-search {
     display: block;
   }

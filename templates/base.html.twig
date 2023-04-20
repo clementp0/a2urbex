@@ -25,7 +25,7 @@
 		<nav class="navbar navbar-expend-md navbar-dark fixed-top">
 			<div class="navbar-collapse" id="navbarCollapse">
 				<div class="filter"></div>
-
+				<div class="discord_desktop"><a href="https://discord.com/invite/MDbDPJqxZV" target="_blank"><i class="fa-brands fa-discord"></i></a></div>
 				<div class="logo">
 					<a {% if app.user %} href="/locations" {% else %} href="/" {% endif %}>
 						<i class="fas fa-globe-europe"></i>a2urbex</a>
@@ -77,6 +77,7 @@
 										Refresh
 
 									</a>
+									<a class="discord_mobile" href="https://discord.com/invite/MDbDPJqxZV" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>
 
 									{% if 'ROLE_ADMIN' in app.user.roles %}
 										<a href="{{ path('admin') }}">
