@@ -45,7 +45,7 @@ class UserOnlineService
         }
         
         $onlineUsers = $this->entityManager->getRepository(User::class)->createQueryBuilder('u')
-            ->select('u.firstname', 'SUBSTRING(u.lastname, 1, 1) lastname')
+            ->select('u.id', 'u.firstname', 'SUBSTRING(u.lastname, 1, 1) lastname')
             ->where('u.lastActiveAt >= :threshold')
             ->setParameter('threshold', $threshold)
             ->orderBy('u.lastActiveAt', 'DESC');
@@ -72,6 +72,7 @@ class UserOnlineService
                 $user = [
                     'firstname' => $user->getFirstname(),
                     'lastname' => substr($user->getLastname(), 0, 1),
+                    'id' =>  $user->getId(),
                     'active' => ' (' . $minutes . 'm ago)',
                     'status' => 'away'
                 ];
@@ -84,6 +85,7 @@ class UserOnlineService
                 $user = [
                     'firstname' => $user->getFirstname(),
                     'lastname' => substr($user->getLastname(), 0, 1),
+                    'id' =>  $user->getId(),
                     'active' => ' (' . $active . ' ago)',
                     'status' => 'offline'
                 ];

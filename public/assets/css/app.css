@@ -847,6 +847,11 @@ div.my_locations {
   width: 80%;
 }
 
+span.user_id_in_name {
+  color: #A2A2A2;
+  font-weight: 300;
+}
+
 #new_location > .form-group > input::placeholder {
   color: #6d6d6d;
 }

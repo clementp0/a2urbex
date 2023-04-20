@@ -14,8 +14,7 @@
         {% for user in onlineUsers %}
             {% if user.status is not defined %}
                 <div class="useractive ">
-                    {{ user.firstname }}
-                    {{ user.lastname}}
+                    {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
                 </div>
             {% endif %}
         {% endfor %}
@@ -25,8 +24,7 @@
             {% if user.status is defined %}
                 {% if user.status == "away" %}
                     <div class="useractive away">
-                        {{ user.firstname }}
-                        {{ user.lastname }} <span class="ago">{{ user.active }}</span>
+                        {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span><span class="ago">{{ user.active }}</span>
                     </div>
                 {% endif %}
             {% endif %}
@@ -47,8 +45,7 @@
             {% if user.status is defined %}
                 {% if user.status == "offline" %}
                     <div class="useractive offline">
-                        {{ user.firstname }}
-                        {{ user.lastname }} <span class="ago">{{ user.active }}</span>
+                        {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span><span class="ago">{{ user.active }}</span>
                     </div>
                 {% endif %}
             {% endif %}
