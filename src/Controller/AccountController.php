@@ -35,7 +35,8 @@ class AccountController extends AppController
 
             $notification = 'Your account has been successfully updated.';
         } else {
-            if(str_replace($request->server->get('SYMFONY_PROJECT_DEFAULT_ROUTE_URL'), '', $request->server->get('HTTP_REFERER')) === 'account/password') {
+            $base = ($request->server->get('HTTPS') ? 'https://' : 'http://') . $request->server->get('HTTP_HOST') . '/';
+            if(str_replace($base, '', $request->server->get('HTTP_REFERER')) === 'account/password') {
                 $notification = $request->getSession()->get('password_notification');
                 $request->getSession()->set('password_notification', null);
             }
