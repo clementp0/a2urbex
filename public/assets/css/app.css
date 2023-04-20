@@ -567,6 +567,7 @@ p.favorite_page_title {
 }
 
 .online {
+  min-height: 25px;
   background-color: #262626;
   padding: 5px;
   border-radius: 5px;
