@@ -195,7 +195,8 @@ class LocationRepository extends ServiceEntityRepository
                     ->addSelect('GROUP_CONCAT(CASE WHEN u.id = :uid THEN f.id ELSE :null END) fids')
                     ->setParameter('null', NULL)
                     ->setParameter('uid', $user->getId())
-                    ->groupBy('l.id');
+                    ->groupBy('l.id')
+                    ->orderBy('l.id', 'DESC');
             }
             else{
                 $qb
