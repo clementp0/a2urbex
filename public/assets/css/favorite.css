@@ -36,6 +36,25 @@ i.fa-solid.fa-user-plus {
   font-size: 13px;
   margin: 0;
 }
+.location_favorite_user {
+  color: #4b4b4b;
+  font-size: 13px;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+.location_favorite_user_list {
+  display: flex;
+  flex-wrap: wrap;
+}
+.location_favorite_user_text {
+  color: #757575;
+  margin-right: 3px;
+}
+.span_coma {
+  margin-right: 3px;
+}
+
 .location_favorite_name {
   margin: 0;
 }

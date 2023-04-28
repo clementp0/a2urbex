@@ -6,8 +6,20 @@
 			<div class="fav-item">
 				<a href="{{ path('app_favorite_locations', {'key': key | hashids_encode}) }}">
 					<p class="location_favorite_name">{{ item.fav.name }}</p>
-					<p class="location_favorite_loc">{{ item.count }} locations.</p>
-					
+					<p class="location_favorite_loc">{{ item.count }} location{% if item.count > 1 %}s{% endif %}.</p>
+					<p class="location_favorite_user">
+						{% if item.fav.users|length > 1 %}
+							<span class="location_favorite_user_text">Shared with : </span>
+							<span class="location_favorite_user_list">
+								{% for u in item.fav.users %}
+									{% if u.id != app.user.id %}
+										{% if loop.first == false  %}<span class="span_coma">, </span>{% endif %}
+										<span>{{u.firstname}}#{{u.id}}</span>
+									{% endif %}
+								{% endfor %}
+							</span>
+						{% endif %}
+					</p>
 				</a>
 
 
