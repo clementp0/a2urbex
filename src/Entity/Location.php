@@ -107,6 +107,12 @@ class Location
         return $this->image;
     }
 
+    public function setImageDirect($filename):self {
+        $this->image = $filename;
+
+        return $this;
+    }
+
     public function setImage(?\Symfony\Component\HttpFoundation\File\UploadedFile $file): self
     {
         if ($file) {

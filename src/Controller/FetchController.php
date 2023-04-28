@@ -160,13 +160,14 @@ class FetchController extends AppController
                 ->setSource('Pinterest')
                 ->setPid((int)$item['id'])
                 ->setUrl($this->pinBaseUrl.$item['id'])
-                ->setImage($this->imgPath.$imgName)
+                ->setImageDirect($this->imgPath.$imgName)
                 ->setDescription(substr($item['description'], 0, 250))
             ;
 
+            
             $this->locationService->addType($location);
             $this->locationService->addCountry($location);
-
+            
             
             $this->locationRepository->add($location);
             $this->newPinCount++;
