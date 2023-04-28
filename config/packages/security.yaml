@@ -17,6 +17,8 @@ security:
       lazy: true
       provider: app_user_provider
       custom_authenticator: App\Security\LoginFormAuthenticator
+      login_throttling:
+        max_attempts: 3
       logout:
         path: app_logout
       remember_me:

@@ -204,6 +204,9 @@ p#clear-cache-button:hover {
   border-radius: 0;
 }
 
+input[type='checkbox'] {
+  position: relative;
+}
 input[type='checkbox']::before {
   content: '';
   display: block;
@@ -657,8 +660,8 @@ p.pin-type .pin-type-text {
 .discord_desktop > a {
   color: #c2c2c2;
 }
-.discord_mobile{
-  display: none!important;
+.discord_mobile {
+  display: none !important;
 }
 .filter {
   display: none;
@@ -666,13 +669,13 @@ p.pin-type .pin-type-text {
 
 @media screen and (max-width: 1024px) {
   .discord_desktop {
-      display: none;
+    display: none;
   }
-  .discord_mobile{
-    display: block!important;
+  .discord_mobile {
+    display: block !important;
   }
   .filter {
-      display: block;
+    display: block;
   }
 
   .pin-open-search {
@@ -850,7 +853,7 @@ div.my_locations {
 
 span.user_id_in_name {
   font-size: 13px;
-  color: #A2A2A2;
+  color: #a2a2a2;
   font-weight: 300;
 }
 
