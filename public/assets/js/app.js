@@ -189,6 +189,21 @@ $(() => {
     else target.setCustomValidity(`The value must be between ${min} and ${max}`)
   }
 
+  function coordCustomPaste(target) {
+    let [lat, lon] = target.value.split(',')
+
+    let parent = $(target).parents('#new_location')
+    let latEl = parent.find('#new_location_lat')
+    let lonEl = parent.find('#new_location_lon')
+
+    latEl.val(lat)
+    removeUnauthorizedCoordChar(latEl[0])
+    coordInputValidity(latEl[0])
+    lonEl.val(lon)
+    removeUnauthorizedCoordChar(lonEl[0])
+    coordInputValidity(lonEl[0])
+  }
+
   $('.coord-input')
     .each(function (e) {
       coordInputValidity(this)
@@ -199,8 +214,16 @@ $(() => {
     })
     .on('paste', function (e) {
       setTimeout(() => {
-        removeUnauthorizedCoordChar(e.target)
-        coordInputValidity(e.target)
+        if (
+          e.target.value.includes('.') &&
+          e.target.value.includes(',') &&
+          e.target.value.split(',').length === 2
+        ) {
+          coordCustomPaste(e.target)
+        } else {
+          removeUnauthorizedCoordChar(e.target)
+          coordInputValidity(e.target)
+        }
       }, 100)
     })
 })
