@@ -26,6 +26,7 @@ class FetchController extends AppController
         $this->newPinCount = 0;
 
         $this->pinCount = 0;
+        $this->pinCounter = 0;
         $this->newPins = '';
         $this->finished = '';
         $this->error = 'Without Error(s)';
@@ -182,8 +183,7 @@ class FetchController extends AppController
                 ->setPid((int)$item['id'])
                 ->setUrl($this->pinBaseUrl.$item['id'])
                 ->setImageDirect($this->imgPath.$imgName)
-                ->setDescription(substr($item['description'], 0, 250))
-            ;
+                ->setDescription(substr($item['description'], 0, 250));
             
             $this->locationService->addType($location);
             $this->locationService->addCountry($location);
@@ -192,17 +192,17 @@ class FetchController extends AppController
             $this->locationRepository->add($location);
             $this->newPinCount++;
 
-            $percentage = ($this->pinCount / $this->pinTotal) * 100;
-            // dd($percentage);
-            $filename = 'pin.json';
-            $filePath = $this->getParameter('kernel.project_dir') . '/public/' . $filename;
-            $file = fopen($filePath, 'a');
-            fwrite($file, PHP_EOL . $percentage );
-            fclose($file);
-
         $this->pinCount++;
 
     }
+
+    $this->pinCounter++;
+    $percentage = ($this->pinCounter / $this->pinTotal) * 100;
+    $filename = 'pin.json';
+    $filePath = $this->getParameter('kernel.project_dir') . '/public/' . $filename;
+    $file = fopen($filePath, 'a');
+    fwrite($file, PHP_EOL . $percentage );
+    fclose($file);
 }
 
     private function convertCoord($str) {
