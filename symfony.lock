@@ -65,6 +65,12 @@
             "ref": "b131e6cbfe1b898a508987851963fff485986285"
         }
     },
+    "gos/pubsub-router-bundle": {
+        "version": "v2.8.0"
+    },
+    "gos/web-socket-bundle": {
+        "version": "v3.15.0"
+    },
     "knplabs/knp-paginator-bundle": {
         "version": "v5.9.0"
     },

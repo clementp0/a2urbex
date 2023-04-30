@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Location;
 use App\Service\LocationService;
 use App\Repository\LocationRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FetchController extends AppController
 {
@@ -16,6 +17,7 @@ class FetchController extends AppController
 
         $this->boardId = $_ENV['BOARD_ID'];
         $this->url = $_ENV['FETCH_BASE_URL'];
+        $this->pinUrl = $_ENV['PIN_COUNT_URL'];
         $this->pinBaseUrl = $_ENV['PIN_BASE_URL'];
         $this->imgPath = $_ENV['IMG_LOCATION_PATH'];
 
@@ -27,13 +29,33 @@ class FetchController extends AppController
         $this->newPins = '';
         $this->finished = '';
         $this->error = 'Without Error(s)';
+
+        $ch = curl_init();
+            
+            curl_setopt($ch, CURLOPT_URL, $this->pinUrl);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);   
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);         
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_MAXREDIRS, 2);
+            curl_setopt($ch, CURLOPT_NOBODY, false);
+            
+            $response= curl_exec($ch);
+            $pin_total = 0;
+                if (preg_match('/"pin_count":(\d+)/', $response, $matches)) {
+            $pin_total = intval($matches[1]);
+            }
+
+        $this->pinTotal = $pin_total;
     }
     
     #[Route('/fetch', name: 'app_fetch')]
     public function index(): Response {
+        $file = 'pin.json';
+        file_put_contents($file, '');
         $this->verifyImgFolder();
         $this->getFeed();
-    
         return $this->redirect('admin');
     }
 
@@ -121,7 +143,7 @@ class FetchController extends AppController
     }
 
     private function parseFeed($json) {
-        $data = $json['resource_response']['data'];
+        $data = $json['resource_response']['data'];;
         foreach($data as $item) {
             if (isset($item['type']) && $item['type'] == 'pin') {
                 $this->savePin($item);
@@ -129,7 +151,6 @@ class FetchController extends AppController
         }
         
         $bookmarks = $json['resource']['options']['bookmarks'];
-    
         if($this->maxLoopCount !== false && ++$this->count === $this->maxLoopCount) {
             $this->done();
         }elseif ($bookmarks[0] == '-end-') {
@@ -163,7 +184,6 @@ class FetchController extends AppController
                 ->setImageDirect($this->imgPath.$imgName)
                 ->setDescription(substr($item['description'], 0, 250))
             ;
-
             
             $this->locationService->addType($location);
             $this->locationService->addCountry($location);
@@ -171,11 +191,19 @@ class FetchController extends AppController
             
             $this->locationRepository->add($location);
             $this->newPinCount++;
-        }
 
+            $percentage = ($this->pinCount / $this->pinTotal) * 100;
+            // dd($percentage);
+            $filename = 'pin.json';
+            $filePath = $this->getParameter('kernel.project_dir') . '/public/' . $filename;
+            $file = fopen($filePath, 'a');
+            fwrite($file, PHP_EOL . $percentage );
+            fclose($file);
 
         $this->pinCount++;
+
     }
+}
 
     private function convertCoord($str) {
         preg_match('#([0-9]+)°([0-9]+)\'([0-9]+.[0-9])"([A-Z])#', $str, $matches);

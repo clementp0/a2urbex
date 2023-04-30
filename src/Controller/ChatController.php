@@ -22,6 +22,7 @@ class ChatController extends AbstractController
         fclose($file);
 
         return new Response('Chat history saved.');
+
     }
 
 

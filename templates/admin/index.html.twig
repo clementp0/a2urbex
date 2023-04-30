@@ -11,6 +11,66 @@
 			<p class="lead text-muted">Currently <b>{{pins}}</b> pins, located in <b>{{country}}</b> country and sorted in <b>{{type}}</b> categories</p>
 		</div>
 	</section>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    const socketStatus = new WebSocket("{{ websocket }}");
+    socketStatus.addEventListener("open", function() {
+        console.log("Connected to Status Websocket");
+    });
+    function addMessage(progression) {
+        const messageHTML = renderRow(progression)
+    }
+    socketStatus.addEventListener("message", function(e) {
+        try
+        {   const message = JSON.parse(e.data);
+            addMessage(message.progression);}
+        catch(e)
+        {}
+    });
+    function renderRow(progression) {
+       const progressBar = document.querySelector('.progress-bar');
+       const progressText = document.querySelector('.progress-percent');
+        progressBar.style.width = progression + '%';
+        progressText.textContent = Math.floor(progression * 100) / 100 + '%';
+    }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+const startButton = document.getElementById('fetch-now');
+startButton.addEventListener('click', () => {
+const textUrl = 'pin.json';
+let lastContent = null;
+function handleNewLines(lines) {
+  const lastLine = lines[lines.length - 1];
+  const message = {
+    progression : lastLine,
+  };
+  console.log(message);
+  socketStatus.send(JSON.stringify(message));
+  addMessage(message.progression);
+}
+setInterval(() => {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', textUrl);
+  xhr.responseType = 'text';
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      const content = xhr.responseText;
+      if (content !== lastContent) {
+        lastContent = content;
+        const lines = content.trim().split('\n');
+        handleNewLines(lines);
+      }
+    }
+  };
+  xhr.send();
+}, 500);
+});
+});
+</script>
+
+
+
 {# Fetch #}
 	<section class="fetch-part text-center">
 		<div class="container">
@@ -20,9 +80,11 @@
 			<div class="updated"><p class="text-muted ">Last Updated : <br> <div class="time">{{last_updated}}</div></p></div>
 		</div>
 			<p class="text-muted">Last Fetched : <br> <div class="time">{{last_fetched}}</div></p>
-			<a class="action-new btn btn-success" href="/fetch">Fetch Now</a>
+			<button class="action-new btn btn-success" id="fetch-now">Fetch Now</button>
 			<a class="action-new btn btn-primary" href="/update">Update</a>
 			<a class="action-new btn btn-warning" href="/patch">Patch</a>
+          <div class="progress-bar-wrapper"><div class="progress-bar"></div><p class="progress-percent">0%</p></div>
+
 		</div>
 		<div class="output-area">
 		<p class="text-muted">Output : </b></p>
@@ -114,7 +176,6 @@
 
 </section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 $(function(){
    $(document).attr("title", "@a2urbex");
@@ -171,6 +232,31 @@ clearCacheButton.addEventListener('click', async () => {
 {# Stylesheets #}
 
 <style>
+
+.progress-bar-wrapper {
+    border-radius: 31px;
+    width: 100%;
+    height: 18px;
+    border: 1px #545454 solid;
+    overflow: hidden;
+    margin-top: 20px;
+}
+.progress-bar {
+    background-color: #60A5FA;
+    height: 100%;
+    width:0%;
+    transition: width 1s ease-in-out;
+}
+
+p.progress-percent {
+    color: #707070;
+    position: relative;
+    margin: auto;
+    text-align: center;
+    top: -19px;
+    z-index: 2;
+    font-weight: 500;
+}
 
 .adminsender {
     margin-top: 20px;
@@ -405,5 +491,22 @@ input.delete-target-source {
 });
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+
+$(document).ready(function() {
+    $('#fetch-now').click(function() {
+    $.ajax({
+      url: "/fetch",
+      method: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        console.log('Foo: ' + data);
+      }
+    })
+    });
+});
+
+</script>
 
 {% endblock %}

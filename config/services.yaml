@@ -14,6 +14,11 @@ parameters:
 
 
 services:
+    App\Controller\FetchController:
+        arguments:
+            $connector: '@ratchet.client'
+    ratchet.client:
+        class: Ratchet\Client\Connector
     App\EventListener\UserLastActiveListener:
         arguments:
             - '@App\Service\UserOnlineService'
