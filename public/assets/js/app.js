@@ -160,7 +160,7 @@ $(() => {
     $(this).attr('data-open', open)
 
     if (open) {
-      let height = div.children().length * 21
+      let height = div.children().length * 22.8
       div.css('maxHeight', height + 'px')
     } else {
       div.css('maxHeight', '0px')
