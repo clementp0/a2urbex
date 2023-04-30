@@ -38,6 +38,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 const startButton = document.getElementById('fetch-now');
 startButton.addEventListener('click', () => {
+const progressText = document.querySelector('.progress-percent');
+progressText.textContent = 'Starting...';
 const textUrl = 'pin.json';
 let lastContent = null;
 function handleNewLines(lines) {
@@ -45,7 +47,6 @@ function handleNewLines(lines) {
   const message = {
     progression : lastLine,
   };
-  console.log(message);
   socketStatus.send(JSON.stringify(message));
   addMessage(message.progression);
 }
@@ -64,7 +65,7 @@ setInterval(() => {
     }
   };
   xhr.send();
-}, 500);
+}, 1000);
 });
 });
 </script>
@@ -83,7 +84,8 @@ setInterval(() => {
 			<button class="action-new btn btn-success" id="fetch-now">Fetch Now</button>
 			<a class="action-new btn btn-primary" href="/update">Update</a>
 			<a class="action-new btn btn-warning" href="/patch">Patch</a>
-          <div class="progress-bar-wrapper"><div class="progress-bar"></div><p class="progress-percent">0%</p></div>
+            <p class="progress-percent">Waiting...</p>
+          <div class="progress-bar-wrapper"><div class="progress-bar"></div></div>
 
 		</div>
 		<div class="output-area">
@@ -236,12 +238,13 @@ clearCacheButton.addEventListener('click', async () => {
 .progress-bar-wrapper {
     border-radius: 31px;
     width: 100%;
-    height: 18px;
+    height: 8px;
     border: 1px #545454 solid;
     overflow: hidden;
-    margin-top: 20px;
+
 }
 .progress-bar {
+    border-radius: 50px;
     background-color: #60A5FA;
     height: 100%;
     width:0%;
@@ -250,12 +253,11 @@ clearCacheButton.addEventListener('click', async () => {
 
 p.progress-percent {
     color: #707070;
-    position: relative;
     margin: auto;
     text-align: center;
-    top: -19px;
-    z-index: 2;
     font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 5px;
 }
 
 .adminsender {

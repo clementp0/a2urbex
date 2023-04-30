@@ -28,3 +28,4 @@ public/chat.json
 composer.lock
 nohup.out
 .env
+public/pin.json
