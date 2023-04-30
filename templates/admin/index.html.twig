@@ -97,8 +97,12 @@ setInterval(() => {
 		Total Parsed = {{total}}<br>
 		NewPins = {{newpins}}<br>---------</p>
 		Key = {{token}}
-		<div>
 		</div>
+    <div class="check">
+    <a href="/check" class="btn btn-secondary">Check</a><p>Waiting to be imported : {{remaining}}</p>
+    </div>
+		</div>
+    
 	</section>
 
 {# Chat #}
@@ -234,6 +238,20 @@ clearCacheButton.addEventListener('click', async () => {
 {# Stylesheets #}
 
 <style>
+
+.check {
+    display: flex;
+    margin-top: 10px;
+    flex-direction: row;
+}
+.check > a{
+      height: fit-content;
+}
+.check > p {
+      margin-top: 3px;
+      margin-left:5px;
+      color: #7b7b7b;
+}
 
 .progress-bar-wrapper {
     border-radius: 31px;

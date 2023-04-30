@@ -36,6 +36,7 @@ security:
     - { path: ^/compte, roles: ROLE_ADMIN }
     - { path: ^/generation, roles: ROLE_ADMIN }
     - { path: ^/fetch, roles: ROLE_ADMIN }
+    - { path: ^/check, roles: ROLE_ADMIN }
     - { path: ^/update, roles: ROLE_ADMIN }
     - { path: ^/patch, roles: ROLE_ADMIN }
     - { path: ^/clear_chat, roles: ROLE_ADMIN }

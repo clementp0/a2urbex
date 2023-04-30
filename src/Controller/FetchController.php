@@ -60,6 +60,18 @@ class FetchController extends AppController
         return $this->redirect('admin');
     }
 
+    #[Route('/check', name: 'app_check_count')]
+    public function check(): Response {
+        
+        $existing = $this->locationRepository->findBySource('Pinterest');
+        $existing_count = count($existing);
+        $remaining = $this->pinTotal - $existing_count;
+        $file = 'count.json';
+        file_put_contents($file, $remaining);
+
+        return $this->redirect('admin');
+    }
+
     #[Route('/update', name: 'app_update')]
     public function update(): Response {
         $locations = $this->locationRepository->findAll();

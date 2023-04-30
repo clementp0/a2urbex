@@ -30,3 +30,4 @@ nohup.out
 .env
 public/pin.json
 public/pin.json
+public/count.json

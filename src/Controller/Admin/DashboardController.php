@@ -126,6 +126,7 @@ class DashboardController extends AbstractDashboardController
             'stable_status' => $stable_status,
             'stable_status_current' => $stable_status_current,
             'ai' => $ai,
+            'remaining' => file_get_contents('count.json')
         ]);
     }
 
