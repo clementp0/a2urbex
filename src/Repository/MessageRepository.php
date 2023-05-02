@@ -39,6 +39,10 @@ class MessageRepository extends ServiceEntityRepository
         }
     }
 
+    public function clearGlobalChat() {
+        return $this->getEntityManager()->createQuery('DELETE FROM App\Entity\Message m WHERE m.global = 1')->execute();
+    }
+
 //    /**
 //     * @return Message[] Returns an array of Message objects
 //     */

@@ -20,6 +20,7 @@ use App\Entity\Type;
 use App\Entity\TypeOption;
 use App\Entity\Upload;
 use App\Repository\LocationRepository;
+use App\Repository\MessageRepository;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -170,23 +171,10 @@ class DashboardController extends AbstractDashboardController
 
 
     //Clear Chat
-    public function clearChat()
+    public function clearChat(MessageRepository $messageRepository)
     {
-        $now = time();
-        $filename = 'chat.json';
-        $json = json_encode([
-            'name' => 'a2urbex',
-            'role' => 'ROLE_SERVER ',
-            'id' => '0',
-            'message' => 'WELCOME TO A2URBEX',
-            'date' => $formattedDate = date("d/m/y H:i", $now)
-        ]);
-
-        if (file_put_contents($filename, $json)) {
-            return $this->redirect('admin');
-        } else {
-            return $this->redirect('admin');
-        }
+        $messageRepository->clearGlobalChat();
+        return $this->redirect('admin');
     }
 
 

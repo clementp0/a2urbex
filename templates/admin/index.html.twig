@@ -27,6 +27,8 @@
         catch(e)
         {}
     });
+
+
     function renderRow(progression) {
        const progressBar = document.querySelector('.progress-bar');
        const progressText = document.querySelector('.progress-percent');
@@ -178,63 +180,8 @@ setInterval(() => {
 <a href="{{ path('download_database') }}" class="btn btn-secondary " style="pointer-events:none;">Download Database</a>
 
 </div>
-
-
 </section>
 
-<script>
-$(function(){
-   $(document).attr("title", "@a2urbex");
-});
-
-var meta = $('<meta>').attr({
-  'name': 'apple-mobile-web-app-status-bar-style',
-  'content': 'default'
-});
-var link = $('<link>').attr({
-  'rel': 'manifest',
-  'href': '{{ ('manifest.json') }}'
-});
-$('head').append(meta, link);
-
-
-{# Delete #}
-$(document).ready(function(){ 
-  $('.delete-target').click(function(){ 
-	var target_name = $('.output-uploads :selected').text();
-	var target_to_delete = "delete/" + target_name;
-    if(confirm("Delete " + target_name + " source ?")) {
-		$( ".delete-target" ).attr("href", target_to_delete );
-	}
-  });
-});
-{# Run #}
-$(document).ready(function(){ 
-  $('.run-target').click(function(){ 
-	var target_name = $('.output-uploads :selected').text();
-	var target_id = $('.output-uploads :selected').val();
-	var target_import_link  = "import/" + target_id;
-    if(confirm("Run for " + target_name + " ?")) {
-		$( ".run-target" ).attr("href", target_import_link );
-	}
-  });
-});
-</script>
-<script>
-
-const clearCacheButton = document.getElementById('clear-cache-button');
-clearCacheButton.addEventListener('click', async () => {
-  try {
-    await caches.delete('a2urbex');
-    console.log('Cache deleted successfully');
-    location.reload(true);
-  } catch (err) {
-    console.error('Error deleting cache:', err);
-  }
-});
-
-
-</script>
 {# Stylesheets #}
 
 <style>
@@ -464,69 +411,105 @@ input.delete-target-source {
 }
 </style>
 
-<script type="text/javascript">
-    const socket = new WebSocket("{{ websocket }}");
-    const now = new Date();
-    const day = String(now.getDate()).padStart(2, '0');
-    const month = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
-    const year = String(now.getFullYear()).slice(2);
-    const hour = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const formattedDate = `${day}/${month}/${year} ${hour}:${minutes}`; 
-    socket.addEventListener("open", function() {
-        console.log("CONNECTED");
-        document.querySelector('.websocket_online').style.display = 'inline-block';
-        document.querySelector('.websocket_offline').style.display = 'none';
-    });
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    socket.addEventListener("close", function() {
-        console.log("DISCONNECTED");
-        document.querySelector('.websocket_online').style.display = 'none';
-        document.querySelector('.websocket_offline').style.display = 'inline-block';
-    });
+<script>
+$(function () {
+  $(document).attr('title', '@a2urbex')
+})
+var meta = $('<meta>').attr({
+  name: 'apple-mobile-web-app-status-bar-style',
+  content: 'default',
+})
+var link = $('<link>').attr({
+  rel: 'manifest',
+  href: '{{ ('manifest.json') }}',
+})
+$('head').append(meta, link)
 
-	 document.getElementById("message_admin").addEventListener("click", function(event) {
-  event.preventDefault();
-  const messageInput = document.getElementById("message");
-  const messageValue = messageInput.value.trim();
+$(document).ready(function () {
+  $('.delete-target').click(function () {
+    var target_name = $('.output-uploads :selected').text()
+    var target_to_delete = 'delete/' + target_name
+    if (confirm('Delete ' + target_name + ' source ?')) {
+      $('.delete-target').attr('href', target_to_delete)
+    }
+  })
+})
+
+$(document).ready(function () {
+  $('.run-target').click(function () {
+    var target_name = $('.output-uploads :selected').text()
+    var target_id = $('.output-uploads :selected').val()
+    var target_import_link = 'import/' + target_id
+    if (confirm('Run for ' + target_name + ' ?')) {
+      $('.run-target').attr('href', target_import_link)
+    }
+  })
+})
+
+const clearCacheButton = document.getElementById('clear-cache-button')
+clearCacheButton.addEventListener('click', async () => {
+  try {
+    await caches.delete('a2urbex')
+    console.log('Cache deleted successfully')
+    location.reload(true)
+  } catch (err) {
+    console.error('Error deleting cache:', err)
+  }
+})
+
+const socket = new WebSocket('{{ websocket }}')
+
+socket.addEventListener('open', function () {
+  console.log('CONNECTED')
+  document.querySelector('.websocket_online').style.display = 'inline-block'
+  document.querySelector('.websocket_offline').style.display = 'none'
+})
+
+socket.addEventListener('close', function () {
+  console.log('DISCONNECTED')
+  document.querySelector('.websocket_online').style.display = 'none'
+  document.querySelector('.websocket_offline').style.display = 'inline-block'
+})
+
+document.getElementById('message_admin').addEventListener('click', function (event) {
+  event.preventDefault()
+  const messageInput = document.getElementById('message')
+  const messageValue = messageInput.value.trim()
   if (messageValue === '') {
-    return;
+    return
   }
   const message = {
     name: 'a2urbex',
     role: 'ROLE_SERVER ',
     id: '0',
     date: formattedDate,
-    message: messageValue
-  };
-  socket.send(JSON.stringify(message));
+    message: messageValue,
+  }
+  socket.send(JSON.stringify(message))
   fetch('/chat-add', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(message)
-  });
-  messageInput.value = '';
-});
-</script>
+    body: JSON.stringify(message),
+  })
+  messageInput.value = ''
+})
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-
-$(document).ready(function() {
-    $('#fetch-now').click(function() {
+$(document).ready(function () {
+  $('#fetch-now').click(function () {
     $.ajax({
-      url: "/fetch",
+      url: '/fetch',
       method: 'GET',
       dataType: 'json',
-      success: function(data) {
-        console.log('Foo: ' + data);
-      }
+      success: function (data) {
+        console.log('Foo: ' + data)
+      },
     })
-    });
-});
-
+  })
+})
 </script>
 
 {% endblock %}
