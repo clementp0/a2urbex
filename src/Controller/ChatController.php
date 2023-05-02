@@ -14,6 +14,9 @@ use App\Entity\Message;
 
 class ChatController extends AbstractController
 {
+    public function __construct(MessageRepository $messageRepository) {
+        $this->messageRepository = $messageRepository;
+    }
 
     private $ignoreList = [
         'favorites', 
@@ -29,38 +32,49 @@ class ChatController extends AbstractController
         'lastActiveAt'
     ];
 
-    #[Route('/chat-add', name: 'save_chat_history', methods: ['GET', 'POST'])]
-    public function saveChatHistory(Request $request, MessageRepository $messageRepository): Response
+    #[Route('/chat-admin-add', name: 'chat_admin_add', methods: ['GET', 'POST'])]
+    public function addAdminChat(Request $request): Response
+    {
+        $messageContent = $request->getContent();
+        return $this->saveMessage($messageContent);
+    }
+
+    #[Route('/chat-add', name: 'chat_add', methods: ['GET', 'POST'])]
+    public function addChat(Request $request): Response
     {
         $user = $this->getUser();
+        
         if($user) {
             $messageContent = $request->getContent();
-
-            $message = new Message();
-            $message
-                ->setSender($user)
-                ->setMessage($messageContent)
-                ->setGlobal(1)
-                ->setDateTime(new \DateTime('@'.strtotime('now')))
-            ;
-
-            $messageRepository->save($message, true);
-
-            $serializer = $this->container->get('serializer');
-            
-            $return = $serializer->serialize(
-                $message, 
-                'json', 
-                [
-                    'circular_reference_handler' => function ($object) {return $object->getId(); },
-                    AbstractNormalizer::IGNORED_ATTRIBUTES => $this->ignoreList
-                ]
-            );
-
-            return new Response($return);
+            return $this->saveMessage($messageContent, $user);
         } else {
             return new JsonResponse(['error' => 'reload']);
         }
+    }
+
+    private function saveMessage($messageContent, $user = null) {
+        $message = new Message();
+        $message
+            ->setMessage($messageContent)
+            ->setGlobal(1)
+            ->setDateTime(new \DateTime('@'.strtotime('now')))
+        ;
+        if($user) $message->setSender($user);
+
+        $this->messageRepository->save($message, true);
+
+        $serializer = $this->container->get('serializer');
+        
+        $return = $serializer->serialize(
+            $message, 
+            'json', 
+            [
+                'circular_reference_handler' => function ($object) {return $object->getId(); },
+                AbstractNormalizer::IGNORED_ATTRIBUTES => $this->ignoreList
+            ]
+        );
+
+        return new Response($return);
     }
 
 

@@ -264,10 +264,16 @@ input:focus{
         const date = new Date(timestamp)
         const dateFormatted = date.toLocaleString('fr-FR', { year:"numeric", month:"numeric", day:"numeric", hour: '2-digit', minute:'2-digit'})
 
-        return "<div class='message " + item.sender.roles.join(' ') + " user"+ item.sender.id +"'>"
+        const sender = item.sender ? item.sender : {
+            id: 0,
+            firstname: 'a2urbex',
+            roles: ['ROLE_SERVER']
+        }
+
+        return "<div class='message " + sender.roles.join(' ') + " user"+ sender.id +"'>"
             +"<p class='name'>"
-            +"<span>" + item.sender.firstname + "#" + item.sender.id + "</span>"
-            + (item.sender.roles.includes('ROLE_ADMIN') ? '<span class="shield"><i class="fa-solid fa-shield-halved"></i></span>' : '')
+            +"<span>" + sender.firstname + "#" + sender.id + "</span>"
+            + (sender.roles.includes('ROLE_ADMIN') ? '<span class="shield"><i class="fa-solid fa-shield-halved"></i></span>' : '')
             +"</p>"
             +"<p class='message_content'> " + item.message + "</p>"
             +"<p class='message_date'> " + dateFormatted + "</p>"

@@ -41,6 +41,7 @@ security:
     - { path: ^/patch, roles: ROLE_ADMIN }
     - { path: ^/clear_chat, roles: ROLE_ADMIN }
     - { path: ^/download-database, roles: ROLE_ADMIN }
+    - { path: ^/chat-admin-add, roles: ROLE_ADMIN }
 
     # USER Access
     - { path: ^/locations, roles: [ROLE_ADMIN, ROLE_USER] }

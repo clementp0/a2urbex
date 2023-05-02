@@ -475,27 +475,27 @@ socket.addEventListener('close', function () {
 
 document.getElementById('message_admin').addEventListener('click', function (event) {
   event.preventDefault()
-  const messageInput = document.getElementById('message')
+  const messageInput = document.getElementById("message")
   const messageValue = messageInput.value.trim()
-  if (messageValue === '') {
-    return
-  }
-  const message = {
-    name: 'a2urbex',
-    role: 'ROLE_SERVER ',
-    id: '0',
-    date: formattedDate,
-    message: messageValue,
-  }
-  socket.send(JSON.stringify(message))
-  fetch('/chat-add', {
+  
+  if (messageValue === '') return
+  
+  fetch('/chat-admin-add', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
     },
-    body: JSON.stringify(message),
+    body: messageValue
   })
-  messageInput.value = ''
+  .then(response => response.json())
+  .then(data => {
+    if(data.error) {
+      alert('Erreur lors de l\'envoi du message')
+    } else {
+      socket.send(JSON.stringify(data))
+      alert('Message envoyé !')
+    }
+  })
 })
 
 $(document).ready(function () {
