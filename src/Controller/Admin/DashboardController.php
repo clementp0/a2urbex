@@ -21,6 +21,7 @@ use App\Entity\TypeOption;
 use App\Entity\Upload;
 use App\Repository\LocationRepository;
 use App\Repository\MessageRepository;
+use App\Service\MessageService;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -171,9 +172,10 @@ class DashboardController extends AbstractDashboardController
 
 
     //Clear Chat
-    public function clearChat(MessageRepository $messageRepository)
+    public function clearChat(MessageRepository $messageRepository, MessageService $messageService)
     {
         $messageRepository->clearGlobalChat();
+        $messageService->saveMessage('WELCOME TO A2URBEX');
         return $this->redirect('admin');
     }
 
