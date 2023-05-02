@@ -10,71 +10,31 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 use App\Repository\MessageRepository;
-use App\Entity\Message;
+use App\Service\MessageService;
 
 class ChatController extends AbstractController
 {
-    public function __construct(MessageRepository $messageRepository) {
-        $this->messageRepository = $messageRepository;
+    public function __construct(MessageService $messageService) {
+        $this->messageService = $messageService;
     }
-
-    private $ignoreList = [
-        'favorites', 
-        'locations', 
-        'friends', 
-        'friendRequests', 
-        'password',
-        'lastname',
-        'salt',
-        'username',
-        'userIdentifier',
-        'email',
-        'lastActiveAt'
-    ];
 
     #[Route('/chat-admin-add', name: 'chat_admin_add', methods: ['GET', 'POST'])]
     public function addAdminChat(Request $request): Response
     {
         $messageContent = $request->getContent();
-        return $this->saveMessage($messageContent);
+        return new Response($this->messageService->saveMessage($messageContent));
     }
 
     #[Route('/chat-add', name: 'chat_add', methods: ['GET', 'POST'])]
     public function addChat(Request $request): Response
     {
         $user = $this->getUser();
-        
         if($user) {
             $messageContent = $request->getContent();
-            return $this->saveMessage($messageContent, $user);
+            return new Response($this->messageService->saveMessage($messageContent, $user));
         } else {
             return new JsonResponse(['error' => 'reload']);
         }
-    }
-
-    private function saveMessage($messageContent, $user = null) {
-        $message = new Message();
-        $message
-            ->setMessage($messageContent)
-            ->setGlobal(1)
-            ->setDateTime(new \DateTime('@'.strtotime('now')))
-        ;
-        if($user) $message->setSender($user);
-
-        $this->messageRepository->save($message, true);
-
-        $serializer = $this->container->get('serializer');
-        
-        $return = $serializer->serialize(
-            $message, 
-            'json', 
-            [
-                'circular_reference_handler' => function ($object) {return $object->getId(); },
-                AbstractNormalizer::IGNORED_ATTRIBUTES => $this->ignoreList
-            ]
-        );
-
-        return new Response($return);
     }
 
 
@@ -89,7 +49,7 @@ class ChatController extends AbstractController
             'json', 
             [
                 'circular_reference_handler' => function ($object) {return $object->getId(); },
-                AbstractNormalizer::IGNORED_ATTRIBUTES => $this->ignoreList
+                AbstractNormalizer::IGNORED_ATTRIBUTES => $this->messageService->ignoreList
             ]
         );
 
