@@ -190,104 +190,91 @@ input:focus{
 <script type="text/javascript">
     const socket = new WebSocket("{{ websocket }}");
 
-const now = new Date();
-const day = String(now.getDate()).padStart(2, '0');
-const month = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
-const year = String(now.getFullYear()).slice(2);
-const hour = String(now.getHours()).padStart(2, '0');
-const minutes = String(now.getMinutes()).padStart(2, '0');
-const formattedDate = `${day}/${month}/${year} ${hour}:${minutes}`;
-
     socket.addEventListener("open", function() {
-        console.log("Connected to General Chat");
+        console.log("Connected to General Chat")
         fetch('/chat-get')
             .then(response => response.json())
             .then(data => {
-                chatHistory = data;
-                renderChatHistory();
+                renderChatHistory(data)
             });
     });
 
-    function addMessage(name, role, id,  message, date) {
-        const messageHTML = renderRow(role, id, name, message, date)
+    socket.addEventListener("message", function(e) {
+        try {
+            const data = JSON.parse(e.data)
+            // NOTIFICATION
+            const myDiv = document.getElementById('messenger_dot')
+            myDiv.classList.add('messenger_dot_notification')
+            // NOTIFICATION
+            addMessage(data)
+            $('#chat').scrollTop($('#chat')[0].scrollHeight)
+        } catch(e) {}
+    });
+
+    document.getElementById("message").addEventListener("keydown", function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("sendBtn").click()
+        }
+    })
+
+    document.getElementById("sendBtn").addEventListener("click", function(event) {
+        event.preventDefault()
+        const messageInput = document.getElementById("message")
+        const messageValue = messageInput.value.trim()
+        
+        if (messageValue === '') return
+        
+        fetch('/chat-add', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: messageValue
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.error) {
+                alert('Erreur lors de l\'envoi du message')
+            } else {
+                addMessage(data)
+                $('#chat').scrollTop($('#chat')[0].scrollHeight)
+                messageInput.value = ''
+                socket.send(JSON.stringify(data))
+            }
+        })
+    })
+
+    function addMessage(data) {
+        const messageHTML = renderRow(data)
         document.getElementById("chat").innerHTML += messageHTML
     }
 
-    lastMessage = { name,  message };
-
-    socket.addEventListener("message", function(e) {
-        try
-        {
-            const message = JSON.parse(e.data);
-            // NOTIFICATION
-            const myDiv = document.getElementById('messenger_dot');
-            myDiv.classList.add('messenger_dot_notification');
-            // NOTIFICATION
-            addMessage(message.name, message.role, message.id, message.message, message.date);
-            $('#chat').scrollTop($('#chat')[0].scrollHeight);
-        }
-        catch(e)
-        {
-        }
-    });
-
-
-    function renderChatHistory() {
+    function renderChatHistory(chatHistory) {
         const chatHTML = chatHistory.map(item => {
-            return renderRow(item.role, item.id, item.name, item.message, item.date)
-        }).join("");
-        $('#chat').scrollTop($('#chat')[0].scrollHeight); 
-        document.getElementById("chat").innerHTML = chatHTML;
-        $('#chat').scrollTop($('#chat')[0].scrollHeight);   
+            return renderRow(item)
+        }).join("")
+        $('#chat').scrollTop($('#chat')[0].scrollHeight);
+        document.getElementById("chat").innerHTML = chatHTML
+        $('#chat').scrollTop($('#chat')[0].scrollHeight)
     }
 
-    function renderRow(role, id, name, message, date) {
-        return "<div class='message " + role + " user"+id+"'>"
-        +"<p class='name'>"
-        +"<span>" + name + "#" + id + "</span>"
-        + (role.includes('ROLE_ADMIN') ? '<span class="shield"><i class="fa-solid fa-shield-halved"></i></span>' : '')
-        +"</p>"
-        +"<p class='message_content'> " + message + "</p>"
-        +"<p class='message_date'> " + date + "</p>"
-        +"</div>";
+    function renderRow(item) {
+        const timestamp = Date.parse(item.datetime)
+        const date = new Date(timestamp)
+        const dateFormatted = date.toLocaleString('fr-FR', { year:"numeric", month:"numeric", day:"numeric", hour: '2-digit', minute:'2-digit'})
+
+        return "<div class='message " + item.sender.roles.join(' ') + " user"+ item.sender.id +"'>"
+            +"<p class='name'>"
+            +"<span>" + item.sender.firstname + "#" + item.sender.id + "</span>"
+            + (item.sender.roles.includes('ROLE_ADMIN') ? '<span class="shield"><i class="fa-solid fa-shield-halved"></i></span>' : '')
+            +"</p>"
+            +"<p class='message_content'> " + item.message + "</p>"
+            +"<p class='message_date'> " + dateFormatted + "</p>"
+            +"</div>"
+        ;
     }
 
-
-
-    document.getElementById("message").addEventListener("keydown", function(event) {
-    if (event.keyCode === 13) {
-        event.preventDefault(); 
-        document.getElementById("sendBtn").click();
-    }
-    });
-
- document.getElementById("sendBtn").addEventListener("click", function(event) {
-  event.preventDefault();
-  const messageInput = document.getElementById("message");
-  const messageValue = messageInput.value.trim();
-  if (messageValue === '') {
-    return;
-  }
-  const message = {
-    name: '{{ user|raw }}',
-    role: '{{ user_role |join(' ')}}',
-    id: '{{ user_id|raw }}',
-    date : formattedDate,
-    message: messageValue
-  };
-  socket.send(JSON.stringify(message));
-  addMessage(message.name, message.role, message.id, message.message, message.date);
-  $('#chat').scrollTop($('#chat')[0].scrollHeight);
-  fetch('/chat-add', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(message)
-  });
-  messageInput.value = '';
-});
-
-$('#chat').scrollTop($('#chat')[0].scrollHeight); 
+    $('#chat').scrollTop($('#chat')[0].scrollHeight)
 </script>
 {% endblock %}
