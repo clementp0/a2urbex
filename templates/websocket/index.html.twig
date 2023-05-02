@@ -51,27 +51,27 @@
 }
 
 
-.user{{ user_id }} {
+.user_current {
     margin-left: auto;
 }
-.user{{ user_id }} > .name {
+.user_current > .name {
     width: fit-content;
     margin-left: auto;
 }
 
-.user{{ user_id }} > .message_date {
+.user_current > .message_date {
   text-align:right;
 }
 
-.user{{ user_id }} > .message_content{
+.user_current > .message_content{
     margin-left: auto;
     background-color:#5DA0F1;
 }
 
-.user{{ user_id }}.ROLE_ADMIN > .name  {
+.user_current.ROLE_ADMIN > .name  {
     flex-direction: row-reverse;
 }
-.user{{ user_id }}.ROLE_ADMIN > .name .shield {
+.user_current.ROLE_ADMIN > .name .shield {
     margin-left: 0;
     margin-right: 3px;
 }
@@ -189,6 +189,7 @@ input:focus{
 
 <script type="text/javascript">
     const socket = new WebSocket("{{ websocket }}");
+    const currentId = {{ user_id }}
 
     socket.addEventListener("open", function() {
         console.log("Connected to General Chat")
@@ -270,7 +271,7 @@ input:focus{
             roles: ['ROLE_SERVER']
         }
 
-        return "<div class='message " + sender.roles.join(' ') + " user"+ sender.id +"'>"
+        return "<div class='message " + sender.roles.join(' ') + (sender.id === currentId ? ' user_current' : '') +"'>"
             +"<p class='name'>"
             +"<span>" + sender.firstname + "#" + sender.id + "</span>"
             + (sender.roles.includes('ROLE_ADMIN') ? '<span class="shield"><i class="fa-solid fa-shield-halved"></i></span>' : '')
