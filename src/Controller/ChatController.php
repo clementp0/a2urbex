@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 use App\Repository\MessageRepository;
 use App\Repository\UserRepository;
@@ -51,11 +50,11 @@ class ChatController extends AbstractController
         
         $sender = $this->getUser();
         if($sender) {
-            $receiver = (int)$id !== 0 ? $this->userRepository->find($id) : null;
+            $receiver = $this->userRepository->find($id);
             if($receiver) {
                 return new Response($this->messageService->saveMessage($messageContent, $sender, $receiver));
             } else {
-                return new JsonResponse(['error' => 'user doesn\'t exist']);
+                return new JsonResponse(['error' => 'User doesn\'t exist']);
             }
         } else {
             return new JsonResponse(['error' => 'reload']);
@@ -65,18 +64,23 @@ class ChatController extends AbstractController
     #[Route('/chat-get', name: 'chat_history', methods: ['GET', 'POST'])]
     public function getChatHistory(MessageRepository $messageRepository): Response
     {
-        $messages = $messageRepository->findBy(['global' => 1]);
+        return new Response($this->messageService->getMessages());
+    }
 
-        $serializer = $this->container->get('serializer');
-        $return = $serializer->serialize(
-            $messages, 
-            'json', 
-            [
-                'circular_reference_handler' => function ($object) {return $object->getId(); },
-                AbstractNormalizer::IGNORED_ATTRIBUTES => $this->messageService->ignoreList
-            ]
-        );
-
-        return new Response($return);
+    #[Route('/chat-get/{id}', name: 'chat_history_user', methods: ['GET', 'POST'])]
+    public function getChatHistoryUser(MessageRepository $messageRepository, $id): Response
+    {
+        $sender = $this->getUser();
+        if($sender) {
+            $receiver = $this->userRepository->find($id);
+            if($receiver && $sender !== $receiver) {
+                return new Response($this->messageService->getMessages($sender, $receiver));
+            } else {
+                return new JsonResponse(['error' => 'User doesn\'t exist']);
+            }
+        } else {
+            return new JsonResponse(['error' => 'reload']);
+        }
+        dd($receiver);
     }
 }

@@ -14,7 +14,7 @@ class MessageService {
         $this->serializer = $serializer;
     }
 
-    public $ignoreList = [
+    private $ignoreList = [
         'favorites', 
         'locations', 
         'friends', 
@@ -42,6 +42,24 @@ class MessageService {
         
         return $this->serializer->serialize(
             $message, 
+            'json', 
+            [
+                'circular_reference_handler' => function ($object) {return $object->getId(); },
+                AbstractNormalizer::IGNORED_ATTRIBUTES => $this->ignoreList
+            ]
+        );
+    }
+
+    public function getMessages($sender = null, $receiver = null) {
+        if($sender === null && $receiver === null) {
+            $messages = $this->messageRepository->getGlobalChat();
+        } else {
+            $messages = $this->messageRepository->getChat($sender, $receiver);
+            dd($messages);
+        }
+
+        return $this->serializer->serialize(
+            $messages, 
             'json', 
             [
                 'circular_reference_handler' => function ($object) {return $object->getId(); },

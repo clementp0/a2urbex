@@ -43,28 +43,26 @@ class MessageRepository extends ServiceEntityRepository
         return $this->getEntityManager()->createQuery('DELETE FROM App\Entity\Message m WHERE m.global = 1')->execute();
     }
 
-//    /**
-//     * @return Message[] Returns an array of Message objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   public function getGlobalChat(): array
+   {
+       return $this->createQueryBuilder('m')
+            ->andWhere('m.global = 1')
+            ->orderBy('m.datetime', 'ASC')
+            ->getQuery()
+            ->getResult()
+       ;
+   }
 
-//    public function findOneBySomeField($value): ?Message
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function getChat($sender, $receiver): array
+   {
+       return $this->createQueryBuilder('m')
+            ->andWhere('m.global = 0')
+            ->andWhere('(m.sender = :sender AND m.receiver = :receiver) OR (m.sender = :receiver AND m.receiver = :sender)')
+            ->setParameter('sender', $sender)
+            ->setParameter('receiver', $receiver)
+            ->orderBy('m.datetime', 'ASC')
+            ->getQuery()           
+            ->getResult()
+       ;
+   }
 }
