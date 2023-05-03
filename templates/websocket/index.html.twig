@@ -236,7 +236,8 @@ input:focus{
         .then(response => response.json())
         .then(data => {
             if(data.error) {
-                alert('Erreur lors de l\'envoi du message')
+                if(data.error === 'reload') window.location.reload()
+                else alert(date.error)
             } else {
                 addMessage(data)
                 $('#chat').scrollTop($('#chat')[0].scrollHeight)
@@ -255,7 +256,7 @@ input:focus{
         const chatHTML = chatHistory.map(item => {
             return renderRow(item)
         }).join("")
-        $('#chat').scrollTop($('#chat')[0].scrollHeight);
+        $('#chat').scrollTop($('#chat')[0].scrollHeight)
         document.getElementById("chat").innerHTML = chatHTML
         $('#chat').scrollTop($('#chat')[0].scrollHeight)
     }

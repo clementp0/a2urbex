@@ -28,15 +28,16 @@ class ChatController extends AbstractController
     #[Route('/chat-add', name: 'chat_add', methods: ['GET', 'POST'])]
     public function addChat(Request $request): Response
     {
+        $messageContent = $request->getContent();
+        if(!strlen($messageContent)) return new JsonResponse(['error' => 'invalid string']);
+
         $user = $this->getUser();
         if($user) {
-            $messageContent = $request->getContent();
             return new Response($this->messageService->saveMessage($messageContent, $user));
         } else {
             return new JsonResponse(['error' => 'reload']);
         }
     }
-
 
     #[Route('/chat-get', name: 'chat_history', methods: ['GET', 'POST'])]
     public function getChatHistory(MessageRepository $messageRepository): Response
