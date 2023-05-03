@@ -10,12 +10,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 use App\Repository\MessageRepository;
+use App\Repository\UserRepository;
 use App\Service\MessageService;
 
 class ChatController extends AbstractController
 {
-    public function __construct(MessageService $messageService) {
+    public function __construct(MessageService $messageService, UserRepository $userRepository) {
         $this->messageService = $messageService;
+        $this->userRepository = $userRepository;
     }
 
     #[Route('/chat-admin-add', name: 'chat_admin_add', methods: ['GET', 'POST'])]
@@ -33,7 +35,28 @@ class ChatController extends AbstractController
 
         $user = $this->getUser();
         if($user) {
+            $messageContent = $request->getContent();
             return new Response($this->messageService->saveMessage($messageContent, $user));
+        } else {
+            return new JsonResponse(['error' => 'reload']);
+        }
+    }
+
+
+    #[Route('/chat-add/{id}', name: 'chat_add_user', methods: ['GET', 'POST'])]
+    public function addChatUser(Request $request, $id): Response
+    {
+        $messageContent = $request->getContent();
+        if(!strlen($messageContent)) return new JsonResponse(['error' => 'invalid string']);
+        
+        $sender = $this->getUser();
+        if($sender) {
+            $receiver = (int)$id !== 0 ? $this->userRepository->find($id) : null;
+            if($receiver) {
+                return new Response($this->messageService->saveMessage($messageContent, $sender, $receiver));
+            } else {
+                return new JsonResponse(['error' => 'user doesn\'t exist']);
+            }
         } else {
             return new JsonResponse(['error' => 'reload']);
         }
