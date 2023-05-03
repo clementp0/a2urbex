@@ -28,14 +28,15 @@ class MessageService {
         'lastActiveAt'
     ];
 
-    public function saveMessage($messageContent, $user = null) {
+    public function saveMessage($messageContent, $sender = null, $receiver = null) {
         $message = new Message();
         $message
             ->setMessage($messageContent)
             ->setGlobal(1)
             ->setDateTime(new \DateTime('@'.strtotime('now')))
         ;
-        if($user) $message->setSender($user);
+        if($sender) $message->setSender($sender);
+        if($receiver) $message->setReceiver($receiver);
 
         $this->messageRepository->save($message, true);
         
