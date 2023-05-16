@@ -22,9 +22,12 @@ use App\Entity\Upload;
 use App\Repository\LocationRepository;
 use App\Repository\MessageRepository;
 use App\Service\MessageService;
+use App\Service\DataService;
 
 class DashboardController extends AbstractDashboardController
 {
+    public function __construct(private DataService $dataService) {}
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
@@ -56,16 +59,13 @@ class DashboardController extends AbstractDashboardController
         $current_time = date("d/m/Y H:i", time());
 
         //Last fetched
-        $export_date = './assets/export.json';
-        $strJsonFileContents = file_get_contents($export_date);
-        $array = json_decode($strJsonFileContents, true);
+        $array = $this->dataService->getJson($this->getParameter('data_directory').'export.json');
         $last_fetched = $array["last_fetched"];
 
         //Last updated
-        $update_date = './assets/update.json';
-        $strJsonFileContentsu = file_get_contents($update_date);
-        $array_updated = json_decode($strJsonFileContentsu, true);
+        $array_updated = $this->dataService->getJson($this->getParameter('data_directory').'update.json');
         $last_updated = $array_updated["last_updated"];
+
         //Output
         $board = $array["board"];
         $finished = $array["finished"];
@@ -128,7 +128,7 @@ class DashboardController extends AbstractDashboardController
             'stable_status' => $stable_status,
             'stable_status_current' => $stable_status_current,
             'ai' => $ai,
-            'remaining' => file_get_contents('count.json')
+            'remaining' => $this->dataService->getFile($this->getParameter('data_directory').'count.txt')
         ]);
     }
 

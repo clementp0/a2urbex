@@ -14,6 +14,7 @@ use App\Repository\LocationRepository;
 class FetchController extends AppController
 {
     public function __construct(
+        private string $dataDirectory,
         private LocationRepository $locationRepository,
         private LocationService $locationService,
         private PinterestService $pinterestService,
@@ -27,12 +28,12 @@ class FetchController extends AppController
     }
 
     #[Route('/check', name: 'app_check_count')]
-    public function check(): Response { // rework not workning
+    public function check(): Response { 
 
         $existing = $this->locationRepository->findBySource('Pinterest');
         $existing_count = count($existing);
         $remaining = $this->pinterestService->getPinTotal(true) - $existing_count;
-        $this->dataService->writeFile('count.json', $remaining);
+        $this->dataService->writeFile($this->dataDirectory.'count.txt', $remaining);
 
         return $this->redirect('admin');
     }
@@ -48,7 +49,7 @@ class FetchController extends AppController
         }
 
         $data = ["last_updated" => date("d/m/Y H:i", time())];
-        $this->DataService->writeJson('./assets/update.json', $data);
+        $this->DataService->writeJson($this->dataDirectory.'update.json', $data);
         return $this->redirect('admin');
     }
 

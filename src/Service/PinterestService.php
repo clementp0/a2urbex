@@ -11,7 +11,8 @@ use App\Service\DataService;
 
 class PinterestService {
     public function __construct(
-        string $publicDirectory,
+        private string $publicDirectory,
+        private string $dataDirectory,
         private LocationRepository $locationRepository,
         private LocationService $locationService,
         private DataService $dataService,
@@ -21,7 +22,6 @@ class PinterestService {
         $this->pinBaseUrl = $_ENV['PIN_BASE_URL'];
         $this->pinUrl = $_ENV['PIN_COUNT_URL'];
         $this->imgPath = $_ENV['IMG_LOCATION_PATH'];
-        $this->publicDir = $publicDirectory;
 
         $this->count = 0;
         $this->maxLoopCount = false; // false = no max 
@@ -46,8 +46,8 @@ class PinterestService {
     public function fetch() {
         $this->pinTotal = $this->getPinTotal();
         if(!$this->pinTotal || (int)$this->pinTotal === 0) return
-        $this->dataService->initFile('pin.json');
-        $this->dataService->verifyFolder($this->publicDir.$this->imgPath);
+        $this->dataService->initFile($this->dataDirectory.'pin.json');
+        $this->dataService->verifyFolder($this->publicDirectory.$this->imgPath);
         $this->getFeed();
     }
 
@@ -96,7 +96,7 @@ class PinterestService {
 
             $imgUrl = $item['images']['orig']['url'];
             $imgName = $this->locationService->generateImgUid().'.'.pathinfo($imgUrl)['extension'];
-            copy($imgUrl, $this->publicDir.$this->imgPath.$imgName); // todo move to data service;
+            copy($imgUrl, $this->publicDirectory.$this->imgPath.$imgName); // todo move to data service;
             
             preg_match('#(.*".{1}) (.*".{1}) (.*)#', $item['description'], $matches);
             if(isset($matches[1])) $location->setLat((float)$this->convertCoord($matches[1]));
@@ -119,7 +119,7 @@ class PinterestService {
         
         $this->pinCount++;
         $percentage = ($this->pinCount / $this->pinTotal) * 100;
-        $this->dataService->writeFile($this->publicDir.'pin.json', PHP_EOL . $percentage, true);
+        $this->dataService->writeFile($this->dataDirectory.'pin.txt', PHP_EOL . $percentage, true);
     }
 
     private function convertCoord($str) {
@@ -146,6 +146,6 @@ class PinterestService {
             "newpins" => $this->newPinCount,
             "token" => rand() . "\n"
         ];
-        $this->dataService->writeJson('./assets/export.json', $jsonData);
+        $this->dataService->writeJson($this->dataDirectory.'export.json', $jsonData);
     }
 }

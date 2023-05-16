@@ -38,11 +38,15 @@ class DataService {
         mkdir($folder, 0777, true);
     }
 
-    public function createFile($file) {
-        
-    }
-
     public function initFile($file) {
         $this->writeFile($file, '');
+    }
+
+    public function getFile($file) {
+        return file_get_contents($file);
+    }
+    public function getJson($file) {
+        $data = $this->getFile($file);
+        return json_decode($data, true);
     }
 }
