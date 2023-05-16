@@ -34,8 +34,12 @@ class DataService {
     }
 
     public function verifyFolder($folder, $create = false) {
-        if(file_exists($folder)) return;
-        mkdir($folder, 0777, true);
+        if(!$create) {
+            return file_exists($folder);
+        } else {
+            if(file_exists($folder)) return;
+            mkdir($folder, 0777, true);
+        }
     }
 
     public function initFile($file) {
