@@ -43,6 +43,6 @@ class DataService {
     }
 
     public function initFile($file) {
-        file_put_contents($file, '');
+        $this->writeFile($file, '');
     }
 }
