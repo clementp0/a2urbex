@@ -18,16 +18,11 @@ yarn-error.log
 
 .DS_STORE
 yarn.lock
-public/assets/export.json
-public/img/
-public/uploads
 .php-version
-chat.json
-public/chat.json
-public/chat.json
 composer.lock
 nohup.out
 .env
-public/pin.json
-public/pin.json
-public/count.json
+
+public/img/
+public/uploads
+public/data/
