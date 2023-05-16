@@ -24,7 +24,7 @@ class DataService {
 
     public function writeJson($file, $data) {
         $string = json_encode($data, JSON_PRETTY_PRINT);
-        $this->writeFile($file, $data);
+        $this->writeFile($file, $string);
     }
 
     public function writeFile($file, $data, $append = false) {

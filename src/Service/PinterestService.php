@@ -144,7 +144,7 @@ class PinterestService {
             "error" => $this->error,
             "total" => $this->pinCount,
             "newpins" => $this->newPinCount,
-            "token" => rand() . "\n"
+            "token" => rand()
         ];
         $this->dataService->writeJson($this->dataDirectory.'export.json', $jsonData);
     }
