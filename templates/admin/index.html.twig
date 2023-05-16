@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const xhr = new XMLHttpRequest()
       xhr.open('GET', textUrl)
       xhr.responseType = 'text'
+      xhr.setRequestHeader("Cache-Control", "max-age=0");
       xhr.onload = () => {
         if (xhr.status === 200) {
           const value = xhr.responseText
