@@ -38,38 +38,40 @@
 
 
 document.addEventListener('DOMContentLoaded', () => {
-const startButton = document.getElementById('fetch-now');
-startButton.addEventListener('click', () => {
-const progressText = document.querySelector('.progress-percent');
-progressText.textContent = 'Starting...';
-const textUrl = 'pin.json';
-let lastContent = null;
-function handleNewLines(lines) {
-  const lastLine = lines[lines.length - 1];
-  const message = {
-    progression : lastLine,
-  };
-  socketStatus.send(JSON.stringify(message));
-  addMessage(message.progression);
-}
-setInterval(() => {
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', textUrl);
-  xhr.responseType = 'text';
-  xhr.onload = () => {
-    if (xhr.status === 200) {
-      const content = xhr.responseText;
-      if (content !== lastContent) {
-        lastContent = content;
-        const lines = content.trim().split('\n');
-        handleNewLines(lines);
+  const startButton = document.getElementById('fetch-now')
+
+  startButton.addEventListener('click', () => {
+    const progressText = document.querySelector('.progress-percent')
+    progressText.textContent = 'Starting...'
+    const textUrl = 'data/pin.txt'
+    let lastValue = null
+
+    function handleNewLines(value) {
+      const message = {
+        progression: value,
       }
+      socketStatus.send(JSON.stringify(message))
+      addMessage(message.progression)
     }
-  };
-  xhr.send();
-}, 1000);
-});
-});
+
+    setInterval(() => {
+      const xhr = new XMLHttpRequest()
+      xhr.open('GET', textUrl)
+      xhr.responseType = 'text'
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const value = xhr.responseText
+          if (value !== lastValue) {
+            lastValue = value
+            handleNewLines(value)
+          }
+        }
+      }
+      xhr.send()
+    }, 1000)
+  })
+})
+
 </script>
 
 

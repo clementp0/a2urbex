@@ -119,7 +119,7 @@ class PinterestService {
         
         $this->pinCount++;
         $percentage = ($this->pinCount / $this->pinTotal) * 100;
-        $this->dataService->writeFile($this->dataDirectory.'pin.txt', PHP_EOL . $percentage, true);
+        $this->dataService->writeFile($this->dataDirectory.'pin.txt',$percentage);
     }
 
     private function convertCoord($str) {
