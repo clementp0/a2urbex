@@ -17,10 +17,10 @@ class PinterestService {
         private LocationService $locationService,
         private DataService $dataService,
     ) {
-        $this->boardId = $_ENV['BOARD_ID'];
-        $this->url = $_ENV['FETCH_BASE_URL'];
-        $this->pinBaseUrl = $_ENV['PIN_BASE_URL'];
-        $this->pinUrl = $_ENV['PIN_COUNT_URL'];
+        $this->boardId = $_ENV['PINTEREST_BOARD_ID'];
+        $this->url = $_ENV['PINTEREST_FETCH_BASE_URL'];
+        $this->pinBaseUrl = $_ENV['PINTEREST_PIN_BASE_URL'];
+        $this->pinUrl = $_ENV['PINTEREST_PIN_COUNT_URL'];
         $this->imgPath = $_ENV['IMG_LOCATION_PATH'];
 
         $this->count = 0;
