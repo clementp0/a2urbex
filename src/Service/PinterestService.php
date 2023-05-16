@@ -46,7 +46,7 @@ class PinterestService {
     public function fetch() {
         $this->pinTotal = $this->getPinTotal();
         if(!$this->pinTotal || (int)$this->pinTotal === 0) return
-        $this->dataService->initFile($this->dataDirectory.'pin.json');
+        $this->dataService->initFile($this->dataDirectory.'pin.txt');
         $this->dataService->verifyFolder($this->publicDirectory.$this->imgPath);
         $this->getFeed();
     }
