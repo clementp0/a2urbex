@@ -88,7 +88,7 @@ class PinterestService {
     }
 
     private function savePin($item) {      
-        $exist = $this->locationRepository->findByPid($item['id']) !== null;
+        $exist = $this->locationRepository->findOneBy(['pid' => $item['id'], 'source' => 'Pinterest']) !== null;
         if(!$exist) {
             $location = new Location();
 
