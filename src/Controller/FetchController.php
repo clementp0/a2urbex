@@ -23,13 +23,13 @@ class FetchController extends AppController
         private DataService $dataService
     ) {}
     
-    #[Route('/fetch', name: 'app_fetch_pinterest')]
+    #[Route('/fetch/pinterest', name: 'app_fetch_pinterest')]
     public function fetchPinterest(): Response {
         $this->pinterestService->fetch();
         return $this->redirect('admin');
     }
 
-    #[Route('/fetch2', name: 'app_fetch_wikimapia')]
+    #[Route('/fetch/wikimapia', name: 'app_fetch_wikimapia')]
     public function fetchWikimapia(): Response {
         $this->wikimapiaService->fetch();
         return $this->redirect('admin');

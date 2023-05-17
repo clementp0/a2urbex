@@ -504,7 +504,7 @@ document.getElementById('message_admin').addEventListener('click', function (eve
 $(document).ready(function () {
   $('#fetch-now').click(function () {
     $.ajax({
-      url: '/fetch',
+      url: '/fetch/pinterest',
       method: 'GET',
       dataType: 'json',
       success: function (data) {
