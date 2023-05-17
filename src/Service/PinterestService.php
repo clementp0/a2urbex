@@ -2,8 +2,6 @@
 
 namespace App\Service;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use App\Entity\Location;
 use App\Service\LocationService;
 use App\Repository\LocationRepository;
