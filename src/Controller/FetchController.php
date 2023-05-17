@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Service\PinterestService;
+use App\Service\WikimapiaService;
 use App\Service\LocationService;
 use App\Service\DataService;
 use App\Repository\LocationRepository;
@@ -18,12 +19,19 @@ class FetchController extends AppController
         private LocationRepository $locationRepository,
         private LocationService $locationService,
         private PinterestService $pinterestService,
+        private WikimapiaService $wikimapiaService,
         private DataService $dataService
     ) {}
     
-    #[Route('/fetch', name: 'app_fetch')]
-    public function index(): Response {
+    #[Route('/fetch', name: 'app_fetch_pinterest')]
+    public function fetchPinterest(): Response {
         $this->pinterestService->fetch();
+        return $this->redirect('admin');
+    }
+
+    #[Route('/fetch2', name: 'app_fetch_wikimapia')]
+    public function fetchWikimapia(): Response {
+        $this->wikimapiaService->fetch();
         return $this->redirect('admin');
     }
 
