@@ -35,6 +35,12 @@ class FetchController extends AppController
         return $this->redirect('admin');
     }
 
+    #[Route('/fetch/wikimapia/pending', name: 'app_fetch_wikimapia')]
+    public function fetchWikimapiaPending(): Response {
+        $this->wikimapiaService->fetchInfo();
+        return $this->redirect('admin');
+    }
+
     #[Route('/check', name: 'app_check_count')]
     public function check(): Response { 
 
