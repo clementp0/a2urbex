@@ -185,6 +185,7 @@ class LocationRepository extends ServiceEntityRepository
         
         $qb = $this->createQueryBuilder('l')
             ->select('l loc')
+            ->andWhere('(l.pending = 0 OR l.pending IS NULL)')
             ->orderBy('l.id', 'ASC');
         
             if($user) {
