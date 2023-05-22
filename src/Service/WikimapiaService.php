@@ -142,10 +142,12 @@ class WikimapiaService {
 
         $item
             ->setPending(false)
-            ->setName($crawler->filter('h1')->text())
             ->setLat((float)$this->locationService->convertCoord($coordinatesSplit[2]))
             ->setLon((float)$this->locationService->convertCoord($coordinatesSplit[4]))
         ;
+        
+        $nameElement = $crawler->filter('h1');
+        $item->setName($nameElement->count() > 0 ? $nameElement->text() : 'unknown')
 
         $descriptionElement = $crawler->filter('#place-description');
         if($descriptionElement->count() > 0) $item->setDescription($descriptionElement->text());
