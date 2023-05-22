@@ -22,7 +22,7 @@ class Country implements Stringable
     #[ORM\OneToMany(mappedBy: 'country', targetEntity: Location::class)]
     private Collection $locations;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 10, nullable: true)]
     private ?string $code = null;
 
     public function __construct()

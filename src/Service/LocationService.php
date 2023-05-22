@@ -54,6 +54,17 @@ class LocationService {
         }
     }
 
+    public function addCountryDirect($location, $name) {
+        $country = $this->countryRepository->findOneBy(['name' => $name]);
+        if(!$country) {
+            $country = new Country();
+            $country->setName($name);
+            $this->countryRepository->add($country);
+        }
+
+        $location->setCountry($country);
+    }
+
     public function addType($location) {
         $name = $location->getName();
         foreach($this->typeOptions as $typeOption) {
