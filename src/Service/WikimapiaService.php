@@ -143,10 +143,12 @@ class WikimapiaService {
         $item
             ->setPending(false)
             ->setName($crawler->filter('h1')->text())
-            ->setDescription($crawler->filter('#place-description')->text())
             ->setLat((float)$this->locationService->convertCoord($coordinatesSplit[2]))
             ->setLon((float)$this->locationService->convertCoord($coordinatesSplit[4]))
         ;
+
+        $descriptionElement = $crawler->filter('#place-description');
+        if($descriptionElement->count() > 0) $item->setDescription($descriptionElement->text());
 
         $imageElement = $crawler->filter('#place-photos a');
         if($imageElement->count() > 0) $item->setImageDirect($imageElement->attr('href'));
