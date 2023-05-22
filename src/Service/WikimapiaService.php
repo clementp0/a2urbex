@@ -2,15 +2,21 @@
 
 namespace App\Service;
 
+use App\Entity\Location;
+use App\Repository\LocationRepository;
+use App\Service\DataService;
+
 class WikimapiaService {
     public function __construct(
         private string $publicDirectory,
-        private DataService $dataService
+        private DataService $dataService,
+        private LocationRepository $locationRepository
     ) {
         $this->catId = $_ENV['WIKIMAPIA_CAT_ID'];
         $this->url = $_ENV['WIKIMAPIA_BASE_URL'];
         $this->fetchUrl = $_ENV['WIKIMAPIA_FETCH_BASE_URL'];
         $this->imgPath = $_ENV['IMG_LOCATION_PATH'];
+        $this->source = 'Wikimapia';
         
         $this->zoom = (int)$_ENV['WIKIMAPIA_ZOOM'];
         $this->fetchSize = pow(2, $this->zoom - 2);
@@ -23,8 +29,9 @@ class WikimapiaService {
         $this->hash = $this->getHash();
         $this->catUrl = $this->getCatUrl();
         $this->factor = $this->getFactor();
-        $this->fetchBase();
-        die;
+        //$this->fetchBase();
+        $this->fetchInfo();
+        dd('done');
     }
 
     private function getHash() {
@@ -55,7 +62,15 @@ class WikimapiaService {
         for ($x = 0; $x < $this->fetchSize; $x++) { 
             for ($y = 0; $y < $this->fetchSize; $y++) { 
                 $url = $this->generateTileUrl($x, $y, $this->zoom);
-                dump($url);
+                try {
+                    $response = $this->dataService->fetchurl($url, true);
+                } catch(\Exception $e) {
+                    dd($e->getMessage());
+                }
+
+                $rows = explode("\n", $response);
+                $rows = array_slice($rows, 4);
+                foreach($rows as $row) $this->savePinBase($row);
             }
         }
     }
@@ -81,5 +96,21 @@ class WikimapiaService {
         }
 
         return $n;
+    }
+
+    private function savePinBase($row) {
+        $arr = explode('|', $row);
+        if(count($arr) < 2) return;
+        
+        $exist = $this->locationRepository->findOneBy(['pid' => $arr[0], 'source' => $this->source]) !== null;
+        if(!$exist) {
+            $location = new Location();
+            $location
+                ->setPid($arr[0])
+                ->setUrl($this->url.$arr[0])
+                ->setSource($this->source);
+
+            $this->locationRepository->add($location);
+        }
     }
 }
