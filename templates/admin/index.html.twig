@@ -86,14 +86,22 @@ document.addEventListener('DOMContentLoaded', () => {
 			<div class="updated"><p class="text-muted ">Last Updated : <br> <div class="time">{{last_updated}}</div></p></div>
 		</div>
 			<p class="text-muted">Last Fetched : <br> <div class="time">{{last_fetched}}</div></p>
-			<button class="action-new btn btn-success" id="fetch-pinterest">Fetch Pinterest</button>
+      <p>
+			  <button class="action-new btn btn-success" id="fetch-pinterest">Fetch Pinterest</button>
+      </p>
+      <p>
+        <a class="action-new btn btn-success" href="{{ path('app_fetch_wikimapia') }}">Fetch Wikimapia</a>
+        <a class="action-new btn btn-warning" href="{{ path('app_fetch_wikimapia_pending') }}">Fetch Pending</a>
+      </p>
+      <p>
+        <a class="action-new btn btn-primary" href="{{ path('app_update') }}">Update</a>
+        <a class="action-new btn btn-warning" href="{{ path('app_patch') }}">Patch</a>
+      </p>
 
-			<a class="action-new btn btn-primary" href="{{ path('app_update') }}">Update</a>
-			<a class="action-new btn btn-warning" href="{{ path('app_patch') }}">Patch</a>
-            <p class="progress-percent">Waiting...</p>
-          <div class="progress-bar-wrapper"><div class="progress-bar"></div></div>
-
+      <p class="progress-percent">Waiting...</p>
+      <div class="progress-bar-wrapper"><div class="progress-bar"></div></div>
 		</div>
+
 		<div class="output-area">
 		<p class="text-muted">Output : </b></p>
 		<div class="output">
