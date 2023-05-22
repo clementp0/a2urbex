@@ -3,7 +3,7 @@
 namespace App\Service;
 
 class DataService {
-    public function fetchUrl($url) {
+    public function fetchUrl($url, $encoding = false) {
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -14,6 +14,7 @@ class DataService {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_MAXREDIRS, 2);
         curl_setopt($ch, CURLOPT_NOBODY, false);
+        if($encoding === true) curl_setopt($ch, CURLOPT_ENCODING, '');
         
         if (curl_errno($ch)) {
             throw new \Exception(curl_error($ch));
