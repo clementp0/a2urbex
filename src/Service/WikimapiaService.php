@@ -4,13 +4,16 @@ namespace App\Service;
 
 use App\Entity\Location;
 use App\Repository\LocationRepository;
+use App\Service\LocationService;
 use App\Service\DataService;
+use Symfony\Component\DomCrawler\Crawler;
 
 class WikimapiaService {
     public function __construct(
         private string $publicDirectory,
         private DataService $dataService,
-        private LocationRepository $locationRepository
+        private LocationRepository $locationRepository,
+        private LocationService $locationService
     ) {
         $this->catId = $_ENV['WIKIMAPIA_CAT_ID'];
         $this->url = $_ENV['WIKIMAPIA_BASE_URL'];
@@ -113,4 +116,36 @@ class WikimapiaService {
             $this->locationRepository->add($location);
         }
     }
+
+    private function fetchInfo() { // todo add pending
+        $items = $this->locationRepository->findBy(['source' => $this->source]);
+        foreach($items as $item) {
+            $response = $this->dataService->fetchUrl($item->getUrl());
+            $response = preg_replace('#<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>#', '', $response);
+
+            $crawler = new Crawler();
+            $crawler->addHtmlContent($response);
+            
+            $coordinates = $crawler->filter('#comments')->previousAll()->text();
+            $coordinatesSplit = explode(' ', $coordinates);
+            if(count($coordinatesSplit) !== 5) continue;
+
+            $item
+                ->setName($crawler->filter('h1')->text())
+                ->setDescription($crawler->filter('#place-description')->text())
+                ->setLat((float)$this->locationService->convertCoord($coordinatesSplit[2]))
+                ->setLon((float)$this->locationService->convertCoord($coordinatesSplit[4]))
+            ;
+
+            $imageElement = $crawler->filter('#place-photos a');
+            if($imageElement->count() > 0) $item->setImageDirect($imageElement->attr('href'));
+        
+            $country = $crawler->filter('#placeinfo-locationtree a')->text();
+            $this->locationService->addCountryDirect($item, $country);
+
+            $this->locationRepository->add($item);
+        }
+    }
+
+    private function savePin() {}
 }
