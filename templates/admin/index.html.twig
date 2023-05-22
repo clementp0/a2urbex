@@ -38,7 +38,7 @@
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  const startButton = document.getElementById('fetch-now')
+  const startButton = document.getElementById('fetch-pinterest')
 
   startButton.addEventListener('click', () => {
     const progressText = document.querySelector('.progress-percent')
@@ -86,9 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			<div class="updated"><p class="text-muted ">Last Updated : <br> <div class="time">{{last_updated}}</div></p></div>
 		</div>
 			<p class="text-muted">Last Fetched : <br> <div class="time">{{last_fetched}}</div></p>
-			<button class="action-new btn btn-success" id="fetch-now">Fetch Now</button>
-			<a class="action-new btn btn-primary" href="/update">Update</a>
-			<a class="action-new btn btn-warning" href="/patch">Patch</a>
+			<button class="action-new btn btn-success" id="fetch-pinterest">Fetch Pinterest</button>
+
+			<a class="action-new btn btn-primary" href="{{ path('app_update') }}">Update</a>
+			<a class="action-new btn btn-warning" href="{{ path('app_patch') }}">Patch</a>
             <p class="progress-percent">Waiting...</p>
           <div class="progress-bar-wrapper"><div class="progress-bar"></div></div>
 
@@ -104,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		Key = {{token}}
 		</div>
     <div class="check">
-    <a href="/check" class="btn btn-secondary">Check</a><p>Waiting to be imported : {{remaining}}</p>
+    <a href="{{ path('app_check_count') }}" class="btn btn-secondary">Check</a><p>Waiting to be imported : {{remaining}}</p>
     </div>
 		</div>
     
@@ -502,9 +503,9 @@ document.getElementById('message_admin').addEventListener('click', function (eve
 })
 
 $(document).ready(function () {
-  $('#fetch-now').click(function () {
+  $('#fetch-pinterest').click(function () {
     $.ajax({
-      url: '/fetch/pinterest',
+      url: '{{ path("app_fetch_pinterest") }}',
       method: 'GET',
       dataType: 'json',
       success: function (data) {
