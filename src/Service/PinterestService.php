@@ -98,8 +98,8 @@ class PinterestService {
             copy($imgUrl, $this->publicDirectory.$this->imgPath.$imgName); // todo move to data service;
             
             preg_match('#(.*".{1}) (.*".{1}) (.*)#', $item['description'], $matches);
-            if(isset($matches[1])) $location->setLat((float)$this->convertCoord($matches[1]));
-            if(isset($matches[2])) $location->setLon((float)$this->convertCoord($matches[2]));
+            if(isset($matches[1])) $location->setLat((float)$this->locationService->convertCoord($matches[1]));
+            if(isset($matches[2])) $location->setLon((float)$this->locationService->convertCoord($matches[2]));
             if(isset($matches[3])) $location->setName(substr(str_replace('"', "''", $matches[3]), 0, 250));
 
             $location
@@ -119,15 +119,6 @@ class PinterestService {
         $this->pinCount++;
         $percentage = ($this->pinCount / $this->pinTotal) * 100;
         $this->dataService->writeFile($this->dataDirectory.'pin.txt',$percentage);
-    }
-
-    private function convertCoord($str) {
-        preg_match('#([0-9]+)°([0-9]+)\'([0-9]+.[0-9])"([A-Z])#', $str, $matches);
-        if(count($matches) === 5) {
-            $pos = in_array($matches[4], ['N', 'E']) ? 1 : -1;
-            return $pos*($matches[1]+$matches[2]/60+$matches[3]/3600);
-        }
-        return $str;
     }
 
     private function error($error) {

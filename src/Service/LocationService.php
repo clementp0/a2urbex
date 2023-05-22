@@ -96,4 +96,13 @@ class LocationService {
             }
         }
     }
+
+    public function convertCoord($str) {
+        preg_match('#([0-9]+)°([0-9]+)\'([0-9]+.[0-9])"([A-Z])#', $str, $matches);
+        if(count($matches) === 5) {
+            $pos = in_array($matches[4], ['N', 'E']) ? 1 : -1;
+            return $pos*($matches[1]+$matches[2]/60+$matches[3]/3600);
+        }
+        return $str;
+    }
 }
