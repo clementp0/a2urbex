@@ -32,9 +32,8 @@ class WikimapiaService {
         $this->hash = $this->getHash();
         $this->catUrl = $this->getCatUrl();
         $this->factor = $this->getFactor();
-        //$this->fetchBase();
+        $this->fetchBase();
         $this->fetchInfo();
-        dd('done');
     }
 
     private function getHash() {
@@ -119,36 +118,42 @@ class WikimapiaService {
         }
     }
 
-    private function fetchInfo() {
+    public function fetchInfo() {
         $items = $this->locationRepository->findBy(['source' => $this->source, 'pending' => true]);
         foreach($items as $item) {
-            $response = $this->dataService->fetchUrl($item->getUrl());
-            $response = preg_replace('#<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>#', '', $response);
-
-            $crawler = new Crawler();
-            $crawler->addHtmlContent($response);
-            
-            $coordinates = $crawler->filter('#comments')->previousAll()->text();
-            $coordinatesSplit = explode(' ', $coordinates);
-            if(count($coordinatesSplit) !== 5) continue;
-
-            $item
-                ->setPending(false)
-                ->setName($crawler->filter('h1')->text())
-                ->setDescription($crawler->filter('#place-description')->text())
-                ->setLat((float)$this->locationService->convertCoord($coordinatesSplit[2]))
-                ->setLon((float)$this->locationService->convertCoord($coordinatesSplit[4]))
-            ;
-
-            $imageElement = $crawler->filter('#place-photos a');
-            if($imageElement->count() > 0) $item->setImageDirect($imageElement->attr('href'));
-        
-            $country = $crawler->filter('#placeinfo-locationtree a')->text();
-            $this->locationService->addCountryDirect($item, $country);
-
-            $this->locationRepository->add($item);
+            $this->savePin($item);
         }
     }
+    
+    private function savePin($item) {
+        try {
+            $response = $this->dataService->fetchUrl($item->getUrl());
+        } catch(\Exception $e) {
+            dd($e->getMessage());
+        }
+        $response = preg_replace('#<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>#', '', $response);
 
-    private function savePin() {}
+        $crawler = new Crawler();
+        $crawler->addHtmlContent($response);
+        
+        $coordinates = $crawler->filter('#comments')->previousAll()->text();
+        $coordinatesSplit = explode(' ', $coordinates);
+        if(count($coordinatesSplit) !== 5) return;
+
+        $item
+            ->setPending(false)
+            ->setName($crawler->filter('h1')->text())
+            ->setDescription($crawler->filter('#place-description')->text())
+            ->setLat((float)$this->locationService->convertCoord($coordinatesSplit[2]))
+            ->setLon((float)$this->locationService->convertCoord($coordinatesSplit[4]))
+        ;
+
+        $imageElement = $crawler->filter('#place-photos a');
+        if($imageElement->count() > 0) $item->setImageDirect($imageElement->attr('href'));
+    
+        $country = $crawler->filter('#placeinfo-locationtree a')->text();
+        $this->locationService->addCountryDirect($item, $country);
+
+        $this->locationRepository->add($item);
+    }
 }
