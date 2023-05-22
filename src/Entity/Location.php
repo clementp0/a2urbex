@@ -68,6 +68,9 @@ class Location
 
     public $imageError;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $pending = null;
+
     public function __construct()
     {
         $this->favorites = new ArrayCollection();
@@ -307,6 +310,18 @@ class Location
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function isPending(): ?bool
+    {
+        return $this->pending;
+    }
+
+    public function setPending(?bool $pending): self
+    {
+        $this->pending = $pending;
 
         return $this;
     }

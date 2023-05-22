@@ -111,14 +111,16 @@ class WikimapiaService {
             $location
                 ->setPid($arr[0])
                 ->setUrl($this->url.$arr[0])
-                ->setSource($this->source);
+                ->setSource($this->source)
+                ->setPending(true)
+            ;
 
             $this->locationRepository->add($location);
         }
     }
 
-    private function fetchInfo() { // todo add pending
-        $items = $this->locationRepository->findBy(['source' => $this->source]);
+    private function fetchInfo() {
+        $items = $this->locationRepository->findBy(['source' => $this->source, 'pending' => true]);
         foreach($items as $item) {
             $response = $this->dataService->fetchUrl($item->getUrl());
             $response = preg_replace('#<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>#', '', $response);
@@ -131,6 +133,7 @@ class WikimapiaService {
             if(count($coordinatesSplit) !== 5) continue;
 
             $item
+                ->setPending(false)
                 ->setName($crawler->filter('h1')->text())
                 ->setDescription($crawler->filter('#place-description')->text())
                 ->setLat((float)$this->locationService->convertCoord($coordinatesSplit[2]))
