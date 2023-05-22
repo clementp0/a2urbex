@@ -20,6 +20,7 @@ class PinterestService {
         $this->pinBaseUrl = $_ENV['PINTEREST_PIN_BASE_URL'];
         $this->pinUrl = $_ENV['PINTEREST_PIN_COUNT_URL'];
         $this->imgPath = $_ENV['IMG_LOCATION_PATH'];
+        $this->source = 'Pinterest';
 
         $this->count = 0;
         $this->maxLoopCount = false; // false = no max 
@@ -88,7 +89,7 @@ class PinterestService {
     }
 
     private function savePin($item) {      
-        $exist = $this->locationRepository->findOneBy(['pid' => $item['id'], 'source' => 'Pinterest']) !== null;
+        $exist = $this->locationRepository->findOneBy(['pid' => $item['id'], 'source' => $this->source]) !== null;
         if(!$exist) {
             $location = new Location();
 
@@ -102,7 +103,7 @@ class PinterestService {
             if(isset($matches[3])) $location->setName(substr(str_replace('"', "''", $matches[3]), 0, 250));
 
             $location
-                ->setSource('Pinterest')
+                ->setSource($this->source)
                 ->setPid((int)$item['id'])
                 ->setUrl($this->pinBaseUrl.$item['id'])
                 ->setImageDirect($this->imgPath.$imgName)
