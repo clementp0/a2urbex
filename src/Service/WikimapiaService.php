@@ -133,6 +133,8 @@ class WikimapiaService {
         }
         $response = preg_replace('#<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>#', '', $response);
 
+        if(str_pos($response, 'This place was deleted')) return;
+
         $crawler = new Crawler();
         $crawler->addHtmlContent($response);
         
