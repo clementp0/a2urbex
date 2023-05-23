@@ -4,11 +4,24 @@ function initMap() {
     center: { lat: 46.71109, lng: 1.7191036 },
   })
 
-  setMarkers(map)
-  setUserPosition(map)
+  let url = asyncMapUrl
+  if (mapType === 'key') {
+    const split = window.location.pathname.split('/')
+    url += split[split.length - 1] + '/'
+  }
+  url += window.location.search
+
+  $.ajax({
+    url: url,
+    method: 'GET',
+    dataType: 'json',
+  }).done((json) => {
+    setMarkers(map, json)
+    setUserPosition(map)
+  })
 }
 
-function setMarkers(map) {
+function setMarkers(map, items) {
   const icon = {
     url: pinLocationPath + 'pin-',
     scaledSize: new google.maps.Size(20, 27),
@@ -26,7 +39,8 @@ function setMarkers(map) {
   pins['default'].url = pins['default'].url + 'default.png'
   pins['default'].zIndex = 1
 
-  const items = JSON.parse(locations)
+  //const items = JSON.parse(locations)
+  //const items = locations
   for (let key in items) {
     let current = pins['default']
     if (items[key].loc.type) {

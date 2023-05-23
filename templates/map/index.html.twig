@@ -28,5 +28,9 @@
     </div>
 </div>
 <script src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&callback=initMap&v=weekly" defer></script>
-<script>const pinLocationPath="{{ pin_location_path }}"; const locations=`{{ locations|raw }}`;</script>
+<script>
+    const pinLocationPath="{{ pin_location_path }}";
+    const mapType="{{ map_type }}";
+    const asyncMapUrl="{{ path('app_map_async') }}";
+</script>
 {% endblock %}
