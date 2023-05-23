@@ -89,10 +89,12 @@ document.addEventListener('DOMContentLoaded', () => {
       <p>
 			  <button class="action-new btn btn-success" id="fetch-pinterest">Fetch Pinterest</button>
       </p>
+      <div class="seperator"></div>
       <p>
         <a class="action-new btn btn-success" href="{{ path('app_fetch_wikimapia') }}">Fetch Wikimapia</a>
-        <a class="action-new btn btn-warning" href="{{ path('app_fetch_wikimapia_pending') }}">Fetch Pending</a>
+        <a class="action-new btn btn-warning" href="{{ path('app_fetch_wikimapia_pending') }}">Fetch Pending</a> ({{pending}})
       </p>
+      <div class="seperator"></div>
       <p>
         <a class="action-new btn btn-primary" href="{{ path('app_update') }}">Update</a>
         <a class="action-new btn btn-warning" href="{{ path('app_patch') }}">Patch</a>
@@ -253,6 +255,14 @@ a.btn.btn-success.off {
 a.btn.btn-success.off:hover {
 	cursor:not-allowed;
 }
+.seperator {
+    background-color: #404040;
+    width: 100%;
+    border-radius: 10px;
+    height: 1px;
+    margin: 10px 0px 10px 0px;
+}
+
 .generated{
 	    padding-left: 4px;
     padding-right: 4px;

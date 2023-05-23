@@ -41,6 +41,13 @@ class DashboardController extends AbstractDashboardController
             ->getQuery()
             ->getSingleScalarResult();
 
+        //pending 
+        $pending = $repoLocation->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->where('a.pending = 1')
+            ->getQuery()
+            ->getSingleScalarResult();
+
         //Country_count
         $repoCountry = $em->getRepository(Country::class);
         $country_count = $repoCountry->createQueryBuilder('a')
@@ -106,6 +113,7 @@ class DashboardController extends AbstractDashboardController
             $stable_status_current = "off";
         }
 
+
         //Return data 
         return $this->render('admin/index.html.twig', [
             'websocket' => $_ENV["WEBSOCKET_URL"],
@@ -128,7 +136,8 @@ class DashboardController extends AbstractDashboardController
             'stable_status' => $stable_status,
             'stable_status_current' => $stable_status_current,
             'ai' => $ai,
-            'remaining' => $this->dataService->getFile($this->getParameter('data_directory').'count.txt')
+            'remaining' => $this->dataService->getFile($this->getParameter('data_directory').'count.txt'),
+            'pending' => $pending
         ]);
     }
 
