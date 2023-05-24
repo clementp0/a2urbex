@@ -149,10 +149,10 @@ class WikimapiaService {
         ;
         
         $nameElement = $crawler->filter('h1');
-        $item->setName($nameElement->count() > 0 ? substr($nameElement->text(), 0, 250) : 'unknown');
+        $item->setName($nameElement->count() > 0 ? mb_substr($nameElement->text(), 0, 250) : 'unknown');
 
         $descriptionElement = $crawler->filter('#place-description');
-        if($descriptionElement->count() > 0) $item->setDescription(substr($descriptionElement->text(), 0, 250));
+        if($descriptionElement->count() > 0) $item->setDescription(mb_substr($descriptionElement->text(), 0, 250));
 
         $imageElement = $crawler->filter('#place-photos a');
         if($imageElement->count() > 0) $item->setImageDirect($imageElement->attr('href'));
