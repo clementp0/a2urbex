@@ -65,6 +65,11 @@ class WikimapiaService {
 
     private function fetchBase() {
         $pos = $this->getPos();
+        if($pos['x'] >= $this->fetchSize || $pos['y'] >= $this->fetchSize) {
+            $this->savePos(0, 0);
+            $pos = $this->getPos();
+        }
+
         for ($x = $pos['x']; $x < $this->fetchSize; $x++) { 
             for ($y = $pos['y']; $y < $this->fetchSize; $y++) { 
                 $this->savePos($x, $y);
@@ -80,7 +85,7 @@ class WikimapiaService {
                 $rows = array_slice($rows, 4);
                 foreach($rows as $row) $this->savePinBase($row);
             }
-            
+
             $pos['y'] = 0;
         }
         $this->savePos(0, 0);
