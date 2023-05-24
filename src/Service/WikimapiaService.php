@@ -11,6 +11,7 @@ use Symfony\Component\DomCrawler\Crawler;
 class WikimapiaService {
     public function __construct(
         private string $publicDirectory,
+        private string $dataDirectory,
         private DataService $dataService,
         private LocationRepository $locationRepository,
         private LocationService $locationService
@@ -26,6 +27,8 @@ class WikimapiaService {
         $this->hash = 0;
         $this->factor = 0;
         $this->catUrl = '000/000/000';
+
+        $this->filename = 'wikimapia_pos.json';
     }
     public function fetch() {
         $this->dataService->verifyFolder($this->publicDirectory.$this->imgPath, true);
@@ -61,20 +64,39 @@ class WikimapiaService {
     }
 
     private function fetchBase() {
-        for ($x = 0; $x < $this->fetchSize; $x++) { 
-            for ($y = 0; $y < $this->fetchSize; $y++) { 
+        $pos = $this->getPos();
+        for ($x = $pos['x']; $x < $this->fetchSize; $x++) { 
+            for ($y = $pos['y']; $y < $this->fetchSize; $y++) { 
+                $this->savePos($x, $y);
+
                 $url = $this->generateTileUrl($x, $y, $this->zoom);
                 try {
                     $response = $this->dataService->fetchurl($url, true);
                 } catch(\Exception $e) {
                     dd($e->getMessage());
                 }
-
+                
                 $rows = explode("\n", $response);
                 $rows = array_slice($rows, 4);
                 foreach($rows as $row) $this->savePinBase($row);
             }
+            
+            $pos['y'] = 0;
         }
+        $this->savePos(0, 0);
+    }
+
+    private function getPos() {
+        $json = $this->dataService->getJson($this->dataDirectory.$this->filename);
+        if($json !== null) return $json;
+        
+        $data = ['x' => 0, 'y' => 0];
+        $this->dataService->writeJson($this->dataDirectory.$this->filename, $data);
+        return $data;
+    }
+    private function savePos($x, $y) {
+        $data = ['x' => $x, 'y' => $y];
+        $this->dataService->writeJson($this->dataDirectory.$this->filename, $data);
     }
 
     private function generateTileUrl($x, $y, $zoom) {

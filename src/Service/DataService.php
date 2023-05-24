@@ -48,10 +48,12 @@ class DataService {
     }
 
     public function getFile($file) {
+        if(!file_exists($file)) return null;
         return file_get_contents($file);
     }
     public function getJson($file) {
         $data = $this->getFile($file);
+        if($data === null) return null;
         return json_decode($data, true);
     }
 }
