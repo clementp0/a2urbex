@@ -168,7 +168,8 @@ form.addEventListener('submit', function(event) {
     const fileInput = document.querySelector('#new_location_image');
     const fileName = fileInput.value;
     const fileExtension = fileName.split('.').pop().toLowerCase();
-    if (!['jpg', 'jpeg', 'png'].includes(fileExtension)) {
+
+    if (fileName.length && !['jpg', 'jpeg', 'png'].includes(fileExtension)) {
         event.preventDefault();
         const errorMessage = '<span class="alert alert-danger d-block"><span class="d-block"><span class="form-error-icon badge badge-danger text-uppercase">Error</span> <span class="form-error-message">Invalid File Type.</span></span></span>';
         const errorElement = document.querySelector('#error');
