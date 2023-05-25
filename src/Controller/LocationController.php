@@ -114,7 +114,7 @@ class LocationController extends AppController
         ]);
     }
 
-    #[Route('locations/{key}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
+    #[Route('location/{key}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator, LocationService $locationService): Response
     {
         $hashKey = $_ENV["HASH_KEY"];
@@ -154,7 +154,7 @@ class LocationController extends AppController
     }
     
 
-    #[Route('/locations/{key}/delete', name: 'app_location_delete', methods: ['POST'])]
+    #[Route('/location/{key}/delete', name: 'app_location_delete', methods: ['POST'])]
     public function delete_location(Request $request, LocationRepository $locationRepository): Response
     {
         $hashKey = $_ENV["HASH_KEY"];

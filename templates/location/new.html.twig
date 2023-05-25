@@ -82,7 +82,7 @@
 									{% endif %}
 									{# <p class="pin-id">key : {{ key | hashids_encode }}</p> #}
 												<div class="pin-edit pin-action">
-												<a href="/locations/{{ key | hashids_encode }}/edit">
+												<a href="{{ path('app_location_edit', {'key': key | hashids_encode}) }}">
 													<i class="fa-solid fa-pen-to-square"></i>
 												</a>
 												{% include 'location/_delete_form.html.twig' %}
