@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class WikimapiaProcessCommand extends Command
 {
-    protected static $defaultName = "run:wikimapia-process";
+    protected static $defaultName = "wikimapia:process";
 
     public function __construct(private ContainerInterface $container)
     {

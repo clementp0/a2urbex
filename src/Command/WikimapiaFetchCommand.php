@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class WikimapiaFetchCommand extends Command
 {
-    protected static $defaultName = "run:wikimapia-fetch";
+    protected static $defaultName = "wikimapia:fetch";
 
     public function __construct(private ContainerInterface $container)
     {
