@@ -7,7 +7,6 @@ use App\Class\Search;
 use App\Form\LocationType;
 use App\Form\NewLocationType;
 use App\Form\SearchType;
-use App\Repository\LocationRepository;
 use App\Repository\UploadRepository;
 use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
 use Danilovl\HashidsBundle\Service\HashidsService;
@@ -20,29 +19,32 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query\Expr\Join;
 use App\Service\UserOnlineService;
 use Symfony\Component\Security\Core\Security;
+use App\Repository\LocationRepository;
 use App\Service\LocationService;
 use App\Repository\FriendRepository;
 
 class LocationController extends AppController
 {
 
-    public function __construct(private Security $security, private HashidsServiceInterface $hashidsService)
-    {
-    }
+    public function __construct(
+        private Security $security,
+        private HashidsServiceInterface $hashidsService,
+        private LocationService $locationService,
+        private LocationRepository $locationRepository
+    ) {}
     
     #[Route('/locations', name: 'app_location_index', methods: ['GET', 'POST'])]
     public function index(
         Request $request, 
         PaginatorInterface $paginator, 
         UserOnlineService $userOnlineService,
-        LocationService $locationService
     ): Response
     {   
         $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
         $form->handleRequest($request);
 
-        $locations = $locationService->findSearch($search, $form->isSubmitted() && $form->isValid());
+        $locations = $this->locationService->findSearch($search, $form->isSubmitted() && $form->isValid());
 
         $totalResults = 0;
         $totalResults = count($locations);
@@ -72,7 +74,7 @@ class LocationController extends AppController
     }
 
     #[Route('/new', name: 'new_location')]
-    public function newLocation(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator, LocationService $locationService): Response
+    public function newLocation(Request $request, PaginatorInterface $paginator): Response
     {
         $location = new Location();
     
@@ -81,7 +83,7 @@ class LocationController extends AppController
     
         if ($form->isSubmitted() && $form->isValid()) {
             $location->setUser($this->getUser());
-            $locationService->addCountry($location);
+            $this->locationService->addCountry($location);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($location);
@@ -92,7 +94,7 @@ class LocationController extends AppController
         ]);
         }
 
-        $locations = $locationRepository->findByUser();
+        $locations = $this->locationRepository->findByUser();
 
         $totalResults = 0;
         $totalResults = count($locations);
@@ -115,25 +117,25 @@ class LocationController extends AppController
     }
 
     #[Route('location/{key}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, LocationRepository $locationRepository, PaginatorInterface $paginator, LocationService $locationService): Response
+    public function edit(Request $request, PaginatorInterface $paginator): Response
     {
         $hashKey = $_ENV["HASH_KEY"];
         $locationKey = $this->hashidsService->decode($request->get('key'));
         $locationId = str_replace($hashKey,'',$locationKey);
-        $locationData = $locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
+        $locationData = $this->locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
         $location = $locationData["loc"];
 
         $form = $this->createForm(LocationType::class, $location);
         $form->handleRequest($request);
 
         if($this->isOwned($location) && $form->isSubmitted() && $form->isValid()) {
-            $locationService->addCountry($location);
-            $locationRepository->add($location);
+            $this->locationService->addCountry($location);
+            $this->locationRepository->add($location);
 
             return $this->redirectToRoute('new_location', [], Response::HTTP_SEE_OTHER);
         }
 
-        $locations =$locationRepository->findByUser();
+        $locations =$this->locationRepository->findByUser();
 
         $totalResults = 0;
         $totalResults = count($locations);
@@ -155,42 +157,41 @@ class LocationController extends AppController
     
 
     #[Route('/location/{key}/delete', name: 'app_location_delete', methods: ['POST'])]
-    public function delete_location(Request $request, LocationRepository $locationRepository): Response
+    public function delete_location(Request $request): Response
     {
         $hashKey = $_ENV["HASH_KEY"];
         $locationKey = $this->hashidsService->decode($request->get('key'));
         $locationId = str_replace($hashKey,'',$locationKey);
-        $locationData = $locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
+        $locationData = $this->locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
         $location = $locationData["loc"];
 
         if($this->isOwned($location) && $this->isCsrfTokenValid('delete'.$location->getId(), $request->request->get('_token'))) {
-            $locationRepository->remove($location);
+            $this->locationRepository->remove($location);
         }
         $referer = $request->headers->get('referer');
         return $this->redirect($referer);
     }
 
-
     #[Route('location/{key}', name: 'app_location_show', methods: ['GET'])]
-    public function show(Request $request, LocationRepository $locationRepository): Response
+    public function show(Request $request): Response
     {
         $hashKey = $_ENV["HASH_KEY"];
         $locationKey = $this->hashidsService->decode($request->get('key'));
         $locationId = str_replace($hashKey,'',$locationKey);
-        $location = $locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
+        $location = $this->locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
         return $this->render('location/show.html.twig', [
             'item' => $location,
         ]);
     }
 
     #[Route('delete/{source}', name: 'delete_location_source', methods: ['GET'])]
-    public function delete(ManagerRegistry $doctrine, Request $request, LocationRepository $locationRepository,  UploadRepository $uploadRepository): Response
+    public function delete(ManagerRegistry $doctrine, Request $request, UploadRepository $uploadRepository): Response
     {
         $publicDir = $this->getParameter('public_directory');
         $source = $request->get('source');
 
         if($source) {
-            $removeSources = $locationRepository->findBySource($source);
+            $removeSources = $this->locationRepository->findBySource($source);
             $entityManager = $doctrine->getManager();
             foreach ($removeSources as $removeSource) {
                 $entityManager->remove($removeSource['loc']);
