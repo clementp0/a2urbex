@@ -10,11 +10,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class FetchPendingCommand extends Command
+class WikimapiaProcessCommand extends Command
 {
-    protected static $defaultName = "run:fetch-pending";
+    protected static $defaultName = "run:wikimapia-process";
 
     public function __construct(private ContainerInterface $container)
     {
