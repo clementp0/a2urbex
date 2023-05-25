@@ -10,14 +10,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class FetchPendingCommand extends Command
 {
     protected static $defaultName = "run:fetch-pending";
 
-    public function __construct(private ContainerInterface $container, private RouterInterface $router)
+    public function __construct(private ContainerInterface $container)
     {
         parent::__construct();
     }
