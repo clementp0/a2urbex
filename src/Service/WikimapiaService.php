@@ -165,7 +165,10 @@ class WikimapiaService {
         $crawler = new Crawler();
         $crawler->addHtmlContent($response);
         
-        $coordinates = $crawler->filter('#comments')->previousAll()->text();
+        $coordinatesElement = $crawler->filter('#comments')->previousAll();
+        if($coordinatesElement->count() === 0) return;
+        
+        $coordinates = $coordinatesElement->text();
         $coordinatesSplit = explode(' ', $coordinates);
         if(count($coordinatesSplit) !== 5) return;
 
@@ -184,8 +187,11 @@ class WikimapiaService {
         $imageElement = $crawler->filter('#place-photos a');
         if($imageElement->count() > 0) $item->setImageDirect($imageElement->attr('href'));
     
-        $country = $crawler->filter('#placeinfo-locationtree a')->text();
-        $this->locationService->addCountryDirect($item, $country);
+        $countryElement = $crawler->filter('#placeinfo-locationtree a');
+        if($countryElement->count() > 0) {
+            $country = $countryElement->text();
+            $this->locationService->addCountryDirect($item, $country);
+        }
 
         $this->locationRepository->add($item);
     }
