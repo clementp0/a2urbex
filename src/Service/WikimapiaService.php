@@ -165,9 +165,11 @@ class WikimapiaService {
         $crawler = new Crawler();
         $crawler->addHtmlContent($response);
         
-        $coordinatesElement = $crawler->filter('#comments')->previousAll();
+        $commentsElement = $crawler->filter('#comments');
+        if($commentsElement->count() === 0) return;
+        $coordinatesElement = $commentsElement->previousAll();
         if($coordinatesElement->count() === 0) return;
-        
+
         $coordinates = $coordinatesElement->text();
         $coordinatesSplit = explode(' ', $coordinates);
         if(count($coordinatesSplit) !== 5) return;
