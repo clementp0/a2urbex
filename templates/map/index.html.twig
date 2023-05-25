@@ -21,7 +21,7 @@
             <a class="pin-map" target="blank" data-url="https://www.google.com/maps?t=k&q="><i class="fa-solid fa-earth-europe"></i></a>
             {% if app.user %}
             {% if 'ROLE_ADMIN' in app.user.roles %}
-                <a class="pin-conf" target="blank" data-url="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId="><i class="fa-solid fa-pen-to-square"></i></a>
+                <a class="pin-conf" target="blank" data-url="{{ path('app_location_admin', {key: '-key-'}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
             {% endif %}
             {% endif %}
         </div>

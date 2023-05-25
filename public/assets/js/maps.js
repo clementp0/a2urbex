@@ -105,7 +105,9 @@ function setMarkers(map, items) {
         ',' +
         items[key].loc.lon
       $('.map-overlay-action .pin-map').attr('href', mapsUrl)
-      let editUrl = $('.map-overlay-action .pin-conf').data('url') + items[key].loc.id
+      let editUrl = $('.map-overlay-action .pin-conf')
+        .data('url')
+        .replace('-key-', items[key].loc.lid)
       $('.map-overlay-action .pin-conf').attr('href', editUrl)
       let wazeUrl =
         $('.map-overlay-action .pin-waze').data('url') +

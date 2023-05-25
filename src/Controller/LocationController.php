@@ -173,6 +173,12 @@ class LocationController extends AppController
         ]);
     }
 
+    #[Route('/location/{key}/admin', name: 'app_location_admin')]
+    public function admin(Request $request) {
+        $id = $this->getLocationFromKey($request->get('key'), false, true);
+        return $this->redirect('/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId='.$id);
+    }
+
     #[Route('delete/{source}', name: 'delete_location_source', methods: ['GET'])]
     public function delete(ManagerRegistry $doctrine, Request $request, UploadRepository $uploadRepository): Response
     {
@@ -208,14 +214,18 @@ class LocationController extends AppController
         elseif($location->getUser() && $user->getId() === $location->getUser()->getId()) return true;
     }
 
-    private function getLocationFromKey($key, $data = false) {
+    private function getLocationFromKey($key, $data = false, $id = false) {
         $hashKey = $_ENV["HASH_KEY"];
         $locationKey = $this->hashidsService->decode($key);
         $locationId = str_replace($hashKey,'',$locationKey);
-        $location = $this->locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
+        $locationId = is_array($locationId) ? $locationId[0] : $locationId;
+
+        if($id === true) return (int)$locationId;
+
+        $location = $this->locationRepository->findById($locationId);
         
         if(!$location) return null;
-        if($data) return $location['loc'];
+        if($data == true) return $location['loc'];
         return $location;
     }
 }
