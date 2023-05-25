@@ -305,6 +305,7 @@ input[type='checkbox']:checked::before {
 }
 
 .pin-fav-list .form-check-label {
+  margin-left: 5px;
   max-width: 180px;
   overflow: hidden;
   white-space: nowrap;
