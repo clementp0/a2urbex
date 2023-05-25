@@ -119,11 +119,7 @@ class LocationController extends AppController
     #[Route('location/{key}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, PaginatorInterface $paginator): Response
     {
-        $hashKey = $_ENV["HASH_KEY"];
-        $locationKey = $this->hashidsService->decode($request->get('key'));
-        $locationId = str_replace($hashKey,'',$locationKey);
-        $locationData = $this->locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
-        $location = $locationData["loc"];
+        $location = $this->getLocationFromKey($request->get('key'), true);
 
         $form = $this->createForm(LocationType::class, $location);
         $form->handleRequest($request);
@@ -159,11 +155,7 @@ class LocationController extends AppController
     #[Route('/location/{key}/delete', name: 'app_location_delete', methods: ['POST'])]
     public function delete_location(Request $request): Response
     {
-        $hashKey = $_ENV["HASH_KEY"];
-        $locationKey = $this->hashidsService->decode($request->get('key'));
-        $locationId = str_replace($hashKey,'',$locationKey);
-        $locationData = $this->locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
-        $location = $locationData["loc"];
+        $location = $this->getLocationFromKey($request->get('key'), true);
 
         if($this->isOwned($location) && $this->isCsrfTokenValid('delete'.$location->getId(), $request->request->get('_token'))) {
             $this->locationRepository->remove($location);
@@ -175,10 +167,7 @@ class LocationController extends AppController
     #[Route('location/{key}', name: 'app_location_show', methods: ['GET'])]
     public function show(Request $request): Response
     {
-        $hashKey = $_ENV["HASH_KEY"];
-        $locationKey = $this->hashidsService->decode($request->get('key'));
-        $locationId = str_replace($hashKey,'',$locationKey);
-        $location = $this->locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
+        $location = $this->getLocationFromKey($request->get('key'));
         return $this->render('location/show.html.twig', [
             'item' => $location,
         ]);
@@ -217,5 +206,16 @@ class LocationController extends AppController
         if(!$user) return false;
         elseif($user->hasRole('ROLE_ADMIN')) return true;
         elseif($location->getUser() && $user->getId() === $location->getUser()->getId()) return true;
+    }
+
+    private function getLocationFromKey($key, $data = false) {
+        $hashKey = $_ENV["HASH_KEY"];
+        $locationKey = $this->hashidsService->decode($key);
+        $locationId = str_replace($hashKey,'',$locationKey);
+        $location = $this->locationRepository->findById(is_array($locationId) ? $locationId[0] : $locationId);
+        
+        if(!$location) return null;
+        if($data) return $location['loc'];
+        return $location;
     }
 }
