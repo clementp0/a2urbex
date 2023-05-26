@@ -48,7 +48,6 @@ $(() => {
     const fileName = $('#new_location_image').val()
     const fileExtension = fileName.split('.').pop().toLowerCase()
 
-    console.log(fileName, fileExtension)
     event.preventDefault()
 
     if (fileName.length && !['jpg', 'jpeg', 'png'].includes(fileExtension)) {

@@ -12,8 +12,4 @@ import './js/components/coord'
 import './js/components/chat'
 import './js/components/location'
 
-console.log('js webpack')
-
-$(() => {
-  console.log('jquery loaded')
-})
+$(() => {})
