@@ -1,0 +1,211 @@
+.pin-open-search {
+  cursor: pointer;
+  font-size: 17px;
+  width: 1.25em;
+  opacity: 0.5;
+  color: #e5e5e5;
+  position: fixed;
+  top: 10px;
+  z-index: 1049;
+  left: 11px;
+  display: none;
+}
+
+.pin-search-wrapper {
+  height: calc(100% - 44px);
+  position: fixed;
+  top: 44px;
+  left: 0px;
+
+  .pin-search {
+    position: relative;
+    height: 100%;
+    overflow-y: scroll;
+    padding: 20px;
+    border-right: 1px solid #303030;
+    background-color: #303030c9;
+    backdrop-filter: blur(21px);
+    -webkit-backdrop-filter: blur(21px);
+    width: 250px;
+    font-size: 0.875rem;
+    font-weight: 500;
+
+    &::-webkit-scrollbar {
+      width: 16px;
+    }
+    &::-webkit-scrollbar-track {
+      background: unset;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-color: #232323;
+    }
+
+    .btn-info {
+      background-color: #404040;
+    }
+
+    legend {
+      color: #60a5fa;
+      background-color: #404040;
+      border-radius: 5px;
+      padding-left: 10px;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    i {
+      margin-right: 7px;
+    }
+
+    #string {
+      color: white;
+      margin: auto auto 20px;
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid #ffffff24;
+      font-size: 12px;
+      height: 40px;
+      border-radius: 0;
+
+      &:focus {
+        color: #6d6d6d;
+        margin: auto auto 20px;
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid #ffffff24;
+        font-size: 12px;
+        height: 40px;
+        border-radius: 0;
+      }
+    }
+
+    .form-check-label {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 170px;
+      vertical-align: bottom;
+    }
+
+    fieldset.form-group {
+      & > legend {
+        cursor: pointer;
+      }
+      & > div {
+        max-height: 0;
+        overflow: hidden;
+        transition: all 1s;
+      }
+    }
+
+    .pin-search-reset {
+      float: right;
+      width: 20%;
+      margin-left: 5%;
+      font-size: 18px;
+      line-height: 40px;
+      height: 40px;
+      color: #6d6d6d;
+      text-align: center;
+
+      &:hover {
+        color: #a2a2a2;
+        transition: 0.5s;
+      }
+    }
+
+    .pin-filter-btn {
+      margin: auto;
+      width: 75%;
+      height: 40px;
+      border: none;
+      background-color: #222222;
+      color: #a2a2a2;
+      border-radius: 0;
+      float: left;
+
+      &:hover {
+        background-color: #1d1c1c;
+        color: #a2a2a2;
+        transition: 0.5s;
+      }
+    }
+
+    .pin-results {
+      padding-top: 50px;
+      width: 100%;
+      border-bottom: 1px solid #585858;
+      padding-bottom: 30px;
+    }
+
+    .online_section {
+      .online_title {
+        color: #60a5fa;
+        background-color: #404040;
+        border-radius: 5px;
+        line-height: 1;
+        margin-bottom: 10px;
+        padding: 1px;
+        padding-left: 8px;
+        padding-top: calc(0.375rem + 1px);
+        padding-bottom: calc(0.375rem + 1px);
+      }
+
+      .online {
+        min-height: 25px;
+        background-color: #262626;
+        padding: 5px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+
+        span.ago {
+          font-size: 10px;
+        }
+
+        span.user_id_in_name {
+          font-size: 13px;
+          color: #a2a2a2;
+          font-weight: 300;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .pin-open-search {
+    display: block;
+  }
+
+  .pin-search-wrapper {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    transition: 0.5s;
+    visibility: hidden;
+    opacity: 1;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0px;
+    z-index: 1050;
+
+    .pin-search {
+      left: -250px;
+      transition: all 0.5s;
+    }
+  }
+
+  .pin-wrapper.menu-open .pin-search-wrapper {
+    visibility: visible;
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.6);
+
+    .pin-search {
+      transform: translateX(100%);
+    }
+  }
+
+  .pin-wrapper-inner {
+    margin-left: 0;
+  }
+}
