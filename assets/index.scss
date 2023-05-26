@@ -1,4 +1,5 @@
 @import 'scss/app';
+
 @import 'scss/favorite';
 @import 'scss/maps';
 @import 'scss/location';
@@ -6,6 +7,7 @@
 @import 'scss/home';
 @import 'scss/account';
 @import 'scss/contact';
-@import 'scss/chat';
 @import 'scss/notfound';
-@import 'scss/sidebar';
+
+@import 'scss/components/chat';
+@import 'scss/components/sidebar';
