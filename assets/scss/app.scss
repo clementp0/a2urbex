@@ -1121,6 +1121,205 @@ button:focus {
   margin-left: 6px;
 }
 
+.contact_desktop {
+  display: block;
+  right: 10px;
+  position: absolute;
+}
+.contact_mobile {
+  display: none;
+  margin-left: 5px;
+}
+.login_register {
+  background-color: #007bff;
+  font-size: 13px;
+  padding: 3px 10px;
+  border-radius: 40px;
+  transition: background-color 0.5s ease;
+  color: white;
+}
+.login_register:hover {
+  background-color: #0f5fb4;
+  transition: background-color 0.5s ease;
+  color: white;
+}
+
+.approval {
+  color: white;
+  background-color: #007bff;
+  z-index: 2;
+  position: relative;
+  width: 98vw;
+  border-radius: 5px;
+  text-align: center;
+  padding: 3px;
+  margin-left: -10px;
+}
+.approval a {
+  color: white;
+  font-weight: 700;
+}
+.approval a:hover {
+  color: white;
+}
+
+.logo a {
+  color: #d4d4d4;
+}
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #d4d4d4;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+body {
+  min-height: 100vh;
+  position: relative;
+}
+iframe {
+  margin: auto;
+  text-align: center;
+  width: 100vw;
+  height: 50vh;
+}
+
+footer {
+  padding: 10px;
+  font-size: 0.895rem;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  text-align: center;
+  width: 100%;
+  justify-content: center;
+  box-shadow: inset 0 1px 0 #525252;
+  background-color: #222222;
+}
+
+footer a {
+  color: #acacac;
+}
+
+.settings {
+  position: relative;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: transparent;
+  border: none;
+  color: #adadad;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+}
+.dropbtn > i {
+  padding: 7px;
+  margin-right: 5px;
+  background-color: #404040;
+  color: #737373;
+  border-radius: 4px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  min-width: 190px;
+  right: 0;
+  background-color: #303030;
+  border: #525252 1px solid;
+  border-radius: 6px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  color: #d4d4d4;
+}
+
+.menu_header {
+  display: flex;
+  padding: 7px;
+  border-bottom: #525252 1px solid;
+}
+.menu_header > div > i {
+  padding: 10px;
+  background-color: #404040;
+  color: #737373;
+  margin: 5px;
+  border-radius: 4px;
+}
+.menu_data {
+  font-size: 15px;
+  text-align: left;
+}
+.menu_data > p {
+  margin: 5px 0 0;
+  font-size: 10px;
+  color: gray;
+}
+
+a.menu_logout {
+  border-top: #525252 1px solid;
+}
+
+.dropdown-content a {
+  text-align: left;
+  color: #d4d4d4;
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.2s ease-out;
+}
+
+.dropdown-content > a > i {
+  margin-right: 5px;
+}
+
+.dropdown-content a:hover {
+  background-color: #222222;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  -webkit-transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+@media (max-width: 768px) {
+  .contact_desktop {
+    display: none;
+  }
+  .contact_mobile {
+    display: block;
+  }
+  .dropdown {
+    display: block;
+  }
+  .dropdown-content {
+    position: static;
+    display: none;
+  }
+  .dropdown-content a {
+    display: block;
+    padding: 10px 20px;
+  }
+  .dropdown:hover .dropdown-content {
+    display: block;
+    -webkit-transition: none;
+    transition: none;
+  }
+}
+
 .custom-scroll {
   /* width */
   &::-webkit-scrollbar {
