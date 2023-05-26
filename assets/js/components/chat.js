@@ -3,7 +3,7 @@ $(() => {
   const messenger = document.querySelector('.messenger')
   const messengerIcon = document.querySelector('.messenger_icon')
 
-  if (messenger.length) {
+  if (messenger && messenger.length) {
     // Add click event listener to messenger_icon
     messengerIcon.addEventListener('click', function () {
       // Show the messenger with animation
