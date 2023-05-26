@@ -4,7 +4,6 @@ import $ from 'jquery'
 import './js/notifications'
 import './js/registersw'
 
-import './js/app'
 import './js/components/sidebar'
 import './js/components/favorite'
 import './js/components/maps'
