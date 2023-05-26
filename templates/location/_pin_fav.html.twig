@@ -1,21 +1,27 @@
 {% if app.user %}
-    <div class="pin-fav-wrapper" data-id="{{ item is defined ? key | hashids_encode : null }}" data-fids="{{ item is defined ? item.fids : null }}" data-url="{{ path('app_favorite_item_toggle') }}">
-        <a class="pin-fav pin-fav2" href="{{ path('app_favorite_user') }}"><i class="{{ item is defined and item.fids ? 'fa-solid' : 'fa-regular' }} fa-heart"></i></a>
-        <div class="pin-fav-add">
-            <div class="pin-fav-add-top">
-                <p>Save to...</p>
-                <a href="#" class="pin-fav-add-close"><i class="fa-solid fa-xmark"></i></a>
-            </div>
-            <div class="pin-fav-list">
-                
-            </div>
-            <div class="pin-fav-add-new-wrapper">
-                <a href="#" class="pin-fav-add-new"><i class="fa-solid fa-plus"></i> Create new list</a>
-                <div class="pin-fav-add-new-field">
-                    <input type="text" class="pin-fav-add-new-input" autocomplete="off">
-                    <a href="#" class="pin-fav-add-new-confirm"><i class="fa-solid fa-check"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="pin-fav-wrapper" data-id="{{ item is defined ? key | hashids_encode : null }}" data-fids="{{ item is defined ? item.fids : null }}" data-url="{{ path('app_favorite_item_toggle') }}">
+		<a class="pin-fav" href="{{ path('app_favorite_user') }}">
+			<i class="{{ item is defined and item.fids ? 'fa-solid' : 'fa-regular' }} fa-heart"></i>
+		</a>
+		<div class="pin-fav-add custom-scroll">
+			<div class="pin-fav-add-top">
+				<p>Save to...</p>
+				<a href="#" class="pin-fav-add-close">
+					<i class="fa-solid fa-xmark"></i>
+				</a>
+			</div>
+			<div class="pin-fav-list"></div>
+			<div class="pin-fav-add-new-wrapper">
+				<a href="#" class="pin-fav-add-new">
+					<i class="fa-solid fa-plus"></i>
+					Create new list</a>
+				<div class="pin-fav-add-new-field">
+					<input type="text" class="pin-fav-add-new-input" autocomplete="off">
+					<a href="#" class="pin-fav-add-new-confirm">
+						<i class="fa-solid fa-check"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endif %}
