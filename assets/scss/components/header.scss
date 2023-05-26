@@ -1,0 +1,188 @@
+.navbar {
+  .navbar-collapse {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 500;
+    font-size: 0.875rem;
+
+    a {
+      color: #d4d4d4;
+    }
+  }
+
+  .filter {
+    display: none;
+  }
+  .discord_desktop > a {
+    color: #c2c2c2;
+  }
+  .discord_mobile {
+    display: none !important;
+  }
+
+  .settings {
+    position: relative;
+
+    & > a {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    & > p {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+
+      &:hover .dropdown-content {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+        -webkit-transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+        transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+      }
+
+      .dropbtn {
+        background-color: transparent;
+        border: none;
+        color: #adadad;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 0;
+
+        & > i {
+          padding: 7px;
+          margin-right: 5px;
+          background-color: #404040;
+          color: #737373;
+          border-radius: 4px;
+        }
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        z-index: 1;
+        top: 100%;
+        min-width: 190px;
+        right: 0;
+        background-color: #303030;
+        border: #525252 1px solid;
+        border-radius: 6px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+        color: #d4d4d4;
+
+        a {
+          text-align: left;
+          color: #d4d4d4;
+          display: block;
+          padding: 8px 16px;
+          text-decoration: none;
+          font-size: 14px;
+          transition: background-color 0.2s ease-out;
+
+          & > i {
+            margin-right: 5px;
+          }
+
+          &:hover {
+            background-color: #222222;
+          }
+        }
+
+        .menu_header {
+          display: flex;
+          padding: 7px;
+          border-bottom: #525252 1px solid;
+
+          & > div > i {
+            padding: 10px;
+            background-color: #404040;
+            color: #737373;
+            margin: 5px;
+            border-radius: 4px;
+          }
+        }
+        .menu_data {
+          font-size: 15px;
+          text-align: left;
+
+          & > p {
+            margin: 5px 0 0;
+            font-size: 10px;
+            color: gray;
+          }
+        }
+
+        a.menu_logout {
+          border-top: #525252 1px solid;
+        }
+      }
+    }
+  }
+
+  .login_register {
+    background-color: #007bff;
+    font-size: 13px;
+    padding: 3px 10px;
+    border-radius: 40px;
+    transition: background-color 0.5s ease;
+    color: white;
+
+    &:hover {
+      background-color: #0f5fb4;
+      transition: background-color 0.5s ease;
+      color: white;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    .discord_desktop {
+      display: none;
+    }
+    .discord_mobile {
+      display: block !important;
+    }
+    .filter {
+      display: block;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contact_desktop {
+      display: none;
+    }
+    .contact_mobile {
+      display: block;
+    }
+    .dropdown {
+      display: block;
+
+      &:hover .dropdown-content {
+        display: block;
+        -webkit-transition: none;
+        transition: none;
+      }
+
+      .dropdown-content {
+        position: static;
+        display: none;
+
+        a {
+          display: block;
+          padding: 10px 20px;
+        }
+      }
+    }
+  }
+}

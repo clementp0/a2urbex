@@ -41,15 +41,6 @@ i.fa-solid.fa-heart {
   padding: 8px 15px;
 }
 
-.settings > a {
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-.settings > p {
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
 i.fa-brands.fa-waze {
   font-weight: 700;
   font-size: 1.1em;
@@ -57,29 +48,6 @@ i.fa-brands.fa-waze {
 
 .waze {
   margin-right: 5px;
-}
-
-.logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #d4d4d4;
-  font-weight: 500;
-  font-size: 0.875rem;
-}
-.navbar-collapse {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-p#clear-cache-button {
-  color: #a2a2a2;
-}
-p#clear-cache-button:hover {
-  color: #60a5fa;
-  cursor: pointer;
 }
 
 .custom-file {
@@ -317,27 +285,6 @@ p.pin-type .pin-type-text {
 }
 .pin-page-title {
   margin-bottom: 10px !important;
-}
-.discord_desktop > a {
-  color: #c2c2c2;
-}
-.discord_mobile {
-  display: none !important;
-}
-.filter {
-  display: none;
-}
-
-@media screen and (max-width: 1024px) {
-  .discord_desktop {
-    display: none;
-  }
-  .discord_mobile {
-    display: block !important;
-  }
-  .filter {
-    display: block;
-  }
 }
 
 .upload-form-item .custom-file {
@@ -705,19 +652,6 @@ button:focus {
   color: white;
 }
 
-.logo a {
-  color: #d4d4d4;
-}
-.logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #d4d4d4;
-  font-weight: 500;
-  font-size: 0.875rem;
-}
-
 body {
   min-height: 100vh;
   position: relative;
@@ -744,122 +678,6 @@ footer {
 
 footer a {
   color: #acacac;
-}
-
-.settings {
-  position: relative;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropbtn {
-  background-color: transparent;
-  border: none;
-  color: #adadad;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 0;
-}
-.dropbtn > i {
-  padding: 7px;
-  margin-right: 5px;
-  background-color: #404040;
-  color: #737373;
-  border-radius: 4px;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  z-index: 1;
-  top: 100%;
-  min-width: 190px;
-  right: 0;
-  background-color: #303030;
-  border: #525252 1px solid;
-  border-radius: 6px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
-  color: #d4d4d4;
-}
-
-.menu_header {
-  display: flex;
-  padding: 7px;
-  border-bottom: #525252 1px solid;
-}
-.menu_header > div > i {
-  padding: 10px;
-  background-color: #404040;
-  color: #737373;
-  margin: 5px;
-  border-radius: 4px;
-}
-.menu_data {
-  font-size: 15px;
-  text-align: left;
-}
-.menu_data > p {
-  margin: 5px 0 0;
-  font-size: 10px;
-  color: gray;
-}
-
-a.menu_logout {
-  border-top: #525252 1px solid;
-}
-
-.dropdown-content a {
-  text-align: left;
-  color: #d4d4d4;
-  display: block;
-  padding: 8px 16px;
-  text-decoration: none;
-  font-size: 14px;
-  transition: background-color 0.2s ease-out;
-}
-
-.dropdown-content > a > i {
-  margin-right: 5px;
-}
-
-.dropdown-content a:hover {
-  background-color: #222222;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-  -webkit-transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-}
-
-@media (max-width: 768px) {
-  .contact_desktop {
-    display: none;
-  }
-  .contact_mobile {
-    display: block;
-  }
-  .dropdown {
-    display: block;
-  }
-  .dropdown-content {
-    position: static;
-    display: none;
-  }
-  .dropdown-content a {
-    display: block;
-    padding: 10px 20px;
-  }
-  .dropdown:hover .dropdown-content {
-    display: block;
-    -webkit-transition: none;
-    transition: none;
-  }
 }
 
 .custom-scroll {
