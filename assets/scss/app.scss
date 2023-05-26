@@ -1150,8 +1150,7 @@ button:focus {
   margin-left: 6px;
 }
 
-.custom-scroll,
-#map-overlay {
+.custom-scroll {
   /* width */
   &::-webkit-scrollbar {
     width: 10px;
