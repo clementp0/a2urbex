@@ -45,6 +45,16 @@ footer {
   a {
     color: #acacac;
   }
+
+  .contact_desktop {
+    display: block;
+    right: 10px;
+    position: absolute;
+  }
+  .contact_mobile {
+    display: none;
+    margin-left: 5px;
+  }
 }
 
 #disabled {
@@ -104,472 +114,9 @@ input[type='checkbox']:checked::before {
   background-color: #60a5fa;
 }
 
-.custom-file {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 0;
+button:focus {
+  outline: unset;
 }
-.custom-file-label {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 1;
-  padding: 0.375rem 0.75rem;
-  border-radius: 0;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #303030;
-  border: 1px solid #404040;
-  height: 63px;
-}
-.custom-file-input {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: calc(1.5em + 0.75rem + 2px);
-  margin: 0;
-  opacity: 0;
-}
-
-.pin-container {
-  display: block;
-  width: 270px;
-  border: 1px solid #404040;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 4px;
-  height: fit-content;
-}
-.pin-top-container a:hover {
-  text-decoration: none;
-}
-
-.pin-top-container {
-  position: relative;
-}
-
-.pin-warning {
-  margin: 0;
-  margin-top: 10px;
-  text-align: center;
-  background-color: #303030;
-  border-radius: 4px;
-  color: #883131;
-  padding: 0px 10px 0px 10px;
-}
-
-.pin-done {
-  margin: 0;
-  margin-top: 10px;
-  text-align: center;
-  background-color: #303030;
-  border-radius: 4px;
-  padding: 0px 10px 0px 10px;
-}
-
-.pin-info-icon {
-  margin-right: 10px;
-}
-
-.private-list {
-  text-align: center;
-  margin: 10px;
-}
-
-.pin-img {
-  width: 100%;
-  height: 200px;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  margin-bottom: 10px;
-}
-
-.pin-bottom-container {
-  height: 24px;
-  display: flex;
-}
-.pin-id {
-  margin: auto;
-  font-size: 10px;
-  color: #8d8d8d;
-}
-
-.pin-user {
-  border-top-right-radius: 7px;
-  border-right: 1px solid #ffffff59;
-  padding-right: 10px;
-  padding-top: 2px;
-}
-
-.pin-edit {
-  width: fit-content;
-  float: right;
-  border-top-left-radius: 7px;
-  border-left: 1px solid #ff000059;
-  padding-left: 10px;
-  display: flex;
-}
-.pin-title {
-  font-size: 13px;
-  padding-top: 10px;
-}
-.pin-pagination {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  margin-top: 20px;
-}
-.pin-pagination .pagination > span {
-  padding: 0 5px;
-}
-.pin-pagination .pagination > span a {
-  color: #999;
-}
-
-.pin-box {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  justify-items: center;
-  align-content: space-evenly;
-}
-
-.pin-wrapper-inner {
-  margin-left: 250px;
-  padding: 20px;
-}
-
-.pin-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px 10px;
-}
-.pin-page-img {
-  position: relative;
-  min-width: 150px;
-  min-height: 150px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #303030;
-}
-.pin-page-img img {
-  max-width: 100%;
-}
-.pin-page .pin-page-title {
-  margin: 0;
-  margin-top: 10px;
-  text-align: center;
-}
-.pin-page .pin-action {
-  margin-top: 5px;
-  display: flex;
-  justify-content: center;
-}
-.pin-page .pin-action a {
-  margin: 0 8px;
-  font-size: 20px;
-}
-
-p.pin-type {
-  background-color: #303030;
-  color: #60a5fa;
-  border-radius: 5px;
-  text-align: center;
-  padding: 0px 5px 0px 5px;
-  width: fit-content;
-  font-size: 0.835rem;
-  margin: auto;
-  text-align: center;
-}
-p.pin-type .pin-type-text {
-  text-transform: capitalize;
-}
-
-.pin-page-img {
-  margin-bottom: 10px;
-}
-.pin-page-title {
-  margin-bottom: 10px !important;
-}
-
-.upload-form-item .custom-file {
-  margin-top: 30px;
-  max-width: 80%;
-}
-.import-form {
-  text-align: center;
-  font-weight: 500;
-  width: 300px;
-  height: fit-content;
-  border: 1px solid #404040;
-  background-color: #303030;
-  padding: 50px 11px 50px 11px;
-  border-radius: 5px;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.custom-file-label::after {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 3;
-  display: block;
-  content: 'Browse (JPG, JPEG, PNG file)';
-  width: calc(100% - 90px);
-  background-color: #303030;
-  border: 1px solid #404040;
-  border-radius: 0px;
-  font-weight: 400;
-  line-height: 2;
-  color: #495057;
-  font-size: 12px !important;
-  height: 100%;
-  padding-top: 17px;
-}
-
-.custom-file-label {
-  border-radius: 0;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #303030;
-  border: 1px solid #404040;
-  height: 63px;
-}
-
-.import-btn {
-  margin: auto !important;
-  width: 80% !important;
-  height: 40px !important;
-  border: none !important;
-  background-color: #222222 !important;
-  color: #a2a2a2 !important;
-  border-radius: 0px !important;
-}
-
-a#new-filter {
-  position: fixed;
-  bottom: 110px;
-  right: 25px;
-  background-color: #60a5fa;
-  color: #222222;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  font-size: 20px;
-}
-
-div.my_locations {
-  margin-left: 40px;
-  width: 50%;
-}
-.title_location {
-  min-width: 160px;
-  width: 50%;
-  color: #60a5fa;
-  background-color: #404040;
-  border-radius: 5px;
-  line-height: 1;
-  margin-bottom: 10px;
-  padding: calc(0.375rem + 1px) 8px;
-}
-.personal_locations {
-  display: flex;
-  justify-content: space-around;
-  padding: 20px;
-}
-
-#new_location {
-  text-align: center;
-  font-weight: 500;
-  border: 1px solid #404040;
-  background-color: #303030;
-  border-radius: 5px;
-  padding: 20px;
-  min-width: 550px;
-}
-
-#new_location > .form-group > label {
-  color: #60a5fa;
-  width: fit-content;
-  background-color: #404040;
-  font-size: 14px;
-  border-radius: 5px;
-  line-height: 1;
-  margin: auto;
-  padding: calc(0.375rem + 1px) 8px;
-  text-align: left;
-  width: 80%;
-}
-
-#new_location > .form-group > input::placeholder {
-  color: #6d6d6d;
-}
-
-#new_location > .form-group > select::placeholder {
-  color: #6d6d6d;
-}
-
-#new_location > .form-group > input {
-  color: white;
-  margin: auto auto 20px;
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid #ffffff24;
-  width: 80%;
-  font-size: 12px;
-  height: 40px;
-  border-radius: 0;
-  padding: 0.375rem 0.75rem;
-}
-#new_location > .form-group > select {
-  color: white;
-  background-color: #303030;
-  margin: auto auto 20px;
-  border: none;
-  border-bottom: 1px solid #ffffff24;
-  width: 80%;
-  font-size: 12px;
-  height: 40px;
-  border-radius: 0;
-  padding: 0.375rem 0.75rem;
-}
-
-#new_location > .form-group > .custom-file {
-  width: 80%;
-}
-
-#new_location_submit {
-  border-radius: 2px;
-  margin: auto;
-  width: 80%;
-  height: 40px;
-  border: none;
-  background-color: #222222;
-  color: #a2a2a2;
-}
-#location {
-  min-width: 550px;
-  text-align: center;
-  font-weight: 500;
-  border: 1px solid #404040;
-  background-color: #303030;
-  border-radius: 5px;
-  padding: 20px;
-}
-
-#location > .form-group > label {
-  color: #60a5fa;
-  width: fit-content;
-  background-color: #404040;
-  font-size: 14px;
-  border-radius: 5px;
-  line-height: 1;
-  margin: auto;
-  padding: calc(0.375rem + 1px) 8px;
-  text-align: left;
-  width: 80%;
-}
-
-#location > .form-group > input::placeholder {
-  color: #6d6d6d;
-}
-
-#location > .form-group > select::placeholder {
-  color: #6d6d6d;
-}
-
-#location > .form-group > input {
-  color: white;
-  margin: auto auto 20px;
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid #ffffff24;
-  width: 80%;
-  font-size: 12px;
-  height: 40px;
-  border-radius: 0;
-  padding: 0.375rem 0.75rem;
-}
-#location > .form-group > select {
-  color: white;
-  margin: auto auto 20px;
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid #ffffff24;
-  width: 80%;
-  font-size: 12px;
-  height: 40px;
-  border-radius: 0;
-  padding: 0.375rem 0.75rem;
-}
-
-#location > .form-group > .custom-file {
-  width: 80%;
-}
-
-#location_submit {
-  border-radius: 2px;
-  margin: auto;
-  width: 80%;
-  height: 40px;
-  border: none;
-  background-color: #222222;
-  color: #a2a2a2;
-}
-.coordinates {
-  border-radius: 2px;
-  margin: auto;
-  display: inherit;
-  width: 80%;
-  height: 40px;
-  padding: 8px;
-  border: none;
-  background-color: #3e3d3d;
-  color: #a2a2a2;
-}
-
-@media screen and (max-width: 880px) {
-  #fileSize {
-    font-size: 10px;
-    padding-top: 3px;
-  }
-  .custom-file-label::after {
-    padding-top: 5px;
-  }
-  .personal_locations {
-    display: block;
-  }
-
-  div.my_locations {
-    width: 100%;
-    margin: auto;
-    margin-top: 30px;
-  }
-  .title_location {
-    width: 100%;
-  }
-
-  #location {
-    min-width: 250px;
-  }
-  #new_location {
-    min-width: 250px;
-  }
-}
-
 button.btn.delete {
   color: #8d8d8d;
   width: 18px;
@@ -577,57 +124,10 @@ button.btn.delete {
   padding: 0px;
   margin-left: 6px;
   margin-bottom: 4px;
-}
-button.btn.delete:hover {
-  color: #5e9eee;
-}
 
-button:focus {
-  outline: unset;
-}
-
-.custom-file {
-  height: 70px;
-}
-
-#image-preview {
-  background-image: url('./img/default.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 62px;
-  z-index: 20;
-  position: absolute;
-  left: -1px;
-  bottom: -1px;
-  border: 2px solid #404040;
-  width: 90px;
-  position: absolute;
-  z-index: 20;
-  bottom: 0px;
-  left: 0px;
-}
-.custom-file-label:hover {
-  cursor: pointer;
-}
-.custom-file-label label.image-label-placeholder {
-  display: flex;
-}
-#fileSize {
-  color: #ffffff61;
-  margin: 0;
-  font-weight: 400;
-  margin-left: 6px;
-}
-
-.contact_desktop {
-  display: block;
-  right: 10px;
-  position: absolute;
-}
-.contact_mobile {
-  display: none;
-  margin-left: 5px;
+  &:hover {
+    color: #5e9eee;
+  }
 }
 
 .custom-scroll {
@@ -652,4 +152,42 @@ button:focus {
   &::-webkit-scrollbar-thumb:hover {
     background: #999;
   }
+}
+
+@media (max-width: 768px) {
+  footer {
+    .contact_desktop {
+      display: none;
+    }
+    .contact_mobile {
+      display: block;
+    }
+  }
+}
+
+// import Kml File page
+.import-form {
+  text-align: center;
+  font-weight: 500;
+  width: 300px;
+  height: fit-content;
+  border: 1px solid #404040;
+  background-color: #303030;
+  padding: 50px 11px 50px 11px;
+  border-radius: 5px;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.import-btn {
+  margin: auto !important;
+  width: 80% !important;
+  height: 40px !important;
+  border: none !important;
+  background-color: #222222 !important;
+  color: #a2a2a2 !important;
+  border-radius: 0px !important;
 }
