@@ -132,7 +132,20 @@ $(() => {
   $('.fav-item-share-link').on('click', function (e) {
     if (!confirm('Change list permission')) e.preventDefault()
   })
+
   $('.fav-item-copy-link').on('click', function (e) {
-    if (!confirm('Copy list link')) e.preventDefault()
+    e.preventDefault()
+    if (confirm('Copy list link')) {
+      const copyText = $(this).attr('href')
+      document.addEventListener(
+        'copy',
+        function (e) {
+          e.clipboardData.setData('text/plain', copyText)
+          e.preventDefault()
+        },
+        true
+      )
+      document.execCommand('copy')
+    }
   })
 })
