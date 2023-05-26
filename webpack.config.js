@@ -6,7 +6,7 @@ module.exports = {
   entry: './assets/index.js',
   output: {
     path: path.resolve(__dirname, 'public/assets/build/'),
-    publicPath: 'assets/build/',
+    publicPath: '/assets/build/',
     filename: 'bundle.js',
   },
   mode: 'development',
@@ -32,18 +32,6 @@ module.exports = {
             loader: 'sass-loader',
             options: {
               implementation: require('sass'),
-            },
-          },
-        ],
-      },
-      {
-        // Now we apply rule for images
-        test: /\.(png|jpe?g|gif|svg)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              outputPath: 'img',
             },
           },
         ],
