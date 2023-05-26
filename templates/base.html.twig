@@ -65,10 +65,10 @@
 
 									</a>
 									{# <a href="{{ path('app_general_chat') }}">
-																																																							<i class="fa-solid fa-comment"></i>
-																																																							General Chat
-																																													
-																																																						</a> #}
+																																																																									<i class="fa-solid fa-comment"></i>
+																																																																									General Chat
+																																																															
+																																																																								</a> #}
 									<a href="" id="clear-cache-button">
 										<i class="fa-solid fa-rotate-right"></i>
 										Refresh
@@ -112,7 +112,7 @@
 			</div>
 		</nav>
 	</header>
-	<body>
+	<body {% if app.request.attributes.get('_route') is defined %} id="{{ app.request.attributes.get('_route') }}" {% endif %}>
 		<footer>
 			<div class="love">Your Exploration Co-Pilot.</div>
 			<a class="contact_desktop" href="{{ path('app_reach_us') }}">Contact</a>
