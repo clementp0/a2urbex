@@ -61,6 +61,7 @@ i.fa-solid.fa-robot {
 }
 body a {
   color: #8d8d8d;
+  text-decoration: none;
 }
 body a:hover {
   color: #60a5fa;
@@ -204,8 +205,48 @@ p#clear-cache-button:hover {
   border-radius: 0;
 }
 
+.custom-file {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0;
+}
+.custom-file-label {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #303030;
+  border: 1px solid #404040;
+  height: 63px;
+}
+.custom-file-input {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  margin: 0;
+  opacity: 0;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-check {
+  margin-bottom: 0;
+  min-height: unset;
+}
 input[type='checkbox'] {
   position: relative;
+  border-radius: 0;
+  float: unset;
+  background-color: unset;
+  border: unset;
 }
 input[type='checkbox']::before {
   content: '';
@@ -736,6 +777,13 @@ p.pin-type .pin-type-text {
   transform: translate(-50%, -50%);
 }
 .custom-file-label::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: block;
+  content: 'Browse (JPG, JPEG, PNG file)';
   width: calc(100% - 90px);
   background-color: #303030;
   border: 1px solid #404040;
@@ -1219,7 +1267,7 @@ button:focus {
 }
 
 #image-preview {
-  background-image: url(/assets/default.png);
+  background-image: url('./img/default.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -1238,7 +1286,7 @@ button:focus {
 .custom-file-label:hover {
   cursor: pointer;
 }
-label.image-label-placeholder {
+.custom-file-label label.image-label-placeholder {
   display: flex;
 }
 #fileSize {

@@ -1,4 +1,5 @@
-import './app.scss'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './index.scss'
 
 import $ from 'jquery'
 import './js/notifications'

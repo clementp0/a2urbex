@@ -2,30 +2,27 @@
 <html lang="fr">
 	<head>
 		<title>@a2urbex</title>
-
 		<link rel="icon" type="image/ico" href="{{ asset('favicon.ico') }}"/>
-		<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-		<link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
-		<link href="{{ asset('assets/css/favorite.css') }}" rel="stylesheet">
-		<link href="{{ asset('assets/css/maps.css') }}" rel="stylesheet">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<meta name="apple-mobile-web-app-status-bar-style" content="default">
 
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 		<link rel="manifest" href="../manifest.json">
-
 		<link href="{{ asset('assets/build/bundle.css') }}" rel="stylesheet">
 		<script src="{{ asset('assets/build/bundle.js') }}"></script>
-
 	</head>
 	<header>
 		<nav class="navbar navbar-expend-md navbar-dark fixed-top">
 			<div class="navbar-collapse" id="navbarCollapse">
 				<div class="filter"></div>
-				<div class="discord_desktop"><a href="https://discord.com/invite/MDbDPJqxZV" target="_blank"><i class="fa-brands fa-discord"></i></a></div>
+				<div class="discord_desktop">
+					<a href="https://discord.com/invite/MDbDPJqxZV" target="_blank">
+						<i class="fa-brands fa-discord"></i>
+					</a>
+				</div>
 				<div class="logo">
 					<a {% if app.user %} href="/locations" {% else %} href="/" {% endif %}>
 						<i class="fas fa-globe-europe"></i>a2urbex</a>
@@ -68,16 +65,18 @@
 
 									</a>
 									{# <a href="{{ path('app_general_chat') }}">
-										<i class="fa-solid fa-comment"></i>
-										General Chat
-
-									</a> #}
+																																																							<i class="fa-solid fa-comment"></i>
+																																																							General Chat
+																																													
+																																																						</a> #}
 									<a href="" id="clear-cache-button">
 										<i class="fa-solid fa-rotate-right"></i>
 										Refresh
 
 									</a>
-									<a class="discord_mobile" href="https://discord.com/invite/MDbDPJqxZV" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>
+									<a class="discord_mobile" href="https://discord.com/invite/MDbDPJqxZV" target="_blank">
+										<i class="fa-brands fa-discord"></i>
+										Discord</a>
 
 									{% if 'ROLE_ADMIN' in app.user.roles %}
 										<a href="{{ path('admin') }}">
@@ -117,33 +116,34 @@
 		<footer>
 			<div class="love">Your Exploration Co-Pilot.</div>
 			<a class="contact_desktop" href="{{ path('app_reach_us') }}">Contact</a>
-			<a class="contact_mobile" href="{{ path('app_reach_us') }}"> <i class="fa-solid fa-envelope"></i></a>
+			<a class="contact_mobile" href="{{ path('app_reach_us') }}">
+				<i class="fa-solid fa-envelope"></i>
+			</a>
 		</footer>
-		<script>
-		</script>
+		<script></script>
 		<style>
-		.contact_desktop{
-			display:block;
-			right: 10px;
-    		position: absolute;
-		}
-		.contact_mobile{
-			display:none;
-			margin-left:5px;
-		}
-		.login_register{
-    		background-color: #007bff;
-    		font-size: 13px;
-    		padding: 3px 10px 3px 10px;
-    		border-radius: 40px;
-			transition: background-color 0.5s ease;
-			color:white;
-		}
-		.login_register:hover{
-    		background-color: #0f5fb4;
-			transition: background-color 0.5s ease;
-			color:white;
-		}
+			.contact_desktop {
+				display: block;
+				right: 10px;
+				position: absolute;
+			}
+			.contact_mobile {
+				display: none;
+				margin-left: 5px;
+			}
+			.login_register {
+				background-color: #007bff;
+				font-size: 13px;
+				padding: 3px 10px;
+				border-radius: 40px;
+				transition: background-color 0.5s ease;
+				color: white;
+			}
+			.login_register:hover {
+				background-color: #0f5fb4;
+				transition: background-color 0.5s ease;
+				color: white;
+			}
 
 			.approval {
 				color: white;
@@ -223,16 +223,16 @@
 				cursor: pointer;
 				padding: 0;
 			}
-			.dropbtn > i{
-    			padding: 7px;
-    			margin-right: 5px;
+			.dropbtn > i {
+				padding: 7px;
+				margin-right: 5px;
 				background-color: #404040;
 				color: #737373;
 				border-radius: 4px;
 			}
 
 			.dropdown-content {
-				display: none; 
+				display: none;
 				position: absolute;
 				z-index: 1;
 				top: 100%;
@@ -299,11 +299,11 @@
 			}
 
 			@media(max-width: 768px) {
-				.contact_desktop{
-					display:none;
+				.contact_desktop {
+					display: none;
 				}
-				.contact_mobile{
-					display:block
+				.contact_mobile {
+					display: block
 				}
 				.dropdown {
 					display: block;
@@ -322,12 +322,11 @@
 					transition: none;
 				}
 			}
-			
 		</style>
-{% if app.user %}
-		<script>
+		{% if app.user %}
+			<script>
 
-			const clearCacheButton = document.getElementById('clear-cache-button');
+				const clearCacheButton = document.getElementById('clear-cache-button');
 clearCacheButton.addEventListener('click', async () => {
 try {
 await caches.delete('a2urbex');
@@ -337,8 +336,8 @@ location.reload(true);
 console.error('Error deleting cache:', err);
 }
 });
-		</script>
-{% endif %}
+			</script>
+		{% endif %}
 		{% block content %}{% endblock %}
 	</body>
 </html></html>
