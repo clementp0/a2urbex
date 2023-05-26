@@ -15,17 +15,17 @@
 				categories.<br><br>
 			</div>
 			<div class="intro_button">
-			{% if app.user %}
-				<a class="intro_login" href="/locations">
-					<i class="fa-solid fa-map-pin"></i>
-					Create your Map !
-				</a>
-			{% else %}
-			<a class="intro_login" href="/login">
-					<i class="fa-solid fa-map-pin"></i>
-					Create your Map !
-				</a>
-			{% endif %}
+				{% if app.user %}
+					<a class="intro_login" href="/locations">
+						<i class="fa-solid fa-map-pin"></i>
+						Create your Map !
+					</a>
+				{% else %}
+					<a class="intro_login" href="/login">
+						<i class="fa-solid fa-map-pin"></i>
+						Create your Map !
+					</a>
+				{% endif %}
 				<a class="intro_github" target="_blank" href="https://github.com/clementp0/a2urbex">
 					<i class="fa-brands fa-github"></i>
 					View the Source</a>
@@ -72,275 +72,47 @@
 		<div class="home-content-text">
 			<h1>Who are we?
 			</h1>
-			<p class="home-content-text-p right">		
-				<p class="adeux">
-					<i class="fa-brands fa-instagram"></i> Follow us on instagram<a target="blank" href="https://www.instagram.com/a2urbex/"> @a2urbex</a>
-				</p>
-				<p class="home_urbex">
-				Nice to meet you! We are <a target="blank" href="https://www.instagram.com/clement.po/">@clement.po</a> and <a target="blank" href="https://www.instagram.com/hugolahaxe/">
-				@hugolahaxe</a>, two web developers from Bordeaux but above all two urban explorers for many years. We created this platform to simplify our expeditions... but after months of coding and adding features to it, it would have been selfish of us not to share it with other enthusiasts!
-				</p>
+			<p class="home-content-text-p right"></p>
+			<p class="adeux">
+				<i class="fa-brands fa-instagram"></i>
+				Follow us on instagram<a target="blank" href="https://www.instagram.com/a2urbex/">
+					@a2urbex</a>
 			</p>
-		</div>
-		
-		<div class="home-content-image">
+			<p class="home_urbex">
+				Nice to meet you! We are
+				<a target="blank" href="https://www.instagram.com/clement.po/">@clement.po</a>
+				and
+				<a target="blank" href="https://www.instagram.com/hugolahaxe/">
+					@hugolahaxe</a>, two web developers from Bordeaux but above all two urban explorers for many years. We created this platform to simplify our expeditions... but after months of coding and adding features to it, it would have been selfish of us not to share it with other enthusiasts!
+			</p>
+		</p>
+	</div>
+
+	<div class="home-content-image">
 		<a href="https://youtu.be/HEW0atdGn4A" target="_blank">
 			<img src="./home/video.png">
-			</a>
-		</div>
-		</div>
-		{# PRICE #}
-			<div class="home-content">
-		<div class="home-content-image">
-			<img src="./home/github.png">
-		</div>
-		<div class="home-content-text">
-			<h1>Is it free?
-			</h1>
-			<p class="home-content-text-p">Yup! 100% free, we do not charge anything for the use of this platform. As we said above, it was originally designed to simplify our travels. But we want to share it with everyone. That's why anyone can access our site and use it as they see fit. (We also provide all our source code) Enjoy!</p>
-		</div>
+		</a>
 	</div>
-		{# Mobile #}
-	<div class="home-content">
-		<div class="home-content-text">
-			<h1>Anywhere!
-			</h1>
-			<p class="home-content-text-p right">You can use it while exploring! Everything is designed to be used on your phone, a simple and accessible interface. All with a dark theme (because who wants to be caught for the brightness of their phone?). Click on the Waze/Maps links to start your journey! You can also install the web app for a minimal data usage! (Useful in our lost countryside).</p>
-		</div>
-		<div class="home-content-image">
-			<img src="./home/mobile.png">
-		</div>
+</div>
+{# PRICE #}
+<div class="home-content">
+	<div class="home-content-image">
+		<img src="./home/github.png">
 	</div>
-
+	<div class="home-content-text">
+		<h1>Is it free?
+		</h1>
+		<p class="home-content-text-p">Yup! 100% free, we do not charge anything for the use of this platform. As we said above, it was originally designed to simplify our travels. But we want to share it with everyone. That's why anyone can access our site and use it as they see fit. (We also provide all our source code) Enjoy!</p>
 	</div>
-	<style>
-		button.dropbtn {
-    		color: white;
-		}
-
-		.intro_stats {
-			font-size: 20px;
-			color: white;
-			text-transform: initial;
-			font-weight: 300;
-		}
-
-		div#navbarCollapse > a {
-			color: white;
-		}
-
-		.home-content {
-			display: flex;
-			padding: 50px;
-			background-color: #2a2a2a;
-			max-width: 2000px;
-			margin:auto;
-		}
-		.home-content-image {
-			width: 50%
-		}
-		.home-content-image > img {
-			width: 100%
-		}
-
-		.home-content-image > a > img {
-			width: 100%;
-			transition: filter 0.5s ease;
-
-		}
-		.home-content-image > a > img:hover {
-			filter: grayscale(1);
-			transition: filter 0.5s ease;
-
-		}
-		.home-content-text-p > p{
-			color: #aeaeae;
-			}
-		p.home_urbex {
-  			color: #aeaeae;	
-		}
-	
-		.home-content-text {
-			text-align: right;
-			width: 50%;
-			padding: 50px;
-			position: relative;
-			transform: translate(0px, 20%);
-		}
-		.home-content-text:nth-child(even) {
-			text-align: left;
-		}
-		.home-content:nth-child(even) {
-			background-color: #222222;
-		}
-
-
-		.home-content-text > h1 {
-			color: #007bff;
-			font-size: 30px;
-			text-transform: uppercase;
-		}
-		.home-content-text-p {
-			color: #aeaeae;
-			max-width: 70%;
-			float: left;
-		}
-		.right {
-			float: right !important;
-		}
-
-		body {
-			padding-top: 0
-		}
-		.fixed-top {
-			background-color: transparent;
-			backdrop-filter: blur(21px);
-			 -webkit-backdrop-filter: blur(21px);
-		}
-		.intro_header {
-			background-image: url('./home/background.jpg');
-			margin: auto;
-			display: flex;
-			justify-content: space-around;
-			flex-wrap: nowrap;
-			flex-direction: row;
-			padding: calc(70px + 3rem) 50px;
-			background-position-y: -50px;
-			background-repeat: no-repeat;
-    		background-size: cover;
-		}
-
-		.intro_title {
-			width: 80%;
-			font-size: 40px;
-			color: #e4e4e4;
-			text-transform: uppercase;
-			font-weight: 600;
-			padding: 60px;
-		}
-		.intro_title > p {
-			text-transform: none;
-			font-weight: 200;
-			font-size: 30px;
-			color: #aeaeae;
-		}
-		.intro_img > img {
-			width: 100%;
-			border-radius: 13px;
-			box-shadow: 0 0 19px 3px #000000d6;
-		}
-
-
-
-		.intro_button > a {
-			text-transform: none;
-			font-size: 20px;
-			padding: 10px 20px;
-			border-radius: 100px;
-			color: white;
-			font-weight: 500;
-		}
-
-		.intro_login {
-			background-color: #007bff;
-			transition: background-color 0.5s ease-out;
-
-		}
-
-		.intro_github{
-			font-weight: 300!important;
-		}
-
-		.intro_img{
-			display: flex;
-			  justify-content: center;
-  			align-items: center;
-		}
-
-		.intro_login:hover {
-			background-color: #135499;
-			color: white;
-			transition: background-color 0.5s ease-out;
-
-		}
-		.intro-container > h1 {
-			color: #007bff;
-			font-size: 30px;
-			text-transform: uppercase;
-		}
-
-		.adeux{
-			padding: 10px;
-			box-shadow: inset 0 -1px 0 #525252;
-		}
-
-		@media screen and (max-width: 1490px) {
-			.intro_button > a {
-    		width: fit-content;
-		}
-			.intro_button {
-    		display: grid;
-		}
-		}
-		@media screen and (max-width: 1024px) {
-			a.intro_github {
-    		margin-top: 10px;
-			}
-			.intro_header{
-				background-position-y:0px;
-			}
-			.home-content {
-				flex-direction: column;
-			}
-			.home-content:nth-child(even) {
-			flex-direction :column-reverse
-			}
-
-			.home-content-text {
-				width:100%;
-				text-align: center!important;
-    			padding: 20px;
-			}
-			.home-content-text-p {
-			max-width: 100%;
-			}
-			.home-content-image {
-				width:100%
-			}
-			.intro_img {
-    			display: none;
-			}
-			.intro_title {
-    			width: 100%;
-				padding: 0px;
-				font-size: 30px;
-			}
-			.intro_title > p {
-    			font-size: 25px;
-			}
-			.intro_stats {
-    			font-size: 15px;
-			}
-			.intro_button {
-    			display: inline-grid;
-			}
-		}
-
-		@media screen and (max-width: 1384px) {
-		.home-content-text {
-    		transform: translate(0px, 0%);
-			}
-		}
-
-		@media screen and (max-width: 800px) {
-			.intro_header {
-				padding-left: 40px;
-				padding-right: 40px;
-			}
-			.home-content {
-				padding-left: 25px;
-				padding-right: 25px;
-			}
-		}
-	</style>
-{% endblock %}
+</div>
+{# Mobile #}
+<div class="home-content">
+	<div class="home-content-text">
+		<h1>Anywhere!
+		</h1>
+		<p class="home-content-text-p right">You can use it while exploring! Everything is designed to be used on your phone, a simple and accessible interface. All with a dark theme (because who wants to be caught for the brightness of their phone?). Click on the Waze/Maps links to start your journey! You can also install the web app for a minimal data usage! (Useful in our lost countryside).</p>
+	</div>
+	<div class="home-content-image">
+		<img src="./home/mobile.png">
+	</div>
+</div></div>{% endblock %}

@@ -1,0 +1,229 @@
+#app_home {
+  button.dropbtn {
+    color: white;
+  }
+
+  .intro_stats {
+    font-size: 20px;
+    color: white;
+    text-transform: initial;
+    font-weight: 300;
+  }
+
+  div#navbarCollapse > a {
+    color: white;
+  }
+
+  .home-content {
+    display: flex;
+    padding: 50px;
+    background-color: #2a2a2a;
+    max-width: 2000px;
+    margin: auto;
+  }
+  .home-content-image {
+    width: 50%;
+
+    > img {
+      width: 100%;
+    }
+
+    > a > img {
+      width: 100%;
+      transition: filter 0.5s ease;
+
+      &:hover {
+        filter: grayscale(1);
+        transition: filter 0.5s ease;
+      }
+    }
+  }
+
+  .home-content-text-p > p,
+  p.home_urbex {
+    color: #aeaeae;
+  }
+
+  .home-content-text {
+    text-align: right;
+    width: 50%;
+    padding: 50px;
+    position: relative;
+    transform: translate(0px, 20%);
+
+    h1 {
+      color: #007bff;
+      font-size: 30px;
+      text-transform: uppercase;
+    }
+  }
+
+  .home-content-text:nth-child(even) {
+    text-align: left;
+  }
+  .home-content:nth-child(even) {
+    background-color: #222222;
+  }
+
+  .home-content-text-p {
+    color: #aeaeae;
+    max-width: 70%;
+    float: left;
+  }
+  .right {
+    float: right !important;
+  }
+
+  body {
+    padding-top: 0;
+  }
+  .fixed-top {
+    background-color: transparent;
+    backdrop-filter: blur(21px);
+    -webkit-backdrop-filter: blur(21px);
+  }
+  .intro_header {
+    background-image: url('./img/home/background.jpg');
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    padding: calc(70px + 3rem) 50px;
+    background-position-y: -50px;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .intro_title {
+    width: 80%;
+    font-size: 40px;
+    color: #e4e4e4;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 60px;
+
+    & > p {
+      text-transform: none;
+      font-weight: 200;
+      font-size: 30px;
+      color: #aeaeae;
+    }
+  }
+
+  .intro_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    > img {
+      width: 100%;
+      border-radius: 13px;
+      box-shadow: 0 0 19px 3px #000000d6;
+    }
+  }
+
+  .intro_button > a {
+    text-transform: none;
+    font-size: 20px;
+    padding: 10px 20px;
+    border-radius: 100px;
+    color: white;
+    font-weight: 500;
+  }
+
+  .intro_login {
+    background-color: #007bff;
+    transition: background-color 0.5s ease-out;
+
+    &:hover {
+      background-color: #135499;
+      color: white;
+      transition: background-color 0.5s ease-out;
+    }
+  }
+
+  .intro_github {
+    font-weight: 300 !important;
+  }
+
+  .intro-container > h1 {
+    color: #007bff;
+    font-size: 30px;
+    text-transform: uppercase;
+  }
+
+  .adeux {
+    padding: 10px;
+    box-shadow: inset 0 -1px 0 #525252;
+  }
+
+  @media screen and (max-width: 1490px) {
+    .intro_button > a {
+      width: fit-content;
+    }
+    .intro_button {
+      display: grid;
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    a.intro_github {
+      margin-top: 10px;
+    }
+    .intro_header {
+      background-position-y: 0px;
+    }
+    .home-content {
+      flex-direction: column;
+    }
+    .home-content:nth-child(even) {
+      flex-direction: column-reverse;
+    }
+
+    .home-content-text {
+      width: 100%;
+      text-align: center !important;
+      padding: 20px;
+    }
+    .home-content-text-p {
+      max-width: 100%;
+    }
+    .home-content-image {
+      width: 100%;
+    }
+    .intro_img {
+      display: none;
+    }
+    .intro_title {
+      width: 100%;
+      padding: 0px;
+      font-size: 30px;
+    }
+    .intro_title > p {
+      font-size: 25px;
+    }
+    .intro_stats {
+      font-size: 15px;
+    }
+    .intro_button {
+      display: inline-grid;
+    }
+  }
+
+  @media screen and (max-width: 1384px) {
+    .home-content-text {
+      transform: translate(0px, 0%);
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    .intro_header {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+    .home-content {
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+  }
+}
