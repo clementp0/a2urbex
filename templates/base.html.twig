@@ -65,10 +65,10 @@
 
 									</a>
 									{# <a href="{{ path('app_general_chat') }}">
-																																																																																											<i class="fa-solid fa-comment"></i>
-																																																																																											General Chat
-																																																																																	
-																																																																																										</a> #}
+																																																																																																													<i class="fa-solid fa-comment"></i>
+																																																																																																													General Chat
+																																																																																																			
+																																																																																																												</a> #}
 									<a href="" id="clear-cache-button">
 										<i class="fa-solid fa-rotate-right"></i>
 										Refresh
@@ -120,22 +120,6 @@
 				<i class="fa-solid fa-envelope"></i>
 			</a>
 		</footer>
-		<script></script>
-		{% if app.user %}
-			<script>
-
-				const clearCacheButton = document.getElementById('clear-cache-button');
-clearCacheButton.addEventListener('click', async () => {
-try {
-await caches.delete('a2urbex');
-console.log('Cache deleted successfully');
-location.reload(true);
-} catch (err) {
-console.error('Error deleting cache:', err);
-}
-});
-			</script>
-		{% endif %}
 		{% block content %}{% endblock %}
 	</body>
-</html></html>
+</html>

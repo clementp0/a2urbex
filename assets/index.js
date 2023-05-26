@@ -12,5 +12,6 @@ import './js/components/user'
 import './js/components/coord'
 import './js/components/chat'
 import './js/components/location'
+import './js/components/cache'
 
 $(() => {})
