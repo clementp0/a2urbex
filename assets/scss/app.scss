@@ -5,79 +5,30 @@ body {
   padding-bottom: 3rem;
   color: #5a5a5a;
   margin: auto;
-}
 
-.useractive::before {
-  content: '';
-  background-color: #00ff50;
-  display: inline-block;
-  width: 8px;
-  border-radius: 50px;
-  height: 8px;
-  margin-right: 4px;
-}
+  a {
+    color: #8d8d8d;
+    text-decoration: none;
 
-.useractive.away::before {
-  background-color: grey;
-}
+    &:hover {
+      color: #60a5fa;
+      text-decoration: none;
+    }
 
-.useractive.offline::before {
-  background-color: red;
-}
-
-i.fa-solid.fa-robot {
-  color: white;
-  margin-left: 10px;
-  margin-top: 4px;
-  position: absolute;
-  line-height: 30px;
-}
-
-.aigenerated {
-  background-color: #303030;
-  width: fit-content;
-  color: white;
-  border-radius: 5px;
-  text-align: center;
-  padding: 0px 5px 0px 5px;
-  width: fit-content;
-  font-size: 0.835rem;
-  margin: auto;
-  text-align: center;
-  margin-top: 5px;
-}
-
-.aigenerated > i {
-  color: white !important;
-  margin-left: 0 !important;
-  margin-top: 0 !important;
-  position: inherit !important;
-  line-height: 0 !important;
+    &.disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  }
 }
 
 #disabled {
   filter: blur(1.4px) saturate(0%);
   opacity: 0.4;
 }
-body a {
-  color: #8d8d8d;
-  text-decoration: none;
-}
-body a:hover {
-  color: #60a5fa;
-  text-decoration: none;
-}
 
-a.disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}
 i.fa-solid.fa-heart {
   color: #60a6fa;
-}
-
-body .intro-container a:hover {
-  text-decoration: underline;
 }
 
 .fixed-top {
@@ -89,6 +40,7 @@ body .intro-container a:hover {
   box-shadow: inset 0 -1px 0 #525252;
   padding: 8px 15px;
 }
+
 .settings > a {
   font-size: 0.9rem;
   font-weight: 500;

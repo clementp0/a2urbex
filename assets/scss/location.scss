@@ -1,0 +1,28 @@
+.aigenerated {
+  background-color: #303030;
+  width: fit-content;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  padding: 0px 5px 0px 5px;
+  width: fit-content;
+  font-size: 0.835rem;
+  margin: auto;
+  text-align: center;
+  margin-top: 5px;
+
+  > i {
+    color: white !important;
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+    position: inherit !important;
+    line-height: 0 !important;
+  }
+}
+i.fa-solid.fa-robot {
+  color: white;
+  margin-left: 10px;
+  margin-top: 4px;
+  position: absolute;
+  line-height: 30px;
+}

@@ -79,8 +79,6 @@
   }
   .fixed-top {
     background-color: transparent;
-    backdrop-filter: blur(21px);
-    -webkit-backdrop-filter: blur(21px);
   }
   .intro_header {
     background-image: url('./img/home/background.jpg');
@@ -145,12 +143,6 @@
 
   .intro_github {
     font-weight: 300 !important;
-  }
-
-  .intro-container > h1 {
-    color: #007bff;
-    font-size: 30px;
-    text-transform: uppercase;
   }
 
   .adeux {
