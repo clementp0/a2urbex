@@ -1,9 +1,56 @@
+.first_location {
+  display: none;
+  position: fixed;
+  bottom: 107px;
+  right: 100px;
+  color: white;
+  animation: first-location-move 2s infinite;
+}
+#messenger_dot {
+  display: none;
+  background-color: #60a5fa;
+  width: 15px;
+  height: 15px;
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: notification-blink 1.3s linear infinite;
+}
+
+.messenger_dot_notification {
+  display: block !important;
+}
+
+.messenger_icon {
+  position: fixed;
+  bottom: 170px;
+  right: 25px;
+  background-color: #787878;
+  color: #222222;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 .messenger {
   background-color: #303030;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
   border-radius: 6px;
-  margin: 2%;
   height: 100%;
+  display: none;
+  position: fixed;
+  bottom: 380px;
+  right: 15px;
+  background-color: #303030;
+  width: 300px;
+  height: 200px;
+  animation: chat-slide 0.5s ease;
 
   .messenger_title {
     border: #525252 1px solid;
@@ -14,6 +61,13 @@
     color: #a2a2a2;
   }
   .messenger_close {
+    position: absolute;
+    top: 7px;
+    right: 6px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    font-size: 20px;
     transition: all 0.5s;
 
     &:hover,
@@ -29,6 +83,8 @@
   height: 100%;
   overflow-y: scroll;
   padding: 10px;
+  height: 450px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
 
   .message_date {
     font-size: 10px;
@@ -195,5 +251,38 @@
       left: 0px;
       height: 42px;
     }
+  }
+}
+
+@keyframes chat-slide {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes first-location-move {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes notification-blink {
+  0% {
+    background-color: #456893;
+  }
+  50% {
+    background-color: #60a5fa;
+  }
+  100% {
+    background-color: #456893;
   }
 }
