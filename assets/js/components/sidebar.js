@@ -1,7 +1,7 @@
 $(() => {
-  $('legend:eq( 0 )').prepend('<i class="fa-solid fa-earth-europe"></i>')
-  $('legend:eq( 1 )').prepend('<i class="fa-solid fa-gear"></i>')
-  $('legend:eq( 2 )').prepend('<i class="fa-solid fa-sliders"></i>')
+  $('.pin-search legend:eq( 0 )').prepend('<i class="fa-solid fa-earth-europe"></i>')
+  $('.pin-search legend:eq( 1 )').prepend('<i class="fa-solid fa-gear"></i>')
+  $('.pin-search legend:eq( 2 )').prepend('<i class="fa-solid fa-sliders"></i>')
 
   $('#map-filter').on('click', function (e) {
     e.preventDefault()
