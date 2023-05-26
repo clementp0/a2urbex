@@ -46,6 +46,10 @@ class SecurityController extends AppController
     #[Route('/register', name: 'app_register')]
     public function index(Request $request, UserPasswordEncoderInterface $encoder, FavoriteRepository $favoriteRepository)
     { 
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_location_index');
+        }
+        
         $user = new User();
         $form = $this->createForm(RegisterType::class, $user);
 
@@ -68,7 +72,7 @@ class SecurityController extends AppController
             return new RedirectResponse($this->generateUrl('app_login'));
 
         }
-        return $this->render('register/index.html.twig', [
+        return $this->render('security/register.html.twig', [
             'form' => $form->createView(),
         ]);
     }
