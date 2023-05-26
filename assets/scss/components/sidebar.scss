@@ -40,6 +40,11 @@
       border-color: #232323;
     }
 
+    #country,
+    #type {
+      text-transform: capitalize;
+    }
+
     .btn-info {
       background-color: #404040;
     }
