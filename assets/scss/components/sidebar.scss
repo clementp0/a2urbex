@@ -167,6 +167,26 @@
           color: #a2a2a2;
           font-weight: 300;
         }
+
+        .useractive {
+          &::before {
+            content: '';
+            background-color: #00ff50;
+            display: inline-block;
+            width: 8px;
+            border-radius: 50px;
+            height: 8px;
+            margin-right: 4px;
+          }
+
+          &.away::before {
+            background-color: grey;
+          }
+
+          &.offline::before {
+            background-color: red;
+          }
+        }
       }
     }
   }
