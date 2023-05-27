@@ -41,16 +41,21 @@
 .messenger {
   background-color: #303030;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
-  border-radius: 6px;
-  height: 100%;
-  display: none;
-  position: fixed;
-  bottom: 380px;
-  right: 15px;
   background-color: #303030;
+  border-radius: 6px;
+  position: fixed;
+  bottom: 40px;
+  right: 15px;
   width: 300px;
-  height: 200px;
-  animation: chat-slide 0.5s ease;
+  height: 550px;
+  transition: transform 0.5s ease;
+  transform: translateX(130%);
+  display: flex;
+  flex-direction: column;
+
+  &.show {
+    transform: translateX(0%);
+  }
 
   .messenger_title {
     border: #525252 1px solid;
@@ -77,13 +82,12 @@
   }
 }
 #chat {
+  flex-grow: 1;
   border-left: #525252 1px solid;
   border-right: #525252 1px solid;
   background-color: #303030;
-  height: 100%;
   overflow-y: scroll;
   padding: 10px;
-  height: 450px;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
 
   .message_date {
@@ -166,7 +170,6 @@
   text-align: center;
   border: #525252 1px solid;
   padding: 5px;
-  margin-left: -1px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   display: flex;
@@ -228,38 +231,17 @@
 @media screen and (max-width: 850px) {
   .messenger {
     margin: 0%;
-    height: 100%;
+    height: calc(100% - 45px);
     position: fixed;
-    width: 100vw;
+    width: 100%;
     top: 44px;
+    right: 0;
 
     .messenger_title {
       border: #525252 px solid;
       border-top-left-radius: 0px;
       border-top-right-radius: 0px;
     }
-  }
-
-  #chat {
-    padding-bottom: 150px;
-
-    .message_send {
-      position: fixed;
-      width: 100%;
-      margin: 0;
-      bottom: 0px;
-      left: 0px;
-      height: 42px;
-    }
-  }
-}
-
-@keyframes chat-slide {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
   }
 }
 

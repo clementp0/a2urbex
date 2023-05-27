@@ -1,62 +1,19 @@
 $(() => {
-  // Get the messenger and messenger_icon elements
-  const messenger = document.querySelector('.messenger')
-  const messengerIcon = document.querySelector('.messenger_icon')
+  const messenger = $('.messenger')
 
-  if (messenger) {
-    // Add click event listener to messenger_icon
-    messengerIcon.addEventListener('click', function () {
-      // Show the messenger with animation
-      messenger.style.display = 'block'
-      var element = document.getElementById('messenger_dot')
-      element.classList.remove('messenger_dot_notification')
-      messenger.style.animation = 'slide-up 0.5s ease'
+  if (messenger.length) {
+    const messengerIcon = $('.messenger_icon')
+    const messengerClose = $('.messenger_close')
+
+    messengerIcon.on('click', () => {
+      $('#messenger_dot').removeClass('messenger_dot')
+      messenger.addClass('show')
+    })
+    messengerClose.on('click', () => {
+      messenger.removeClass('show')
     })
 
-    // Get the messenger_close element
-    const messengerClose = document.querySelector('.messenger_close')
-
-    // Add click event listener to messenger_close
-    messengerClose.addEventListener('click', function () {
-      // Hide the messenger with animation
-      messenger.style.animation = 'slide-down 0.5s ease'
-      setTimeout(function () {
-        var element = document.getElementById('messenger_dot')
-        element.classList.remove('messenger_dot_notification')
-        messenger.style.display = 'none'
-        messenger.style.animation = ''
-      }, 500)
-    })
-
-    // Define the slide-up and slide-down animations
-    const slideUpAnimation = `
-    @keyframes slide-up {
-      from {
-        transform: translateX(130%);
-      }
-      to {
-        transform: translateX(0%);
-      }
-    }
-  `
-
-    const slideDownAnimation = `
-    @keyframes slide-down {
-      from {
-        transform: translateX(0%);
-      }
-      to {
-        transform: translateX(130%);
-      }
-    }
-  `
-
-    // Add the slide-up and slide-down animations to the document
-    const style = document.createElement('style')
-    style.innerHTML = slideUpAnimation + slideDownAnimation
-    document.head.appendChild(style)
-
-    // send message via socket
+    // send socket message
     const socket = new WebSocket(websocketUrl)
 
     socket.addEventListener('open', function () {
@@ -71,27 +28,25 @@ $(() => {
     socket.addEventListener('message', function (e) {
       try {
         const data = JSON.parse(e.data)
-        // NOTIFICATION
-        const myDiv = document.getElementById('messenger_dot')
-        myDiv.classList.add('messenger_dot_notification')
-        // NOTIFICATION
         addMessage(data)
+        $('#messenger_dot').addClass('messenger_dot')
         $('#chat').scrollTop($('#chat')[0].scrollHeight)
       } catch (e) {}
     })
 
-    document.getElementById('message').addEventListener('keydown', function (event) {
-      if (event.keyCode === 13) {
-        event.preventDefault()
-        document.getElementById('sendBtn').click()
+    $('#message').on('keydown', function (event) {
+      if (event.key === 'Enter' || event.keyCode === 13) {
+        send(event)
       }
     })
+    $('#sendBtn').on('click', function (event) {
+      send(event)
+    })
 
-    document.getElementById('sendBtn').addEventListener('click', function (event) {
+    const send = (event) => {
       event.preventDefault()
-      const messageInput = document.getElementById('message')
-      const messageValue = messageInput.value.trim()
 
+      const messageValue = $('#message').val().trim()
       if (messageValue === '') return
 
       fetch('/chat-add', {
@@ -109,15 +64,15 @@ $(() => {
           } else {
             addMessage(data)
             $('#chat').scrollTop($('#chat')[0].scrollHeight)
-            messageInput.value = ''
+            $('#message').val('')
             socket.send(JSON.stringify(data))
           }
         })
-    })
+    }
 
     function addMessage(data) {
       const messageHTML = renderRow(data)
-      document.getElementById('chat').innerHTML += messageHTML
+      $('#chat').append(messageHTML)
     }
 
     function renderChatHistory(chatHistory) {
@@ -126,8 +81,8 @@ $(() => {
           return renderRow(item)
         })
         .join('')
-      $('#chat').scrollTop($('#chat')[0].scrollHeight)
-      document.getElementById('chat').innerHTML = chatHTML
+
+      $('#chat').html(chatHTML)
       $('#chat').scrollTop($('#chat')[0].scrollHeight)
     }
 
@@ -174,7 +129,5 @@ $(() => {
         '</div>'
       )
     }
-
-    $('#chat').scrollTop($('#chat')[0].scrollHeight)
   }
 })
