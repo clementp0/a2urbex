@@ -66,6 +66,22 @@ i.fa-brands.fa-waze {
   align-content: space-evenly;
 }
 
+p.pin-type {
+  background-color: #303030;
+  color: #60a5fa;
+  border-radius: 5px;
+  text-align: center;
+  padding: 0px 5px 0px 5px;
+  width: fit-content;
+  font-size: 0.835rem;
+  margin: auto;
+  text-align: center;
+
+  .pin-type-text {
+    text-transform: capitalize;
+  }
+}
+
 .pin-container {
   display: block;
   width: 270px;
@@ -80,21 +96,6 @@ i.fa-brands.fa-waze {
     text-decoration: none;
   }
 
-  p.pin-type {
-    background-color: #303030;
-    color: #60a5fa;
-    border-radius: 5px;
-    text-align: center;
-    padding: 0px 5px 0px 5px;
-    width: fit-content;
-    font-size: 0.835rem;
-    margin: auto;
-    text-align: center;
-
-    .pin-type-text {
-      text-transform: capitalize;
-    }
-  }
   .pin-info-icon {
     margin-right: 10px;
   }
