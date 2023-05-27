@@ -4,13 +4,15 @@
 		<div class="new_location">
 			<p id="fileSize"></p>
 			<p id="error"></p>
-			<div id="image-preview"></div>
+			<div id="image-preview" {% if location.image %} style="background-image: url('{{ location.image }}')" {% endif %}></div>
 			<p class="title_location">
 				<i class="fa-solid fa-plus"></i>
-				Create new Location</p>
+				Create new Location
+			</p>
 			{{ form(form) }}
 				<a href="" target="_blank" class="coordinates">
-					Check coordinates</a>
+					Check coordinates
+				</a>
 			</div>
 
 			<div class="my_locations">

@@ -23,9 +23,9 @@ function coordInputValidity(target) {
 function coordCustomPaste(target) {
   let [lat, lon] = target.value.split(',')
 
-  let parent = $(target).parents('#new_location')
-  let latEl = parent.find('#new_location_lat')
-  let lonEl = parent.find('#new_location_lon')
+  let parent = $(target).parents('#location')
+  let latEl = parent.find('#location_lat')
+  let lonEl = parent.find('#location_lon')
 
   latEl.val(lat)
   removeUnauthorizedCoordChar(latEl[0])

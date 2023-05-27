@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Location;
 use App\Class\Search;
 use App\Form\LocationType;
-use App\Form\NewLocationType;
 use App\Form\SearchType;
 use App\Repository\UploadRepository;
 use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
@@ -78,7 +77,9 @@ class LocationController extends AppController
     {
         $location = new Location();
     
-        $form = $this->createForm(NewLocationType::class, $location);
+        $form = $this->createForm(LocationType::class, $location, [
+            'title' => 'Create Location'
+        ]);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,63 +92,52 @@ class LocationController extends AppController
     
             return $this->redirectToRoute('new_location', [
                 'id' => $location->getId()
-        ]);
+            ]);
         }
 
-        $locations = $this->locationRepository->findByUser();
-
-        $totalResults = 0;
-        $totalResults = count($locations);
-
-        $locationData = $paginator->paginate(
-            $locations,
-            $request->query->getInt('page', 1),
-            6
-        );  
-        // if ($location->getImageError()) {
-        //     $form->get('imageError')->setData($location->getImageError());
-        // }
-
-        return $this->render('location/new.html.twig', [
-            'locations' => $locationData,
-            'form' => $form->createView(),
-            'total_result' => $totalResults,
-            'location' => $location,
-        ]);
+        return $this->getForUserLocationPage($request, $paginator, $location, $form);
     }
 
     #[Route('location/{key}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, PaginatorInterface $paginator): Response
     {
         $location = $this->getLocationFromKey($request->get('key'), true);
+        $image = $location->getImage();
 
-        $form = $this->createForm(LocationType::class, $location);
+        $location->removeImage();
+        $form = $this->createForm(LocationType::class, $location, [
+            'title' => 'Edit Location',
+            'previousImage' => $image
+        ]);
         $form->handleRequest($request);
-
+        
         if($this->isOwned($location) && $form->isSubmitted() && $form->isValid()) {
-            $this->locationService->addCountry($location);
             $this->locationRepository->add($location);
 
             return $this->redirectToRoute('new_location', [], Response::HTTP_SEE_OTHER);
+        } elseif($image) {
+            $location->setImageDirect($image);
         }
 
-        $locations =$this->locationRepository->findByUser();
+        return $this->getForUserLocationPage($request, $paginator, $location, $form);
+    }
 
-        $totalResults = 0;
-        $totalResults = count($locations);
+    private function getForUserLocationPage($request, $paginator, $location, $form) {
+        $locations = $this->locationRepository->findByUser();
+        $totalResults = $locations ? count($locations) : 0;
 
         $locationData = $paginator->paginate(
             $locations,
             $request->query->getInt('page', 1),
             6
-        );  
+        );
 
         return $this->render('location/new.html.twig', [
-            'locations' => $locationData,
-            'location' => $location,
             'hashkey' => $_ENV["HASH_KEY"],
-            'form' => $form->createView(),
+            'locations' => $locationData,
             'total_result' => $totalResults,
+            'location' => $location,
+            'form' => $form->createView(),
         ]);
     }
     

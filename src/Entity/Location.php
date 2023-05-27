@@ -67,6 +67,7 @@ class Location
     public ?string $lid = null;
 
     public $imageError;
+    public $previousImage;
 
     #[ORM\Column(nullable: true)]
     private ?bool $pending = null;
@@ -109,6 +110,9 @@ class Location
     {
         return $this->image;
     }
+    public function getPreviousImage(): ?string {
+        return $this->previousImage;
+    }
 
     public function setImageDirect($filename):self {
         $this->image = $filename;
@@ -123,24 +127,33 @@ class Location
             $extension = strtolower($file->getClientOriginalExtension());
             if (!in_array($extension, $validExtensions)) {
                 throw new \Exception('Invalid file type');
-            }
-            else{
-                $filename = '/img/locations/' . md5(uniqid()) . '.' . $extension;
+            } else {
+                $filename = $_ENV['IMG_LOCATION_PATH'] . md5(uniqid()) . '.' . $extension;
                 $file->move(
-                $this->getUploadDir(),
-                $filename
-            );
-            $this->image = $filename;
+                    $this->getUploadDir(),
+                    $filename
+                );
+                $this->image = $filename;
+
+                if($this->previousImage && file_exists($this->getPublicDir().$this->previousImage)) {
+                    unlink($this->getPublicDir().$this->previousImage);
+                }
             }
-            
         }
     
         return $this;
     }
+    public function removeImage(): self {
+        $this->image = null;
+        return $this;
+    }
     
+    private function getPublicDir() {
+        return __DIR__ . '/../../public/';
+    }
     private function getUploadDir()
     {
-        return __DIR__ . '/../../public/img/locations';
+        return $this->getPublicDir().$_ENV['IMG_LOCATION_PATH'];
     }
 
     public function getLon(): ?string

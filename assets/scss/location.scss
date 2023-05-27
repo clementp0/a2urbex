@@ -239,7 +239,6 @@ p.pin-type {
     padding: calc(0.375rem + 1px) 8px;
   }
 
-  #new_location,
   #location {
     text-align: center;
     font-weight: 500;
@@ -296,7 +295,6 @@ p.pin-type {
     }
   }
 
-  #new_location_submit,
   #location_submit {
     border-radius: 2px;
     margin: auto;
@@ -419,8 +417,7 @@ label.image-label-placeholder {
   .personal_locations {
     display: block;
 
-    #location,
-    #new_location {
+    #location {
       min-width: 250px;
     }
 

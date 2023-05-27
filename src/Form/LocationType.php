@@ -19,6 +19,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Image;
+
 
 
 class LocationType extends AbstractType
@@ -33,6 +35,19 @@ class LocationType extends AbstractType
                     'placeholder' => 'Abandonned Castle'
                 ]
             ])
+            ->add('previousImage', HiddenType::class, [
+                'data' => $options['previousImage'],
+                'required' => false
+            ])
+            ->add('image', FileType::class, [
+                'label' => 'Image',
+                'label_attr' => ['class' => 'image-label-placeholder'],
+                'required' => false,
+                'attr' => [
+                    'accept' => ".jpg, .jpeg, .png",
+                    'onchange'=>'previewImage(event)'
+                ],
+            ])
             ->add('type', EntityType::class, [
                 'class' => Type::class,
                 'choice_label' => 'name',
@@ -43,6 +58,7 @@ class LocationType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Police with dog..',
+
                 ]
             ])
             ->add('lat', NumberType::class, [
@@ -64,7 +80,7 @@ class LocationType extends AbstractType
                 ],
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Edit Location',
+                'label' => $options['title'],
             ]);
     }
 
@@ -72,6 +88,9 @@ class LocationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Location::class,
+            'previousImage' => null,
+            'title' => null,
         ]);
+
     }
 }

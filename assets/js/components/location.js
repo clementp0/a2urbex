@@ -1,10 +1,10 @@
 $(() => {
-  $('.coordinates').insertAfter('#new_location_lon')
+  $('.coordinates').insertAfter('#location_lon')
   $('.coordinates').insertAfter('#location_lon')
 
-  $('#new_location_lon, #new_location_lat').on('keyup', function () {
-    const lon = $('#new_location_lon').val()
-    const lat = $('#new_location_lat').val()
+  $('#location_lon, #location_lat').on('keyup', function () {
+    const lon = $('#location_lon').val()
+    const lat = $('#location_lat').val()
     const link = 'https://www.google.com/maps?t=k&q=' + lat + ',' + lon
     $('.coordinates').attr('href', link)
   })
@@ -22,14 +22,13 @@ $(() => {
       reader.onload = function (e) {
         const preview = document.getElementById('image-preview')
         preview.style.backgroundImage = `url(${e.target.result})`
-        preview.style.backgroundSize = 'cover'
       }
       reader.readAsDataURL(input.files[0])
     }
   }
   window.previewImage = previewImage
 
-  $('#new_location_image').on('change', function () {
+  $('#location_image').on('change', function () {
     if (this.files.length > 0) {
       const sizeInBytes = this.files[0].size
       const sizeInMB = (sizeInBytes / 1000000).toFixed(2)
@@ -40,15 +39,13 @@ $(() => {
   window.onload = function () {
     $('.custom-file-label').append($('#image-preview'))
     $('.image-label-placeholder').append($('#fileSize'))
-    $('#new_location').append($('#error'))
+    $('#location').append($('#error'))
   }
 
-  const form = $('form[name="new_location"]')
+  const form = $('form[name="location"]')
   form.on('submit', function (event) {
-    const fileName = $('#new_location_image').val()
+    const fileName = $('#location_image').val()
     const fileExtension = fileName.split('.').pop().toLowerCase()
-
-    event.preventDefault()
 
     if (fileName.length && !['jpg', 'jpeg', 'png'].includes(fileExtension)) {
       const errorMessage =
@@ -58,8 +55,9 @@ $(() => {
         '   <span class="form-error-message">Invalid File Type.</span>' +
         ' </span>' +
         '</span>'
+
       $('#error').html(errorMessage)
-      $('#new_location').prepend($('#error'))
+      $('#location').prepend($('#error'))
       event.preventDefault()
     }
   })
