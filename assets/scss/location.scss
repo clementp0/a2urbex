@@ -92,6 +92,10 @@ p.pin-type {
   height: fit-content;
   position: relative;
 
+  .pin-top-container {
+    position: relative;
+  }
+
   a:hover {
     text-decoration: none;
   }
