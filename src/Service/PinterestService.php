@@ -110,8 +110,8 @@ class PinterestService {
                 ->setImageDirect($this->imgPath.$imgName)
                 ->setDescription(substr($item['description'], 0, 250));
             
-            // $this->locationService->addType($location);
-            // $this->locationService->addCountry($location);
+            $this->locationService->addType($location);
+            $this->locationService->addCountry($location);
             
             $this->locationRepository->add($location);
             $this->newPinCount++;
