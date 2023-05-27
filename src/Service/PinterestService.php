@@ -6,14 +6,15 @@ use App\Entity\Location;
 use App\Service\LocationService;
 use App\Repository\LocationRepository;
 use App\Service\DataService;
+use App\Repository\ConfigRepository;
 
 class PinterestService {
     public function __construct(
         private string $publicDirectory,
-        private string $dataDirectory,
         private LocationRepository $locationRepository,
         private LocationService $locationService,
         private DataService $dataService,
+        private ConfigRepository $configRepository,
     ) {
         $this->boardId = $_ENV['PINTEREST_BOARD_ID'];
         $this->url = $_ENV['PINTEREST_FETCH_BASE_URL'];
@@ -45,8 +46,7 @@ class PinterestService {
     
     public function fetch() {
         $this->pinTotal = $this->getPinTotal();
-        if(!$this->pinTotal || (int)$this->pinTotal === 0) return
-        $this->dataService->initFile($this->dataDirectory.'pin.txt');
+        if(!$this->pinTotal || (int)$this->pinTotal === 0) return;
         $this->dataService->verifyFolder($this->publicDirectory.$this->imgPath, true);
         $this->getFeed();
     }
@@ -118,8 +118,11 @@ class PinterestService {
         }
         
         $this->pinCount++;
-        $percentage = ($this->pinCount / $this->pinTotal) * 100;
-        $this->dataService->writeFile($this->dataDirectory.'pin.txt',$percentage);
+
+        if($this->pinCount === $this->pinTotal || $this->pinCount % 10 === 0){
+            $percentage = ($this->pinCount / $this->pinTotal) * 100;
+            $this->configRepository->set('pinterest', 'fetch_progress', $percentage.'%');
+        } 
     }
 
     private function error($error) {
@@ -129,15 +132,14 @@ class PinterestService {
     }
 
     private function done() {
-        $jsonData = [
-            "last_fetched" => date("d/m/Y H:i", time()),
-            "board" => $this->boardId,
-            "finished" => $this->hasError ? 'Error' : 'Success',
-            "error" => $this->error,
-            "total" => $this->pinCount,
-            "newpins" => $this->newPinCount,
-            "token" => rand()
-        ];
-        $this->dataService->writeJson($this->dataDirectory.'export.json', $jsonData);
+        $this->configRepository->setArray('pinterest', [
+            'fetch_date' => date('d/m/Y H:i', time()),
+            'board' => $this->boardId,
+            'status' => $this->hasError ? 'Error' : 'Success',
+            'error' => $this->error,
+            'total_pins' => $this->pinCount,
+            'new_pins' => $this->newPinCount,
+            'token' => rand()
+        ]);
     }
 }

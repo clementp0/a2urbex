@@ -41,14 +41,28 @@ class ConfigRepository extends ServiceEntityRepository
 
     public function get($type, $name = null) {
         if($name === null) {
+            $configs = $this->findBy(['type' => $type]);
+            $out = [];
+            foreach($configs as $config) {
+                $out[$config->getName()] = $config->getValue();
+            }
+            return $out;
+        } else {
+            $config = $this->findOneBy(['type' => $type, 'name' => $name]);
+            if($config) return $config->getValue();
+        }
+    }
+
+    public function getEntity($type, $name = null) {
+        if($name === null) {
             return $this->findBy(['type' => $type]);
         } else {
-            return $this->findOneBy(['name' => $name, 'type' => $type]);
+            return $this->findOneBy(['type' => $type, 'name' => $name]);
         }
     }
 
     public function set($type, $name, $value) {
-        $config = $this->get($type, $name);
+        $config = $this->findOneBy(['type' => $type, 'name' => $name]);
         if(!$config) {
             $config = new Config();
             $config->setName($name)->setType($type);

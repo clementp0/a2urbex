@@ -23,15 +23,15 @@ use App\Repository\LocationRepository;
 use App\Repository\MessageRepository;
 use App\Service\MessageService;
 use App\Service\DataService;
+use App\Repository\ConfigRepository;
 
 class DashboardController extends AbstractDashboardController
 {
-    public function __construct(private DataService $dataService) {}
+    public function __construct(private DataService $dataService, private ConfigRepository $configRepository) {}
 
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-
         $em = $this->getDoctrine()->getManager();
 
         //Location_count

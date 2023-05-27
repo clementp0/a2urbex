@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Location;
 use App\Repository\LocationRepository;
+use App\Repository\ConfigRepository;
 use App\Service\LocationService;
 use App\Service\DataService;
 use Symfony\Component\DomCrawler\Crawler;
@@ -11,10 +12,10 @@ use Symfony\Component\DomCrawler\Crawler;
 class WikimapiaService {
     public function __construct(
         private string $publicDirectory,
-        private string $dataDirectory,
         private DataService $dataService,
         private LocationRepository $locationRepository,
-        private LocationService $locationService
+        private LocationService $locationService,
+        private ConfigRepository $configRepository
     ) {
         $this->catId = $_ENV['WIKIMAPIA_CAT_ID'];
         $this->url = $_ENV['WIKIMAPIA_BASE_URL'];
@@ -92,16 +93,15 @@ class WikimapiaService {
     }
 
     private function getPos() {
-        $json = $this->dataService->getJson($this->dataDirectory.$this->filename);
-        if($json !== null) return $json;
+        $pos = $this->configRepository->get('wikimapia');
+        if(count($pos) && isset($pos['x']) && isset($pos['y'])) return $pos;
         
-        $data = ['x' => 0, 'y' => 0];
-        $this->dataService->writeJson($this->dataDirectory.$this->filename, $data);
-        return $data;
+        $this->savePos(0, 0);
+        return $this->configRepository->get('wikimapia');
     }
     private function savePos($x, $y) {
-        $data = ['x' => $x, 'y' => $y];
-        $this->dataService->writeJson($this->dataDirectory.$this->filename, $data);
+        $this->configRepository->set('wikimapia', 'x', $x);
+        $this->configRepository->set('wikimapia', 'y', $y);
     }
 
     private function generateTileUrl($x, $y, $zoom) {
