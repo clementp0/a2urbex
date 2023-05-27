@@ -135,7 +135,7 @@ class Location
                 );
                 $this->image = $filename;
 
-                if($this->previousImage && file_exists($this->getPublicDir().$this->previousImage)) {
+                if($this->previousImage && strpos($this->previousImage, '..') !== false && file_exists($this->getPublicDir().$this->previousImage)) {
                     unlink($this->getPublicDir().$this->previousImage);
                 }
             }
