@@ -1,19 +1,388 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
-{% block title %}a2urbex!{% endblock %}
+{% block title %}a2urbex!
+{% endblock %}
 {% block content %}
-		<link rel="manifest" href="{{ ('manifest.json') }}">
-		<script src="{{ ('assets/js/notifications.js') }}"></script>
-		<script src="{{ ('assets/js/registersw.js') }}"></script>
+<link rel="manifest" href="{{ ('manifest.json') }}">
+<script src="{{ ('assets/js/notifications.js') }}"></script>
+<script src="{{ ('assets/js/registersw.js') }}"></script>
 
-	<section class="heading-part text-center">
-		<div class="container">
-			<h1 class="jumbotron-heading">Hey {{app.user.firstname}}!</h1><br>
-			<p class="lead text-muted">Currently <b>{{pins}}</b> pins, located in <b>{{country}}</b> country and sorted in <b>{{type}}</b> categories</p>
+<section class="heading-part text-center">
+	<div class="container">
+		<h1 class="jumbotron-heading">Hey
+			{{app.user.firstname}}!</h1><br>
+		<p class="lead text-muted">
+			Currently <b>{{location_count}}</b>	pins, located in <b>{{country_count}}</b> country and sorted in <b>{{type_count}}</b> categories
+		</p>
+	</div>
+</section>
+
+<section class="fetch-part text-center">
+	<div class="container">
+		<div class="last">
+			<div>
+				<p class="text-muted">Current time :
+					<br>
+				<div class="time">{{current_time}}</div>
+				</p>
+			</div>
+			<div class="updated">
+				<p class="text-muted ">Last Updated :
+					<br>
+				<div class="time">{{pinterest.update_date}}</div>
+				</p>
+			</div>
 		</div>
-	</section>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<p class="text-muted">Last Fetched :
+			<br>
+		<div class="time">{{pinterest.fetch_date}}</div>
+		</p>
+		<p>
+			<button class="action-new btn btn-success" id="fetch-pinterest">Fetch Pinterest</button>
+		</p>
+		<div class="seperator"></div>
+		<p>
+			<a class="action-new btn btn-success" href="{{ path('app_fetch_wikimapia') }}">Fetch Wikimapia</a>
+			<a class="action-new btn btn-warning" href="{{ path('app_fetch_wikimapia_pending') }}">Fetch Pending</a>
+			<span class="text-muted">{{pending_count}} x:{{wikimapia.x}} y:{{wikimapia.y}}</span> 
+		</p>
+		<div class="seperator"></div>
+		<p>
+			<a class="action-new btn btn-primary" href="{{ path('app_update') }}">Update</a>
+			<a class="action-new btn btn-warning" href="{{ path('app_patch') }}">Patch</a>
+		</p>
+
+		<p class="progress-percent">Waiting...</p>
+		<div class="progress-bar-wrapper">
+			<div class="progress-bar"></div>
+		</div>
+	</div>
+
+	<div class="output-area">
+		<p class="text-muted">Output :</p>
+		</b>
+		</p>
+		<div class="output">
+			<p>
+				BoardId = {{pinterest.board}}<br>
+				Status = {{pinterest.status}}<br>
+				Error =	{{pinterest.error}}<br>
+				Total Parsed = {{pinterest.total_pins}}<br>
+				NewPins = {{pinterest.new_pins}}<br>
+				---------
+			</p>
+			Key = {{pinterest.token}}
+		</div>
+		<div class="check">
+			<a href="{{ path('app_check_count') }}" class="btn btn-secondary">Check</a>
+			<p>Waiting to be imported : {{pinterest.pin_to_import}}</p>
+		</div>
+	</div>
+</section>
+
+<section class="fetch-part text-center">
+	<div class="container">
+		<div>
+			<p class="text-muted">General Chat :
+				<br>
+			</p>
+		</div>
+		<a class="btn btn-danger" href="{{ path('clear_chat')}}">Clear Chat</a>
+		<div class="adminsender">
+			<input type="text" id="message" placeholder="Server Restart..">
+			</input>
+			<button class="btn btn-primary" id="message_admin">Send</button>
+		</div>
+	</div>
+	<div class="output-area">
+		<p class="text-muted">Server Status :</p></b>
+		<p class="websocket_online" style="display: none;">Online running on :
+		<div class="output">{{ websocket }}</div>
+		</p>
+		<p class="websocket_offline">Currently Offline..</p>
+	</div>
+</section>
+<section class="fetch-part text-center">
+	<div class="container">
+		<div class="last">
+			<div>
+				<p class="text-muted">Import File :
+					<br>
+				</p>
+			</div>
+		</div>
+		<a class="action-new btn btn-success" href="{{ path('upload')}}">Import File</a>
+		<a class="btn btn-primary run-target" href="#">Run</a><a class="btn btn-danger delete-target" href="#">Delete</a>
+	</div>
+	<div class="output-area">
+		<p class="text-muted">Sources ({{upload_count}}) :</p>
+		</b>
+		</p>
+			<select class="output-uploads">
+				{% for item in uploads %}
+					<option value="{{item.id}}">{{item.Name}}</option>
+				{% endfor %}
+			</select>
+	</div>
+</section>
+<section class="fetch-part text-center">
+	<div class="container">
+		<div>
+			<p class="text-muted">Ai Generation ({{to_be_generated}}locations are waiting to be processed):<br></p>
+		</div>
+		<div class="generated">{{ai}}locations already generated</div>
+		<a class="btn btn-success {{stable_status_current}}" href="{{ path('app_image_generation')}}">Generate</a>
+		<a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui" class="btn btn-secondary"	target="_blank">Documentation</a>
+	</div>
+	<div class="output-area">
+		<p class="text-muted">Server Status :</p></b>
+		{{ stable_status|raw}}
+	</div>
+</section>
+<section class="fetch-part text-center">
+	<div class="container">
+		<div>
+			<p class="text-muted">Cache :<br></p>
+		</div>
+		<button class="btn btn-danger" id="clear-cache-button">Clear Cache</button>
+	</div>
+	<div class="output-area">
+		<p class="text-muted">Database :</p>
+		</b>
+		<a href="{{ path('download_database') }}" class="btn btn-secondary " style="pointer-events:none;">Download Database</a>
+	</div>
+</section>
+
+<style>
+.check {
+	display: flex;
+	margin-top: 10px;
+	flex-direction: row;
+}
+.check > a {
+	height: fit-content;
+}
+.check > p {
+	margin-top: 3px;
+	margin-left: 5px;
+	color: #7b7b7b;
+}
+
+.progress-bar-wrapper {
+	border-radius: 31px;
+	width: 100%;
+	height: 8px;
+	border: 1px #545454 solid;
+	overflow: hidden;
+
+}
+.progress-bar {
+	border-radius: 50px;
+	background-color: #60A5FA;
+	height: 100%;
+	width: 0;
+	transition: width 1s ease-in-out;
+}
+
+p.progress-percent {
+	color: #707070;
+	margin: 20px auto 5px;
+	text-align: center;
+	font-weight: 500;
+}
+
+.adminsender {
+	margin-top: 20px;
+}
+button#message_admin {
+	margin-top: -4px;
+}
+
+
+a.btn.btn-success.off {
+	opacity: 0.6;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+a.btn.btn-success.off:hover {
+	cursor: not-allowed;
+}
+.seperator {
+	background-color: #404040;
+	width: 100%;
+	border-radius: 10px;
+	height: 1px;
+	margin: 10px 0;
+}
+
+.generated {
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-bottom: 1px;
+	border-radius: 5px;
+	font-size: 11px;
+	background-color: var(--form-control-bg);
+	border: 1px solid var(--form-input-border-color);
+	height: fit-content;
+	width: fit-content;
+	margin-bottom: 15px;
+}
+p.offline {
+	display: inline-block;
+}
+.offline::before {
+	content: '';
+	display: inherit;
+	width: 10px;
+	height: 10px;
+	margin-right: 10px;
+	background-color: red;
+	border-radius: 50px;
+}
+p.online {
+	display: inline-block;
+	margin-left: 5px;
+}
+.online::before {
+	content: '';
+	display: inherit;
+	width: 10px;
+	height: 10px;
+	margin-right: 10px;
+	background-color: red;
+	background-color: green;
+	border-radius: 50px;
+}
+
+.last {
+	display: flex;
+}
+.content-wrapper {
+	margin: auto;
+}
+
+.content-wrapper {
+	display: block;
+}
+.updated {
+	margin-left: 50px
+}
+.heading-part {
+	width: 100%;
+	padding: 2rem;
+	margin-top: 1rem;
+	border-radius: 8px;
+	height: fit-content;
+}
+.fetch-part {
+	display: flex;
+	width: 100%;
+	padding: 2rem;
+	margin-top: 1rem;
+	border: 1px solid var(--sidebar-border-color);
+	border-radius: 8px;
+	height: fit-content;
+}
+.fetch-part > .container {
+	width: 50%;
+	padding-right: 40px;
+	text-align: left;
+	border-right: 1px solid var(--sidebar-border-color);
+}
+
+.time {
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-bottom: 1px;
+	border-radius: 5px;
+	font-size: 11px;
+	background-color: var(--form-control-bg);
+	border: 1px solid var(--form-input-border-color);
+	height: fit-content;
+	width: fit-content;
+}
+.output-area {
+	width: 50%;
+	padding-left: 40px;
+	text-align: left;
+}
+.output {
+	overflow: hidden;
+	background-color: var(--form-control-bg);
+	border: 1px solid var(--form-input-border-color);
+	padding: 8px;
+	border-radius: 5px;
+	font-size: 11px;
+	height: fit-content;
+}
+
+input.delete-target-source {
+	width: 100%;
+	color: white;
+	font-size: 11px;
+	padding: 8px;
+}
+@media screen and(max-width: 550px) {
+	.fetch-part > .container {
+		width: 100%;
+		border-right: none;
+		border-bottom: 1px solid var(--sidebar-border-color);
+		padding: 12px 0 30px 12px;
+	}
+	.output-area {
+		--bs-gutter-x: 1.5rem;
+		width: 100%;
+		padding: 20px 12px 12px;
+	}
+	.fetch-part {
+		display: block;
+	}
+	.last {
+		justify-content: space-between;
+	}
+	.updated {
+		margin-left: 0
+	}
+}
+.output-uploads {
+	overflow: hidden;
+	background-color: var(--form-control-bg);
+	border: 1px solid var(--form-input-border-color);
+	border-radius: 5px;
+	font-size: 11px;
+	width: 100%;
+	height: fit-content;
+	padding: 8px;
+	text-transform: capitalize;
+}
+
+.cache {
+	text-align: left;
+	margin: 0;
+	border-right: 0 !important;
+}
+
+.websocket_offline::before {
+	content: '';
+	display: inherit;
+	width: 10px;
+	height: 10px;
+	margin-right: 10px;
+	background-color: red;
+	border-radius: 50px;
+}
+.websocket_online::before {
+	content: '';
+	display: inherit;
+	width: 10px;
+	height: 10px;
+	margin-right: 10px;
+	background-color: green;
+	border-radius: 50px;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    const socketStatus = new WebSocket("{{ websocket }}");
+const socketStatus = new WebSocket("{{ websocket }}");
     socketStatus.addEventListener("open", function() {
         console.log("Connected to Status Websocket");
     });
@@ -72,369 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000)
   })
 })
-
 </script>
-
-
-
-{# Fetch #}
-	<section class="fetch-part text-center">
-		<div class="container">
-		<div class="last">
-		<div>
-			<p class="text-muted">Current time : <br> <div class="time">{{current_time}}</div></p></div>
-			<div class="updated"><p class="text-muted ">Last Updated : <br> <div class="time">{{last_updated}}</div></p></div>
-		</div>
-			<p class="text-muted">Last Fetched : <br> <div class="time">{{last_fetched}}</div></p>
-      <p>
-			  <button class="action-new btn btn-success" id="fetch-pinterest">Fetch Pinterest</button>
-      </p>
-      <div class="seperator"></div>
-      <p>
-        <a class="action-new btn btn-success" href="{{ path('app_fetch_wikimapia') }}">Fetch Wikimapia</a>
-        <a class="action-new btn btn-warning" href="{{ path('app_fetch_wikimapia_pending') }}">Fetch Pending</a> 
-        <a class="text-muted">({{pending}})</a>
-      </p>
-      <div class="seperator"></div>
-      <p>
-        <a class="action-new btn btn-primary" href="{{ path('app_update') }}">Update</a>
-        <a class="action-new btn btn-warning" href="{{ path('app_patch') }}">Patch</a>
-      </p>
-
-      <p class="progress-percent">Waiting...</p>
-      <div class="progress-bar-wrapper"><div class="progress-bar"></div></div>
-		</div>
-
-		<div class="output-area">
-		<p class="text-muted">Output : </b></p>
-		<div class="output">
-		<p>BoardId = {{board}}<br>
-		Status = {{finished}}<br>
-		Error = {{error}}<br>
-		Total Parsed = {{total}}<br>
-		NewPins = {{newpins}}<br>---------</p>
-		Key = {{token}}
-		</div>
-    <div class="check">
-    <a href="{{ path('app_check_count') }}" class="btn btn-secondary">Check</a><p>Waiting to be imported : {{remaining}}</p>
-    </div>
-		</div>
-    
-	</section>
-
-{# Chat #}
-<section class="fetch-part text-center">
-<div class="container">
-		<div>
-			<p class="text-muted">General Chat : <br></p>
-		</div>
-<a class="btn btn-danger" href="{{ path('clear_chat')}}">Clear Chat</a>
-<div class="adminsender">
-<input type="text" id="message" placeholder="Server Restart.."> </input>
-<button class="btn btn-primary" id="message_admin">Send</button>
-</div>
-</div>
-<div class="output-area">
-		<p class="text-muted">Server Status : </b></p>
-<p class="websocket_online" style="display: none;">Online running on : <div class="output">{{ websocket }}</div></p>
-<p class="websocket_offline">Currently Offline.. </p>
-		</div>
-</section>
-
-{# Import #}
-	<section class="fetch-part text-center">
-		<div class="container">
-		<div class="last">
-		<div>
-			<p class="text-muted">Import File : <br></p></div>
-		</div>
-			<a class="action-new btn btn-success" href="{{ path('upload')}}">Import File</a>
-			<a class="btn btn-primary run-target" href="#" >Run</a>
-			<a class="btn btn-danger delete-target" href="#">Delete</a>
-		</div>
-		<div class="output-area">
-		<p class="text-muted">Sources ({{uploads_count}}) : </b></p>
-		<select class="output-uploads">
-		{% for item in uploads %}
-		<option value="{{item.id}}">{{item.Name}}</option>
-		{% endfor %}
-		</select>
-		</div>
-	</section>
-
-{# Ai Generation #}
-<section class="fetch-part text-center">
-<div class="container">
-		<div>
-			<p class="text-muted">Ai Generation ({{to_be_generated}} locations are waiting to be processed): <br></p>
-		</div>
-<div class="generated">{{ai}} locations already generated</div>
-<a class="btn btn-success {{stable_status_current}}" href="{{ path('app_image_generation')}}">Generate</a>
-<a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui" class="btn btn-secondary" target="_blank"> Documentation</a> 
-
-</div>
-<div class="output-area">
-		<p class="text-muted">Server Status : </b></p>
-		{{ stable_status|raw}}
-		</div>
-</section>
-
-{# Clear cache #}
-<section class="fetch-part text-center">
-<div class="container">
-		<div>
-			<p class="text-muted">Cache : <br></p>
-		</div>
-<button class="btn btn-danger" id="clear-cache-button">Clear Cache</button>
-</div>
-
-
-{# Database Download #}
-<div class="output-area">
-		<p class="text-muted">Database : </b></p>
-<a href="{{ path('download_database') }}" class="btn btn-secondary " style="pointer-events:none;">Download Database</a>
-
-</div>
-</section>
-
-{# Stylesheets #}
-
-<style>
-
-.check {
-    display: flex;
-    margin-top: 10px;
-    flex-direction: row;
-}
-.check > a{
-      height: fit-content;
-}
-.check > p {
-      margin-top: 3px;
-      margin-left:5px;
-      color: #7b7b7b;
-}
-
-.progress-bar-wrapper {
-    border-radius: 31px;
-    width: 100%;
-    height: 8px;
-    border: 1px #545454 solid;
-    overflow: hidden;
-
-}
-.progress-bar {
-    border-radius: 50px;
-    background-color: #60A5FA;
-    height: 100%;
-    width:0%;
-    transition: width 1s ease-in-out;
-}
-
-p.progress-percent {
-    color: #707070;
-    margin: auto;
-    text-align: center;
-    font-weight: 500;
-    margin-top: 20px;
-    margin-bottom: 5px;
-}
-
-.adminsender {
-    margin-top: 20px;
-}
-button#message_admin {
-    margin-top: -4px;
-}
-
-
-a.btn.btn-success.off {
-    opacity: 0.6;
-	cursor:not-allowed;
-    pointer-events: none;
-}
-a.btn.btn-success.off:hover {
-	cursor:not-allowed;
-}
-.seperator {
-    background-color: #404040;
-    width: 100%;
-    border-radius: 10px;
-    height: 1px;
-    margin: 10px 0px 10px 0px;
-}
-
-.generated{
-	    padding-left: 4px;
-    padding-right: 4px;
-    padding-bottom: 1px;
-    border-radius: 5px;
-    font-size: 11px;
-    background-color: var(--form-control-bg);
-    border: 1px solid var(--form-input-border-color);
-    height: fit-content;
-    width: fit-content;
-	margin-bottom:15px;
-}
-p.offline {
-    display: inline-block;
-}
-.offline::before{
-	content:'';
-	display: inherit;
-	width: 10px;
-    height: 10px;
-	margin-right:10px;
-    background-color: red;
-    border-radius: 50px;
-}
-p.online {
-    display: inline-block;
-	margin-left:5px;
-}
-.online::before{
-	content:'';
-	display: inherit;
-	width: 10px;
-    height: 10px;
-	margin-right:10px;
-    background-color: red;
-    background-color: green;
-    border-radius: 50px;
-}
-
-.last{
-	display:flex;
-}
-.content-wrapper{ 
-	margin: auto;
-}
-
-.content-wrapper{
-	display:block;
-}
-.updated{
-	margin-left:50px
-}
-.heading-part{
-	width:100%;
-    padding: 2rem;
-    margin-top: 1rem;
-    border-radius: 8px;
-    height: fit-content;
-}
-.fetch-part{
-	display: flex;
-	width:100%;
-    padding: 2rem;
-    margin-top: 1rem;
-    border: 1px solid var(--sidebar-border-color);
-    border-radius: 8px;
-    height: fit-content;
-}
-.fetch-part > .container{
-	width: 50%;
-	padding-right: 40px;
-    text-align: left;
-	border-right:1px solid var(--sidebar-border-color);
-}
-
-.time{
-    padding-left: 4px;
-    padding-right: 4px;
-	padding-bottom : 1px;
-    border-radius: 5px;
-    font-size: 11px;
-    background-color: var(--form-control-bg);
-    border: 1px solid var(--form-input-border-color);
-    height: fit-content;
-    width: fit-content;
-}
-.output-area{
-	width: 50%;
-	padding-left: 40px;
-    text-align: left;
-}
-.output{
-	overflow: hidden;
-	background-color: var(--form-control-bg);
-	border : 1px solid var(--form-input-border-color);
-    padding: 8px;
-    border-radius: 5px;
-    font-size: 11px;
-    height: fit-content;
-}
-
-input.delete-target-source {
-    width: 100%;
-    color: white;
-     font-size: 11px;
-    padding: 8px;
-}
-@media screen and (max-width: 550px) {
-  .fetch-part > .container {
-	width: 100%;
-	border-right:none;
-	border-bottom:1px solid var(--sidebar-border-color);
-	padding : 12px;
-	padding-bottom: 30px;
-	padding-right: 0px;
-  }
-  .output-area {
-	--bs-gutter-x: 1.5rem;
-	width: 100%;
-	padding: 12px;
-	padding-top:20px;
-  }
-  .fetch-part{
-  display:block;
-  }
-  .last{
-	justify-content: space-between;
-}
-.updated{
-	margin-left:0px
-}
-}
-.output-uploads{
-    overflow: hidden;
-    background-color: var(--form-control-bg);
-    border: 1px solid var(--form-input-border-color);
-    border-radius: 5px;
-    font-size: 11px;
-    width: 100%;
-    height: fit-content;
-    padding: 8px;
-	text-transform: capitalize;
-}
-
-.cache {
-    text-align: left;
-    margin: 0;
-    border-right: 0px!important;
-}
-
-.websocket_offline::before {
-    content: '';
-    display: inherit;
-    width: 10px;
-    height: 10px;
-    margin-right: 10px;
-    background-color: red;
-    border-radius: 50px;
-}
-.websocket_online::before {
-    content: '';
-    display: inherit;
-    width: 10px;
-    height: 10px;
-    margin-right: 10px;
-    background-color: green;
-    border-radius: 50px;
-}
-</style>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
 $(function () {
@@ -533,6 +540,5 @@ $(document).ready(function () {
     })
   })
 })
-</script>
-
+</script> 
 {% endblock %}
