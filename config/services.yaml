@@ -11,7 +11,6 @@ parameters:
     alphabet: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
   uploads_directory: '%kernel.project_dir%/public/uploads/exports/'
   public_directory: '%kernel.project_dir%/public/'
-  data_directory: '%kernel.project_dir%/public/data/'
 
 services:
   App\Controller\FetchController:
@@ -37,7 +36,6 @@ services:
   _defaults:
     bind:
       $publicDirectory: '%public_directory%'
-      $dataDirectory: '%data_directory%'
     autowire: true # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
