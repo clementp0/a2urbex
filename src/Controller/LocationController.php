@@ -112,6 +112,9 @@ class LocationController extends AppController
         $form->handleRequest($request);
         
         if($this->isOwned($location) && $form->isSubmitted() && $form->isValid()) {
+            if($location->getImage() === null && $location->getPreviousImage()) {
+                $location->setImageDirect($image);
+            }
             $this->locationRepository->add($location);
 
             return $this->redirectToRoute('new_location', [], Response::HTTP_SEE_OTHER);
