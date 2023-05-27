@@ -28,6 +28,7 @@ class PinterestService {
 
         $this->pinCount = 0;
         $this->error = 'Without Error(s)';
+        $this->hasError = false;
         $this->pinTotal = 0;
     }
     
@@ -109,8 +110,8 @@ class PinterestService {
                 ->setImageDirect($this->imgPath.$imgName)
                 ->setDescription(substr($item['description'], 0, 250));
             
-            $this->locationService->addType($location);
-            $this->locationService->addCountry($location);
+            // $this->locationService->addType($location);
+            // $this->locationService->addCountry($location);
             
             $this->locationRepository->add($location);
             $this->newPinCount++;
@@ -122,6 +123,7 @@ class PinterestService {
     }
 
     private function error($error) {
+        $this->hasError = true;
         $this->error = $error;
         $this->done();
     }
@@ -130,7 +132,7 @@ class PinterestService {
         $jsonData = [
             "last_fetched" => date("d/m/Y H:i", time()),
             "board" => $this->boardId,
-            "finished" => $this->error ? 'Error' : 'Success',
+            "finished" => $this->hasError ? 'Error' : 'Success',
             "error" => $this->error,
             "total" => $this->pinCount,
             "newpins" => $this->newPinCount,
