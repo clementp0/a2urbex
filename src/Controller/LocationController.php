@@ -151,6 +151,10 @@ class LocationController extends AppController
         $location = $this->getLocationFromKey($request->get('key'), true);
 
         if($this->isOwned($location) && $this->isCsrfTokenValid('delete'.$location->getId(), $request->request->get('_token'))) {
+            $image = $location->getImage();
+            if($image && file_exists($this->getParameter('public_directory').$image)) {
+                unlink($this->getParameter('public_directory').$image);
+            }
             $this->locationRepository->remove($location);
         }
         $referer = $request->headers->get('referer');
