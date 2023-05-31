@@ -1,6 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './index.scss'
-
 import $ from 'jquery'
 import './js/notifications'
 import './js/registersw'

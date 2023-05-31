@@ -1,5 +1,5 @@
 #not_found {
-  background-image: url('./img/home/404.png');
+  background-image: url('../img/home/404.png');
   background-position-x: right;
   max-height: 100vh;
   overflow: hidden;
@@ -17,12 +17,12 @@
   }
 
   @media screen and (max-width: 954px) {
-    background-image: url('./img/home/404_half.png');
+    background-image: url('../img/home/404_half.png');
     background-position-x: center;
     background-position-y: center;
   }
   @media screen and (max-width: 610px) {
-    background-image: url('./img/home/404_small.png');
+    background-image: url('../img/home/404_small.png');
     background-position-x: center;
     background-position-y: center;
     background-size: cover;

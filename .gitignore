@@ -12,6 +12,7 @@
 ### webpack ###
 /node_modules/
 /public/assets/build/
+/public/build/
 npm-debug.log
 yarn-error.log
 ### webpack ###
