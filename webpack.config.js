@@ -1,6 +1,37 @@
 const Encore = require('@symfony/webpack-encore')
 const webpack = require('webpack')
 
+function applyConfig(config) {
+  config
+    .enableStimulusBridge('./assets/controllers.json')
+    .splitEntryChunks()
+    .enableSingleRuntimeChunk()
+
+    .cleanupOutputBeforeBuild()
+    .enableBuildNotifications()
+    .enableSourceMaps(!Encore.isProduction())
+    .enableVersioning(Encore.isProduction())
+
+    .configureBabel((config) => {
+      config.plugins.push('@babel/plugin-proposal-class-properties')
+    })
+    .configureBabelPresetEnv((config) => {
+      config.useBuiltIns = 'usage'
+      config.corejs = 3
+    })
+
+    .enableSassLoader()
+
+    .addPlugin(
+      new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery',
+      })
+    )
+}
+
+Encore.configureDefault = () => {}
 if (!Encore.isRuntimeEnvironmentConfigured()) {
   Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev')
 }
@@ -41,31 +72,20 @@ Encore.setOutputPath('public/build/') // directory where compiled assets will be
   // friend
   .addStyleEntry('friend-style', './assets/scss/page/friend.scss')
 
-  .enableStimulusBridge('./assets/controllers.json')
-  .splitEntryChunks()
-  .enableSingleRuntimeChunk()
+applyConfig(Encore)
+const mainConfig = Encore.getWebpackConfig()
+mainConfig.name = 'mainConfig'
 
-  .cleanupOutputBeforeBuild()
-  .enableBuildNotifications()
-  .enableSourceMaps(!Encore.isProduction())
-  .enableVersioning(Encore.isProduction())
+Encore.reset()
 
-  .configureBabel((config) => {
-    config.plugins.push('@babel/plugin-proposal-class-properties')
-  })
-  .configureBabelPresetEnv((config) => {
-    config.useBuiltIns = 'usage'
-    config.corejs = 3
-  })
+Encore.setOutputPath('public/admin/build/')
+  .setPublicPath('/admin/build')
+  // admin
+  .addStyleEntry('admin-style', './assets/scss/page/admin.scss')
+  .addEntry('admin-script', './assets/js/page/admin.js')
 
-  .enableSassLoader()
+applyConfig(Encore)
+const adminConfig = Encore.getWebpackConfig()
+adminConfig.name = 'adminConfig'
 
-  .addPlugin(
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery',
-    })
-  )
-
-module.exports = Encore.getWebpackConfig()
+module.exports = [mainConfig, adminConfig]
