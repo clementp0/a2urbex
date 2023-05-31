@@ -1,0 +1,66 @@
+.friend-wrapper {
+  padding: 20px;
+
+  .add-friend {
+    display: block;
+    margin: auto;
+    border: 1px solid #525252;
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+
+  .friend-requests,
+  .friends {
+    margin: 20px auto;
+    max-width: 700px;
+  }
+
+  .friends {
+    margin-top: 50px;
+  }
+
+  .friend-item {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    border-bottom: 1px solid #404040;
+    align-items: center;
+
+    .friend-item-profil {
+      display: flex;
+
+      .friend-item-profil-left {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+      }
+      .friend-item-profil-right {
+        margin-left: 5px;
+
+        .friend-item-name {
+          margin: 0;
+          color: white;
+        }
+        .friend-item-username {
+          margin: 0;
+          font-size: 12px;
+        }
+      }
+    }
+
+    .friend-item-action {
+      a {
+        font-size: 20px;
+        margin: 0 10px;
+      }
+
+      .waiting {
+        border: 1px solid #404040;
+        border-radius: 5px;
+        padding: 3px 10px;
+      }
+    }
+  }
+}

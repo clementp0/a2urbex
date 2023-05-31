@@ -38,6 +38,9 @@ Encore.setOutputPath('public/build/') // directory where compiled assets will be
   // notfound
   .addStyleEntry('error-style', './assets/scss/page/notfound.scss')
 
+  // friend
+  .addStyleEntry('friend-style', './assets/scss/page/friend.scss')
+
   .enableStimulusBridge('./assets/controllers.json')
   .splitEntryChunks()
   .enableSingleRuntimeChunk()
