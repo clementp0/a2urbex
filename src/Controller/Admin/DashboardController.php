@@ -24,13 +24,15 @@ use App\Repository\MessageRepository;
 use App\Service\MessageService;
 use App\Service\DataService;
 use App\Repository\ConfigRepository;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension;
 
 class DashboardController extends AbstractDashboardController
 {
-    public function __construct(private DataService $dataService, private ConfigRepository $configRepository) {}
+    public function __construct(
+        private DataService $dataService,
+        private ConfigRepository $configRepository,
+        private EntryFilesTwigExtension $entryFilesTwigExtension,
+    ) {}
 
     #[Route('/admin', name: 'admin')]
     public function index(): Response
@@ -123,6 +125,18 @@ class DashboardController extends AbstractDashboardController
 
     }
 
+    // configure assets
+    public function configureAssets(): Assets
+    {
+        $scripts = $this->entryFilesTwigExtension->renderWebpackScriptTags('admin-script', null, 'adminConfig');
+        $styles = $this->entryFilesTwigExtension->renderWebpackLinkTags('admin-style', null, 'adminConfig');
+
+        return Assets::new()
+            ->addHtmlContentToHead($scripts)
+            ->addHtmlContentToHead($styles)
+        ;
+    }
+
 
     //Clear Chat
     public function clearChat(MessageRepository $messageRepository, MessageService $messageService)
@@ -174,8 +188,16 @@ class DashboardController extends AbstractDashboardController
     public function publicAdmin($rootDirectory, $file) {
         $path = $rootDirectory.'build_admin/'.$file;
         if(file_exists($path)) {
-            $response = new BinaryFileResponse($path);
-            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT);
+            $contentType = mime_content_type($path);
+            $content = $this->dataService->getFile($path);
+            
+            $response = new Response($content);
+
+            if (strtolower(pathinfo($path, PATHINFO_EXTENSION)) === 'css') {
+                $response->headers->set('Content-Type', 'text/css');
+            } else {
+                $response->headers->set('Content-Type', $contentType);
+            }
             
             return $response;
         } else {

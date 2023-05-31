@@ -34,6 +34,9 @@ services:
     arguments:
       - '%env(DATABASE_URL)%'
       - { db_table: 'sessions', db_id_col: 'sess_id' }
+
+  Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension: '@webpack_encore.twig_entry_files_extension'
+
   # default configuration for services in *this* file
   _defaults:
     bind:
