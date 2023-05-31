@@ -321,7 +321,7 @@ input.delete-target-source {
 	font-size: 11px;
 	padding: 8px;
 }
-@media screen and(max-width: 550px) {
+@media screen and (max-width: 550px) {
 	.fetch-part > .container {
 		width: 100%;
 		border-right: none;
@@ -412,7 +412,6 @@ document.addEventListener('DOMContentLoaded', () => {
   startButton.addEventListener('click', () => {
     const progressText = document.querySelector('.progress-percent')
     progressText.textContent = 'Starting...'
-    const textUrl = 'data/pin.txt'
     let lastValue = null
 
     function handleNewLines(value) {
@@ -425,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setInterval(() => {
       const xhr = new XMLHttpRequest()
-      xhr.open('GET', textUrl)
+      xhr.open('GET', 'admin/fetch-progress')
       xhr.responseType = 'text'
       xhr.setRequestHeader("Cache-Control", "max-age=0");
       xhr.onload = () => {

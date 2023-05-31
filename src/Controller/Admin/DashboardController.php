@@ -161,4 +161,9 @@ class DashboardController extends AbstractDashboardController
         return $response;
 
     }
+
+    #[Route('/admin/fetch-progress', name: 'admin/fetch-progress')]
+    public function fetchProgress() {
+        return new Response($this->configRepository->get('pinterest', 'fetch_progress'));
+    }
 }
