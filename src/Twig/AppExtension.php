@@ -15,6 +15,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFunction('getStyleName', [$this, 'getStyleName']),
             new TwigFunction('getScriptName', [$this, 'getScriptName']),
+            new TwigFunction('adminConvert', [$this, 'adminConvert']),
         ];
     }
 

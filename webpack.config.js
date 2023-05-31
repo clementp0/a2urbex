@@ -78,8 +78,8 @@ mainConfig.name = 'mainConfig'
 
 Encore.reset()
 
-Encore.setOutputPath('public/admin/build/')
-  .setPublicPath('/admin/build')
+Encore.setOutputPath('build_admin/')
+  .setPublicPath('/build_admin/')
   // admin
   .addStyleEntry('admin-style', './assets/scss/page/admin.scss')
   .addEntry('admin-script', './assets/js/page/admin.js')

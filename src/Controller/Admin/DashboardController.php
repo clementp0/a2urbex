@@ -24,6 +24,9 @@ use App\Repository\MessageRepository;
 use App\Service\MessageService;
 use App\Service\DataService;
 use App\Repository\ConfigRepository;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -165,5 +168,18 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin/fetch-progress', name: 'admin/fetch-progress')]
     public function fetchProgress() {
         return new Response($this->configRepository->get('pinterest', 'fetch_progress'));
+    }
+
+    #[Route('/build_admin/{file}', name: 'build_admin')]
+    public function publicAdmin($rootDirectory, $file) {
+        $path = $rootDirectory.'build_admin/'.$file;
+        if(file_exists($path)) {
+            $response = new BinaryFileResponse($path);
+            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT);
+            
+            return $response;
+        } else {
+           return $this->redirect('/not-found');
+        }
     }
 }

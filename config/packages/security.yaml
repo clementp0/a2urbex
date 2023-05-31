@@ -31,6 +31,7 @@ security:
   access_control:
     # ADMIN Access
     - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/build_admin, roles: ROLE_ADMIN }
     - { path: ^/upload, roles: ROLE_ADMIN }
     - { path: ^/delete, roles: ROLE_ADMIN }
     - { path: ^/compte, roles: ROLE_ADMIN }
