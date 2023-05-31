@@ -13,6 +13,8 @@ parameters:
   public_directory: '%kernel.project_dir%/public/'
 
 services:
+  App\Twig\AppExtension:
+    tags: ['twig.extension']
   App\Controller\FetchController:
     arguments:
       $connector: '@ratchet.client'
@@ -36,6 +38,7 @@ services:
   _defaults:
     bind:
       $publicDirectory: '%public_directory%'
+      $rootDirectory: '%kernel.project_dir%/'
     autowire: true # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 

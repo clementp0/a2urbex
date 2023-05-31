@@ -14,14 +14,20 @@
 
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app-script') }}
+			{% set scriptName = getScriptName() %}
+			{% if(scriptName) %}
+				{{ encore_entry_script_tags(scriptName) }}
+			{% endif %}
 		{% endblock %}
 		{% block stylesheets %}
     		{{ encore_entry_link_tags('app-style') }}
-    		{{ encore_entry_link_tags('location-style') }}
+			{% set styleName = getStyleName() %}
+			{% if(styleName) %}
+				{{ encore_entry_link_tags(styleName) }}
+			{% endif %}
 		{% endblock %}
 	</head>
 	<header>
-	
 		<nav class="navbar navbar-expend-md navbar-dark fixed-top">
 			<div class="navbar-collapse" id="navbarCollapse">
 				<div class="filter"></div>
