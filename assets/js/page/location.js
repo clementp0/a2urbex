@@ -1,3 +1,5 @@
+import '../components/coord'
+
 $(() => {
   $('.coordinates').insertAfter('#location_lon')
   $('.coordinates').insertAfter('#location_lon')
