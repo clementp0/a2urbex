@@ -1,0 +1,241 @@
+// float map button
+.map-link {
+  position: fixed;
+  bottom: 50px;
+  right: 25px;
+  background-color: #303030;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 20px;
+}
+
+// global new location button
+#new-location {
+  position: fixed;
+  bottom: 110px;
+  right: 25px;
+  background-color: #60a5fa;
+  color: #222222;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 20px;
+}
+
+// ai generated image
+.aigenerated {
+  background-color: #303030;
+  width: fit-content;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  padding: 0px 5px 0px 5px;
+  width: fit-content;
+  font-size: 0.835rem;
+  margin: auto;
+  text-align: center;
+  margin-top: 5px;
+
+  > i {
+    color: white !important;
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+    position: inherit !important;
+    line-height: 0 !important;
+  }
+}
+i.fa-solid.fa-robot {
+  color: white;
+  margin-left: 10px;
+  margin-top: 4px;
+  position: absolute;
+  line-height: 30px;
+}
+
+// waze link
+i.fa-brands.fa-waze {
+  font-weight: 700;
+  font-size: 1.1em;
+}
+.waze {
+  margin-right: 5px;
+}
+
+// pin container
+.pin-wrapper-inner {
+  padding: 20px;
+}
+.pin-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  justify-items: center;
+  align-content: space-evenly;
+}
+
+p.pin-type {
+  background-color: #303030;
+  color: #60a5fa;
+  border-radius: 5px;
+  text-align: center;
+  padding: 0px 5px 0px 5px;
+  width: fit-content;
+  font-size: 0.835rem;
+  margin: auto;
+  text-align: center;
+
+  .pin-type-text {
+    text-transform: capitalize;
+  }
+}
+
+.pin-container {
+  display: block;
+  width: 270px;
+  border: 1px solid #404040;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 4px;
+  height: fit-content;
+  position: relative;
+
+  .pin-top-container {
+    position: relative;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  .pin-info-icon {
+    margin-right: 10px;
+  }
+  .pin-img {
+    width: 100%;
+    height: 200px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-bottom: 10px;
+  }
+
+  .pin-bottom-container {
+    height: 24px;
+    display: flex;
+  }
+  .pin-id {
+    margin: auto;
+    font-size: 10px;
+    color: #8d8d8d;
+  }
+
+  .pin-user {
+    border-top-right-radius: 7px;
+    border-right: 1px solid #ffffff59;
+    padding-right: 10px;
+    padding-top: 2px;
+  }
+
+  .pin-edit {
+    width: fit-content;
+    float: right;
+    border-top-left-radius: 7px;
+    border-left: 1px solid #ff000059;
+    padding-left: 10px;
+    display: flex;
+  }
+  .pin-title {
+    font-size: 13px;
+    padding-top: 10px;
+  }
+}
+
+// pin pagination
+.pin-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 20px;
+
+  .pagination {
+    & > span {
+      padding: 0 5px;
+
+      a {
+        color: #999;
+      }
+    }
+  }
+}
+
+// pin page
+.private-list {
+  text-align: center;
+  margin: 10px;
+}
+
+.pin-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 10px;
+
+  .pin-warning {
+    margin: 0;
+    margin-top: 10px;
+    text-align: center;
+    background-color: #303030;
+    border-radius: 4px;
+    color: #883131;
+    padding: 0px 10px 0px 10px;
+  }
+
+  .pin-done {
+    margin: 0;
+    margin-top: 10px;
+    text-align: center;
+    background-color: #303030;
+    border-radius: 4px;
+    padding: 0px 10px 0px 10px;
+  }
+
+  .pin-page-img {
+    position: relative;
+    min-width: 150px;
+    min-height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #303030;
+    margin-bottom: 10px;
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  .pin-page-title {
+    margin: 0;
+    margin-top: 10px;
+    text-align: center;
+    margin-bottom: 10px !important;
+  }
+
+  .pin-action {
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+
+    a {
+      margin: 0 8px;
+      font-size: 20px;
+    }
+  }
+}

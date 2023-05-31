@@ -79,14 +79,9 @@
 		{% endfor %}
 	{% else %}
 		{% if private|default(null) %}
-			This list is private
+			<p>This list is private</p>
 		{% else %}
 			<p>No records found</p>
-			<style>
-				.first_location {
-					display: block !important;
-				}
-			</style>
 		{% endif %}
 	{% endif %}
 </div>
