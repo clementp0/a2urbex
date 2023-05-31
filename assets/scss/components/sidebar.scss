@@ -82,6 +82,10 @@
         height: 40px;
         border-radius: 0;
       }
+
+      &::placeholder {
+        color: #5a5a5a;
+      }
     }
 
     .form-check-label {
