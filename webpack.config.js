@@ -67,7 +67,7 @@ Encore.setOutputPath('public/build/') // directory where compiled assets will be
   .addEntry('map-script', './assets/js/page/map.js')
 
   // notfound
-  .addStyleEntry('error-style', './assets/scss/page/notfound.scss')
+  .addStyleEntry('error-style', './assets/scss/page/error.scss')
 
   // friend
   .addStyleEntry('friend-style', './assets/scss/page/friend.scss')
