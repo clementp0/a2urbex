@@ -1,0 +1,118 @@
+//favorite popup
+.pin-fav-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  .pin-fav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ddd;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.pin-fav-list .form-check-label {
+  margin-left: 5px;
+  max-width: 180px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+}
+
+.pin-fav-add {
+  background-color: #303030;
+  border: 1px solid #404040;
+  border-radius: 3px;
+  padding: 10px;
+  padding-bottom: 13px;
+  min-width: 180px;
+  max-width: 230px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: all 0.5s;
+  opacity: 0;
+  visibility: hidden;
+  overflow-y: scroll;
+  max-height: 250px;
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .pin-fav-add-top {
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      margin-right: 20px;
+    }
+
+    .pin-fav-add-close {
+      height: 24px;
+      width: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      right: -5px;
+    }
+  }
+
+  .pin-fav-add-new-wrapper {
+    position: relative;
+    margin-top: 10px;
+    display: flex;
+
+    .pin-fav-add-new {
+      font-size: 14px;
+      padding-left: 2px;
+    }
+
+    .pin-fav-add-new-field {
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #303030;
+      transition: opacity 0.5s, visibility 0.5s;
+      opacity: 0;
+      visibility: hidden;
+
+      &.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .pin-fav-add-new-input {
+        flex-grow: 1;
+        color: #6d6d6d;
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid #ffffff24;
+        font-size: 12px;
+        border-radius: 0;
+        max-width: calc(100% - 16px);
+
+        &:focus-visible {
+          outline: 0;
+        }
+      }
+
+      .pin-fav-add-new-confirm {
+        margin-left: 5px;
+      }
+    }
+  }
+}
