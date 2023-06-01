@@ -7,10 +7,6 @@
   background-position: center;
   background-size: cover;
   padding: 0;
-  overflow: hidden;
-  &>header{
-    display:none;
-  }
   &>footer{
     display:none;
   }
@@ -82,6 +78,9 @@ hr{
 }
 
 @media (max-width: 550px) {
+  #app_links{
+    overflow: hidden;
+  }
   .contact__container{
     width: 100%;
     height: 100%;
