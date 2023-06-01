@@ -1,28 +1,36 @@
-$(() => {
-  $('.pin-open-search').on('click', () => {
-    $('.pin-wrapper').toggleClass('menu-open')
-  })
-  $('.pin-search-wrapper').on('click', function (e) {
-    if (e.target != this) return
-    $('.pin-wrapper').removeClass('menu-open')
-  })
+export default class FavoritePopup {
+  static init(...args) {
+    return new this(...args)
+  }
+  constructor(selector) {
+    this.element = $(selector)
+    this.button = this.element.find('.pin-fav')
+    this.popup = this.element.find('.pin-fav-add')
+    this.id = this.element.attr('data-id')
 
-  $('.pin-fav').on('click', function (e) {
+    this.triggers()
+  }
+
+  triggers() {
+    this.button.on('click', (e) => this.open(e))
+    this.element.find('.pin-fav-add-close').on('click', (e) => this.close(e))
+    this.element.on('click', '.pin-fav-item', (e) => this.toggleItem(e))
+    this.element.find('.pin-fav-add-new').on('click', (e) => this.openAddNew(e))
+    this.element.find('.pin-fav-add-new-confirm').on('click', (e) => this.addNew(e))
+  }
+
+  open(e) {
     e.preventDefault()
-    let item = $(this)
-    let parent = item.parents('.pin-fav-wrapper')
-
-    let id = parent.attr('data-id')
 
     $.ajax({
-      url: item.attr('href'),
+      url: this.button.attr('href'),
       method: 'POST',
       dataType: 'json',
-      data: { lid: id },
+      data: { lid: this.id },
     })
       .done((json) => {
         if (json) {
-          parent.find('.pin-fav-list').empty()
+          this.element.find('.pin-fav-list').empty()
 
           let fids =
             json.fids && json.fids.length
@@ -30,7 +38,7 @@ $(() => {
               : null
 
           json.favs.forEach((item) => {
-            let cid = 'fav_' + id + '_' + item.fav.id
+            let cid = 'fav_' + this.id + '_' + item.fav.id
             let line = $('<div>').addClass('form-check')
             let input = $(
               '<input type="checkbox" class="form-check-input pin-fav-item" value="' +
@@ -45,40 +53,48 @@ $(() => {
             if (fids !== null) input.prop('checked', fids.includes(item.fav.id) ? true : false)
 
             line.append(input).append(label)
-            parent.find('.pin-fav-list').append(line)
+            this.element.find('.pin-fav-list').append(line)
           })
 
-          parent.find('.pin-fav-add').addClass('show')
+          $('body')
+            .find('.pin-fav-add')
+            .removeClass('show')
+            .find('.pin-fav-add-new-field')
+            .removeClass('show')
+
+          this.popup.addClass('show')
         }
       })
       .fail(() => {
         alert('Error')
       })
-  })
+  }
 
-  $('.pin-fav-add-close').on('click', function (e) {
+  close(e) {
     e.preventDefault()
-    $(this).parents('.pin-fav-add').removeClass('show')
-    $(this).parents('.pin-fav-add').find('.pin-fav-add-new-field').removeClass('show')
-  })
+    this.popup.removeClass('show')
+    this.popup.find('.pin-fav-add-new-field').removeClass('show')
+  }
 
-  $('.pin-fav-wrapper').on('click', '.pin-fav-item', function () {
-    let parent = $(this).parents('.pin-fav-wrapper')
-    let fid = $(this).val()
-    let lid = parent.attr('data-id')
-    let checked = $(this).prop('checked') ? 1 : 0
+  toggleItem(e) {
+    const current = $(e.currentTarget)
 
     $.ajax({
-      url: parent.data('url'),
+      url: this.element.data('url'),
       method: 'POST',
       dataType: 'json',
-      data: { lid, fid, checked },
+      data: {
+        lid: this.id,
+        fid: current.val(),
+        checked: current.prop('checked') ? 1 : 0,
+      },
     })
       .done((json) => {
         if (json.success) {
-          parent.attr('data-fids', json.fids ? json.fids : '')
-          if (json.fids) parent.find('.pin-fav i').addClass('fa-solid').removeClass('fa-regular')
-          else parent.find('.pin-fav i').addClass('fa-regular').removeClass('fa-solid')
+          this.element.attr('data-fids', json.fids ? json.fids : '')
+          if (json.fids)
+            this.element.find('.pin-fav i').addClass('fa-solid').removeClass('fa-regular')
+          else this.element.find('.pin-fav i').addClass('fa-regular').removeClass('fa-solid')
         } else {
           alert('Error')
         }
@@ -86,35 +102,35 @@ $(() => {
       .fail(() => {
         alert('Error')
       })
-  })
+  }
 
-  $('.pin-fav-add-new').on('click', function (e) {
+  openAddNew(e) {
     e.preventDefault()
-    $(this).siblings().addClass('show')
-  })
-  $('.pin-fav-add-new-confirm').on('click', function (e) {
+    this.popup.find('.pin-fav-add-new-field').addClass('show')
+  }
+
+  addNew(e) {
     e.preventDefault()
 
-    let parent = $(this).parents('.pin-fav-wrapper')
-    let input = $(this).siblings()
-    let lid = parent.data('id')
+    const input = this.element.find('.pin-fav-add-new-input')
     let name = input.val()
 
     if (name.length && confirm("Confirmer l'ajout")) {
       $.ajax({
-        url: parent.data('url'),
+        url: this.element.data('url'),
         method: 'POST',
         dataType: 'json',
-        data: { lid, name },
+        data: { lid: this.id, name },
       })
         .done((json) => {
           if (json.success) {
             input.val('')
             input.parents('.pin-fav-add-new-field').removeClass('show')
-            parent.attr('data-fids', json.fids ? json.fids : '')
-            if (json.fids) parent.find('.pin-fav i').addClass('fa-solid').removeClass('fa-regular')
-            else parent.find('.pin-fav i').addClass('fa-regular').removeClass('fa-solid')
-            parent.find('.pin-fav').click()
+            this.element.attr('data-fids', json.fids ? json.fids : '')
+            if (json.fids)
+              this.element.find('.pin-fav i').addClass('fa-solid').removeClass('fa-regular')
+            else this.element.find('.pin-fav i').addClass('fa-regular').removeClass('fa-solid')
+            this.element.find('.pin-fav').click()
           } else {
             alert('Error')
           }
@@ -123,29 +139,5 @@ $(() => {
           alert('Error')
         })
     }
-  })
-
-  // inside favorite page
-  $('.fav-item-delete').on('click', function (e) {
-    if (!confirm('Delete list')) e.preventDefault()
-  })
-  $('.fav-item-share-link').on('click', function (e) {
-    if (!confirm('Change list permission')) e.preventDefault()
-  })
-
-  $('.fav-item-copy-link').on('click', function (e) {
-    e.preventDefault()
-    if (confirm('Copy list link')) {
-      const copyText = $(this).attr('href')
-      document.addEventListener(
-        'copy',
-        function (e) {
-          e.clipboardData.setData('text/plain', copyText)
-          e.preventDefault()
-        },
-        true
-      )
-      document.execCommand('copy')
-    }
-  })
-})
+  }
+}
