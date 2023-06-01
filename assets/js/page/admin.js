@@ -34,7 +34,9 @@ $(() => {
 
   // fetch pinterest
   $('#fetch-pinterest').on('click', function () {
-    progress()
+    console.log('send')
+    socket.send(JSON.stringify({ type: 'publish', channel: 'chat', message: 'coucou' }))
+    //progress()
     // $.ajax({
     //   url: pinterestUrl,
     //   method: 'GET',
@@ -43,7 +45,39 @@ $(() => {
     // })
   })
 
+  // test
+  const socket = new WebSocket(websocketUrl + '?' + session)
+
+  socket.onopen = function (event) {
+    // Send a message to subscribe to a channel
+    const message = {
+      type: 'subscribe',
+      channel: 'chat',
+    }
+    socket.send(JSON.stringify(message))
+    console.log('subscribe')
+  }
+
+  // Event triggered when a message is received from the server
+  socket.onmessage = function (event) {
+    console.log('receive', JSON.parse(event.data))
+    // Handle the received message
+  }
+
+  // Event triggered when an error occurs
+  socket.onerror = function (event) {
+    // Handle the error
+    console.log('error', event.currentTarget)
+  }
+
+  // Event triggered when the connection is closed
+  socket.onclose = function (event) {
+    console.log('close', event)
+    // Handle the connection closure
+  }
+
   // todo rework websocket
+  /*
   const socket = new WebSocket(websocketUrl)
 
   socket.addEventListener('open', function () {
@@ -64,8 +98,8 @@ $(() => {
   })
 
   function renderProgress(progression) {
-    $('.progress-bar').css('width', progression)
-    $('.progress-percent').val(Math.floor(progression * 100) / 100 + '%')
+    $('.progress-bar-thumb').css('width', progression)
+    $('.progress-percent').text(progression)
   }
 
   function progress() {
@@ -73,23 +107,18 @@ $(() => {
     let lastValue = null
 
     setInterval(() => {
-      const xhr = new XMLHttpRequest()
-      xhr.open('GET', 'admin/fetch-progress')
-      xhr.responseType = 'text'
-      xhr.setRequestHeader('Cache-Control', 'max-age=0')
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          const value = xhr.responseText
+      $.ajax({
+        type: 'GET',
+        url: 'admin/fetch-progress',
+        success: (value) => {
           if (value !== lastValue) {
             lastValue = value
-
-            const message = { progression: value }
             socket.send(JSON.stringify(message))
-            renderProgress(message.progression)
+            const message = { progression: value }
+            renderProgress(value)
           }
-        }
-      }
-      xhr.send()
+        },
+      })
     }, 1000)
   }
 
@@ -114,4 +143,5 @@ $(() => {
       },
     })
   })
+  */
 })

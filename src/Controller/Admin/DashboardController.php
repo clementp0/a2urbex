@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-
 use Symfony\Component\Process\Process;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -25,6 +24,7 @@ use App\Service\MessageService;
 use App\Service\DataService;
 use App\Repository\ConfigRepository;
 use Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -32,6 +32,7 @@ class DashboardController extends AbstractDashboardController
         private DataService $dataService,
         private ConfigRepository $configRepository,
         private EntryFilesTwigExtension $entryFilesTwigExtension,
+        private SessionInterface $session
     ) {}
 
     #[Route('/admin', name: 'admin')]
@@ -73,6 +74,7 @@ class DashboardController extends AbstractDashboardController
             'current_time' => date("d/m/Y H:i", time()),
             'websocket' => $_ENV["WEBSOCKET_URL"],
             'uploads' => $repoUpload->findAll(),
+            'session' => $this->session->getId(),
 
             'pinterest' => $this->configRepository->get('pinterest'),
             'wikimapia' => $this->configRepository->get('wikimapia'),
