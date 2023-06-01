@@ -34,74 +34,16 @@ $(() => {
 
   // fetch pinterest
   $('#fetch-pinterest').on('click', function () {
-    $.ajax({
-      url: pinterestUrl,
-      method: 'GET',
-      dataType: 'json',
-      success: function (data) {
-        console.log('Foo: ' + data)
-      },
-    })
+    progress()
+    // $.ajax({
+    //   url: pinterestUrl,
+    //   method: 'GET',
+    //   dataType: 'json',
+    //   success: function (data) {},
+    // })
   })
 
   // todo rework websocket
-  const socketStatus = new WebSocket(websocketUrl)
-
-  socketStatus.addEventListener('open', function () {
-    console.log('Connected to Status Websocket')
-  })
-  function addMessage(progression) {
-    const messageHTML = renderRow(progression)
-  }
-  socketStatus.addEventListener('message', function (e) {
-    try {
-      const message = JSON.parse(e.data)
-      addMessage(message.progression)
-    } catch (e) {}
-  })
-
-  function renderRow(progression) {
-    const progressBar = document.querySelector('.progress-bar')
-    const progressText = document.querySelector('.progress-percent')
-    progressBar.style.width = progression + '%'
-    progressText.textContent = Math.floor(progression * 100) / 100 + '%'
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const startButton = document.getElementById('fetch-pinterest')
-
-    startButton.addEventListener('click', () => {
-      const progressText = document.querySelector('.progress-percent')
-      progressText.textContent = 'Starting...'
-      let lastValue = null
-
-      function handleNewLines(value) {
-        const message = {
-          progression: value,
-        }
-        socketStatus.send(JSON.stringify(message))
-        addMessage(message.progression)
-      }
-
-      setInterval(() => {
-        const xhr = new XMLHttpRequest()
-        xhr.open('GET', 'admin/fetch-progress')
-        xhr.responseType = 'text'
-        xhr.setRequestHeader('Cache-Control', 'max-age=0')
-        xhr.onload = () => {
-          if (xhr.status === 200) {
-            const value = xhr.responseText
-            if (value !== lastValue) {
-              lastValue = value
-              handleNewLines(value)
-            }
-          }
-        }
-        xhr.send()
-      }, 1000)
-    })
-  })
-
   const socket = new WebSocket(websocketUrl)
 
   socket.addEventListener('open', function () {
@@ -114,28 +56,62 @@ $(() => {
     $('.websocket').removeClass('online')
   })
 
-  document.getElementById('message_admin').addEventListener('click', function (event) {
-    event.preventDefault()
-    const messageInput = document.getElementById('message')
-    const messageValue = messageInput.value.trim()
+  socket.addEventListener('message', function (e) {
+    try {
+      const message = JSON.parse(e.data)
+      renderProgress(message.progression)
+    } catch (e) {}
+  })
 
+  function renderProgress(progression) {
+    $('.progress-bar').css('width', progression)
+    $('.progress-percent').val(Math.floor(progression * 100) / 100 + '%')
+  }
+
+  function progress() {
+    $('.progress-percent').text('Starting...')
+    let lastValue = null
+
+    setInterval(() => {
+      const xhr = new XMLHttpRequest()
+      xhr.open('GET', 'admin/fetch-progress')
+      xhr.responseType = 'text'
+      xhr.setRequestHeader('Cache-Control', 'max-age=0')
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const value = xhr.responseText
+          if (value !== lastValue) {
+            lastValue = value
+
+            const message = { progression: value }
+            socket.send(JSON.stringify(message))
+            renderProgress(message.progression)
+          }
+        }
+      }
+      xhr.send()
+    }, 1000)
+  }
+
+  $('#message_admin').on('click', function (e) {
+    e.preventDefault()
+
+    const messageValue = $('#message').val().trim()
     if (messageValue === '') return
 
-    fetch('/chat-admin-add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: messageValue,
-    })
-      .then((response) => response.json())
-      .then((data) => {
+    $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: '/chat-admin-add',
+      data: messageValue,
+      success: (data) => {
         if (data.error) {
           alert("Erreur lors de l'envoi du message")
         } else {
           socket.send(JSON.stringify(data))
           alert('Message envoyé !')
         }
-      })
+      },
+    })
   })
 })
