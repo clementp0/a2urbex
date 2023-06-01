@@ -2,9 +2,11 @@ import $ from 'jquery'
 import '../notifications'
 import '../registersw'
 
-import '../components/cache'
+import ClearCache from '../components/cache'
 
 $(() => {
+  ClearCache.init('#clear-cache-button', 'a2urbex')
+
   // global
   $(document).attr('title', '@a2urbex')
 
