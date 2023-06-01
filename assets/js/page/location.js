@@ -1,18 +1,16 @@
-import '../components/coord'
+import Coord from '../components/coord'
 
 $(() => {
-  $('.coordinates').insertAfter('#location_lon')
+  if ($('#location').length) Coord.init('#location', '#location_lat', '#location_lon')
+
+  $('.custom-file-label').append($('#image-preview'))
+  $('.image-label-placeholder').append($('#fileSize'))
+  $('#location').append($('#error'))
   $('.coordinates').insertAfter('#location_lon')
 
-  $('#location_lon, #location_lat').on('keyup', function () {
-    const lon = $('#location_lon').val()
+  $('#location_lat, #location_lon').on('keyup', function () {
     const lat = $('#location_lat').val()
-    const link = 'https://www.google.com/maps?t=k&q=' + lat + ',' + lon
-    $('.coordinates').attr('href', link)
-  })
-  $('#location_lon, #location_lat').on('keyup', function () {
     const lon = $('#location_lon').val()
-    const lat = $('#location_lat').val()
     const link = 'https://www.google.com/maps?t=k&q=' + lat + ',' + lon
     $('.coordinates').attr('href', link)
   })
@@ -37,12 +35,6 @@ $(() => {
       $('#fileSize').html(' (Selected : ' + sizeInMB + 'MB,<span class="max-size"> Max 8MB</span>)')
     }
   })
-
-  window.onload = function () {
-    $('.custom-file-label').append($('#image-preview'))
-    $('.image-label-placeholder').append($('#fileSize'))
-    $('#location').append($('#error'))
-  }
 
   const form = $('form[name="location"]')
   form.on('submit', function (event) {
