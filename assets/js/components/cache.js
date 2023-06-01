@@ -1,4 +1,3 @@
-const clearCacheButton = document.getElementById('clear-cache-button')
 $(() => {
   $('#clear-cache-button').on('click', async () => {
     try {

@@ -99,7 +99,7 @@
 		</div>
 
 		<div class="line">
-			<p class="status offline" data-offline="Currently Offline.." data-online="Online running on :">Currently Offline..</p>
+			<p class="status offline websocket" data-offline="Currently Offline.." data-online="Online running on :">Currently Offline..</p>
 			<div class="output">{{ websocket }}</div>
 		</div>
 	</div>
@@ -113,8 +113,8 @@
 
 		<div class="line">
 			<a class="btn btn-success" href="{{ path('upload')}}">Import File</a>
-			<a class="btn btn-primary run-target" href="#">Run</a>
-			<a class="btn btn-danger delete-target" href="#">Delete</a>
+			<a class="btn btn-primary run-source" href="#">Run</a>
+			<a class="btn btn-danger delete-source" href="#">Delete</a>
 		</div>
 	</div>
 
@@ -186,5 +186,6 @@
 
 <script>
 	const websocketUrl = "{{ websocket }}";
+	const pinterestUrl = "{{ path('app_fetch_pinterest') }}";
 </script>
 {% endblock %}

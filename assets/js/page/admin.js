@@ -2,10 +2,49 @@ import $ from 'jquery'
 import '../notifications'
 import '../registersw'
 
-$(() => {
-  // todo rework script
+import '../components/cache'
 
+$(() => {
+  // global
+  $(document).attr('title', '@a2urbex')
+
+  const meta = $('<meta>').attr({
+    name: 'apple-mobile-web-app-status-bar-style',
+    content: 'default',
+  })
+  $('head').append(meta)
+
+  // import / run / delete source file
+  $('.delete-source').on('click', function () {
+    const target_name = $('.output.uploads :selected').text()
+
+    if (confirm('Delete source ' + target_name + ' source ?'))
+      $('.delete-source').attr('href', 'delete/' + target_name)
+  })
+
+  $('.run-source').on('click', function () {
+    const target_name = $('.output.uploads :selected').text()
+    const target_id = $('.output.uploads :selected').val()
+
+    if (confirm('Run source ' + target_name + ' ?'))
+      $('.run-source').attr('href', 'import/' + target_id)
+  })
+
+  // fetch pinterest
+  $('#fetch-pinterest').on('click', function () {
+    $.ajax({
+      url: pinterestUrl,
+      method: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        console.log('Foo: ' + data)
+      },
+    })
+  })
+
+  // todo rework websocket
   const socketStatus = new WebSocket(websocketUrl)
+
   socketStatus.addEventListener('open', function () {
     console.log('Connected to Status Websocket')
   })
@@ -61,52 +100,16 @@ $(() => {
     })
   })
 
-  $(document).attr('title', '@a2urbex')
-
-  var meta = $('<meta>').attr({
-    name: 'apple-mobile-web-app-status-bar-style',
-    content: 'default',
-  })
-
-  $('.delete-target').click(function () {
-    var target_name = $('.output-uploads :selected').text()
-    var target_to_delete = 'delete/' + target_name
-    if (confirm('Delete ' + target_name + ' source ?')) {
-      $('.delete-target').attr('href', target_to_delete)
-    }
-  })
-  $('.run-target').click(function () {
-    var target_name = $('.output-uploads :selected').text()
-    var target_id = $('.output-uploads :selected').val()
-    var target_import_link = 'import/' + target_id
-    if (confirm('Run for ' + target_name + ' ?')) {
-      $('.run-target').attr('href', target_import_link)
-    }
-  })
-
-  const clearCacheButton = document.getElementById('clear-cache-button')
-  clearCacheButton.addEventListener('click', async () => {
-    try {
-      await caches.delete('a2urbex')
-      console.log('Cache deleted successfully')
-      location.reload(true)
-    } catch (err) {
-      console.error('Error deleting cache:', err)
-    }
-  })
-
   const socket = new WebSocket(websocketUrl)
 
   socket.addEventListener('open', function () {
     console.log('CONNECTED')
-    document.querySelector('.websocket_online').style.display = 'inline-block'
-    document.querySelector('.websocket_offline').style.display = 'none'
+    $('.websocket').addClass('online')
   })
 
   socket.addEventListener('close', function () {
     console.log('DISCONNECTED')
-    document.querySelector('.websocket_online').style.display = 'none'
-    document.querySelector('.websocket_offline').style.display = 'inline-block'
+    $('.websocket').removeClass('online')
   })
 
   document.getElementById('message_admin').addEventListener('click', function (event) {
@@ -132,16 +135,5 @@ $(() => {
           alert('Message envoyé !')
         }
       })
-  })
-
-  $('#fetch-pinterest').click(function () {
-    $.ajax({
-      url: '{{ path("app_fetch_pinterest") }}',
-      method: 'GET',
-      dataType: 'json',
-      success: function (data) {
-        console.log('Foo: ' + data)
-      },
-    })
   })
 })
