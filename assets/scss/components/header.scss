@@ -21,9 +21,11 @@
   .filter {
     display: none;
   }
-  .discord_desktop > a {
+
+  .discord_desktop>a {
     color: #c2c2c2;
   }
+
   .discord_mobile {
     display: none !important;
   }
@@ -31,11 +33,12 @@
   .settings {
     position: relative;
 
-    & > a {
+    &>a {
       font-size: 0.9rem;
       font-weight: 500;
     }
-    & > p {
+
+    &>p {
       font-size: 0.9rem;
       font-weight: 500;
     }
@@ -60,7 +63,7 @@
         cursor: pointer;
         padding: 0;
 
-        & > i {
+        &>i {
           padding: 7px;
           margin-right: 5px;
           background-color: #404040;
@@ -91,7 +94,7 @@
           font-size: 14px;
           transition: background-color 0.2s ease-out;
 
-          & > i {
+          &>i {
             margin-right: 5px;
           }
 
@@ -105,7 +108,7 @@
           padding: 7px;
           border-bottom: #525252 1px solid;
 
-          & > div > i {
+          &>div>i {
             padding: 10px;
             background-color: #404040;
             color: #737373;
@@ -113,11 +116,12 @@
             border-radius: 4px;
           }
         }
+
         .menu_data {
           font-size: 15px;
           text-align: left;
 
-          & > p {
+          &>p {
             margin: 5px 0 0;
             font-size: 10px;
             color: gray;
@@ -150,9 +154,11 @@
     .discord_desktop {
       display: none;
     }
+
     .discord_mobile {
       display: block !important;
     }
+
     .filter {
       display: block;
     }
