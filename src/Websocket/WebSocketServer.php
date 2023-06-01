@@ -21,29 +21,31 @@ class WebSocketServer implements MessageComponentInterface {
     public function onMessage(ConnectionInterface $connection, $message) {
         $sessionId = $connection->httpRequest->getUri()->getQuery();
         $user = $this->websocketService->getUser($sessionId);
-        dd($user);
-
+        
         $data = json_decode($message, true);
+        if(!isset($data['type']) || !isset($data['channel'])) return;
+        $type = $data['type'];
+        $channel = $data['channel'];
 
-        switch ($data['type']) {
+        if(!$this->websocketService->hasAccess($user, $channel)) return;
+
+        switch ($type) {
             case 'subscribe':
-                $channelName = $data['channel'];
-                $this->subscribe($channelName, $connection);
+                $this->subscribe($channel, $connection);
                 break;
 
             case 'unsubscribe':
-                $channelName = $data['channel'];
-                $this->unsubscribe($channelName, $connection);
+                $this->unsubscribe($channel, $connection);
                 break;
 
             case 'publish':
-                $channelName = $data['channel'];
-                $messageData = [
-                    'channel' => $channelName,
-                    'content' => $data['message']
-                ];
-
-                $this->publish($channelName, json_encode($messageData));
+                if(isset($data['message']) && mb_strlen($data['message'])) {
+                    $messageData = [
+                        'channel' => $channel,
+                        'content' => $data['message']
+                    ];
+                    $this->publish($channel, json_encode($messageData));
+                }
                 break;
         }
     }
