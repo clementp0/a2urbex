@@ -48,21 +48,14 @@ class DashboardController extends AbstractDashboardController
         $country_count = $repoCountry->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $type_count = $repoType->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $upload_count = $repoUpload->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
-
-        $to_be_generated = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->where('a.image IS NULL')->getQuery()->getSingleScalarResult();
-        $ai = $repoLocation->createQueryBuilder('a')->where('a.ai = true')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $ai_wainting_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->where('a.image IS NULL')->getQuery()->getSingleScalarResult();
+        $ai_count = $repoLocation->createQueryBuilder('a')->where('a.ai = true')->select('count(a.id)')->getQuery()->getSingleScalarResult();
 
         //AI Generation
-        $port = $_ENV['STABLE_PORT'];
+        $ai_port = $_ENV['STABLE_PORT'];
         $url = 'http://127.0.0.1:7860/';
         $headers = @get_headers($url);
-        if ($headers && strpos($headers[0], '200') !== false) {
-            $stable_status = "<p class='online'>Running on Port : " . $port . "</p>";
-            $stable_status_current = "on";
-        } else {
-            $stable_status = "<p class='offline'>Currently offline..</p>";
-            $stable_status_current = "off";
-        }
+        $ai_status = $headers && strpos($headers[0], '200') !== false;
 
         //Return data 
         return $this->render('admin/index.html.twig', [
@@ -71,12 +64,11 @@ class DashboardController extends AbstractDashboardController
             'country_count' => $country_count,
             'type_count' => $type_count,
             'upload_count' => $upload_count,
+            'ai_wainting_count' => $ai_wainting_count,
+            'ai_count' => $ai_count,
 
-            'to_be_generated' => $to_be_generated,
-            'ai' => $ai,
-            'port' => $port,
-            'stable_status' => $stable_status,
-            'stable_status_current' => $stable_status_current,
+            'ai_port' => $ai_port,
+            'ai_status' => $ai_status,
 
             'current_time' => date("d/m/Y H:i", time()),
             'websocket' => $_ENV["WEBSOCKET_URL"],

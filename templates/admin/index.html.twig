@@ -2,151 +2,188 @@
 {% block title %}a2urbex!{% endblock %}
 {% block content %}
 
-<section class="heading-part text-center">
-	<div class="container">
-		<h1 class="jumbotron-heading">Hey
-			{{app.user.firstname}}!</h1><br>
-		<p class="lead text-muted">
-			Currently <b>{{location_count}}</b>	pins, located in <b>{{country_count}}</b> country and sorted in <b>{{type_count}}</b> categories
-		</p>
-	</div>
-</section>
+<header>
+	<h1>Hey {{app.user.firstname}}!</h1>
+	<p>
+		Currently <b>{{location_count}}</b>	pins, located in <b>{{country_count}}</b> country and sorted in <b>{{type_count}}</b> categories
+	</p>
+</header>
 
-<section class="fetch-part text-center">
-	<div class="container">
-		<div class="last">
-			<div>
-				<p class="text-muted">Current time :
-					<br>
-				<div class="time">{{current_time}}</div>
-				</p>
+<section>
+	<div class="left">
+		<div class="line">
+			<div class="highlight">
+				<p>Current time :</p>
+				<div>{{current_time}}</div>
 			</div>
-			<div class="updated">
-				<p class="text-muted ">Last Updated :
-					<br>
-				<div class="time">{{pinterest.update_date}}</div>
-				</p>
+			<div class="highlight">
+				<p>Last updated :</p>
+				<div>{{pinterest.update_date}}</div>
 			</div>
 		</div>
-		<p class="text-muted">Last Fetched :
-			<br>
-		<div class="time">{{pinterest.fetch_date}}</div>
-		</p>
-		<p>
-			<button class="action-new btn btn-success" id="fetch-pinterest">Fetch Pinterest</button>
-		</p>
-		<div class="seperator"></div>
-		<p>
-			<a class="action-new btn btn-success" href="{{ path('app_fetch_wikimapia') }}">Fetch Wikimapia</a>
-			<a class="action-new btn btn-warning" href="{{ path('app_fetch_wikimapia_pending') }}">Fetch Pending</a>
-			<span class="text-muted">{{pending_count}} x:{{wikimapia.x}} y:{{wikimapia.y}}</span> 
-		</p>
-		<div class="seperator"></div>
-		<p>
-			<a class="action-new btn btn-primary" href="{{ path('app_update') }}">Update</a>
-			<a class="action-new btn btn-warning" href="{{ path('app_patch') }}">Patch</a>
-		</p>
 
-		<p class="progress-percent">Waiting...</p>
-		<div class="progress-bar-wrapper">
-			<div class="progress-bar"></div>
+		<div class="line">
+			<div class="highlight">
+				<p>Last fetched :</p>
+				<div>{{pinterest.fetch_date}}</div>
+			</div>
+		</div>
+
+		<div class="line">
+			<button class="btn btn-success" id="fetch-pinterest">Fetch Pinterest</button>
+			<a class="btn btn-success" href="{{ path('app_fetch_wikimapia') }}">Fetch Wikimapia</a>
+			<a class="btn btn-warning" href="{{ path('app_fetch_wikimapia_pending') }}">Fetch Pending</a>
+		</div>
+
+		<div class="line">
+			<a class="btn btn-primary" href="{{ path('app_update') }}">Update</a>
+			<a class="btn btn-warning" href="{{ path('app_patch') }}">Patch</a>
+		</div>
+
+		<div class="line">
+			<p>Wikimapia progress : x:{{wikimapia.x}} y:{{wikimapia.y}} ({{pending_count}})</p>
+		</div>
+
+		<div class="line">
+			<div class="progress-bar-wrapper">
+				<p class="progress-percent">Waiting...</p>
+				<div class="progress-bar">
+					<div class="progress-bar-thumb"></div>
+				</div>
+			</div>
 		</div>
 	</div>
-
-	<div class="output-area">
-		<p class="text-muted">Output :</p>
-		</b>
-		</p>
-		<div class="output">
-			<p>
-				BoardId = {{pinterest.board}}<br>
-				Status = {{pinterest.status}}<br>
-				Error =	{{pinterest.error}}<br>
-				Total Parsed = {{pinterest.total_pins}}<br>
-				NewPins = {{pinterest.new_pins}}<br>
-				---------
-			</p>
-			Key = {{pinterest.token}}
+		
+	<div class="right">
+		<div class="line sm">
+			<p>Output :</p>
 		</div>
-		<div class="check">
+
+		<div class="line">
+			<div class="output">
+				<p>
+					BoardId = {{pinterest.board}}<br>
+					Status = {{pinterest.status}}<br>
+					Error =	{{pinterest.error}}<br>
+					Total Parsed = {{pinterest.total_pins}}<br>
+					NewPins = {{pinterest.new_pins}}<br>
+					---------
+				</p>
+				Key = {{pinterest.token}}
+			</div>
+		</div>
+		
+		<div class="line">
 			<a href="{{ path('app_check_count') }}" class="btn btn-secondary">Check</a>
 			<p>Waiting to be imported : {{pinterest.pin_to_import}}</p>
 		</div>
 	</div>
 </section>
 
-<section class="fetch-part text-center">
-	<div class="container">
-		<div>
-			<p class="text-muted">General Chat :
-				<br>
-			</p>
+<section>
+	<div class="left center">
+		<div class="line sm">
+			<p>General Chat :</p>
 		</div>
-		<a class="btn btn-danger" href="{{ path('clear_chat')}}">Clear Chat</a>
-		<div class="adminsender">
-			<input type="text" id="message" placeholder="Server Restart..">
-			</input>
+
+		<div class="line">
+			<input type="text" id="message" placeholder="Server Restart.." />
 			<button class="btn btn-primary" id="message_admin">Send</button>
+			<a class="btn btn-danger" href="{{ path('clear_chat')}}">Clear Chat</a>
 		</div>
 	</div>
-	<div class="output-area">
-		<p class="text-muted">Server Status :</p></b>
-		<p class="websocket_online" style="display: none;">Online running on :
-		<div class="output">{{ websocket }}</div>
-		</p>
-		<p class="websocket_offline">Currently Offline..</p>
+
+	<div class="right">
+		<div class="line sm">
+			<p>Server Status :</p>
+		</div>
+
+		<div class="line">
+			<p class="status offline" data-offline="Currently Offline.." data-online="Online running on :">Currently Offline..</p>
+			<div class="output">{{ websocket }}</div>
+		</div>
 	</div>
 </section>
-<section class="fetch-part text-center">
-	<div class="container">
-		<div class="last">
-			<div>
-				<p class="text-muted">Import File :
-					<br>
-				</p>
-			</div>
+
+<section>
+	<div class="left">
+		<div class="line sm">
+			<p>Import File :</p>
 		</div>
-		<a class="action-new btn btn-success" href="{{ path('upload')}}">Import File</a>
-		<a class="btn btn-primary run-target" href="#">Run</a><a class="btn btn-danger delete-target" href="#">Delete</a>
+
+		<div class="line">
+			<a class="btn btn-success" href="{{ path('upload')}}">Import File</a>
+			<a class="btn btn-primary run-target" href="#">Run</a>
+			<a class="btn btn-danger delete-target" href="#">Delete</a>
+		</div>
 	</div>
-	<div class="output-area">
-		<p class="text-muted">Sources ({{upload_count}}) :</p>
-		</b>
-		</p>
-			<select class="output-uploads">
+
+	<div class="right">
+		<div class="line sm">
+			<p>Sources ({{upload_count}}) :</p>
+		</div>
+
+		<div class="line">
+			<select class="output uploads">
 				{% for item in uploads %}
 					<option value="{{item.id}}">{{item.Name}}</option>
 				{% endfor %}
 			</select>
-	</div>
-</section>
-<section class="fetch-part text-center">
-	<div class="container">
-		<div>
-			<p class="text-muted">Ai Generation ({{to_be_generated}}locations are waiting to be processed):<br></p>
 		</div>
-		<div class="generated">{{ai}}locations already generated</div>
-		<a class="btn btn-success {{stable_status_current}}" href="{{ path('app_image_generation')}}">Generate</a>
-		<a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui" class="btn btn-secondary"	target="_blank">Documentation</a>
-	</div>
-	<div class="output-area">
-		<p class="text-muted">Server Status :</p></b>
-		{{ stable_status|raw}}
 	</div>
 </section>
-<section class="fetch-part text-center">
-	<div class="container">
-		<div>
-			<p class="text-muted">Cache :<br></p>
+
+<section>
+	<div class="left">
+		<div class="line sm">
+			<p>Ai Generation ({{ai_wainting_count}} locations are waiting to be processed):<br></p>
 		</div>
-		<button class="btn btn-danger" id="clear-cache-button">Clear Cache</button>
+
+		<div class="line">
+			<div class="highlight"><div>{{ai_count}} locations already generated</div></div>
+		</div>
+
+		<div class="line">
+			<a class="btn btn-success{% if ai_status == false %} off{% endif %}" href="{{ path('app_image_generation')}}">Generate</a>
+			<a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui" class="btn btn-secondary"	target="_blank">Documentation</a>
+		</div>
 	</div>
-	<div class="output-area">
-		<p class="text-muted">Database :</p>
-		</b>
-		<a href="{{ path('download_database') }}" class="btn btn-secondary " style="pointer-events:none;">Download Database</a>
+
+	<div class="right">
+		<div class="line sm">
+			<p>Server Status :</p>
+		</div>
+
+		<div class="line">
+			{% if ai_status %}
+				<p class='status online'>Running on Port : {{ ai_port }}</p>
+			{% else %}
+				<p class='status offline'>Currently offline..</p>
+			{% endif %}
+		</div>
 	</div>
 </section>
+
+<section>
+	<div class="left">
+		<div class="line sm">
+			<p>Cache :<br>
+		</div>
+		<div class="line">
+			<button class="btn btn-danger" id="clear-cache-button">Clear Cache</button>
+		</div>
+		
+	</div>
+	<div class="right">
+		<div class="line sm">
+			<p>Database :</p>
+		</div>
+		<div class="line">
+			<a href="{{ path('download_database') }}" class="btn btn-secondary " style="pointer-events:none;">Download Database</a>
+		</div>
+	</div>
+</section>
+
 <script>
 	const websocketUrl = "{{ websocket }}";
 </script>
