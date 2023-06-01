@@ -1,17 +1,40 @@
-$(() => {
-  let prevString = ''
+export default class UserModal {
+  static init(...args) {
+    return new this(...args)
+  }
+  constructor(selector) {
+    this.element = $(selector)
+    this.prevString = ''
 
-  $('.inmodal').on('click', function (e) {
+    this.triggers()
+  }
+
+  triggers() {
+    this.element.on('click', (e) => this.open(e))
+
+    $('body').on('click', '.cmodal-background', this.close)
+    $('body').on('click', '.cmodal-close', this.close)
+    $('body').on('click', '.cmodal', (e) => e.stopPropagation())
+
+    $('body').on('keyup', '.cmodal-search', (e) => this.search(e))
+    $('body').on('paste', '.cmodal-search', (e) => setTimeout(() => this.search(e), 100))
+
+    $('body').on('click', '.cmodal-unselect', this.unselect)
+  }
+
+  open(e) {
     e.preventDefault()
-    const url = $(this).attr('href')
+    const current = $(e.currentTarget)
 
-    $('.inmodal').addClass('disabled')
+    const url = current.attr('href')
+
+    current.addClass('disabled')
 
     $.ajax({
       type: 'POST',
       url,
       success: (data) => {
-        $('.inmodal').removeClass('disabled')
+        current.removeClass('disabled')
 
         $('body').find('.cmodal-background').remove().end().append(data)
 
@@ -20,51 +43,27 @@ $(() => {
         }, 10)
       },
       error: () => {
-        $('.inmodal').removeClass('disabled')
+        current.removeClass('disabled')
       },
     })
-  })
+  }
 
-  function closeModal(item) {
+  close() {
+    const item = $('.cmodal-background')
+
     item.addClass('hidden')
-    prevString = ''
+    this.prevString = ''
+
     setTimeout(() => {
       item.remove()
     }, 500)
   }
-  $('body').on('click', '.cmodal-background', function () {
-    closeModal($(this))
-  })
-  $('body').on('click', '.cmodal-close', function () {
-    closeModal($(this).parents('.cmodal-background'))
-  })
 
-  $('body').on('click', '.cmodal', function (e) {
-    e.stopPropagation()
-  })
+  search(e) {
+    const current = $(e.currentTarget)
+    let string = current.val()
+    const url = current.data('url')
 
-  $('body').on('keyup', '.cmodal-search', function () {
-    let el = $(this)
-    searchUser(el.val(), el.data('url'))
-  })
-  $('body').on('paste', '.cmodal-search', function () {
-    setTimeout(() => {
-      let el = $(this)
-      searchUser(el.val(), el.data('url'))
-    }, 100)
-  })
-
-  $('body').on('click', '.cmodal-unselect', function () {
-    const selected = $('body').find('.cmodal .cmodal-selected')
-    const validate = $('body').find('.cmodal .cmodal-footer a')
-    const searchWrapper = $('body').find('.cmodal .cmodal-search-wrapper')
-
-    searchWrapper.removeClass('hidden')
-    selected.addClass('hidden').find('.cmodal-item').remove()
-    validate.addClass('disabled').text(validate.data('origin')).attr('href', '#')
-  })
-
-  function searchUser(string, url) {
     const container = $('body').find('.cmodal .cmodal-result')
     const noresult = $('body').find('.cmodal .cmodal-noresult')
     const selected = $('body').find('.cmodal .cmodal-selected')
@@ -72,9 +71,8 @@ $(() => {
     const searchWrapper = $('body').find('.cmodal .cmodal-search-wrapper')
 
     string = string.trim()
-
-    if (string === prevString) return
-    prevString = string
+    if (string === this.prevString) return
+    this.prevString = string
     if (string.length < 1) {
       container.empty()
       return
@@ -133,13 +131,13 @@ $(() => {
     })
   }
 
-  $('.friend-accept').on('click', (e) => {
-    if (!confirm('Accept user ?')) e.preventDefault()
-  })
-  $('.friend-decline').on('click', (e) => {
-    if (!confirm('Decline user ?')) e.preventDefault()
-  })
-  $('.friend-remove').on('click', (e) => {
-    if (!confirm('Remove friend ?')) e.preventDefault()
-  })
-})
+  unselect() {
+    const selected = $('body').find('.cmodal .cmodal-selected')
+    const validate = $('body').find('.cmodal .cmodal-footer a')
+    const searchWrapper = $('body').find('.cmodal .cmodal-search-wrapper')
+
+    searchWrapper.removeClass('hidden')
+    selected.addClass('hidden').find('.cmodal-item').remove()
+    validate.addClass('disabled').text(validate.data('origin')).attr('href', '#')
+  }
+}
