@@ -45,7 +45,7 @@ $(() => {
     // })
   })
 
-  const socket = new WebSocket(websocketUrl + '?' + session)
+  const socket = new WebSocket(websocketUrl + '?' + websocketToken)
 
   socket.onopen = function (event) {
     const message = {

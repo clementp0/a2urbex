@@ -4,11 +4,15 @@ namespace App\Service;
 
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Repository\WebsocketChannelRepository;
+use App\Repository\WebsocketTokenRepository;
+use App\Entity\WebsocketToken;
+use Symfony\Component\Uid\Uuid;
 
 class WebsocketService {
     public function __construct(
         private SessionInterface $session,
-        private WebsocketChannelRepository $websocketChannelRepository
+        private WebsocketChannelRepository $websocketChannelRepository,
+        private WebsocketTokenRepository $websocketTokenRepository
     ) {}
 
     public function getUser($sessionId) {
@@ -34,5 +38,31 @@ class WebsocketService {
         if($user && $user->hasRole($channel->getRole())) return true;
 
         return false;
+    }
+
+    public function getToken($user) {
+        if(!$user) return;
+        $lifetime = (int)$_ENV['WEBSOCKET_TOKEN_LIFETIME'];
+        
+        $token = $this->websocketTokenRepository->findOneBy(['user' => $user]);
+        
+        if($token && $token->getExpiry() >= time()) {
+            return $token->getValue();
+        } elseif(!$token) {
+            $token = new WebsocketToken();
+            $token->setUser($user);
+        }
+
+        $token
+            ->setExpiry(time() + $lifetime)
+            ->setValue($this->generateToken())
+        ;
+        $this->websocketTokenRepository->save($token, true);
+        
+        return $token->getValue();
+    }
+
+    private function generateToken() {
+        return UUid::v4()->toBase32();
     }
 }

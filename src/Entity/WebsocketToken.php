@@ -16,7 +16,7 @@ class WebsocketToken
     #[ORM\Column(length: 255)]
     private ?string $value = null;
 
-    #[ORM\OneToOne(inversedBy: 'websocketToken', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'websocketToken')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 

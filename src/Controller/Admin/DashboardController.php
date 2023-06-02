@@ -24,7 +24,7 @@ use App\Service\MessageService;
 use App\Service\DataService;
 use App\Repository\ConfigRepository;
 use Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use App\Service\WebsocketService;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -32,7 +32,7 @@ class DashboardController extends AbstractDashboardController
         private DataService $dataService,
         private ConfigRepository $configRepository,
         private EntryFilesTwigExtension $entryFilesTwigExtension,
-        private SessionInterface $session
+        private WebsocketService $websocketService
     ) {}
 
     #[Route('/admin', name: 'admin')]
@@ -74,7 +74,7 @@ class DashboardController extends AbstractDashboardController
             'current_time' => date("d/m/Y H:i", time()),
             'websocket' => $_ENV["WEBSOCKET_URL"],
             'uploads' => $repoUpload->findAll(),
-            'session' => $this->session->getId(),
+            'websocket_token' => $this->websocketService->getToken($this->getUser()),
 
             'pinterest' => $this->configRepository->get('pinterest'),
             'wikimapia' => $this->configRepository->get('wikimapia'),
