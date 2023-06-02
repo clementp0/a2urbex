@@ -3,12 +3,12 @@
 namespace App\Service;
 
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use App\Repository\ChannelRepository;
+use App\Repository\WebsocketChannelRepository;
 
 class WebsocketService {
     public function __construct(
         private SessionInterface $session,
-        private ChannelRepository $channelRepository
+        private WebsocketChannelRepository $websocketChannelRepository
     ) {}
 
     public function getUser($sessionId) {
@@ -27,7 +27,7 @@ class WebsocketService {
     }
 
     public function hasAccess($user, $channelName) {
-        $channel = $this->channelRepository->findOneBy(['name' => $channelName]);
+        $channel = $this->websocketChannelRepository->findOneBy(['name' => $channelName]);
         
         if(!$channel) return true;
         if(!$channel->getRole()) return true;

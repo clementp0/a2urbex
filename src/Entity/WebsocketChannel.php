@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ChannelRepository;
+use App\Repository\WebsocketChannelRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ChannelRepository::class)]
-class Channel
+#[ORM\Entity(repositoryClass: WebsocketChannelRepository::class)]
+class WebsocketChannel
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
