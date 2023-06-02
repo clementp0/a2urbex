@@ -9,9 +9,10 @@
 
         {% for user in onlineUsers %}
             {% if user.status is not defined %}
-                <div class="useractive ">
+	            {% set key = "#{user.id}#{hashkey}" %}
+                <a href="{{ path('app_user', {'key': key | hashids_encode}) }}" class="useractive ">
                     {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
-                </div>
+                </a>
             {% endif %}
         {% endfor %}
 
@@ -19,9 +20,10 @@
         {% for user in onlineUsers %}
             {% if user.status is defined %}
                 {% if user.status == "away" %}
-                    <div class="useractive away">
+                 {% set key = "#{user.id}#{hashkey}" %}
+                   <a href="{{ path('app_user', {'key': key | hashids_encode}) }}"  class="useractive away">
                         {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span><span class="ago">{{ user.active }}</span>
-                    </div>
+                    </a>
                 {% endif %}
             {% endif %}
         {% endfor %}
@@ -36,9 +38,10 @@
         {% for user in onlineUsers %}
             {% if user.status is defined %}
                 {% if user.status == "offline" %}
-                    <div class="useractive offline">
+                 {% set key = "#{user.id}#{hashkey}" %}
+                   <a href="{{ path('app_user', {'key': key | hashids_encode}) }}"  class="useractive offline">
                         {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span><span class="ago">{{ user.active }}</span>
-                    </div>
+                    </a>
                 {% endif %}
             {% endif %}
         {% endfor %}
@@ -53,26 +56,29 @@
     <div class="online">
         {% for user in onlineUsers %}
             {% if user.status is not defined %}
-                <div class="useractive ">
+             {% set key = "#{user.id}#{hashkey}" %}
+               <a href="{{ path('app_user', {'key': key | hashids_encode}) }}"  class="useractive ">
                     {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
-                </div>
+                </a>
             {% endif %}
         {% endfor %}
         {% for user in onlineExplorers %}
             {% if user.status is defined %}
                 {% if user.status == "away" %}
-                    <div class="useractive away">
+                 {% set key = "#{user.id}#{hashkey}" %}
+                    <a href="{{ path('app_user', {'key': key | hashids_encode}) }}" class="useractive away">
                         {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span><span class="ago">{{ user.active }}</span>
-                    </div>
+                    </a>
                 {% endif %}
             {% endif %}
         {% endfor %}
         {% for user in onlineExplorers %}
             {% if user.status is defined %}
                 {% if user.status == "offline" %}
-                    <div class="useractive offline">
+                 {% set key = "#{user.id}#{hashkey}" %}
+                    <a href="{{ path('app_user', {'key': key | hashids_encode}) }}"  class="useractive offline">
                         {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span><span class="ago">{{ user.active }}</span>
-                    </div>
+                    </a>
                 {% endif %}
             {% endif %}
         {% endfor %}
