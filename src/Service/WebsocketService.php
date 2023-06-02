@@ -13,10 +13,14 @@ class WebsocketService {
 
     public function getUser($sessionId) {
         $this->session->setId($sessionId);
-        $this->session->start();
-
+        // return $sessionId; // session start block websocket
+        // $this->session->start();
+        // $this->session->invalidate();
+        // $this->session->clear(); 
+        
         $token = $this->session->get('_security_main');
         if(is_string($token)) $token = unserialize($token);
+
     
         if ($token && $token->getUser()) return $token->getUser();
         return null;

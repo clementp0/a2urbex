@@ -35,7 +35,7 @@ $(() => {
   // fetch pinterest
   $('#fetch-pinterest').on('click', function () {
     console.log('send')
-    socket.send(JSON.stringify({ type: 'publish', channel: 'chat', message: 'coucou' }))
+    socket.send(JSON.stringify({ type: 'publish', channel: 'admin_progress', message: 'coucou' }))
     //progress()
     // $.ajax({
     //   url: pinterestUrl,
@@ -45,35 +45,27 @@ $(() => {
     // })
   })
 
-  // test
   const socket = new WebSocket(websocketUrl + '?' + session)
 
   socket.onopen = function (event) {
-    // Send a message to subscribe to a channel
     const message = {
       type: 'subscribe',
-      channel: 'chat',
+      channel: 'admin_progress',
     }
     socket.send(JSON.stringify(message))
     console.log('subscribe')
   }
 
-  // Event triggered when a message is received from the server
   socket.onmessage = function (event) {
     console.log('receive', JSON.parse(event.data))
-    // Handle the received message
   }
 
-  // Event triggered when an error occurs
   socket.onerror = function (event) {
-    // Handle the error
     console.log('error', event.currentTarget)
   }
 
-  // Event triggered when the connection is closed
   socket.onclose = function (event) {
     console.log('close', event)
-    // Handle the connection closure
   }
 
   // todo rework websocket

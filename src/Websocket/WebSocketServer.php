@@ -22,32 +22,38 @@ class WebSocketServer implements MessageComponentInterface {
         $sessionId = $connection->httpRequest->getUri()->getQuery();
         $user = $this->websocketService->getUser($sessionId);
         
-        $data = json_decode($message, true);
-        if(!isset($data['type']) || !isset($data['channel'])) return;
-        $type = $data['type'];
-        $channel = $data['channel'];
+        dump($message);
+        //return;
+        
 
-        if(!$this->websocketService->hasAccess($user, $channel)) return;
+        // $data = json_decode($message, true);
+        // if(!isset($data['type']) || !isset($data['channel'])) return;
+        // $type = $data['type'];
+        // $channel = $data['channel'];
+        
+        
+        //if(!$this->websocketService->hasAccess($user, $channel))
 
-        switch ($type) {
-            case 'subscribe':
-                $this->subscribe($channel, $connection);
-                break;
+        // switch ($type) {
+        //     case 'subscribe':
+        //         $this->subscribe($channel, $connection);
+        //         break;
 
-            case 'unsubscribe':
-                $this->unsubscribe($channel, $connection);
-                break;
+        //     case 'unsubscribe':
+        //         $this->unsubscribe($channel, $connection);
+        //         break;
 
-            case 'publish':
-                if(isset($data['message']) && mb_strlen($data['message'])) {
-                    $messageData = [
-                        'channel' => $channel,
-                        'content' => $data['message']
-                    ];
-                    $this->publish($channel, json_encode($messageData));
-                }
-                break;
-        }
+        //     case 'publish':
+        //         dd('publish');
+        //         if(isset($data['message']) && mb_strlen($data['message'])) {
+        //             $messageData = [
+        //                 'channel' => $channel,
+        //                 'content' => $data['message']
+        //             ];
+        //             $this->publish($channel, json_encode($messageData));
+        //         }
+        //         break;
+        // }
     }
 
     public function onError(ConnectionInterface $connection, \Exception $exception) {
@@ -74,20 +80,5 @@ class WebSocketServer implements MessageComponentInterface {
                 $connection->send($message);
             }
         }
-    }
-
-    public function getCurrentUser() {
-        $token = $this->tokenStorage->getToken();
-
-        if ($token) {
-            $user = $token->getUser();
-            dd($user);
-
-            if ($user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
-                return $user;
-            }
-        }
-
-        return null;
     }
 }
