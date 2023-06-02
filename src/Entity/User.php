@@ -51,6 +51,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'friend', targetEntity: Friend::class)]
     private Collection $friendRequests;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?WebsocketToken $websocketToken = null;
+
     // #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, orphanRemoval: true)]
     // private Collection $favorites;
 
@@ -325,6 +328,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $friendRequest->setFriend(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWebsocketToken(): ?WebsocketToken
+    {
+        return $this->websocketToken;
+    }
+
+    public function setWebsocketToken(WebsocketToken $websocketToken): self
+    {
+        // set the owning side of the relation if necessary
+        if ($websocketToken->getUser() !== $this) {
+            $websocketToken->setUser($this);
+        }
+
+        $this->websocketToken = $websocketToken;
 
         return $this;
     }
