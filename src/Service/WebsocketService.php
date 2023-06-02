@@ -15,28 +15,17 @@ class WebsocketService {
         private WebsocketTokenRepository $websocketTokenRepository
     ) {}
 
-    public function getUser($sessionId) {
-        $this->session->setId($sessionId);
-        // return $sessionId; // session start block websocket
-        // $this->session->start();
-        // $this->session->invalidate();
-        // $this->session->clear(); 
-        
-        $token = $this->session->get('_security_main');
-        if(is_string($token)) $token = unserialize($token);
-
-    
-        if ($token && $token->getUser()) return $token->getUser();
-        return null;
+    public function getUser($token) {
+        $token = $this->websocketTokenRepository->findOneBy(['value' => $token]);
+        if($token && $token->getUser()) return $token->getUser();
     }
 
     public function hasAccess($user, $channelName) {
         $channel = $this->websocketChannelRepository->findOneBy(['name' => $channelName]);
         
-        if(!$channel) return true;
+        if(!$channel) return false;
         if(!$channel->getRole()) return true;
         if($user && $user->hasRole($channel->getRole())) return true;
-
         return false;
     }
 

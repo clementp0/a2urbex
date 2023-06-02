@@ -19,41 +19,35 @@ class WebSocketServer implements MessageComponentInterface {
     }
 
     public function onMessage(ConnectionInterface $connection, $message) {
-        $sessionId = $connection->httpRequest->getUri()->getQuery();
-        $user = $this->websocketService->getUser($sessionId);
-        
-        dump($message);
-        //return;
-        
+        $token = $connection->httpRequest->getUri()->getQuery();
+        $user = $this->websocketService->getUser($token);
 
-        // $data = json_decode($message, true);
-        // if(!isset($data['type']) || !isset($data['channel'])) return;
-        // $type = $data['type'];
-        // $channel = $data['channel'];
-        
-        
-        //if(!$this->websocketService->hasAccess($user, $channel))
+        $data = json_decode($message, true);
+        $type = $data['type'];
+        $channel = $data['channel'];
+        $message = isset($data['message']) ? $data['message'] : '';
 
-        // switch ($type) {
-        //     case 'subscribe':
-        //         $this->subscribe($channel, $connection);
-        //         break;
+        if(!$this->websocketService->hasAccess($user, $channel)) return;
 
-        //     case 'unsubscribe':
-        //         $this->unsubscribe($channel, $connection);
-        //         break;
+        switch ($type) {
+            case 'subscribe':
+                $this->subscribe($channel, $connection);
+                break;
 
-        //     case 'publish':
-        //         dd('publish');
-        //         if(isset($data['message']) && mb_strlen($data['message'])) {
-        //             $messageData = [
-        //                 'channel' => $channel,
-        //                 'content' => $data['message']
-        //             ];
-        //             $this->publish($channel, json_encode($messageData));
-        //         }
-        //         break;
-        // }
+            case 'unsubscribe':
+                $this->unsubscribe($channel, $connection);
+                break;
+
+            case 'publish':
+                if($message && mb_strlen($message)) {
+                    $messageData = [
+                        'channel' => $channel,
+                        'content' => $message
+                    ];
+                    $this->publish($channel, json_encode($messageData));
+                }
+                break;
+        }
     }
 
     public function onError(ConnectionInterface $connection, \Exception $exception) {
