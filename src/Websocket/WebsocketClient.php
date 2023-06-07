@@ -11,7 +11,6 @@ class WebsocketClient {
 
     public function __construct(WebsocketService $websocketService) {
         $this->url = $_ENV['WEBSOCKET_URL'].'?'.$websocketService->getServerToken();
-        $this->session = null;
     }
 
     public function sendEvent($channel, $value) {
