@@ -69,6 +69,11 @@ function applyEncore(encore, port) {
         }
       )
     )
+    .addPlugin(
+      new webpack.DefinePlugin({
+        websocket_debug: process.env.WEBSOCKET_DEBUG,
+      })
+    )
 }
 
 Encore.configureDefault = () => {}
