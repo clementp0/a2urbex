@@ -7,7 +7,7 @@ use Ratchet\Client\WebSocket;
 use React\EventLoop\Factory;
 use App\Service\WebsocketService;
 
-class WebSocketClient {
+class WebsocketClient {
 
     public function __construct(WebsocketService $websocketService) {
         $this->url = $_ENV['WEBSOCKET_URL'].'?'.$websocketService->getServerToken();

@@ -4,7 +4,7 @@ namespace App\Command;
 use Ratchet\Http\HttpServer;
 use Ratchet\Server\IoServer;
 use Ratchet\WebSocket\WsServer;
-use App\Websocket\WebSocketServer;
+use App\Websocket\WebsocketServer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,7 +26,7 @@ class WebsocketServerCommand extends Command
         $server = IoServer::factory(
             new HttpServer(
                 new WsServer(
-                    new WebSocketServer($this->websocketService)
+                    new WebsocketServer($this->websocketService)
                 )
             ),
             $port,

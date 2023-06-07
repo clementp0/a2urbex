@@ -5,7 +5,7 @@ use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use App\Service\WebsocketService;
 
-class WebSocketServer implements MessageComponentInterface {
+class WebsocketServer implements MessageComponentInterface {
     protected $channels = [];
 
     public function __construct(private WebsocketService $websocketService) {}
