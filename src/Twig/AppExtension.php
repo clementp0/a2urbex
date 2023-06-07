@@ -16,6 +16,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getStyleName', [$this, 'getStyleName']),
             new TwigFunction('getScriptName', [$this, 'getScriptName']),
             new TwigFunction('adminConvert', [$this, 'adminConvert']),
+            new TwigFunction('getEnv', [$this, 'getEnvVariable'])
         ];
     }
 
@@ -47,5 +48,9 @@ class AppExtension extends AbstractExtension
 
         $controller =  strtolower($actionSplit[0]);
         return str_replace('controller', '', $controller);
+    }
+
+    public function getEnvVariable($name) {
+        return $_ENV[$name];
     }
 }

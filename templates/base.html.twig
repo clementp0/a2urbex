@@ -116,6 +116,7 @@
 		</nav>
 	</header>
 	<body {% if app.request.attributes.get('_route') is defined %} id="{{ app.request.attributes.get('_route') }}" {% endif %}>
+		{% block content %}{% endblock %}
 		<footer>
 			<div class="love">Your Exploration Co-Pilot.</div>
 			<a class="contact_desktop" href="{{ path('app_links') }}">Contact</a>
@@ -123,6 +124,21 @@
 				<i class="fa-solid fa-envelope"></i>
 			</a>
 		</footer>
-		{% block content %}{% endblock %}
+		
+		{% if app.environment == 'dev' %}
+		<script id="__bs_script__">
+			(function() {
+				try {
+					const script = document.createElement('script')
+					if ('async') script.async = true
+					script.src = 'http://HOST:{{ getEnv('WEBPACK_PORT') }}/browser-sync/browser-sync-client.js?v=2.29.3'.replace("HOST", location.hostname)
+					if (document.body) document.body.appendChild(script)
+					else if (document.head)	document.head.appendChild(script)
+				} catch (e) {
+					console.error("Browsersync: could not append script tag", e);
+				}
+			})()
+		</script>
+		{% endif %}
 	</body>
 </html>
