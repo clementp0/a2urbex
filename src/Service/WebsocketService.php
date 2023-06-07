@@ -23,12 +23,11 @@ class WebsocketService {
     }
 
     public function hasAccess($user, $channelName) {
-        if($user && $user->hasRole('ROLE_SERVER')) return true;
-
         $channel = $this->websocketChannelRepository->findOneBy(['name' => $channelName]);
-        
+
         if(!$channel) return false;
         if(!$channel->getRole()) return true;
+        if($user && $user->hasRole('ROLE_SERVER')) return true;
         if($user && $user->hasRole($channel->getRole())) return true;
         return false;
     }
