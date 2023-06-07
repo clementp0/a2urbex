@@ -7,12 +7,14 @@ use App\Repository\WebsocketChannelRepository;
 use App\Repository\WebsocketTokenRepository;
 use App\Entity\WebsocketToken;
 use Symfony\Component\Uid\Uuid;
+use App\Repository\UserRepository;
 
 class WebsocketService {
     public function __construct(
         private SessionInterface $session,
         private WebsocketChannelRepository $websocketChannelRepository,
-        private WebsocketTokenRepository $websocketTokenRepository
+        private WebsocketTokenRepository $websocketTokenRepository,
+        private UserRepository $userRepository
     ) {}
 
     public function getUser($token) {
@@ -21,6 +23,8 @@ class WebsocketService {
     }
 
     public function hasAccess($user, $channelName) {
+        if($user && $user->hasRole('ROLE_SERVER')) return true;
+
         $channel = $this->websocketChannelRepository->findOneBy(['name' => $channelName]);
         
         if(!$channel) return false;
@@ -53,5 +57,10 @@ class WebsocketService {
 
     private function generateToken() {
         return UUid::v4()->toBase32();
+    }
+
+    public function getServerToken() {
+        $server = $this->userRepository->find($_ENV['WEBSOCKET_SERVER_USER']);
+        return $this->getToken($server);
     }
 }

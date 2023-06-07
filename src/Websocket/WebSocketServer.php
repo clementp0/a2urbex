@@ -19,6 +19,7 @@ class WebSocketServer implements MessageComponentInterface {
     }
 
     public function onMessage(ConnectionInterface $connection, $message) {
+        dump($message);
         $token = $connection->httpRequest->getUri()->getQuery();
         $user = $this->websocketService->getUser($token);
 
