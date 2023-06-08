@@ -5,7 +5,6 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Process\PhpExecutableFinder;
 
 use App\Service\PinterestService;
 use App\Service\WikimapiaService;
@@ -40,9 +39,7 @@ class FetchController extends AppController
         $lock = (bool)$this->configRepository->get('pinterest', 'fetch_lock');
         if($lock === false) {
             $command = 'pinterest:fetch';
-            $phpFinder = new PhpExecutableFinder();
-            $phpPath = $phpFinder->find();
-            $commandToExecute = sprintf('%s %s/bin/console %s > /dev/null 2>&1 &', $phpPath, $rootDirectory, $command);
+            $commandToExecute = sprintf('php %s/bin/console %s > /dev/null 2>&1 &', $rootDirectory, $command);
             exec($commandToExecute);
         }
 
