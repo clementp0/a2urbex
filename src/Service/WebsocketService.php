@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use App\Repository\WebsocketChannelRepository;
+use App\Repository\ChannelRepository;
 use App\Repository\WebsocketTokenRepository;
 use App\Entity\WebsocketToken;
 use Symfony\Component\Uid\Uuid;
@@ -12,7 +12,7 @@ use App\Repository\UserRepository;
 class WebsocketService {
     public function __construct(
         private SessionInterface $session,
-        private WebsocketChannelRepository $websocketChannelRepository,
+        private ChannelRepository $channelRepository,
         private WebsocketTokenRepository $websocketTokenRepository,
         private UserRepository $userRepository
     ) {}
@@ -23,7 +23,7 @@ class WebsocketService {
     }
 
     public function hasAccess($user, $channelName) {
-        $channel = $this->websocketChannelRepository->findOneBy(['name' => $channelName]);
+        $channel = $this->channelRepository->findOneBy(['name' => $channelName]);
 
         if(!$channel) return false;
         if(!$channel->getRole()) return true;
