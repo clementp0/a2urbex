@@ -1,3 +1,5 @@
+import WebsocketConnector from './websocket'
+
 $(() => {
   const messenger = $('.messenger')
 
@@ -13,35 +15,35 @@ $(() => {
       messenger.removeClass('show')
     })
 
-    // send socket message
-    const socket = new WebSocket(websocketUrl)
+    // websocket
+    const url = websocketUrl + '?' + websocketToken
+    const websocket = WebsocketConnector.init(url, open)
 
-    socket.addEventListener('open', function () {
-      console.log('Connected to General Chat')
-      fetch('/chat-get')
-        .then((response) => response.json())
-        .then((data) => {
+    function open(socket) {
+      socket.subscribe(chatGlobalChannel, newMessage)
+
+      $.ajax({
+        url: chatGetUrl,
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
           renderChatHistory(data)
-        })
-    })
+        },
+      })
 
-    socket.addEventListener('message', function (e) {
-      try {
-        const data = JSON.parse(e.data)
-        addMessage(data)
-        $('#messenger_dot').addClass('messenger_dot')
-        $('#chat').scrollTop($('#chat')[0].scrollHeight)
-      } catch (e) {}
-    })
-
-    $('#message').on('keydown', function (event) {
-      if (event.key === 'Enter' || event.keyCode === 13) {
+      $('#message').on('keydown', function (event) {
+        if (event.key === 'Enter' || event.keyCode === 13) send(event)
+      })
+      $('#sendBtn').on('click', function (event) {
         send(event)
-      }
-    })
-    $('#sendBtn').on('click', function (event) {
-      send(event)
-    })
+      })
+    }
+
+    function newMessage(data) {
+      addMessage(JSON.parse(data))
+      $('#messenger_dot').addClass('messenger_dot')
+      $('#chat').scrollTop($('#chat')[0].scrollHeight)
+    }
 
     const send = (event) => {
       event.preventDefault()
@@ -49,25 +51,16 @@ $(() => {
       const messageValue = $('#message').val().trim()
       if (messageValue === '') return
 
-      fetch('/chat-add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: chatAddUrl,
+        data: messageValue,
+        success: (data) => {
+          if (!data.success) window.location.reload()
+          else $('#message').val('')
         },
-        body: messageValue,
       })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.error) {
-            if (data.error === 'reload') window.location.reload()
-            else alert(date.error)
-          } else {
-            addMessage(data)
-            $('#chat').scrollTop($('#chat')[0].scrollHeight)
-            $('#message').val('')
-            socket.send(JSON.stringify(data))
-          }
-        })
     }
 
     function addMessage(data) {
@@ -102,7 +95,7 @@ $(() => {
         : {
             id: 0,
             firstname: 'a2urbex',
-            roles: ['ROLE_SERVER'],
+            roles: ['SERVER'],
           }
 
       return (
