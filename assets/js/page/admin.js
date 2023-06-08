@@ -53,6 +53,7 @@ $(() => {
 
   // fetch pinterest
   $('#fetch-pinterest').on('click', function () {
+    if ($(this).hasClass('disabled')) return
     $('.progress-percent').text('Starting...')
 
     $.ajax({
