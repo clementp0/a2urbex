@@ -4,11 +4,15 @@ namespace App\Websocket;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use App\Service\WebsocketService;
+use App\Service\ChannelService;
 
 class WebsocketServer implements MessageComponentInterface {
     protected $channels = [];
 
-    public function __construct(private WebsocketService $websocketService) {}
+    public function __construct(
+        private WebsocketService $websocketService,
+        private ChannelService $channelService
+    ) {}
 
     public function onOpen(ConnectionInterface $connection) {
         $this->channels[$connection->resourceId] = new \SplObjectStorage;
@@ -28,7 +32,7 @@ class WebsocketServer implements MessageComponentInterface {
         $channel = $data['channel'];
         $message = isset($data['message']) ? $data['message'] : '';
 
-        if(!$this->websocketService->hasAccess($user, $channel)) return;
+        if(!$this->channelService->hasAccess($channel, $user)) return;
 
         switch ($type) {
             case 'subscribe':
