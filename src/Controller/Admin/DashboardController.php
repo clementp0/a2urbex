@@ -173,11 +173,6 @@ class DashboardController extends AbstractDashboardController
 
     }
 
-    #[Route('/admin/fetch-progress', name: 'admin/fetch-progress')]
-    public function fetchProgress() {
-        return new Response($this->configRepository->get('pinterest', 'fetch_progress'));
-    }
-
     #[Route('/build_admin/{file}', name: 'build_admin')]
     public function publicAdmin($rootDirectory, $file) {
         $path = $rootDirectory.'build_admin/'.$file;

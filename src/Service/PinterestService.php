@@ -7,6 +7,7 @@ use App\Service\LocationService;
 use App\Repository\LocationRepository;
 use App\Service\DataService;
 use App\Repository\ConfigRepository;
+use App\Websocket\WebsocketClient;
 
 class PinterestService {
     public function __construct(
@@ -15,6 +16,7 @@ class PinterestService {
         private LocationService $locationService,
         private DataService $dataService,
         private ConfigRepository $configRepository,
+        private WebsocketClient $websocketClient
     ) {
         $this->boardId = $_ENV['PINTEREST_BOARD_ID'];
         $this->url = $_ENV['PINTEREST_FETCH_BASE_URL'];
@@ -47,6 +49,7 @@ class PinterestService {
     public function fetch() {
         $this->pinTotal = $this->getPinTotal();
         if(!$this->pinTotal || (int)$this->pinTotal === 0) return;
+        $this->configRepository->set('pinterest', 'fetch_lock', '1');
         $this->dataService->verifyFolder($this->publicDirectory.$this->imgPath, true);
         $this->getFeed();
     }
@@ -120,8 +123,8 @@ class PinterestService {
         $this->pinCount++;
 
         if($this->pinCount === $this->pinTotal || $this->pinCount % 10 === 0){
-            $percentage = ($this->pinCount / $this->pinTotal) * 100;
-            $this->configRepository->set('pinterest', 'fetch_progress', $percentage.'%');
+            $percentage = round(($this->pinCount / $this->pinTotal) * 100, 4);
+            $this->websocketClient->sendEvent('admin_progress', $percentage.'%');
         } 
     }
 
@@ -133,6 +136,7 @@ class PinterestService {
 
     private function done() {
         $this->configRepository->setArray('pinterest', [
+            'fetch_lock' => '0',
             'fetch_date' => date('d/m/Y H:i', time()),
             'board' => $this->boardId,
             'status' => $this->hasError ? 'Error' : 'Success',

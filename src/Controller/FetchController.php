@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Process\PhpExecutableFinder;
 
 use App\Service\PinterestService;
 use App\Service\WikimapiaService;
@@ -21,11 +22,31 @@ class FetchController extends AppController
         private WikimapiaService $wikimapiaService,
         private ConfigRepository $configRepository
     ) {}
+
+    #[Route('/fetch/lock/reset', name: 'app_fetch_lock_reset')]
+    public function fetchLockReset(): Response {
+        $this->configRepository->set('pinterest', 'fetch_lock', '0');
+        return $this->redirect('/admin');
+    }
     
     #[Route('/fetch/pinterest', name: 'app_fetch_pinterest')]
     public function fetchPinterest(): Response {
         $this->pinterestService->fetch();
-        return $this->redirect('admin');
+        return $this->redirect('/admin');
+    }
+
+    #[Route('/fetch/pinterest/async', name: 'app_fetch_pinterest_async')]
+    public function fetchPinterestAsync($rootDirectory): Response {
+        $lock = (bool)$this->configRepository->get('pinterest', 'fetch_lock');
+        if($lock === false) {
+            $command = 'pinterest:fetch';
+            $phpFinder = new PhpExecutableFinder();
+            $phpPath = $phpFinder->find();
+            $commandToExecute = sprintf('%s %s/bin/console %s > /dev/null 2>&1 &', $phpPath, $rootDirectory, $command);
+            exec($commandToExecute);
+        }
+
+        return new Response(json_encode(['lock' => $lock]));
     }
 
     #[Route('/fetch/wikimapia', name: 'app_fetch_wikimapia')]

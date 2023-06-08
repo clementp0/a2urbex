@@ -3,6 +3,7 @@ import '../notifications'
 import '../registersw'
 
 import ClearCache from '../components/cache'
+import WebsocketConnector from '../components/websocket'
 
 $(() => {
   ClearCache.init('#clear-cache-button', 'a2urbex')
@@ -32,88 +33,39 @@ $(() => {
       $('.run-source').attr('href', 'import/' + target_id)
   })
 
-  // fetch pinterest
-  $('#fetch-pinterest').on('click', function () {
-    console.log('send')
-    socket.send(JSON.stringify({ type: 'publish', channel: 'admin_progress', message: 'coucou' }))
-    //progress()
-    // $.ajax({
-    //   url: pinterestUrl,
-    //   method: 'GET',
-    //   dataType: 'json',
-    //   success: function (data) {},
-    // })
-  })
+  // websocket
+  const url = websocketUrl + '?' + websocketToken
+  const websocket = WebsocketConnector.init(url, open)
 
-  const socket = new WebSocket(websocketUrl + '?' + websocketToken)
-
-  socket.onopen = function (event) {
-    const message = {
-      type: 'subscribe',
-      channel: 'admin_progress',
-    }
-    socket.send(JSON.stringify(message))
-    console.log('subscribe')
+  function open(socket) {
+    socket.subscribe('admin_progress', renderProgress)
   }
-
-  socket.onmessage = function (event) {
-    console.log('receive', JSON.parse(event.data))
-  }
-
-  socket.onerror = function (event) {
-    console.log('error', event.currentTarget)
-  }
-
-  socket.onclose = function (event) {
-    console.log('close', event)
-  }
-
-  // todo rework websocket
-  /*
-  const socket = new WebSocket(websocketUrl)
-
-  socket.addEventListener('open', function () {
-    console.log('CONNECTED')
-    $('.websocket').addClass('online')
-  })
-
-  socket.addEventListener('close', function () {
-    console.log('DISCONNECTED')
-    $('.websocket').removeClass('online')
-  })
-
-  socket.addEventListener('message', function (e) {
-    try {
-      const message = JSON.parse(e.data)
-      renderProgress(message.progression)
-    } catch (e) {}
-  })
 
   function renderProgress(progression) {
+    if (progression !== '100%') $('#fetch-pinterest').addClass('disabled')
+    else $('#fetch-pinterest').removeClass('disabled')
+
     $('.progress-bar-thumb').css('width', progression)
     $('.progress-percent').text(progression)
   }
 
-  function progress() {
+  // fetch pinterest
+  $('#fetch-pinterest').on('click', function () {
     $('.progress-percent').text('Starting...')
-    let lastValue = null
 
-    setInterval(() => {
-      $.ajax({
-        type: 'GET',
-        url: 'admin/fetch-progress',
-        success: (value) => {
-          if (value !== lastValue) {
-            lastValue = value
-            socket.send(JSON.stringify(message))
-            const message = { progression: value }
-            renderProgress(value)
-          }
-        },
-      })
-    }, 1000)
-  }
+    $.ajax({
+      url: pinterestUrl,
+      method: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        if (data.lock === true) alert('Script already running')
+        $('#fetch-pinterest').addClass('disabled')
+      },
+    })
+  })
 
+  // todo rework chat
+  /*
   $('#message_admin').on('click', function (e) {
     e.preventDefault()
 
