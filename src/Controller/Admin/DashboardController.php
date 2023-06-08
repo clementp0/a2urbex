@@ -133,6 +133,7 @@ class DashboardController extends AbstractDashboardController
 
 
     //Clear Chat
+    #[Route('/clear_chat', name: 'admin_clear_chat')]
     public function clearChat(MessageRepository $messageRepository, MessageService $messageService)
     {
         $messageRepository->clearGlobalChat();
@@ -140,9 +141,8 @@ class DashboardController extends AbstractDashboardController
         return $this->redirect('admin');
     }
 
-
     // Download Database
-
+    #[Route('/download-database', name: 'admin_db_dl')]
     public function downloadDatabase()
     {
         $url = $_ENV['DATABASE_URL'];
