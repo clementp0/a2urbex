@@ -9,10 +9,14 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use App\Service\WebsocketService;
+use App\Service\ChannelService;
 
 class WebsocketServerCommand extends Command
 {
-    public function __construct(private WebsocketService $websocketService) {
+    public function __construct(
+        private WebsocketService $websocketService,
+        private ChannelService $channelService
+    ) {
         parent::__construct();
     }
 
@@ -26,7 +30,7 @@ class WebsocketServerCommand extends Command
         $server = IoServer::factory(
             new HttpServer(
                 new WsServer(
-                    new WebsocketServer($this->websocketService)
+                    new WebsocketServer($this->websocketService, $this->channelService)
                 )
             ),
             $port,
