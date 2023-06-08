@@ -43,10 +43,10 @@ class MessageRepository extends ServiceEntityRepository
         return $this->getEntityManager()->createQuery('DELETE FROM App\Entity\Message m WHERE m.channel = '.$channel)->execute();
     }
 
-   public function getChat($channel): array
-   {
+   public function getChat($channel): array {
        return $this->createQueryBuilder('m')
             ->setParameter('channel', $channel)
+            ->andWhere('m.channel = :channel')
             ->orderBy('m.datetime', 'ASC')
             ->getQuery()           
             ->getResult()

@@ -37,11 +37,11 @@ class ChatController extends AbstractController
         $messageContent = $request->getContent();
         $success = $this->messageService->saveMessage($channel, $messageContent, $user);
 
-        return $this->chatReturn(true);
+        return $this->chatReturn($success);
     }
 
     #[Route('/chat/get/{channel}', name: 'chat_get', methods: ['GET', 'POST'])]
-    public function getChat(): Response {
+    public function getChat($channel): Response {
         $user = $this->getUser();
         return new Response($this->messageService->getMessages($channel, $user));
     }
