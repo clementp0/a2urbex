@@ -30,12 +30,14 @@ class MessageService {
         'userIdentifier',
         'email',
         'lastActiveAt',
-        'websocketToken'
+        'websocketToken',
+        'channel'
     ];
 
     public function saveMessage($channelName, $messageContent, $sender = null, $server = false) {
         if($server === false && !$sender) return;
-        if(!$this->channelService->hasAccess($channelName, $sender)) return;
+        if($server === false && !$this->channelService->hasAccess($channel, $sender)) return;
+        if(!mb_strlen($messageContent)) return;
         
         $channel = $this->channelService->get($channelName);
 
