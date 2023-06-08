@@ -34,8 +34,10 @@ $(() => {
   })
 
   // websocket
-  const url = websocketUrl + '?' + websocketToken
-  const websocket = WebsocketConnector.init(url, open)
+  if (typeof websocketUrl !== 'undefined' && typeof websocketToken !== 'undefined') {
+    const url = websocketUrl + '?' + websocketToken
+    const websocket = WebsocketConnector.init(url, open)
+  }
 
   function open(socket) {
     socket.subscribe('admin_progress', renderProgress)
