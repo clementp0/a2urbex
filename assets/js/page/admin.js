@@ -79,8 +79,12 @@ $(() => {
       url: chatAddAdminUrl,
       data: messageValue,
       success: (data) => {
-        if (data.success) alert('Message envoyé !')
-        else alert("Erreur lors de l'envoi du message")
+        if (data.success) {
+          $('#message').val('')
+          alert('Message envoyé !')
+        } else {
+          alert("Erreur lors de l'envoi du message")
+        }
       },
     })
   })
