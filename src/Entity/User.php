@@ -54,6 +54,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?WebsocketToken $websocketToken = null;
 
+    #[ORM\ManyToMany(targetEntity: Channel::class, mappedBy: 'users')]
+    private Collection $channels;
+
     // #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, orphanRemoval: true)]
     // private Collection $favorites;
 
@@ -63,6 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->locations = new ArrayCollection();
         $this->friends = new ArrayCollection();
         $this->friendRequests = new ArrayCollection();
+        $this->channels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -345,6 +349,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->websocketToken = $websocketToken;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Channel>
+     */
+    public function getChannels(): Collection
+    {
+        return $this->channels;
+    }
+
+    public function addChannel(Channel $channel): self
+    {
+        if (!$this->channels->contains($channel)) {
+            $this->channels->add($channel);
+            $channel->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChannel(Channel $channel): self
+    {
+        if ($this->channels->removeElement($channel)) {
+            $channel->removeUser($this);
+        }
 
         return $this;
     }
