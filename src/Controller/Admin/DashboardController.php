@@ -131,20 +131,9 @@ class DashboardController extends AbstractDashboardController
         ;
     }
 
-
-    //Clear Chat
-    #[Route('/clear_chat', name: 'admin_clear_chat')]
-    public function clearChat(MessageRepository $messageRepository, MessageService $messageService)
-    {
-        $messageRepository->clearGlobalChat();
-        $messageService->saveMessage('WELCOME TO A2URBEX');
-        return $this->redirect('admin');
-    }
-
     // Download Database
-    #[Route('/download-database', name: 'admin_db_dl')]
-    public function downloadDatabase()
-    {
+    #[Route('/download-database', name: 'download_database')]
+    public function downloadDatabase() {
         $url = $_ENV['DATABASE_URL'];
 
         $parsedUrl = parse_url($url);

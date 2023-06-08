@@ -88,8 +88,8 @@
 
 		<div class="line">
 			<input type="text" id="message" placeholder="Server Restart.." />
-			<button class="btn btn-primary" id="message_admin">Send</button>
-			<a class="btn btn-danger" href="{{ path('clear_chat')}}">Clear Chat</a>
+			<button class="btn btn-primary" id="message-admin">Send</button>
+			<a class="btn btn-danger" href="{{ path('chat_clear_global')}}">Clear Chat</a>
 		</div>
 	</div>
 
@@ -188,6 +188,7 @@
 	const websocketUrl = "{{ websocket }}";
 	const websocketToken = "{{ websocket_token }}";
 	const pinterestUrl = "{{ path('app_fetch_pinterest_async') }}";
+	const chatAddAdminUrl = "{{ path('chat_add_admin') }}";
 </script>
 
 {% if app.environment == 'dev' %}

@@ -64,9 +64,8 @@ $(() => {
     })
   })
 
-  // todo rework chat
-  /*
-  $('#message_admin').on('click', function (e) {
+  // admin chat
+  $('#message-admin').on('click', function (e) {
     e.preventDefault()
 
     const messageValue = $('#message').val().trim()
@@ -75,17 +74,12 @@ $(() => {
     $.ajax({
       type: 'POST',
       dataType: 'json',
-      url: '/chat-admin-add',
+      url: chatAddAdminUrl,
       data: messageValue,
       success: (data) => {
-        if (data.error) {
-          alert("Erreur lors de l'envoi du message")
-        } else {
-          socket.send(JSON.stringify(data))
-          alert('Message envoyé !')
-        }
+        if (data.success) alert('Message envoyé !')
+        else alert("Erreur lors de l'envoi du message")
       },
     })
   })
-  */
 })
