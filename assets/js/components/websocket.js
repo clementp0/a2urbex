@@ -47,7 +47,7 @@ export default class WebsocketConnector {
   }
 
   onError(event) {
-    console.log('Websocket error : ' + event)
+    console.log('Websocket error : ', this.debug ? event : null)
   }
 
   sendEvent(object) {

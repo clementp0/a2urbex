@@ -36,11 +36,15 @@ $(() => {
   // websocket
   if (typeof websocketUrl !== 'undefined' && typeof websocketToken !== 'undefined') {
     const url = websocketUrl + '?' + websocketToken
-    const websocket = WebsocketConnector.init(url, open)
+    const websocket = WebsocketConnector.init(url, open, close)
   }
 
   function open(socket) {
     socket.subscribe('admin_progress', renderProgress)
+    $('.websocket').addClass('online')
+  }
+  function close(socket) {
+    $('.websocket').removeClass('online')
   }
 
   function renderProgress(progression) {
