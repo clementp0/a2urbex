@@ -7,12 +7,16 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 use App\Repository\MessageRepository;
 use App\Entity\Message;
+use App\Service\ChannelService;
+use App\Websocket\WebsocketClient;
 
 class MessageService {
-    public function __construct(MessageRepository $messageRepository, SerializerInterface $serializer) {
-        $this->messageRepository = $messageRepository;
-        $this->serializer = $serializer;
-    }
+    public function __construct(
+        private MessageRepository $messageRepository,
+        private SerializerInterface $serializer,
+        private ChannelService $channelService,
+        private WebsocketClient $websocketClient
+    ) {}
 
     private $ignoreList = [
         'favorites', 
@@ -25,41 +29,47 @@ class MessageService {
         'username',
         'userIdentifier',
         'email',
-        'lastActiveAt'
+        'lastActiveAt',
+        'websocketToken',
+        'channel',
+        'channels'
     ];
 
-    public function saveMessage($messageContent, $sender = null, $receiver = null) {
+    public function saveMessage($channelName, $messageContent, $sender = null, $server = false) {
+        if($server === false && !$sender) return;
+        if($server === false && !$this->channelService->hasAccess($channelName, $sender)) return;
+        if(!mb_strlen($messageContent)) return;
+        
+        $channel = $this->channelService->get($channelName);
+
         $message = new Message();
         $message
+            ->setChannel($channel)
             ->setMessage($messageContent)
-            ->setGlobal(1)
             ->setDateTime(new \DateTime('@'.strtotime('now')))
         ;
         if($sender) $message->setSender($sender);
-        if($receiver) $message->setReceiver($receiver);
 
         $this->messageRepository->save($message, true);
-        
-        return $this->serializer->serialize(
-            $message, 
-            'json', 
-            [
-                'circular_reference_handler' => function ($object) {return $object->getId(); },
-                AbstractNormalizer::IGNORED_ATTRIBUTES => $this->ignoreList
-            ]
-        );
+
+        $json = $this->serialize($message);
+        $this->websocketClient->sendEvent($channelName, $json);
+
+        return true;
     }
 
-    public function getMessages($sender = null, $receiver = null) {
-        if($sender === null && $receiver === null) {
-            $messages = $this->messageRepository->getGlobalChat();
-        } else {
-            $messages = $this->messageRepository->getChat($sender, $receiver);
-            dd($messages);
-        }
+    public function getMessages($channelName, $user) {
+        if(!$this->channelService->hasAccess($channelName, $user)) return;
 
+        $channel = $this->channelService->get($channelName);
+        $messages = $this->messageRepository->getChat($channel);
+
+        return $this->serialize($messages);
+    }
+
+    private function serialize($data) {
         return $this->serializer->serialize(
-            $messages, 
+            $data, 
             'json', 
             [
                 'circular_reference_handler' => function ($object) {return $object->getId(); },

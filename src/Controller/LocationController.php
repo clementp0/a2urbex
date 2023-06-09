@@ -21,6 +21,7 @@ use Symfony\Component\Security\Core\Security;
 use App\Repository\LocationRepository;
 use App\Service\LocationService;
 use App\Repository\FriendRepository;
+use App\Service\WebsocketService;
 
 class LocationController extends AppController
 {
@@ -37,6 +38,7 @@ class LocationController extends AppController
         Request $request, 
         PaginatorInterface $paginator, 
         UserOnlineService $userOnlineService,
+        WebsocketService $websocketService
     ): Response
     {   
         $search = new Search();
@@ -62,6 +64,7 @@ class LocationController extends AppController
         return $this->render('location/index.html.twig', [
             'hashkey' => $_ENV["HASH_KEY"],
             'websocket' => $_ENV["WEBSOCKET_URL"],
+            'websocket_token' => $websocketService->getToken($this->getUser()),
             'user' => $this->getUser(),
             'user_role' => $this->getUser()->getRoles(),
             'user_id' => $this->getUser()->getId(),
@@ -162,7 +165,7 @@ class LocationController extends AppController
         return $this->redirect($referer);
     }
 
-    #[Route('location/{key}', name: 'app_location_show', methods: ['GET'])]
+    #[Route('/location/{key}', name: 'app_location_show', methods: ['GET'])]
     public function show(Request $request): Response
     {
         $location = $this->getLocationFromKey($request->get('key'));
@@ -177,7 +180,7 @@ class LocationController extends AppController
         return $this->redirect('/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId='.$id);
     }
 
-    #[Route('delete/{source}', name: 'delete_location_source', methods: ['GET'])]
+    #[Route('/delete/{source}', name: 'delete_location_source', methods: ['GET'])]
     public function delete(ManagerRegistry $doctrine, Request $request, UploadRepository $uploadRepository): Response
     {
         $publicDir = $this->getParameter('public_directory');
@@ -200,7 +203,7 @@ class LocationController extends AppController
         return $this->redirect('/admin');
     }
 
-    #[Route('delete/', name: 'delete_location_source_empty', methods: ['GET'])]
+    #[Route('/delete', name: 'delete_location_source_empty', methods: ['GET'])]
     public function deleteEmpty(){
         return $this->redirect('/admin');
     }

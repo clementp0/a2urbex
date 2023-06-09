@@ -8,6 +8,10 @@
 	</div>
 	<script>
 		const websocketUrl = "{{ websocket }}";
-const currentId = "{{ user.id }}";
+		const websocketToken = "{{ websocket_token }}";
+		const chatAddUrl = "{{ path('chat_add', {channel: getEnv('CHAT_GLOBAL')}) }}";
+		const chatGetUrl = "{{ path('chat_get', {channel:getEnv('CHAT_GLOBAL')}) }}";
+		const chatGlobalChannel = "{{ getEnv('CHAT_GLOBAL') }}";
+		const currentId = "{{ user.id }}";
 	</script>
 {% endblock %}

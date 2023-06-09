@@ -39,27 +39,14 @@ class MessageRepository extends ServiceEntityRepository
         }
     }
 
-    public function clearGlobalChat() {
-        return $this->getEntityManager()->createQuery('DELETE FROM App\Entity\Message m WHERE m.global = 1')->execute();
+    public function clearChat($channel) {
+        return $this->getEntityManager()->createQuery('DELETE FROM App\Entity\Message m WHERE m.channel = '.$channel)->execute();
     }
 
-   public function getGlobalChat(): array
-   {
+   public function getChat($channel): array {
        return $this->createQueryBuilder('m')
-            ->andWhere('m.global = 1')
-            ->orderBy('m.datetime', 'ASC')
-            ->getQuery()
-            ->getResult()
-       ;
-   }
-
-   public function getChat($sender, $receiver): array
-   {
-       return $this->createQueryBuilder('m')
-            ->andWhere('m.global = 0')
-            ->andWhere('(m.sender = :sender AND m.receiver = :receiver) OR (m.sender = :receiver AND m.receiver = :sender)')
-            ->setParameter('sender', $sender)
-            ->setParameter('receiver', $receiver)
+            ->setParameter('channel', $channel)
+            ->andWhere('m.channel = :channel')
             ->orderBy('m.datetime', 'ASC')
             ->getQuery()           
             ->getResult()

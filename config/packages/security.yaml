@@ -40,9 +40,9 @@ security:
     - { path: ^/check, roles: ROLE_ADMIN }
     - { path: ^/update, roles: ROLE_ADMIN }
     - { path: ^/patch, roles: ROLE_ADMIN }
-    - { path: ^/clear_chat, roles: ROLE_ADMIN }
     - { path: ^/download-database, roles: ROLE_ADMIN }
-    - { path: ^/chat-admin-add, roles: ROLE_ADMIN }
+    - { path: ^/chat/clear/global, roles: ROLE_ADMIN }
+    - { path: ^/chat/add/admin, roles: ROLE_ADMIN }
 
     # USER Access
     - { path: ^/locations, roles: [ROLE_ADMIN, ROLE_USER] }
@@ -52,8 +52,7 @@ security:
     - { path: ^/new, roles: [ROLE_ADMIN, ROLE_USER] }
     - { path: ^/account, roles: [ROLE_ADMIN, ROLE_USER] }
     - { path: ^/general_chat, roles: [ROLE_ADMIN, ROLE_USER] }
-    - { path: ^/chat-get, roles: [ROLE_ADMIN, ROLE_USER] }
-    - { path: ^/chat-add, roles: [ROLE_ADMIN, ROLE_USER] }
+    - { path: ^/chat, roles: [ROLE_ADMIN, ROLE_USER] }
     - { path: ^/user, roles: [ROLE_ADMIN, ROLE_USER] }
     - { path: ^/friend, roles: [ROLE_ADMIN, ROLE_USER] }
 

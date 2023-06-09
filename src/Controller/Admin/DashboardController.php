@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-
 use Symfony\Component\Process\Process;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -25,6 +24,7 @@ use App\Service\MessageService;
 use App\Service\DataService;
 use App\Repository\ConfigRepository;
 use Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension;
+use App\Service\WebsocketService;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -32,6 +32,7 @@ class DashboardController extends AbstractDashboardController
         private DataService $dataService,
         private ConfigRepository $configRepository,
         private EntryFilesTwigExtension $entryFilesTwigExtension,
+        private WebsocketService $websocketService
     ) {}
 
     #[Route('/admin', name: 'admin')]
@@ -73,6 +74,7 @@ class DashboardController extends AbstractDashboardController
             'current_time' => date("d/m/Y H:i", time()),
             'websocket' => $_ENV["WEBSOCKET_URL"],
             'uploads' => $repoUpload->findAll(),
+            'websocket_token' => $this->websocketService->getToken($this->getUser()),
 
             'pinterest' => $this->configRepository->get('pinterest'),
             'wikimapia' => $this->configRepository->get('wikimapia'),
@@ -129,20 +131,9 @@ class DashboardController extends AbstractDashboardController
         ;
     }
 
-
-    //Clear Chat
-    public function clearChat(MessageRepository $messageRepository, MessageService $messageService)
-    {
-        $messageRepository->clearGlobalChat();
-        $messageService->saveMessage('WELCOME TO A2URBEX');
-        return $this->redirect('admin');
-    }
-
-
     // Download Database
-
-    public function downloadDatabase()
-    {
+    #[Route('/download-database', name: 'download_database')]
+    public function downloadDatabase() {
         $url = $_ENV['DATABASE_URL'];
 
         $parsedUrl = parse_url($url);
@@ -169,11 +160,6 @@ class DashboardController extends AbstractDashboardController
 
         return $response;
 
-    }
-
-    #[Route('/admin/fetch-progress', name: 'admin/fetch-progress')]
-    public function fetchProgress() {
-        return new Response($this->configRepository->get('pinterest', 'fetch_progress'));
     }
 
     #[Route('/build_admin/{file}', name: 'build_admin')]

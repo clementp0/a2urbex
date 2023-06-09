@@ -3,6 +3,7 @@ import '../notifications'
 import '../registersw'
 
 import ClearCache from '../components/cache'
+import WebsocketConnector from '../components/websocket'
 
 $(() => {
   ClearCache.init('#clear-cache-button', 'a2urbex')
@@ -32,68 +33,46 @@ $(() => {
       $('.run-source').attr('href', 'import/' + target_id)
   })
 
-  // fetch pinterest
-  $('#fetch-pinterest').on('click', function () {
-    progress()
-    // $.ajax({
-    //   url: pinterestUrl,
-    //   method: 'GET',
-    //   dataType: 'json',
-    //   success: function (data) {},
-    // })
-  })
+  // websocket
+  if (typeof websocketUrl !== 'undefined' && typeof websocketToken !== 'undefined') {
+    const url = websocketUrl + '?' + websocketToken
+    const websocket = WebsocketConnector.init(url, open, close)
+  }
 
-  // todo rework websocket
-  const socket = new WebSocket(websocketUrl)
-
-  socket.addEventListener('open', function () {
-    console.log('CONNECTED')
+  function open(socket) {
+    socket.subscribe('admin_progress', renderProgress)
     $('.websocket').addClass('online')
-  })
-
-  socket.addEventListener('close', function () {
-    console.log('DISCONNECTED')
+  }
+  function close(socket) {
     $('.websocket').removeClass('online')
-  })
-
-  socket.addEventListener('message', function (e) {
-    try {
-      const message = JSON.parse(e.data)
-      renderProgress(message.progression)
-    } catch (e) {}
-  })
+  }
 
   function renderProgress(progression) {
-    $('.progress-bar').css('width', progression)
-    $('.progress-percent').val(Math.floor(progression * 100) / 100 + '%')
+    if (progression !== '100%') $('#fetch-pinterest').addClass('disabled')
+    else $('#fetch-pinterest').removeClass('disabled')
+
+    $('.progress-bar-thumb').css('width', progression)
+    $('.progress-percent').text(progression)
   }
 
-  function progress() {
+  // fetch pinterest
+  $('#fetch-pinterest').on('click', function () {
+    if ($(this).hasClass('disabled')) return
     $('.progress-percent').text('Starting...')
-    let lastValue = null
 
-    setInterval(() => {
-      const xhr = new XMLHttpRequest()
-      xhr.open('GET', 'admin/fetch-progress')
-      xhr.responseType = 'text'
-      xhr.setRequestHeader('Cache-Control', 'max-age=0')
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          const value = xhr.responseText
-          if (value !== lastValue) {
-            lastValue = value
+    $.ajax({
+      url: pinterestUrl,
+      method: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        if (data.lock === true) alert('Script already running')
+        $('#fetch-pinterest').addClass('disabled')
+      },
+    })
+  })
 
-            const message = { progression: value }
-            socket.send(JSON.stringify(message))
-            renderProgress(message.progression)
-          }
-        }
-      }
-      xhr.send()
-    }, 1000)
-  }
-
-  $('#message_admin').on('click', function (e) {
+  // admin chat
+  $('#message-admin').on('click', function (e) {
     e.preventDefault()
 
     const messageValue = $('#message').val().trim()
@@ -102,14 +81,14 @@ $(() => {
     $.ajax({
       type: 'POST',
       dataType: 'json',
-      url: '/chat-admin-add',
+      url: chatAddAdminUrl,
       data: messageValue,
       success: (data) => {
-        if (data.error) {
-          alert("Erreur lors de l'envoi du message")
-        } else {
-          socket.send(JSON.stringify(data))
+        if (data.success) {
+          $('#message').val('')
           alert('Message envoyé !')
+        } else {
+          alert("Erreur lors de l'envoi du message")
         }
       },
     })

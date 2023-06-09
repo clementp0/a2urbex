@@ -51,6 +51,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'friend', targetEntity: Friend::class)]
     private Collection $friendRequests;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?WebsocketToken $websocketToken = null;
+
+    #[ORM\ManyToMany(targetEntity: Channel::class, mappedBy: 'users')]
+    private Collection $channels;
+
     // #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, orphanRemoval: true)]
     // private Collection $favorites;
 
@@ -60,6 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->locations = new ArrayCollection();
         $this->friends = new ArrayCollection();
         $this->friendRequests = new ArrayCollection();
+        $this->channels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -325,6 +332,50 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($friendRequest->getFriend() === $this) {
                 $friendRequest->setFriend(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getWebsocketToken(): ?WebsocketToken
+    {
+        return $this->websocketToken;
+    }
+
+    public function setWebsocketToken(WebsocketToken $websocketToken): self
+    {
+        // set the owning side of the relation if necessary
+        if ($websocketToken->getUser() !== $this) {
+            $websocketToken->setUser($this);
+        }
+
+        $this->websocketToken = $websocketToken;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Channel>
+     */
+    public function getChannels(): Collection
+    {
+        return $this->channels;
+    }
+
+    public function addChannel(Channel $channel): self
+    {
+        if (!$this->channels->contains($channel)) {
+            $this->channels->add($channel);
+            $channel->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChannel(Channel $channel): self
+    {
+        if ($this->channels->removeElement($channel)) {
+            $channel->removeUser($this);
         }
 
         return $this;

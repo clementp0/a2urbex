@@ -30,7 +30,7 @@
 		</div>
 
 		<div class="line">
-			<button class="btn btn-success" id="fetch-pinterest">Fetch Pinterest</button>
+			<a class="btn btn-success{{ pinterest.fetch_lock == '1' ? ' disabled' : '' }}" id="fetch-pinterest">Fetch Pinterest</a>
 			<a class="btn btn-success" href="{{ path('app_fetch_wikimapia') }}">Fetch Wikimapia</a>
 			<a class="btn btn-warning" href="{{ path('app_fetch_wikimapia_pending') }}">Fetch Pending</a>
 		</div>
@@ -88,8 +88,8 @@
 
 		<div class="line">
 			<input type="text" id="message" placeholder="Server Restart.." />
-			<button class="btn btn-primary" id="message_admin">Send</button>
-			<a class="btn btn-danger" href="{{ path('clear_chat')}}">Clear Chat</a>
+			<button class="btn btn-primary" id="message-admin">Send</button>
+			<a class="btn btn-danger" href="{{ path('chat_clear_global')}}">Clear Chat</a>
 		</div>
 	</div>
 
@@ -186,6 +186,24 @@
 
 <script>
 	const websocketUrl = "{{ websocket }}";
-	const pinterestUrl = "{{ path('app_fetch_pinterest') }}";
+	const websocketToken = "{{ websocket_token }}";
+	const pinterestUrl = "{{ path('app_fetch_pinterest_async') }}";
+	const chatAddAdminUrl = "{{ path('chat_add_admin') }}";
 </script>
+
+{% if app.environment == 'dev' %}
+<script id="__bs_script__">
+	(function() {
+		try {
+			const script = document.createElement('script')
+			if ('async') script.async = true
+			script.src = 'http://HOST:{{ getEnv('WEBPACK_ADMIN_PORT') }}/browser-sync/browser-sync-client.js?v=2.29.3'.replace("HOST", location.hostname)
+			if (document.body) document.body.appendChild(script)
+			else if (document.head)	document.head.appendChild(script)
+		} catch (e) {
+			console.error("Browsersync: could not append script tag", e);
+		}
+	})()
+</script>
+{% endif %}
 {% endblock %}

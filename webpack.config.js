@@ -1,8 +1,19 @@
 const Encore = require('@symfony/webpack-encore')
 const webpack = require('webpack')
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
+const dotenv = require('dotenv')
+const fs = require('fs')
+const path = require('path')
 
-function applyConfig(config) {
-  config
+const envPath = path.resolve(__dirname, '.env.local')
+const dotenvPath = fs.existsSync(envPath) ? envPath : path.resolve(__dirname, '.env')
+dotenv.config({ path: dotenvPath })
+
+const port = process.env.WEBPACK_PORT
+const adminPort = process.env.WEBPACK_ADMIN_PORT
+
+function applyEncore(encore, port) {
+  encore
     .enableStimulusBridge('./assets/controllers.json')
     .splitEntryChunks()
     .enableSingleRuntimeChunk()
@@ -27,6 +38,40 @@ function applyConfig(config) {
         $: 'jquery',
         jQuery: 'jquery',
         'window.jQuery': 'jquery',
+      })
+    )
+    .addPlugin(
+      new BrowserSyncPlugin(
+        {
+          host: 'localhost',
+          port: port,
+          ui: {
+            port: parseInt(port) + 1,
+          },
+          files: [
+            {
+              match: ['src/**/*.php'],
+            },
+            {
+              match: ['templates/**/*.twig'],
+            },
+            {
+              match: ['assets/**/*.js'],
+            },
+            {
+              match: ['assets/**/*.scss'],
+            },
+          ],
+          notify: false,
+        },
+        {
+          reload: true,
+        }
+      )
+    )
+    .addPlugin(
+      new webpack.DefinePlugin({
+        websocket_debug: process.env.WEBSOCKET_DEBUG,
       })
     )
 }
@@ -72,9 +117,10 @@ Encore.setOutputPath('public/build/') // directory where compiled assets will be
   // friend
   .addStyleEntry('friend-style', './assets/scss/page/friend.scss')
 
-applyConfig(Encore)
+applyEncore(Encore, port)
 const mainConfig = Encore.getWebpackConfig()
 mainConfig.name = 'mainConfig'
+//applyConfig(mainConfig, 3010)
 
 Encore.reset()
 
@@ -84,8 +130,9 @@ Encore.setOutputPath('build_admin/')
   .addStyleEntry('admin-style', './assets/scss/page/admin.scss')
   .addEntry('admin-script', './assets/js/page/admin.js')
 
-applyConfig(Encore)
+applyEncore(Encore, adminPort)
 const adminConfig = Encore.getWebpackConfig()
 adminConfig.name = 'adminConfig'
+//applyConfig(mainConfig, process.env.WEBPACK_ADMIN_PORT)
 
 module.exports = [mainConfig, adminConfig]

@@ -11,76 +11,53 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\MessageRepository;
 use App\Repository\UserRepository;
 use App\Service\MessageService;
+use App\Service\ChannelService;
 
 class ChatController extends AbstractController
 {
-    public function __construct(MessageService $messageService, UserRepository $userRepository) {
-        $this->messageService = $messageService;
-        $this->userRepository = $userRepository;
+    public function __construct(
+        private MessageService $messageService, 
+        private MessageRepository $messageRepository, 
+        private UserRepository $userRepository,
+        private ChannelService $channelService, 
+    ) {}
+
+    #[Route('/chat/add/admin', name: 'chat_add_admin', methods: ['GET', 'POST'])]
+    public function addAdminChat(Request $request): Response {
+        $global = $_ENV['CHAT_GLOBAL'];
+        $messageContent = $request->getContent();
+
+        $success = $this->messageService->saveMessage($global, $messageContent, null, true);
+        return $this->chatReturn($success);
     }
 
-    #[Route('/chat-admin-add', name: 'chat_admin_add', methods: ['GET', 'POST'])]
-    public function addAdminChat(Request $request): Response
-    {
-        $messageContent = $request->getContent();
-        return new Response($this->messageService->saveMessage($messageContent));
-    }
-
-    #[Route('/chat-add', name: 'chat_add', methods: ['GET', 'POST'])]
-    public function addChat(Request $request): Response
-    {
-        $messageContent = $request->getContent();
-        if(!strlen($messageContent)) return new JsonResponse(['error' => 'invalid string']);
-
+    #[Route('/chat/add/{channel}', name: 'chat_add', methods: ['GET', 'POST'])]
+    public function addChat($channel, Request $request): Response {
         $user = $this->getUser();
-        if($user) {
-            $messageContent = $request->getContent();
-            return new Response($this->messageService->saveMessage($messageContent, $user));
-        } else {
-            return new JsonResponse(['error' => 'reload']);
-        }
-    }
-
-
-    #[Route('/chat-add/{id}', name: 'chat_add_user', methods: ['GET', 'POST'])]
-    public function addChatUser(Request $request, $id): Response
-    {
         $messageContent = $request->getContent();
-        if(!strlen($messageContent)) return new JsonResponse(['error' => 'invalid string']);
-        
-        $sender = $this->getUser();
-        if($sender) {
-            $receiver = $this->userRepository->find($id);
-            if($receiver) {
-                return new Response($this->messageService->saveMessage($messageContent, $sender, $receiver));
-            } else {
-                return new JsonResponse(['error' => 'User doesn\'t exist']);
-            }
-        } else {
-            return new JsonResponse(['error' => 'reload']);
-        }
+        $success = $this->messageService->saveMessage($channel, $messageContent, $user);
+
+        return $this->chatReturn($success);
     }
 
-    #[Route('/chat-get', name: 'chat_history', methods: ['GET', 'POST'])]
-    public function getChatHistory(MessageRepository $messageRepository): Response
-    {
-        return new Response($this->messageService->getMessages());
+    #[Route('/chat/get/{channel}', name: 'chat_get', methods: ['GET', 'POST'])]
+    public function getChat($channel): Response {
+        $user = $this->getUser();
+        return new Response($this->messageService->getMessages($channel, $user));
     }
 
-    #[Route('/chat-get/{id}', name: 'chat_history_user', methods: ['GET', 'POST'])]
-    public function getChatHistoryUser(MessageRepository $messageRepository, $id): Response
-    {
-        $sender = $this->getUser();
-        if($sender) {
-            $receiver = $this->userRepository->find($id);
-            if($receiver && $sender !== $receiver) {
-                return new Response($this->messageService->getMessages($sender, $receiver));
-            } else {
-                return new JsonResponse(['error' => 'User doesn\'t exist']);
-            }
-        } else {
-            return new JsonResponse(['error' => 'reload']);
-        }
-        dd($receiver);
+    //Clear Chat
+    #[Route('/chat/clear/global', name: 'chat_clear_global')]
+    public function clearChat() {
+        $global = $_ENV['CHAT_GLOBAL'];
+        $channel = $this->channelService->get($global);
+
+        $this->messageRepository->clearChat($channel->getId());
+        $this->messageService->saveMessage($global, 'WELCOME TO A2URBEX', null, true);
+        return $this->redirect('/admin');
+    }
+
+    private function chatReturn($success) {
+        return new JsonResponse(['success' => $success ? true : false]);
     }
 }

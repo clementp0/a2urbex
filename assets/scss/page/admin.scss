@@ -24,7 +24,7 @@ $progressColor: #60a5fa;
     }
   }
 
-  section {
+  > section {
     display: flex;
     width: 100%;
     padding: 2rem;
@@ -148,6 +148,10 @@ $progressColor: #60a5fa;
   &.online::before {
     background-color: green;
   }
+}
+
+#fetch-pinterest.disabled {
+  color: unset;
 }
 
 @media screen and (max-width: 800px) {
