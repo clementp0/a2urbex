@@ -128,13 +128,13 @@ class LocationController extends AppController
 
     private function getForUserLocationPage($request, $paginator, $location, $form) {
         $locations = $this->locationRepository->findByUser(true);
-        $totalResults = $locations ? count($locations) : 0;
-
+        
         $locationData = $paginator->paginate(
             $locations,
             $request->query->getInt('page', 1),
             6
         );
+        $totalResults = $locationData->getTotalItemCount();
 
         return $this->render('location/new.html.twig', [
             'hashkey' => $_ENV["HASH_KEY"],
