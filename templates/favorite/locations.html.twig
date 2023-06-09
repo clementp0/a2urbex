@@ -6,7 +6,7 @@
 {% block content %}
 	{% if id|default(null) %}
 		<p class="favorite-page-title">{{title}}</p>
-		<div style="padding:20px">
+		<div class="favorite-wrapper">
 			{% include 'location/list.html.twig' %}
 		</div>
 		<a href="{{ path('app_map_favorite', {'key': key | hashids_encode}) }}" class="map-link">
