@@ -66,7 +66,7 @@ class LocationController extends AppController
             'user_role' => $this->getUser()->getRoles(),
             'user_id' => $this->getUser()->getId(),
             'locations' => $locationData,
-            'form' => $form->createView(),
+            'search_form' => $form->createView(),
             'total_result' => $totalResults,
             'onlineUsers' => $onlineUsers,
             'onlineExplorers' => $onlineExplorers,

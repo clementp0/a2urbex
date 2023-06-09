@@ -1,0 +1,15 @@
+<div class="pin-open-search toggle">
+    <i class="fa fa-fw fa-bars"></i>
+</div>
+
+<div class="pin-search-wrapper">
+    <div class="pin-search custom-scroll">
+        {{ form(search_form) }}
+        <a class="pin-search-reset" href="/locations">
+            <i class="fa-sharp fa-solid fa-trash"></i>
+        </a>
+        <p class="pin-results">Displaying <b>{{ total_result }}</b> result{{ total_result > 1 ? 's' : '' }}</p>
+
+        {{ include('security/online.html.twig') }}
+    </div>
+</div>
