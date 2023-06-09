@@ -119,27 +119,30 @@ class LocationRepository extends ServiceEntityRepository
         return $query;
     }
 
-    public function findWithSearch(Search $search) {
-        return $this->getBaseSearch($search)->getQuery()->getResult();
+    public function findWithSearch(Search $search, $query = false) {
+        $q = $this->getBaseSearch($search);
+        if($query === true) return $q;
+        else return $q->getQuery()->getResult();
     }
 
-    public function findWithSearchAndUsers(Search $search, $users) {
+    public function findWithSearchAndUsers(Search $search, $users, $query = false) {
         $q = $this->getBaseSearch($search);
         $q->andWhere('l.user IN ('.implode(', ', $users).')');
 
-        return $q->getQuery()->getResult();
+        if($query === true) return $q;
+        else return $q->getQuery()->getResult();
     }
 
-    public function findByAll() {
-        return $this->getBaseQuery()->getQuery()->getResult();
+    public function findByAll($query = false) {
+        $q = $this->getBaseQuery();
+        if($query === true) return $q;
+        else return $q->getQuery()->getResult();
     }
 
-    public function findByIdFav($idFav) {
-        return $this->getBaseQuery()
-            ->andWhere('f.id = '.$idFav)
-            ->getQuery()
-            ->getResult()
-        ;
+    public function findByIdFav($idFav, $query = false) {
+        $q = $this->getBaseQuery()->andWhere('f.id = '.$idFav);
+        if($query === true) return $q;
+        else return $q->getQuery()->getResult();
     }
 
     public function findById($id) {
@@ -160,23 +163,17 @@ class LocationRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByUser(){
+    public function findByUser($query = false){
         $user = $this->security->getUser();
-        return $this->getBaseQuery()
-            ->andWhere('l.user = :user')
-            ->setParameter('user', $user)
-            ->getQuery()
-            ->execute();
-        ;
+        $q = $this->getBaseQuery()->andWhere('l.user = :user')->setParameter('user', $user);
+        if($query === true) return $q;
+        else return $q->getQuery()->execute();
     }
 
-    public function findByUsers($users) {
-        return $this->getBaseQuery()
-            ->andWhere('l.user IN ('.implode(', ', $users).')')
-            ->getQuery()
-            ->execute();
-        ;
-
+    public function findByUsers($users, $query = false) {
+        $q = $this->getBaseQuery()->andWhere('l.user IN ('.implode(', ', $users).')');
+        if($query === true) return $q;
+        else return $q->getQuery()->execute();
     }
     
     

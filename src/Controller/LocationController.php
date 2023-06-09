@@ -45,16 +45,14 @@ class LocationController extends AppController
         $form = $this->createForm(SearchType::class, $search);
         $form->handleRequest($request);
 
-        $locations = $this->locationService->findSearch($search, $form->isSubmitted() && $form->isValid());
-
-        $totalResults = 0;
-        $totalResults = count($locations);
-
+        $locations = $this->locationService->findSearch($search, $form->isSubmitted() && $form->isValid(), true);
+        
         $locationData = $paginator->paginate(
             $locations,
             $request->query->getInt('page', 1),
             50
-        );  
+        );
+        $totalResults = $locationData->getTotalItemCount();
         
         $user = $this->getUser();
         $userOnlineService->addUser($user);
@@ -129,7 +127,7 @@ class LocationController extends AppController
     }
 
     private function getForUserLocationPage($request, $paginator, $location, $form) {
-        $locations = $this->locationRepository->findByUser();
+        $locations = $this->locationRepository->findByUser(true);
         $totalResults = $locations ? count($locations) : 0;
 
         $locationData = $paginator->paginate(

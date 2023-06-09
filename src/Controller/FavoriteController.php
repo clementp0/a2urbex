@@ -149,7 +149,7 @@ class FavoriteController extends AppController
         $listKey = $this->hashidsService->decode($request->get('key'));
         $listId = str_replace($hashKey,'',$listKey);
 
-        $locations = $this->locationRepository->findByIdFav($listId[0]);
+        $locations = $this->locationRepository->findByIdFav($listId[0], true);
         $locationData = $paginator->paginate(
             $locations,
             $request->query->getInt('page', 1),

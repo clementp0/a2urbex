@@ -81,14 +81,14 @@ class LocationService {
         return $kp.uniqid();
     }
 
-    public function findSearch($search, $submit = false) {    
+    public function findSearch($search, $submit = false, $query = false) {    
         $user = $this->security->getUser();
 
         if (in_array('ROLE_ADMIN', $user->getRoles(), true) || in_array('ROLE_SUPERUSER', $user->getRoles(), true)) {
             if ($submit) {
-                return $this->locationRepository->findWithSearch($search);
+                return $this->locationRepository->findWithSearch($search, $query);
             } else {
-                return $this->locationRepository->findByAll();
+                return $this->locationRepository->findByAll($query);
             }
         } else {
             $users = [$user->getId()];
@@ -101,9 +101,12 @@ class LocationService {
             }
 
             if ($submit) {
-                return $this->locationRepository->findWithSearchAndUsers($search, $users);
+                return $this->$this->getBaseQuery()
+                    ->andWhere('l.user = :user')
+                    ->setParameter('user', $user)
+                    ->findWithSearchAndUsers($search, $users, $query);
             } else {
-                return $this->locationRepository->findByUsers($users);
+                return $this->locationRepository->findByUsers($users, $query);
             }
         }
     }
