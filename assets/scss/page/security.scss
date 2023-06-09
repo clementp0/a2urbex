@@ -168,6 +168,10 @@
     &:focus-visible {
       outline: 0;
     }
+
+    &::placeholder {
+      color: #757575;
+    }
   }
 
   footer {
