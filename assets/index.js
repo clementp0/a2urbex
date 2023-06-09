@@ -19,11 +19,11 @@ $(() => {
 
   // open/close side menu
   $('.pin-open-search').on('click', () => {
-    $('.pin-wrapper').toggleClass('menu-open')
+    $('.has-sidebar').toggleClass('menu-open')
   })
   $('.pin-search-wrapper').on('click', function (e) {
     if (e.target != this) return
-    $('.pin-wrapper').removeClass('menu-open')
+    $('.has-sidebar').removeClass('menu-open')
   })
 
   // Friend page

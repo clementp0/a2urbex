@@ -12,10 +12,11 @@
 }
 
 .pin-search-wrapper {
-  height: calc(100% - 44px);
+  height: calc(100% - 88px);
   position: fixed;
   top: 44px;
   left: 0px;
+  z-index: 1;
 
   .pin-search {
     position: relative;
@@ -228,17 +229,19 @@
     }
   }
 
-  .pin-wrapper.menu-open .pin-search-wrapper {
-    visibility: visible;
-    opacity: 1;
-    background-color: rgba(0, 0, 0, 0.6);
+  .has-sidebar {
+    &.menu-open .pin-search-wrapper {
+      visibility: visible;
+      opacity: 1;
+      background-color: rgba(0, 0, 0, 0.6);
 
-    .pin-search {
-      transform: translateX(100%);
+      .pin-search {
+        transform: translateX(100%);
+      }
     }
-  }
 
-  .pin-wrapper-inner {
-    margin-left: 0;
+    .has-sidebar-inner {
+      margin-left: 0 !important;
+    }
   }
 }

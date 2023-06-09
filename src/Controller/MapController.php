@@ -10,54 +10,44 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
 use Danilovl\HashidsBundle\Service\HashidsService;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
 use App\Class\Search;
 use App\Form\SearchType;
 use App\Service\LocationService;
 
 class MapController extends AppController
 {
-    public function __construct(LocationRepository $locationRepository, private HashidsServiceInterface $hashidsService, Security $security) {
-        $this->locationRepository = $locationRepository;
-        $this->security = $security;
-    }
+    public function __construct(
+        private LocationRepository $locationRepository,
+        private HashidsServiceInterface $hashidsService
+    ) {}
     
     #[Route('/map/list/{key}', name: 'app_map_favorite')]
-    public function fav(Request $request): Response {
+    public function fav(): Response {
         return $this->default('key');
     }
 
     #[Route('/map/filter', name: 'app_map_filter')]
-    public function filter(): Response {
-        return $this->default('filter');
+    public function filter(Request $request): Response {
+        return $this->default('filter', $request);
     }
 
-    private function default($type = 'key') {
-        return $this->render('map/index.html.twig', [
+    private function default($type = 'key', $request = null) {
+        $twig = [
             'maps_api_key' => $_ENV['MAPS_API_KEY'],
             'pin_location_path' => $_ENV['PIN_LOCATION_PATH'],
-            'map_type' => $type
-        ]);
-    }
-    
-    private function getErrorMessages(\Symfony\Component\Form\Form $form) {
-        $errors = array();
-    
-        foreach ($form->getErrors() as $key => $error) {
-            if ($form->isRoot()) {
-                $errors['#'][] = $error->getMessage();
-            } else {
-                $errors[] = $error->getMessage();
-            }
+            'map_type' => $type,
+        ];
+
+        if($type === 'filter') {
+            $search = new Search();
+            $form = $this->createForm(SearchType::class, $search);
+            $form->handleRequest($request);
+
+            $twig['search_form'] = $form->createView();
+            $twig['total_result'] = 1;
         }
-    
-        foreach ($form->all() as $child) {
-            if (!$child->isValid()) {
-                $errors[$child->getName()] = $this->getErrorMessages($child);
-            }
-        }
-    
-        return $errors;
+
+        return $this->render('map/index.html.twig', $twig);
     }
 
     #[Route('/map/async/', name: 'app_map_async')]

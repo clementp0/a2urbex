@@ -1,36 +1,42 @@
 {% extends 'base.html.twig' %}
 {% block content %}
-	<div id="map-wrapper">
-		<div id="map"></div>
-		<div id="map-overlay" class="custom-scroll">
-			<a href="#" class="map-overlay-close">
-				<i class="fa-solid fa-xmark"></i>
-			</a>
-			<div class="map-overlay-img-wrapper">
-				<div class="map-overlay-img"></div>
-				{% include 'favorite/_pin.html.twig' %}
-			</div>
-			{% if app.user %}
-				<p class="map-overlay-title"></p>
-			{% endif %}
-			<p class="map-overlay-type pin-type">
-				<span class="pin-type-icon"></span>
-				<span class="pin-type-text"></span>
-			</p>
-			<div class="map-overlay-action">
-				<a class="pin-waze" target="blank" data-url="https://waze.com/ul?q=">
-					<i class="fa-brands fa-waze"></i>
+	<div id="map-wrapper" class="has-sidebar">
+		{% if map_type == 'filter' %}
+			{% include 'sidebar.html.twig' %}
+		{% endif %}
+		
+		<div id="map-wrapper-inner" class="has-sidebar-inner">
+			<div id="map"></div>
+			<div id="map-overlay" class="custom-scroll">
+				<a href="#" class="map-overlay-close">
+					<i class="fa-solid fa-xmark"></i>
 				</a>
-				<a class="pin-map" target="blank" data-url="https://www.google.com/maps?t=k&q=">
-					<i class="fa-solid fa-earth-europe"></i>
-				</a>
+				<div class="map-overlay-img-wrapper">
+					<div class="map-overlay-img"></div>
+					{% include 'favorite/_pin.html.twig' %}
+				</div>
 				{% if app.user %}
-					{% if 'ROLE_ADMIN' in app.user.roles %}
-						<a class="pin-conf" target="blank" data-url="{{ path('app_location_admin', {key: '-key-'}) }}">
-							<i class="fa-solid fa-pen-to-square"></i>
-						</a>
-					{% endif %}
+					<p class="map-overlay-title"></p>
 				{% endif %}
+				<p class="map-overlay-type pin-type">
+					<span class="pin-type-icon"></span>
+					<span class="pin-type-text"></span>
+				</p>
+				<div class="map-overlay-action">
+					<a class="pin-waze" target="blank" data-url="https://waze.com/ul?q=">
+						<i class="fa-brands fa-waze"></i>
+					</a>
+					<a class="pin-map" target="blank" data-url="https://www.google.com/maps?t=k&q=">
+						<i class="fa-solid fa-earth-europe"></i>
+					</a>
+					{% if app.user %}
+						{% if 'ROLE_ADMIN' in app.user.roles %}
+							<a class="pin-conf" target="blank" data-url="{{ path('app_location_admin', {key: '-key-'}) }}">
+								<i class="fa-solid fa-pen-to-square"></i>
+							</a>
+						{% endif %}
+					{% endif %}
+				</div>
 			</div>
 		</div>
 	</div>
@@ -38,7 +44,7 @@
 	<script src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&callback=initMap&v=weekly" defer></script>
 	<script>
 		const pinLocationPath ="{{ pin_location_path }}";
-const mapType ="{{ map_type }}";
-const asyncMapUrl ="{{ path('app_map_async') }}";
+		const mapType ="{{ map_type }}";
+		const asyncMapUrl ="{{ path('app_map_async') }}";
 	</script>
 {% endblock %}
