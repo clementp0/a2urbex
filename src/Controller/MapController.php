@@ -13,12 +13,15 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Class\Search;
 use App\Form\SearchType;
 use App\Service\LocationService;
+use Knp\Component\Pager\PaginatorInterface;
 
 class MapController extends AppController
 {
     public function __construct(
         private LocationRepository $locationRepository,
-        private HashidsServiceInterface $hashidsService
+        private HashidsServiceInterface $hashidsService,
+        private LocationService $locationService,
+        private PaginatorInterface $paginator
     ) {}
     
     #[Route('/map/list/{key}', name: 'app_map_favorite')]
@@ -43,20 +46,23 @@ class MapController extends AppController
             $form = $this->createForm(SearchType::class, $search);
             $form->handleRequest($request);
 
+            $qb = $this->locationService->findSearch($search, $form->isSubmitted() && $form->isValid(), true);
+            $pag = $this->paginator->paginate($qb, 1, 1);
+
             $twig['search_form'] = $form->createView();
-            $twig['total_result'] = 1;
+            $twig['total_result'] = $pag->getTotalItemCount();
         }
 
         return $this->render('map/index.html.twig', $twig);
     }
 
     #[Route('/map/async/', name: 'app_map_async')]
-    public function asyncMap(Request $request, LocationService $locationService) {
+    public function asyncMap(Request $request) {
         $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
         $form->handleRequest($request);
 
-        $locations = $locationService->findSearch($search, $form->isSubmitted() && $form->isValid());
+        $locations = $this->locationService->findSearch($search, $form->isSubmitted() && $form->isValid());
         return $this->defaultLocations($locations);
     }
 
