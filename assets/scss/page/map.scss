@@ -15,7 +15,7 @@
       display: block;
       margin: 8px;
       border: 2px solid transparent;
-      width: 400px;
+      width: calc(100% - 260px);
       z-index: 1;
 
       &.disabled {
