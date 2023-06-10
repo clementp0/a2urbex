@@ -1,9 +1,31 @@
 function initMap() {
+  // map instance
   const map = new google.maps.Map(document.getElementById('map'), {
     zoom: 6,
     center: { lat: 46.71109, lng: 1.7191036 },
   })
 
+  // init search
+  const input = document.getElementById('map-input')
+  const inputWrapper = document.getElementById('map-input-wrapper')
+  const inputSearch = document.getElementById('map-input-search')
+
+  const searchBox = new google.maps.places.SearchBox(input)
+
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputWrapper)
+  map.addListener('bounds_changed', () => {
+    searchBox.setBounds(map.getBounds())
+  })
+
+  inputSearch.addEventListener('click', () => {
+    google.maps.event.trigger(input, 'focus', {})
+    google.maps.event.trigger(input, 'keydown', { keyCode: 13 })
+  })
+
+  let markers = { m: [] }
+  searchBox.addListener('places_changed', () => search(map, searchBox, markers))
+
+  // async load locations
   let url = asyncMapUrl
   if (mapType === 'key') {
     const split = window.location.pathname.split('/')
@@ -139,6 +161,45 @@ function setUserPosition(map) {
       alert(error.message)
     }
   )
+}
+
+function search(map, searchBox, markers) {
+  const places = searchBox.getPlaces()
+
+  if (places.length == 0) return
+
+  console.log(markers)
+  markers.m.forEach((marker) => marker.setMap(null))
+  markers.m = []
+
+  const bounds = new google.maps.LatLngBounds()
+
+  places.forEach((place) => {
+    if (!place.geometry || !place.geometry.location) {
+      console.log('Returned place contains no geometry')
+      return
+    }
+
+    const icon = {
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(25, 25),
+    }
+
+    markers.m.push(
+      new google.maps.Marker({
+        map,
+        icon,
+        title: place.name,
+        position: place.geometry.location,
+      })
+    )
+    if (place.geometry.viewport) bounds.union(place.geometry.viewport)
+    else bounds.extend(place.geometry.location)
+  })
+  map.fitBounds(bounds)
 }
 
 window.initMap = initMap

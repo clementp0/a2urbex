@@ -45,16 +45,14 @@ class LocationController extends AppController
         $form = $this->createForm(SearchType::class, $search);
         $form->handleRequest($request);
 
-        $locations = $this->locationService->findSearch($search, $form->isSubmitted() && $form->isValid());
-
-        $totalResults = 0;
-        $totalResults = count($locations);
-
+        $locations = $this->locationService->findSearch($search, $form->isSubmitted() && $form->isValid(), true);
+        
         $locationData = $paginator->paginate(
             $locations,
             $request->query->getInt('page', 1),
             50
-        );  
+        );
+        $totalResults = $locationData->getTotalItemCount();
         
         $user = $this->getUser();
         $userOnlineService->addUser($user);
@@ -69,7 +67,7 @@ class LocationController extends AppController
             'user_role' => $this->getUser()->getRoles(),
             'user_id' => $this->getUser()->getId(),
             'locations' => $locationData,
-            'form' => $form->createView(),
+            'search_form' => $form->createView(),
             'total_result' => $totalResults,
             'onlineUsers' => $onlineUsers,
             'onlineExplorers' => $onlineExplorers,
@@ -130,14 +128,14 @@ class LocationController extends AppController
     }
 
     private function getForUserLocationPage($request, $paginator, $location, $form) {
-        $locations = $this->locationRepository->findByUser();
-        $totalResults = $locations ? count($locations) : 0;
-
+        $locations = $this->locationRepository->findByUser(true);
+        
         $locationData = $paginator->paginate(
             $locations,
             $request->query->getInt('page', 1),
             6
         );
+        $totalResults = $locationData->getTotalItemCount();
 
         return $this->render('location/new.html.twig', [
             'hashkey' => $_ENV["HASH_KEY"],

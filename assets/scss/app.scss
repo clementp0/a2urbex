@@ -2,10 +2,11 @@ body {
   background-color: #222222;
   min-height: 100vh;
   position: relative;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 44px;
+  padding-bottom: 44px;
   color: #5a5a5a;
   margin: auto;
+  font-family: Roboto, sans-serif;
 
   a {
     color: #8d8d8d;
@@ -31,6 +32,7 @@ iframe {
 }
 
 footer {
+  height: 44px;
   padding: 10px;
   font-size: 0.895rem;
   position: absolute;

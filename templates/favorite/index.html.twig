@@ -12,14 +12,14 @@
 						{% endif %}.</p>
 					<p class="fav-item-user">
 						{% if item.fav.users|length > 1 %}
-							<span class="fav-item-user-text">Shared with :
-							</span>
+							<span class="fav-item-user-text">Shared with :</span>
 							<span class="fav-item-user-list">
+								{% set userIteration = 0 %}
 								{% for u in item.fav.users %}
 									{% if u.id != app.user.id %}
-										{% if loop.first == false  %}
-											<span class="span-coma">,
-											</span>
+										{% set userIteration = userIteration + 1 %}
+										{% if userIteration > 1 %}
+											<span class="span-coma">,</span>
 										{% endif %}
 										<span>{{u.firstname}}#{{u.id}}</span>
 									{% endif %}
@@ -34,11 +34,12 @@
 						<i class="fa-solid fa-ellipsis-vertical"></i>
 					</button>
 					<div class="dropdown-favorite-content">
-						<a href="/user/modal?fav={{ item.fav.id }}" class="inmodal fav-item-share-user{{ item.fav.master ? ' disabled' : '' }}">
+					
+						<a href="{{ path('app_user_modal', {'fav': item.fav.id}) }}" class="inmodal fav-item-share-user{{ item.fav.master ? ' disabled' : '' }}">
 							<i class="fa-solid fa-user-plus"></i>
 							Add User
 						</a>
-						<a class="fav-item-copy-link" data-toggle="tooltip" href="{{ url('app_favorite_locations', {'key': key | hashids_encode}) }}">
+						<a class="fav-item-copy-link" data-toggle="tooltip" href="{{ path('app_favorite_locations', {'key': key | hashids_encode}) }}">
 							<i class="fa-solid fa-link"></i>
 							Share link
 						</a>
