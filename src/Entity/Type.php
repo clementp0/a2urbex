@@ -28,6 +28,9 @@ class Type implements Stringable
     #[ORM\Column(length: 255)]
     private ?string $icon = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $color = null;
+
     public function __construct()
     {
         $this->typeOptions = new ArrayCollection();
@@ -124,6 +127,18 @@ class Type implements Stringable
     public function setIcon(string $icon): self
     {
         $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

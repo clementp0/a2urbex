@@ -5,27 +5,10 @@ function initMap() {
     center: { lat: 46.71109, lng: 1.7191036 },
   })
 
-  // init search
-  const input = document.getElementById('map-input')
-  const inputWrapper = document.getElementById('map-input-wrapper')
-  const inputSearch = document.getElementById('map-input-search')
+  // place searchbar
+  const inputWrapper = $('#map-input-wrapper')
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputWrapper[0])
 
-  const searchBox = new google.maps.places.SearchBox(input)
-
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputWrapper)
-  map.addListener('bounds_changed', () => {
-    searchBox.setBounds(map.getBounds())
-  })
-
-  inputSearch.addEventListener('click', () => {
-    google.maps.event.trigger(input, 'focus', {})
-    google.maps.event.trigger(input, 'keydown', { keyCode: 13 })
-  })
-
-  let markers = { m: [] }
-  searchBox.addListener('places_changed', () => search(map, searchBox, markers))
-
-  // async load locations
   let url = asyncMapUrl
   if (mapType === 'key') {
     const split = window.location.pathname.split('/')
@@ -40,6 +23,7 @@ function initMap() {
   }).done((json) => {
     setMarkers(map, json)
     setUserPosition(map)
+    initSearch(map, json, inputWrapper)
   })
 }
 
@@ -61,89 +45,77 @@ function setMarkers(map, items) {
   pins['default'].url = pins['default'].url + 'default.png'
   pins['default'].zIndex = 1
 
-  //const items = JSON.parse(locations)
-  //const items = locations
-  for (let key in items) {
+  items.forEach((item) => {
     let current = pins['default']
-    if (items[key].loc.type) {
-      if (!pins[items[key].loc.type.icon]) {
-        pins[items[key].loc.type.icon] = { ...icon }
-        pins[items[key].loc.type.icon].url =
-          pins[items[key].loc.type.icon].url + items[key].loc.type.icon + '.png'
+    if (item.loc.type) {
+      if (!pins[item.loc.type.icon]) {
+        pins[item.loc.type.icon] = { ...icon }
+        pins[item.loc.type.icon].url = pins[item.loc.type.icon].url + item.loc.type.icon + '.png'
       }
 
-      current = pins[items[key].loc.type.icon]
+      current = pins[item.loc.type.icon]
     }
 
     const marker = new google.maps.Marker({
       position: {
-        lat: Number.parseFloat(items[key].loc.lat),
-        lng: Number.parseFloat(items[key].loc.lon),
+        lat: Number.parseFloat(item.loc.lat),
+        lng: Number.parseFloat(item.loc.lon),
       },
       map,
       icon: current,
       shape: shape,
-      title: items[key].loc.name,
-      type: items[key].loc.type,
+      title: item.loc.name,
+      type: item.loc.type,
       zIndex: current.zIndex,
     })
 
     marker.addListener('click', () => {
-      //map.setZoom(8)
-      //map.setCenter(marker.getPosition())
-
-      if (items[key].loc.disabled == 1) {
-        $('.map-overlay-img').attr('id', 'disabled')
-      } else {
-        $('.map-overlay-img').removeAttr('id')
-      }
-
-      $('.pin-fav-add').removeClass('show')
-      $('#map-overlay').addClass('show')
-      if (items[key].loc.image === null) {
-        $('#map-overlay .map-overlay-img').css('backgroundImage', 'url("/assets/default.png")')
-      } else {
-        $('#map-overlay .map-overlay-img').css(
-          'backgroundImage',
-          'url(' + items[key].loc.image + ')'
-        )
-      }
-      if (items[key].loc.name) $('#map-overlay .map-overlay-title').text(items[key].loc.name)
-      $('#map-overlay .map-overlay-type .pin-type-text').text(
-        items[key].loc.type !== null ? items[key].loc.type.name : 'other'
-      )
-      $('#map-overlay .map-overlay-type .pin-type-icon').html(
-        items[key].loc.type !== null
-          ? '<i class="fa-solid ' + items[key].loc.type.icon + '"></i>'
-          : '<i class="fa-solid fa-map-pin"></i>'
-      )
-
-      $('.pin-fav-wrapper').attr('data-id', items[key].loc.lid)
-      $('.pin-fav-wrapper').attr('data-fids', items[key].fids)
-
-      let mapsUrl =
-        $('.map-overlay-action .pin-map').data('url') +
-        items[key].loc.lat +
-        ',' +
-        items[key].loc.lon
-      $('.map-overlay-action .pin-map').attr('href', mapsUrl)
-      let editUrl = $('.map-overlay-action .pin-conf')
-        .data('url')
-        .replace('-key-', items[key].loc.lid)
-      $('.map-overlay-action .pin-conf').attr('href', editUrl)
-      let wazeUrl =
-        $('.map-overlay-action .pin-waze').data('url') +
-        items[key].loc.lat +
-        ',' +
-        items[key].loc.lon +
-        '&navigate=yes&zoom=17'
-      $('.map-overlay-action .pin-waze').attr('href', wazeUrl)
-
-      if (items[key].fids)
-        $('#map-overlay').find('.pin-fav i').addClass('fa-solid').removeClass('fa-regular')
-      else $('#map-overlay').find('.pin-fav i').addClass('fa-regular').removeClass('fa-solid')
+      popup(item)
     })
+  })
+}
+
+function popup(item) {
+  if (item.loc.disabled == 1) {
+    $('.map-overlay-img').attr('id', 'disabled')
+  } else {
+    $('.map-overlay-img').removeAttr('id')
   }
+
+  $('.pin-fav-add').removeClass('show')
+  $('#map-overlay').addClass('show')
+  if (item.loc.image === null) {
+    $('#map-overlay .map-overlay-img').css('backgroundImage', 'url("/assets/default.png")')
+  } else {
+    $('#map-overlay .map-overlay-img').css('backgroundImage', 'url(' + item.loc.image + ')')
+  }
+  if (item.loc.name) $('#map-overlay .map-overlay-title').text(item.loc.name)
+  $('#map-overlay .map-overlay-type .pin-type-text').text(
+    item.loc.type !== null ? item.loc.type.name : 'other'
+  )
+  $('#map-overlay .map-overlay-type .pin-type-icon').html(
+    item.loc.type !== null
+      ? '<i class="fa-solid ' + item.loc.type.icon + '"></i>'
+      : '<i class="fa-solid fa-map-pin"></i>'
+  )
+
+  $('.pin-fav-wrapper').attr('data-id', item.loc.lid)
+  $('.pin-fav-wrapper').attr('data-fids', item.fids)
+
+  let mapsUrl = $('.map-overlay-action .pin-map').data('url') + item.loc.lat + ',' + item.loc.lon
+  $('.map-overlay-action .pin-map').attr('href', mapsUrl)
+  let editUrl = $('.map-overlay-action .pin-conf').data('url').replace('-key-', item.loc.lid)
+  $('.map-overlay-action .pin-conf').attr('href', editUrl)
+  let wazeUrl =
+    $('.map-overlay-action .pin-waze').data('url') +
+    item.loc.lat +
+    ',' +
+    item.loc.lon +
+    '&navigate=yes&zoom=17'
+  $('.map-overlay-action .pin-waze').attr('href', wazeUrl)
+
+  if (item.fids) $('#map-overlay').find('.pin-fav i').addClass('fa-solid').removeClass('fa-regular')
+  else $('#map-overlay').find('.pin-fav i').addClass('fa-regular').removeClass('fa-solid')
 }
 
 function setUserPosition(map) {
@@ -163,43 +135,123 @@ function setUserPosition(map) {
   )
 }
 
-function search(map, searchBox, markers) {
-  const places = searchBox.getPlaces()
+function initSearch(map, json, inputWrapper) {
+  inputWrapper.removeClass('disabled')
+  const input = inputWrapper.find('#map-input')
+  const inputClear = inputWrapper.find('#map-input-clear')
+  const inputSearch = inputWrapper.find('#map-input-search')
+  const inputResult = inputWrapper.find('#map-input-result')
 
-  if (places.length == 0) return
-
-  console.log(markers)
-  markers.m.forEach((marker) => marker.setMap(null))
-  markers.m = []
-
-  const bounds = new google.maps.LatLngBounds()
-
-  places.forEach((place) => {
-    if (!place.geometry || !place.geometry.location) {
-      console.log('Returned place contains no geometry')
-      return
-    }
-
-    const icon = {
-      url: place.icon,
-      size: new google.maps.Size(71, 71),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(17, 34),
-      scaledSize: new google.maps.Size(25, 25),
-    }
-
-    markers.m.push(
-      new google.maps.Marker({
-        map,
-        icon,
-        title: place.name,
-        position: place.geometry.location,
-      })
-    )
-    if (place.geometry.viewport) bounds.union(place.geometry.viewport)
-    else bounds.extend(place.geometry.location)
+  inputClear.on('click', () => {
+    toggleInputAction(inputWrapper, false)
+    inputResult.empty()
+    input.val('').focus()
   })
-  map.fitBounds(bounds)
+
+  inputSearch.on('click', () => searchCoord(map, inputWrapper))
+
+  input.on('keydown', (e) => {
+    if (e.key === 'Enter') searchCoord(map, inputWrapper)
+  })
+
+  input.on('input', function () {
+    const value = $(this).val().toLowerCase()
+    search(map, json, inputWrapper, value)
+  })
+
+  input.on('blur', () => {
+    setTimeout(() => {
+      inputResult.addClass('hidden')
+    }, 200)
+  })
+  input.on('focus', () => {
+    inputResult.removeClass('hidden')
+  })
+}
+
+let oldCoordMarker = null
+function searchCoord(map, inputWrapper) {
+  const input = inputWrapper.find('#map-input')
+  const regex = /^(-?[0-9]+(\.[0-9]+)?), ?(-?[0-9]+(\.[0-9]+)?)$/
+  const value = input.val()
+  const match = value.match(regex)
+
+  if (match === null) {
+    return alert('Invalid coordinates')
+  } else {
+    // -12.244, 35.45
+    const lat = Number.parseFloat(match[1])
+    if (lat < -90 || lat > 90) return alert('Lat out of scope (-90, 90)')
+    const lon = Number.parseFloat(match[3])
+    if (lon < -90 || lon > 90) return alert('Lng out of scope (-90, 90)')
+
+    toggleInputAction(inputWrapper, true)
+    zoomToPoint(map, lat, lon)
+
+    if (oldCoordMarker) oldCoordMarker.setMap(null)
+
+    oldCoordMarker = new google.maps.Marker({
+      position: { lat: lat, lng: lon },
+      map,
+    })
+  }
+}
+
+function search(map, json, inputWrapper, value) {
+  const result = json
+    .filter((item) => item.loc.name && item.loc.name.toLowerCase().indexOf(value) !== -1)
+    .splice(0, 10)
+
+  const input = inputWrapper.find('#map-input')
+
+  const inputResult = inputWrapper.find('#map-input-result')
+
+  if (value.length === 0) toggleInputAction(inputWrapper, false)
+
+  inputResult.empty()
+
+  result.forEach((item) => {
+    const type = item.loc.type
+    const row = $('<div>')
+
+    row.addClass('item').html(`
+      <span class="icon" style="${type ? 'color: ' + type.color : ''}">
+        <i class="fa-solid ${type ? type.icon : 'fa-map-pin'}" ></i>
+      </span>
+      <span class="name">${item.loc.name}</span>
+    `)
+    inputResult.append(row)
+
+    row.on('click', () => {
+      zoomToPoint(map, item.loc.lat, item.loc.lon)
+      popup(item)
+
+      if (item.loc.name) {
+        input.val(item.loc.name)
+        toggleInputAction(inputWrapper, true)
+      }
+    })
+  })
+
+  inputResult.removeClass('hidden')
+}
+
+function toggleInputAction(inputWrapper, show = false) {
+  const inputClear = inputWrapper.find('#map-input-clear')
+  const inputSearch = inputWrapper.find('#map-input-search')
+
+  if (show === true) {
+    inputSearch.addClass('hidden')
+    inputClear.removeClass('hidden')
+  } else {
+    inputSearch.removeClass('hidden')
+    inputClear.addClass('hidden')
+  }
+}
+
+function zoomToPoint(map, lat, lon) {
+  map.setCenter(new google.maps.LatLng(Number.parseFloat(lat), Number.parseFloat(lon)))
+  map.setZoom(10)
 }
 
 window.initMap = initMap
