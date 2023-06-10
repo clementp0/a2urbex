@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -56,6 +58,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToMany(targetEntity: Channel::class, mappedBy: 'users')]
     private Collection $channels;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $about = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $youtube = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $tiktok = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $instagram = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $image = null;
+
+    public $imageError;
+    public $previousImage;
 
     // #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, orphanRemoval: true)]
     // private Collection $favorites;
@@ -379,5 +399,103 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getAbout(): ?string
+    {
+        return $this->about;
+    }
+
+    public function setAbout(?string $about): self
+    {
+        $this->about = $about;
+
+        return $this;
+    }
+
+    public function getYoutube(): ?string
+    {
+        return $this->youtube;
+    }
+
+    public function setYoutube(?string $youtube): self
+    {
+        $this->youtube = $youtube;
+
+        return $this;
+    }
+
+    public function getTiktok(): ?string
+    {
+        return $this->tiktok;
+    }
+
+    public function setTiktok(?string $tiktok): self
+    {
+        $this->tiktok = $tiktok;
+
+        return $this;
+    }
+
+    public function getInstagram(): ?string
+    {
+        return $this->instagram;
+    }
+
+    public function setInstagram(?string $instagram): self
+    {
+        $this->instagram = $instagram;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+    public function getPreviousImage(): ?string {
+        return $this->previousImage;
+    }
+
+    public function setImageDirect($filename):self {
+        $this->image = $filename;
+
+        return $this;
+    }
+
+    public function setImage(?\Symfony\Component\HttpFoundation\File\UploadedFile $file): self
+    {
+        if ($file) {
+            $validExtensions = ['jpg', 'jpeg', 'png'];
+            $extension = strtolower($file->getClientOriginalExtension());
+            if (!in_array($extension, $validExtensions)) {
+                throw new \Exception('Invalid file type');
+            } else {
+                $filename = $_ENV['IMG_LOCATION_PATH'] . md5(uniqid()) . '.' . $extension;
+                $file->move(
+                    $this->getUploadDir(),
+                    $filename
+                );
+                $this->image = $filename;
+
+                if($this->previousImage && strpos($this->previousImage, '..') !== false && file_exists($this->getPublicDir().$this->previousImage)) {
+                    unlink($this->getPublicDir().$this->previousImage);
+                }
+            }
+        }
+    
+        return $this;
+    }
+    public function removeImage(): self {
+        $this->image = null;
+        return $this;
+    }
+    
+    private function getPublicDir() {
+        return __DIR__ . '/../../public/';
+    }
+    private function getUploadDir()
+    {
+        return $this->getPublicDir().$_ENV['IMG_LOCATION_PATH'];
     }
 }

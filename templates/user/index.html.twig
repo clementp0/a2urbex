@@ -1,4 +1,49 @@
 {% extends 'base.html.twig' %}
 {% block content %}
-    <h1>{{ user.firstname }}#{{ user.id }}</h1>
+	<div class="profile__container">
+		<div class="profile__container-header">
+			<div class="profile__container-banner">{% if connected_user.id == user.id %}<a class="profile__container-banner-edit" href="{{ path('app_account') }}"><i class="fa-solid fa-pen-to-square"></i> Edit profile </a>{% endif %}</div>
+			<div class="profile__container-infos">
+				<div class="profile__container-infos-socials">
+					{% if user.instagram %}
+						<a href="{{ user.instagram }}">
+							<i class="fa-brands fa-instagram"></i>
+						</a>
+					{% endif %}
+					{% if user.tiktok %}
+						<a href="{{ user.tiktok }}">
+							<i class="fa-brands fa-tiktok"></i>
+						</a>
+					{% endif %}
+					{% if user.youtube %}
+						<a href="{{ user.youtube }}">
+							<i class="fa-brands fa-youtube"></i>
+						</a>
+					{% endif %}
+				</div>
+				<div class="profile__container-infos-picture" style="background-image:url('{% if user.image %}{{user.image}}{% else %} caca {% endif %}')"></div>
+				<div class="profile__container-infos-add">
+				<a href="#" class="profile__container-infos-add-item">
+					<i class="fa-solid fa-user-plus"></i> <span>Add friend</span></a>
+				</div>
+			</div>
+			<p class="profile__container-name">{{ user.firstname }}<span>#{{ user.id }}</span>{% if 'ROLE_ADMIN' in  user.roles %} <i class="fa-solid fa-shield-halved" title="Admin"></i>{% endif %}
+			</p>
+		</div>
+	</div>
+	<div class="profile__container-content">
+		<div class="profile__container-content-stats">
+		<h3 class="profile__container-content-stats-title">Stats</h3>
+			<p><i class="fa-sharp fa-solid fa-location-pin"></i> {{ urbex_count }} pin{% if urbex_count > 1 %}s{% endif %}</p>
+			<p><i class="fa-sharp fa-solid fa-heart-circle-plus"></i> {{ favorites_count }} list{% if favorites_count > 1 %}s{% endif %}</p>
+			<p><i class="fa-solid fa-user-group"></i> {{ friends_count }} friend{% if friends_count > 1 %}s{% endif %}</p>
+		</div>
+		<div class="profile__container-content-desc">
+		{% if user.about %}
+			{{ user.about }}
+		{% else %}
+			This user has not filled in his about section.
+		{% endif %}
+		</div>
+	</div>
 {% endblock %}

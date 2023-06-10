@@ -21,15 +21,22 @@ class AccountController extends AppController
     public function index(Request $request) {
         $notification = null;
         $user = $this->getUser();
-        $form = $this->createForm(ChangeAccountType::class, $user);
+        $image = $user->getImage();
+        $user = $this->getUser();
+        $user->removeImage();
+        $form = $this->createForm(ChangeAccountType::class, $user, [
+            'previousImage' => $image
+        ]);
 
         $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid()) {
+            if($user->getImage() === null && $user->getPreviousImage()) {
+                $user->setImageDirect($image);
+            }
             $user
                 ->setFirstname($form->get('firstname')->getData())
-                ->setLastname($form->get('lastname')->getData())
-            ;
+                ->setLastname($form->get('lastname')->getData());
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 

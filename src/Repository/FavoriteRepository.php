@@ -60,6 +60,7 @@ class FavoriteRepository extends ServiceEntityRepository
         ;
     }
 
+
     public function findByEnabled() {
         return $this->getBaseQuery()
             ->andWhere('(f.disabled IS NULL OR f.disabled = 0)')

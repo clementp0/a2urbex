@@ -10,22 +10,56 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\UploadedFile;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\Image;
 
 class ChangeAccountType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        dd($options);
         $builder
             ->add('email', EmailType::class,[
                 'disabled' => true,
                 'label' => 'Email',
+            ])
+            ->add('previousImage', TextType::class, [
+                'data' => $options['previousImage'],
+                'required' => false
+            ])
+            ->add('image', FileType::class, [
+                'label' => 'Image',
+                'label_attr' => ['class' => 'image-label-placeholder'],
+                'required' => false,
+                'attr' => [
+                    'accept' => ".jpg, .jpeg, .png",
+                    'onchange'=>'previewImage(event)'
+                ],
             ])
             ->add('firstname', TextType::class,[
                 'label' => 'Firstname',
             ])
             ->add('lastname', TextType::class,[
                 'label' => 'Name',
+            ])
+            ->add('youtube', TextType::class,[
+                'required' => false,
+                'label' => 'YouTube',
+            ])
+            ->add('tiktok', TextType::class,[
+                'required' => false,
+                'label' => 'TikTok',
+            ])
+            ->add('instagram', TextType::class,[
+                'required' => false,
+                'label' => 'Instagram',
+            ])
+            ->add('about', TextType::class,[
+                'required' => false,
+                'label' => 'About',
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Save',
@@ -36,10 +70,13 @@ class ChangeAccountType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'previousImage' => null,
+            'title' => null,
         ]);
+
     }
 }

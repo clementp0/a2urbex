@@ -1,0 +1,196 @@
+.profile__container {
+    background-image: url('https://cap.img.pmdstatic.net/fit/http.3A.2F.2Fprd2-bone-image.2Es3-website-eu-west-1.2Eamazonaws.2Ecom.2Fcap.2F2019.2F04.2F23.2F95b37fec-b967-4d9b-a796-49378b1bb70f.2Ejpeg/1200x630/background-color/ffffff/quality/70/cr/wqkgUHhoZXJlIC8gQ0FQSVRBTA%3D%3D/lurbex-quand-les-ruines-urbaines-attirent-les-touristes-1338559.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-top: -4px;
+
+    &-header {
+        margin: auto;
+        backdrop-filter: blur(16px);
+        background: linear-gradient(180deg, rgb(33 33 33 / 59%) 0%, rgb(33 33 33) 75%, rgb(34 34 34) 100%);
+        padding: 50px 0px 20px 0px;
+    }
+
+    &-banner {
+        max-width: 80%;
+        margin: auto;
+        height: 250px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        position: relative;
+        border-radius: 10px;
+        background-position: center;
+        background-image: url('https://cap.img.pmdstatic.net/fit/http.3A.2F.2Fprd2-bone-image.2Es3-website-eu-west-1.2Eamazonaws.2Ecom.2Fcap.2F2019.2F04.2F23.2F95b37fec-b967-4d9b-a796-49378b1bb70f.2Ejpeg/1200x630/background-color/ffffff/quality/70/cr/wqkgUHhoZXJlIC8gQ0FQSVRBTA%3D%3D/lurbex-quand-les-ruines-urbaines-attirent-les-touristes-1338559.jpg');
+
+        &-edit {
+            padding: 5px 10px 5px 10px;
+            font-size: 15px;
+            background-color: #0000008f;
+            border-radius: 3px;
+            top: 10px;
+            right: 10px;
+            text-align: right;
+            position: absolute;
+            backdrop-filter: blur(2px);
+        }
+    }
+
+    &-name {
+        text-align: center;
+        position: relative;
+        top: -40px;
+        color: #989898;
+        font-size: 20px;
+
+        &>span {
+            font-size: 16px;
+            color: #494949;
+        }
+    }
+
+    &-content {
+        border-top: 1px solid #525252;
+        width: 80%;
+        margin: auto;
+        position: relative;
+        top: -60px;
+        padding-top: 30px;
+        display: flex;
+        column-gap: 20px;
+        grid-gap: 20px;
+
+
+        &-stats {
+            background-color: #2d2d2d;
+            border-radius: 3px;
+            padding: 10px;
+            color: #797979;
+            width: fit-content;
+            font-weight: 500;
+            font-size: 15px;
+            min-width: 120px;
+            height: fit-content;
+
+            &-title {
+                background-color: #575757;
+                color: #2a2a2a;
+                border-radius: 3px;
+                font-size: 15px;
+                font-weight: 400;
+                padding: 2px 5px 2px 5px;
+            }
+
+            &>p {
+                margin: 0.3rem;
+            }
+        }
+
+        &-desc {
+            width: 100%;
+            text-align: justify;
+            background-color: #2d2d2d;
+            color: #797979;
+            border-radius: 3px;
+            padding: 10px;
+        }
+    }
+
+    &-infos {
+        position: relative;
+        top: -50px;
+        max-width: 80%;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &-picture {
+            width: 120px;
+            height: 120px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            border-radius: 100px;
+            margin: auto;
+            border: 1px solid #525252;
+        }
+
+        &-socials {
+            width: 120px;
+
+            &>a {
+                font-size: 20px;
+                position: relative;
+                top: 10px;
+                padding: 3px;
+            }
+        }
+
+        &-add {
+            width: 120px;
+            text-align: right;
+
+            &-item {
+                position: relative;
+                top: 10px;
+                background-color: #2d2d2d;
+                color: #8d8d8d;
+                border-radius: 3px;
+                padding: 5px 7px 5px 8px;
+                font-size: 15px;
+                font-weight: 400;
+                margin-top: 8px;
+            }
+
+        }
+    }
+}
+
+.fa-shield-halved{
+    color: #fff000;
+    font-size: 17px;
+}
+@media screen and (max-width: 800px) {
+    .profile__container-infos-socials {
+        width: 90px;
+    }
+
+    .profile__container-infos-add {
+        width: 90px;
+    }
+
+    .profile__container-content {
+        flex-direction: column;
+        width: 90%;
+    }
+
+    .profile__container-content-stats {
+        width: 100%;
+    }
+
+    .profile__container-infos-add-item>span {
+        display: none;
+    }
+
+    .profile__container-infos-picture {
+        width: 120px;
+        height: 120px;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .profile__container-banner {
+        max-width: 90%;
+    }
+
+    .profile__container-infos {
+        max-width: 90%;
+    }
+
+    .profile__container-infos-socials>a {
+        font-size: 16px;
+    }
+    .profile__container-banner{
+        height: 200px;
+    }
+}
