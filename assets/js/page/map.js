@@ -5,27 +5,10 @@ function initMap() {
     center: { lat: 46.71109, lng: 1.7191036 },
   })
 
-  // init search
-  const input = document.getElementById('map-input')
-  const inputWrapper = document.getElementById('map-input-wrapper')
-  const inputSearch = document.getElementById('map-input-search')
+  // place searchbar
+  const inputWrapper = $('#map-input-wrapper')
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputWrapper[0])
 
-  const searchBox = new google.maps.places.SearchBox(input)
-
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputWrapper)
-  map.addListener('bounds_changed', () => {
-    searchBox.setBounds(map.getBounds())
-  })
-
-  inputSearch.addEventListener('click', () => {
-    google.maps.event.trigger(input, 'focus', {})
-    google.maps.event.trigger(input, 'keydown', { keyCode: 13 })
-  })
-
-  let markers = { m: [] }
-  searchBox.addListener('places_changed', () => search(map, searchBox, markers))
-
-  // async load locations
   let url = asyncMapUrl
   if (mapType === 'key') {
     const split = window.location.pathname.split('/')
@@ -40,6 +23,7 @@ function initMap() {
   }).done((json) => {
     setMarkers(map, json)
     setUserPosition(map)
+    initSearch(map, json, inputWrapper)
   })
 }
 
@@ -61,8 +45,6 @@ function setMarkers(map, items) {
   pins['default'].url = pins['default'].url + 'default.png'
   pins['default'].zIndex = 1
 
-  //const items = JSON.parse(locations)
-  //const items = locations
   for (let key in items) {
     let current = pins['default']
     if (items[key].loc.type) {
@@ -89,9 +71,6 @@ function setMarkers(map, items) {
     })
 
     marker.addListener('click', () => {
-      //map.setZoom(8)
-      //map.setCenter(marker.getPosition())
-
       if (items[key].loc.disabled == 1) {
         $('.map-overlay-img').attr('id', 'disabled')
       } else {
@@ -163,43 +142,86 @@ function setUserPosition(map) {
   )
 }
 
-function search(map, searchBox, markers) {
-  const places = searchBox.getPlaces()
+function initSearch(map, json, inputWrapper) {
+  inputWrapper.removeClass('disabled')
+  const input = inputWrapper.find('#map-input')
+  const inputResult = inputWrapper.find('#map-input-result')
 
-  if (places.length == 0) return
-
-  console.log(markers)
-  markers.m.forEach((marker) => marker.setMap(null))
-  markers.m = []
-
-  const bounds = new google.maps.LatLngBounds()
-
-  places.forEach((place) => {
-    if (!place.geometry || !place.geometry.location) {
-      console.log('Returned place contains no geometry')
-      return
-    }
-
-    const icon = {
-      url: place.icon,
-      size: new google.maps.Size(71, 71),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(17, 34),
-      scaledSize: new google.maps.Size(25, 25),
-    }
-
-    markers.m.push(
-      new google.maps.Marker({
-        map,
-        icon,
-        title: place.name,
-        position: place.geometry.location,
-      })
-    )
-    if (place.geometry.viewport) bounds.union(place.geometry.viewport)
-    else bounds.extend(place.geometry.location)
+  input.on('input', function () {
+    const value = $(this).val().toLowerCase()
+    search(map, json, inputWrapper, value)
   })
-  map.fitBounds(bounds)
+
+  input.on('blur', () => {
+    setTimeout(() => {
+      inputResult.addClass('hidden')
+    }, 200)
+  })
+  input.on('focus', () => {
+    inputResult.removeClass('hidden')
+  })
+}
+
+function search(map, json, inputWrapper, value) {
+  const result = json
+    .filter((item) => item.loc.name && item.loc.name.toLowerCase().indexOf(value) !== -1)
+    .splice(0, 10)
+
+  const inputResult = inputWrapper.find('#map-input-result')
+  inputResult.empty()
+
+  result.forEach((item) => {
+    const type = item.loc.type
+    const row = $('<div>')
+
+    row.addClass('item').html(`
+      <span class="icon"><i class="fa-solid ${type ? type.icon : 'fa-map-pin'}" ></i></span>
+      <span class="name">${item.loc.name}</span>
+    `)
+    inputResult.append(row)
+
+    row.on('click', () => {
+      map.setCenter(
+        new google.maps.LatLng(Number.parseFloat(item.loc.lat), Number.parseFloat(item.loc.lon))
+      )
+      map.setZoom(10)
+    })
+  })
+
+  inputResult.removeClass('hidden')
+}
+
+function search2(map, searchBox, markers) {
+  // const places = searchBox.getPlaces()
+  // if (places.length == 0) return
+  // console.log(markers)
+  // markers.m.forEach((marker) => marker.setMap(null))
+  // markers.m = []
+  // const bounds = new google.maps.LatLngBounds()
+  // places.forEach((place) => {
+  //   if (!place.geometry || !place.geometry.location) {
+  //     console.log('Returned place contains no geometry')
+  //     return
+  //   }
+  //   const icon = {
+  //     url: place.icon,
+  //     size: new google.maps.Size(71, 71),
+  //     origin: new google.maps.Point(0, 0),
+  //     anchor: new google.maps.Point(17, 34),
+  //     scaledSize: new google.maps.Size(25, 25),
+  //   }
+  //   markers.m.push(
+  //     new google.maps.Marker({
+  //       map,
+  //       icon,
+  //       title: place.name,
+  //       position: place.geometry.location,
+  //     })
+  //   )
+  //   if (place.geometry.viewport) bounds.union(place.geometry.viewport)
+  //   else bounds.extend(place.geometry.location)
+  // })
+  // map.fitBounds(bounds)
 }
 
 window.initMap = initMap

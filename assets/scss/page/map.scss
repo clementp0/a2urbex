@@ -1,18 +1,4 @@
 // map page
-#app_map_filter {
-  .pac-container {
-    width: 404px !important;
-    transform: translateX(-2px);
-    border: 2px solid #4d90fe;
-    border-top: 0;
-
-    &.pac-logo {
-      &::after {
-        display: none;
-      }
-    }
-  }
-}
 #map-wrapper-inner {
   height: calc(100vh - 88px);
   position: relative;
@@ -29,6 +15,12 @@
       display: block;
       margin: 8px;
       border: 2px solid transparent;
+      width: 400px;
+      z-index: 1;
+
+      &.disabled {
+        pointer-events: none;
+      }
 
       &:focus-within {
         border-color: #4d90fe;
@@ -43,7 +35,7 @@
         font-size: 15px;
         font-weight: 300;
         padding: 0 38px 0 13px;
-        width: 400px;
+        width: 100%;
         max-width: 100%;
         height: 40px;
       }
@@ -65,6 +57,40 @@
 
         &:hover {
           color: #4d90fe;
+        }
+      }
+
+      #map-input-result {
+        background-color: white;
+        border-top: 0;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+
+        &.hidden {
+          display: none;
+        }
+
+        .item {
+          padding: 0 10px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          line-height: 30px;
+          border-top: 1px solid #e6e6e6;
+          color: #515151;
+          cursor: pointer;
+
+          &:hover {
+            background-color: rgba(77, 145, 254, 0.3);
+          }
+
+          .icon {
+            font-size: 13px;
+            color: black;
+            margin-right: 5px;
+          }
+          .name {
+            font-size: 11px;
+          }
         }
       }
     }
@@ -144,14 +170,7 @@
       #map-input-wrapper {
         left: 0 !important;
         width: calc(100% - 16px);
-
-        #map-input {
-          width: 100%;
-        }
       }
     }
-  }
-  #app_map_filter .pac-container {
-    width: calc(100% - 16px) !important;
   }
 }

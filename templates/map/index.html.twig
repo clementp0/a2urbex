@@ -6,11 +6,12 @@
 		{% endif %}
 		
 		<div id="map-wrapper-inner" class="has-sidebar-inner">
-			<div id="map-input-wrapper">
-				<input id="map-input" class="controls" type="text" placeholder="Search" />
+			<div id="map-input-wrapper" class="disabled">
+				<input id="map-input" class="controls" type="text" placeholder="Search" autocomplete="off" spellcheck="false"/>
 				<div id="map-input-search">
 					<i class="fa-solid fa-magnifying-glass"></i>
 				</div>
+				<div id="map-input-result" class="hidden"></div>
 			</div>
 			<div id="map"></div>
 			<div id="map-overlay" class="custom-scroll">
@@ -47,7 +48,7 @@
 		</div>
 	</div>
 	<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&callback=initMap&v=weekly&libraries=places" defer></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&callback=initMap&v=weekly" defer></script>
 	<script>
 		const pinLocationPath ="{{ pin_location_path }}";
 		const mapType ="{{ map_type }}";
