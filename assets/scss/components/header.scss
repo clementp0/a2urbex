@@ -32,6 +32,7 @@
 
   .settings {
     position: relative;
+    display: flex;
 
     &>a {
       font-size: 0.9rem;
@@ -62,13 +63,17 @@
         font-size: 14px;
         cursor: pointer;
         padding: 0;
-
-        &>i {
-          padding: 7px;
-          margin-right: 5px;
-          background-color: #404040;
-          color: #737373;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        &-image{
+          width: 25px;
+          height: 25px;
           border-radius: 4px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+          margin-right: 7px;
         }
       }
 

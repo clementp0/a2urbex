@@ -46,7 +46,8 @@
 						<div class="settings">
 							<div class="dropdown">
 								<button class="dropbtn">
-									<i class="fa fa-user"></i>
+								<div class="dropbtn-image" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
+									{# <i class="fa fa-user"></i> #}
 									{{ app.user.firstname }}
 								</button>
 								<div class="dropdown-content">
