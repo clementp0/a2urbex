@@ -76,6 +76,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public $imageError;
     public $previousImage;
+    public $previousBanner;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $banner = null;
 
     // #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, orphanRemoval: true)]
     // private Collection $favorites;
@@ -497,5 +501,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private function getUploadDir()
     {
         return $this->getPublicDir().$_ENV['IMG_LOCATION_PATH'];
+    }
+
+    public function getBanner(): ?string
+    {
+        return $this->banner;
+    }
+    public function getPreviousBanner(): ?string {
+        return $this->previousBanner;
+    }
+
+    public function setBannerDirect($filename):self {
+        $this->banner = $filename;
+
+        return $this;
+    }
+
+    public function setBanner(?\Symfony\Component\HttpFoundation\File\UploadedFile $file): self
+    {
+        if ($file) {
+            $validExtensions = ['jpg', 'jpeg', 'png'];
+            $extension = strtolower($file->getClientOriginalExtension());
+            if (!in_array($extension, $validExtensions)) {
+                throw new \Exception('Invalid file type');
+            } else {
+                $filename = $_ENV['IMG_LOCATION_PATH'] . md5(uniqid()) . '.' . $extension;
+                $file->move(
+                    $this->getUploadDir(),
+                    $filename
+                );
+                $this->banner = $filename;
+
+                if($this->previousBanner && strpos($this->previousBanner, '..') !== false && file_exists($this->getPublicDir().$this->previousBanner)) {
+                    unlink($this->getPublicDir().$this->previousBanner);
+                }
+            }
+        }
+    
+        return $this;
+    }
+    public function removeBanner(): self {
+        $this->banner = null;
+        return $this;
     }
 }

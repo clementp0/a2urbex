@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block content %}
-	<div class="profile__container">
+	<div class="profile__container" style="background-image:url('{% if user.banner %}{{user.banner}}{% else %} /assets/default_banner.png {% endif %}')">
 		<div class="profile__container-header">
-			<div class="profile__container-banner">{% if connected_user.id == user.id %}<a class="profile__container-banner-edit" href="{{ path('app_account') }}"><i class="fa-solid fa-pen-to-square"></i> Edit profile </a>{% endif %}</div>
+			<div class="profile__container-banner" style="background-image:url('{% if user.banner %}{{user.banner}}{% else %}  /assets/default_banner.png {% endif %}')">{% if connected_user.id == user.id %}<a class="profile__container-banner-edit" href="{{ path('app_account') }}"><i class="fa-solid fa-pen-to-square"></i> Edit profile </a>{% endif %}</div>
 			<div class="profile__container-infos">
 				<div class="profile__container-infos-socials">
 					{% if user.instagram %}
@@ -21,7 +21,7 @@
 						</a>
 					{% endif %}
 				</div>
-				<div class="profile__container-infos-picture" style="background-image:url('{% if user.image %}{{user.image}}{% else %} caca {% endif %}')"></div>
+				<div class="profile__container-infos-picture" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
 				<div class="profile__container-infos-add">
 				<a href="#" class="profile__container-infos-add-item">
 					<i class="fa-solid fa-user-plus"></i> <span>Add friend</span></a>

@@ -8,24 +8,26 @@ use App\Form\ChangeAccountType;
 use App\Form\ChangePasswordType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class AccountController extends AppController
 {
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }     
+    public function __construct(private EntityManagerInterface $entityManager, private HashidsServiceInterface $hashidsService,)
+    {}     
 
     #[Route('/account', name: 'app_account')]
     public function index(Request $request) {
         $notification = null;
         $user = $this->getUser();
         $image = $user->getImage();
+        $banner = $user->getBanner();
         $user = $this->getUser();
         $user->removeImage();
+        $user->removeBanner();
         $form = $this->createForm(ChangeAccountType::class, $user, [
-            'previousImage' => $image
+            'previousImage' => $image,
+            'previousBanner'=> $banner
         ]);
 
         $form->handleRequest($request);
@@ -34,13 +36,17 @@ class AccountController extends AppController
             if($user->getImage() === null && $user->getPreviousImage()) {
                 $user->setImageDirect($image);
             }
+            if($user->getBanner() === null && $user->getPreviousBanner()) {
+                $user->setBannerDirect($banner);
+            }
             $user
                 ->setFirstname($form->get('firstname')->getData())
                 ->setLastname($form->get('lastname')->getData());
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
-            $notification = 'Your account has been successfully updated.';
+            return $this->redirectToRoute('app_user',[
+                "key" => $this->hashidsService->encode($user->getId().$_ENV["HASH_KEY"])]);
         } else {
             $base = ($request->server->get('HTTPS') ? 'https://' : 'http://') . $request->server->get('HTTP_HOST') . '/';
             if(str_replace($base, '', $request->server->get('HTTP_REFERER')) === 'account/password') {
@@ -90,3 +96,4 @@ class AccountController extends AppController
         ]);
     }
 }
+

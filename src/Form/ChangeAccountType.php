@@ -20,19 +20,31 @@ class ChangeAccountType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        dd($options);
         $builder
             ->add('email', EmailType::class,[
                 'disabled' => true,
                 'label' => 'Email',
             ])
-            ->add('previousImage', TextType::class, [
+            ->add('previousImage', HiddenType::class, [
                 'data' => $options['previousImage'],
+                'required' => false
+            ])
+            ->add('previousBanner', HiddenType::class, [
+                'data' => $options['previousBanner'],
                 'required' => false
             ])
             ->add('image', FileType::class, [
                 'label' => 'Image',
                 'label_attr' => ['class' => 'image-label-placeholder'],
+                'required' => false,
+                'attr' => [
+                    'accept' => ".jpg, .jpeg, .png",
+                    'onchange'=>'previewImage(event)'
+                ],
+            ])
+            ->add('banner', FileType::class, [
+                'label' => 'Banner',
+                'label_attr' => ['class' => 'banner-label-placeholder'],
                 'required' => false,
                 'attr' => [
                     'accept' => ".jpg, .jpeg, .png",
@@ -75,6 +87,7 @@ class ChangeAccountType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
             'previousImage' => null,
+            'previousBanner' => null,
             'title' => null,
         ]);
 
