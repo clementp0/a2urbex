@@ -138,7 +138,21 @@ function setUserPosition(map) {
 function initSearch(map, json, inputWrapper) {
   inputWrapper.removeClass('disabled')
   const input = inputWrapper.find('#map-input')
+  const inputClear = inputWrapper.find('#map-input-clear')
+  const inputSearch = inputWrapper.find('#map-input-search')
   const inputResult = inputWrapper.find('#map-input-result')
+
+  inputClear.on('click', () => {
+    toggleInputAction(inputWrapper, false)
+    inputResult.empty()
+    input.val('').focus()
+  })
+
+  inputSearch.on('click', () => searchCoord(map, inputWrapper))
+
+  input.on('keydown', (e) => {
+    if (e.key === 'Enter') searchCoord(map, inputWrapper)
+  })
 
   input.on('input', function () {
     const value = $(this).val().toLowerCase()
@@ -155,17 +169,49 @@ function initSearch(map, json, inputWrapper) {
   })
 }
 
+let oldCoordMarker = null
+function searchCoord(map, inputWrapper) {
+  const input = inputWrapper.find('#map-input')
+  const regex = /^(-?[0-9]+(\.[0-9]+)?), ?(-?[0-9]+(\.[0-9]+)?)$/
+  const value = input.val()
+  const match = value.match(regex)
+
+  if (match === null) {
+    return alert('Invalid coordinates')
+  } else {
+    // -12.244, 35.45
+    const lat = Number.parseFloat(match[1])
+    if (lat < -90 || lat > 90) return alert('Lat out of scope (-90, 90)')
+    const lon = Number.parseFloat(match[3])
+    if (lon < -90 || lon > 90) return alert('Lng out of scope (-90, 90)')
+
+    toggleInputAction(inputWrapper, true)
+    zoomToPoint(map, lat, lon)
+
+    if (oldCoordMarker) oldCoordMarker.setMap(null)
+
+    oldCoordMarker = new google.maps.Marker({
+      position: { lat: lat, lng: lon },
+      map,
+    })
+  }
+}
+
 function search(map, json, inputWrapper, value) {
   const result = json
     .filter((item) => item.loc.name && item.loc.name.toLowerCase().indexOf(value) !== -1)
     .splice(0, 10)
 
+  const input = inputWrapper.find('#map-input')
+
   const inputResult = inputWrapper.find('#map-input-result')
+
+  if (value.length === 0) toggleInputAction(inputWrapper, false)
+
   inputResult.empty()
 
   result.forEach((item) => {
     const type = item.loc.type
-    console.log(type)
     const row = $('<div>')
 
     row.addClass('item').html(`
@@ -177,16 +223,35 @@ function search(map, json, inputWrapper, value) {
     inputResult.append(row)
 
     row.on('click', () => {
-      map.setCenter(
-        new google.maps.LatLng(Number.parseFloat(item.loc.lat), Number.parseFloat(item.loc.lon))
-      )
-      map.setZoom(10)
-
+      zoomToPoint(map, item.loc.lat, item.loc.lon)
       popup(item)
+
+      if (item.loc.name) {
+        input.val(item.loc.name)
+        toggleInputAction(inputWrapper, true)
+      }
     })
   })
 
   inputResult.removeClass('hidden')
+}
+
+function toggleInputAction(inputWrapper, show = false) {
+  const inputClear = inputWrapper.find('#map-input-clear')
+  const inputSearch = inputWrapper.find('#map-input-search')
+
+  if (show === true) {
+    inputSearch.addClass('hidden')
+    inputClear.removeClass('hidden')
+  } else {
+    inputSearch.removeClass('hidden')
+    inputClear.addClass('hidden')
+  }
+}
+
+function zoomToPoint(map, lat, lon) {
+  map.setCenter(new google.maps.LatLng(Number.parseFloat(lat), Number.parseFloat(lon)))
+  map.setZoom(10)
 }
 
 window.initMap = initMap

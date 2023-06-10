@@ -40,7 +40,7 @@
         height: 40px;
       }
 
-      #map-input-search {
+      .map-input-action {
         position: absolute;
         right: 0;
         top: 0;
@@ -50,6 +50,10 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
+
+        &.hidden {
+          display: none;
+        }
 
         i {
           font-size: 16px;
