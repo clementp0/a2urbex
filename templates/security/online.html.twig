@@ -1,86 +1,97 @@
-<div class="online_section">
+<div
+	class="online_section">
 
-    {# ONLINE USERS :  #}
-    <p class="online_title">
-        <i class="fa-solid fa-user"></i>
-        Online Friends
-    </p>
-    <div class="online">
+	{# ONLINE USERS :  #}
+	<p class="online_title">
+		<i class="fa-solid fa-user"></i>
+		Online Friends
+	</p>
+	<div class="online">
 
-        {% for user in onlineUsers %}
-            {% if user.status is not defined %}
-	            {% set key = "#{user.id}#{hashkey}" %}
-                <a href="{{ path('app_user', {'key': key | hashids_encode}) }}" class="useractive ">
+		{% for user in onlineUsers %}
+			{% if user.status is not defined %}
+				{% set key = "#{user.id}#{hashkey}" %}
+				<a href="{{ path('app_user', {'key': key | hashids_encode}) }}">
+					<div class="useractive" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
+					{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
+				</a>
+			{% endif %}
+		{% endfor %}
+
+		{# AWAY USERS :  #}
+		{% for user in onlineUsers %}
+			{% if user.status is defined %}
+				{% if user.status == "away" %}
+					{% set key = "#{user.id}#{hashkey}" %}
+					<a href="{{ path('app_user', {'key': key | hashids_encode}) }}">
+						<div class="useractive away" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
+						{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
+						<span class="ago">{{ user.active }}</span>
+					</a>
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+	</div>
+
+	{# OFFLINE USERS :  #}
+	<p class="online_title">
+		<i class="fa-solid fa-user"></i>
+		Offline Friends
+	</p>
+	<div class="online">
+		{% for user in onlineUsers %}
+			{% if user.status is defined %}
+				{% if user.status == "offline" %}
+					{% set key = "#{user.id}#{hashkey}" %}
+					<a href="{{ path('app_user', {'key': key | hashids_encode}) }}">
+						<div class="useractive offline" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
+						{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
+						<span class="ago">{{ user.active }}</span>
+					</a>
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+	</div>
+
+
+	{# EXPLORERS : #}
+	<p class="online_title">
+		<i class="fa-solid fa-user"></i>
+		Explorers ({{ onlineExplorers|length }})
+	</p>
+	<div class="online">
+		{% for user in onlineUsers %}
+			{% if user.status is not defined %}
+				{% set key = "#{user.id}#{hashkey}" %}
+				<a href="{{ path('app_user', {'key': key | hashids_encode}) }}">
+					<div class="useractive" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
                     {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
-                </a>
-            {% endif %}
-        {% endfor %}
-
-        {# AWAY USERS :  #}
-        {% for user in onlineUsers %}
-            {% if user.status is defined %}
-                {% if user.status == "away" %}
-                 {% set key = "#{user.id}#{hashkey}" %}
-                   <a href="{{ path('app_user', {'key': key | hashids_encode}) }}"  class="useractive away">
-                        {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span><span class="ago">{{ user.active }}</span>
-                    </a>
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    </div>
-
-    {# OFFLINE USERS :  #}
-    <p class="online_title">
-        <i class="fa-solid fa-user"></i>
-        Offline Friends
-    </p>
-    <div class="online">
-        {% for user in onlineUsers %}
-            {% if user.status is defined %}
-                {% if user.status == "offline" %}
-                 {% set key = "#{user.id}#{hashkey}" %}
-                   <a href="{{ path('app_user', {'key': key | hashids_encode}) }}"  class="useractive offline">
-                        {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span><span class="ago">{{ user.active }}</span>
-                    </a>
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    </div>
-
-
-    {# EXPLORERS : #}
-        <p class="online_title">
-        <i class="fa-solid fa-user"></i>
-        Explorers ({{ onlineExplorers|length }})
-    </p>
-    <div class="online">
-        {% for user in onlineUsers %}
-            {% if user.status is not defined %}
-             {% set key = "#{user.id}#{hashkey}" %}
-               <a href="{{ path('app_user', {'key': key | hashids_encode}) }}"  class="useractive ">
-                    {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
-                </a>
-            {% endif %}
-        {% endfor %}
-        {% for user in onlineExplorers %}
-            {% if user.status is defined %}
-                {% if user.status == "away" %}
-                 {% set key = "#{user.id}#{hashkey}" %}
-                    <a href="{{ path('app_user', {'key': key | hashids_encode}) }}" class="useractive away">
-                        {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span><span class="ago">{{ user.active }}</span>
-                    </a>
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-        {% for user in onlineExplorers %}
-            {% if user.status is defined %}
-                {% if user.status == "offline" %}
-                 {% set key = "#{user.id}#{hashkey}" %}
-                    <a href="{{ path('app_user', {'key': key | hashids_encode}) }}"  class="useractive offline">
-                        {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span><span class="ago">{{ user.active }}</span>
-                    </a>
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    </div>
+				</a>
+			{% endif %}
+		{% endfor %}
+		{% for user in onlineExplorers %}
+			{% if user.status is defined %}
+				{% if user.status == "away" %}
+					{% set key = "#{user.id}#{hashkey}" %}
+					<a href="{{ path('app_user', {'key': key | hashids_encode}) }}">
+                        <div class="useractive away" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
+						{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
+						<span class="ago">{{ user.active }}</span>
+					</a>
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+		{% for user in onlineExplorers %}
+			{% if user.status is defined %}
+				{% if user.status == "offline" %}
+					{% set key = "#{user.id}#{hashkey}" %}
+					<a href="{{ path('app_user', {'key': key | hashids_encode}) }}">
+                    <div class="useractive offline" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
+						{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
+						<span class="ago">{{ user.active }}</span>
+					</a>
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+	</div>
 </div>

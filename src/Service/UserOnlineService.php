@@ -45,7 +45,7 @@ class UserOnlineService
 
         
         $onlineUsers = $this->entityManager->getRepository(User::class)->createQueryBuilder('u')
-            ->select('u.id', 'u.firstname', 'SUBSTRING(u.lastname, 1, 1) lastname')
+            ->select('u.id', 'u.firstname', 'u.image', 'SUBSTRING(u.lastname, 1, 1) lastname')
             ->where('u.lastActiveAt >= :threshold')
             ->setParameter('threshold', $threshold)
             ->orderBy('u.lastActiveAt', 'DESC');
@@ -73,6 +73,7 @@ class UserOnlineService
                     'firstname' => $user->getFirstname(),
                     'lastname' => substr($user->getLastname(), 0, 1),
                     'id' =>  $user->getId(),
+                    'image' => $user->getImage(),
                     'active' => ' (' . $minutes . 'm ago)',
                     'status' => 'away'
                 ];
@@ -86,6 +87,7 @@ class UserOnlineService
                     'firstname' => $user->getFirstname(),
                     'lastname' => substr($user->getLastname(), 0, 1),
                     'id' =>  $user->getId(),
+                    'image' => $user->getImage(),
                     'active' => ' (' . $active . ' ago)',
                     'status' => 'offline'
                 ];
@@ -107,7 +109,7 @@ class UserOnlineService
         }
         
         $onlineExplorers = $this->entityManager->getRepository(User::class)->createQueryBuilder('u')
-            ->select('u.id', 'u.firstname', 'SUBSTRING(u.lastname, 1, 1) lastname')
+            ->select('u.id', 'u.firstname', 'u.image', 'SUBSTRING(u.lastname, 1, 1) lastname')
             ->where('u.lastActiveAt >= :threshold')
             ->setParameter('threshold', $threshold)
             ->orderBy('u.lastActiveAt', 'DESC');
@@ -135,6 +137,7 @@ class UserOnlineService
                     'firstname' => $user->getFirstname(),
                     'lastname' => substr($user->getLastname(), 0, 1),
                     'id' =>  $user->getId(),
+                    'image' => $user->getImage(),
                     'active' => ' (' . $minutes . 'm ago)',
                     'status' => 'away'
                 ];
@@ -148,6 +151,7 @@ class UserOnlineService
                     'firstname' => $user->getFirstname(),
                     'lastname' => substr($user->getLastname(), 0, 1),
                     'id' =>  $user->getId(),
+                    'image' => $user->getImage(),
                     'active' => ' (' . $active . ' ago)',
                     'status' => 'offline'
                 ];
