@@ -165,10 +165,13 @@ function search(map, json, inputWrapper, value) {
 
   result.forEach((item) => {
     const type = item.loc.type
+    console.log(type)
     const row = $('<div>')
 
     row.addClass('item').html(`
-      <span class="icon"><i class="fa-solid ${type ? type.icon : 'fa-map-pin'}" ></i></span>
+      <span class="icon" style="${type ? 'color: ' + type.color : ''}">
+        <i class="fa-solid ${type ? type.icon : 'fa-map-pin'}" ></i>
+      </span>
       <span class="name">${item.loc.name}</span>
     `)
     inputResult.append(row)
