@@ -69,7 +69,7 @@
         &-image{
           width: 25px;
           height: 25px;
-          border-radius: 4px;
+          border-radius: 3px;
           background-size: cover;
           background-repeat: no-repeat;
           background-position: center;
@@ -107,9 +107,19 @@
             background-color: #222222;
           }
         }
+        .menu_icon-image{
+          width: 35px;
+          height: 35px;
+          background-position: center;
+          background-size: cover;
+          background-repeat: no-repeat;
+          border-radius: 3px;
+          margin-right: 10px;
+        }
 
         .menu_header {
           display: flex;
+          align-items: flex-end;
           padding: 7px;
           border-bottom: #525252 1px solid;
 
