@@ -34,11 +34,12 @@
 						<i class="fa-solid fa-ellipsis-vertical"></i>
 					</button>
 					<div class="dropdown-favorite-content">
-						<a href="/user/modal?fav={{ item.fav.id }}" class="inmodal fav-item-share-user{{ item.fav.master ? ' disabled' : '' }}">
+					
+						<a href="{{ path('app_user_modal', {'fav': item.fav.id}) }}" class="inmodal fav-item-share-user{{ item.fav.master ? ' disabled' : '' }}">
 							<i class="fa-solid fa-user-plus"></i>
 							Add User
 						</a>
-						<a class="fav-item-copy-link" data-toggle="tooltip" href="{{ url('app_favorite_locations', {'key': key | hashids_encode}) }}">
+						<a class="fav-item-copy-link" data-toggle="tooltip" href="{{ path('app_favorite_locations', {'key': key | hashids_encode}) }}">
 							<i class="fa-solid fa-link"></i>
 							Share link
 						</a>

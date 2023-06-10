@@ -37,8 +37,9 @@
 					</a>
 				</div>
 				<div class="logo">
-					<a {% if app.user %} href="/locations" {% else %} href="/" {% endif %}>
-						<i class="fas fa-globe-europe"></i>a2urbex</a>
+					<a href="{% if app.user %}{{ path('app_location_index') }}{% else %}{{ path('app_home') }}{% endif %}">
+						<i class="fas fa-globe-europe"></i>a2urbex
+					</a>
 				</div>
 				{% if app.user %}
 					{% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles %}

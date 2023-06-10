@@ -15,17 +15,11 @@
 				categories.<br><br>
 			</div>
 			<div class="intro_button">
-				{% if app.user %}
-					<a class="intro_login" href="/locations">
-						<i class="fa-solid fa-map-pin"></i>
-						Create your Map !
-					</a>
-				{% else %}
-					<a class="intro_login" href="/login">
-						<i class="fa-solid fa-map-pin"></i>
-						Create your Map !
-					</a>
-				{% endif %}
+				<a class="intro_login" href="{% if app.user %}{{ path('app_location_index') }}{% else %}{{ path('app_login') }}{% endif %}">
+					<i class="fa-solid fa-map-pin"></i>
+					Create your Map !
+				</a>
+				
 				<a class="intro_github" target="_blank" href="https://github.com/clementp0/a2urbex">
 					<i class="fa-brands fa-github"></i>
 					View the Source</a>
