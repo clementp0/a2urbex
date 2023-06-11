@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Repository\UserRepository;
@@ -11,8 +12,11 @@ use App\Entity\Friend;
 
 class FriendController extends AppController {
 
-    public function __construct(private FriendRepository $friendRepository) {
-        parent::__construct();
+    public function __construct(
+        private FriendRepository $friendRepository,
+        private UserRepository $userRepository
+    ) {
+        $this->getAsync();
     }
 
     #[Route('/friend', name: 'app_friend')]
@@ -28,10 +32,9 @@ class FriendController extends AppController {
 
     #[Route('/friend/add/', name: 'app_friend_add_default')]
     #[Route('/friend/add/{id}', name: 'app_friend_add')]
-    public function add($id, UserRepository $userRepository): Response {
-        dd('here');
+    public function add($id): Response {
         $cuser = $this->getUser();
-        $fuser = $userRepository->find($id);
+        $fuser = $this->userRepository->find($id);
 
         if($cuser && $fuser) {
             $exist = $this->friendRepository->findOneBy(['user' => $cuser, 'friend' => $fuser]);
@@ -54,7 +57,8 @@ class FriendController extends AppController {
 
         }
 
-        return $this->redirectToRoute('app_friend');
+        if($this->async) return $this->state($id);
+        else return $this->redirectToRoute('app_friend');
     }
 
     #[Route('/friend/accept/{id}', name: 'app_friend_accept')]
@@ -98,6 +102,18 @@ class FriendController extends AppController {
             $oldFriend = $this->friendRepository->findOneBy(['user' => $friend->getFriend(), 'friend' => $friend->getUser()]);
             $this->friendRepository->remove($oldFriend, true);
         }
-        return $this->redirectToRoute('app_friend');
+
+        if($this->async) return $this->state($id);
+        else return $this->redirectToRoute('app_friend');
+    }
+
+    private function state($id) {
+        $friend = $this->friendRepository->findOneBy([
+            'user' => $this->getUser(), 
+            'friend' => $this->userRepository->find($id),
+            'pending' => false
+        ]);
+        
+        return new JsonResponse(['state' => $friend ? true : false]);
     }
 }
