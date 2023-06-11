@@ -1,11 +1,7 @@
 import Coord from '../components/coord'
-import ImageInput from '../components/custominput'
 
 $(() => {
-  if ($('#location').length) {
-    Coord.init('#location', '#location_lat', '#location_lon')
-    ImageInput.auto()
-  }
+  Coord.init('#location', '#location_lat', '#location_lon')
 
   $('.coordinates').insertAfter('#location_lon')
   $('#location_lat, #location_lon').on('keyup', function () {

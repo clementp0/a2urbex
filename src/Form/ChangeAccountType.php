@@ -39,16 +39,14 @@ class ChangeAccountType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'accept' => ".jpg, .jpeg, .png",
-                    'onchange'=>'previewImage(event)'
                 ],
             ])
             ->add('banner', FileType::class, [
                 'label' => 'Banner',
-                'label_attr' => ['class' => 'banner-label-placeholder'],
+                'label_attr' => ['class' => 'image-label-placeholder'],
                 'required' => false,
                 'attr' => [
                     'accept' => ".jpg, .jpeg, .png",
-                    'onchange'=>'previewImage(event)'
                 ],
             ])
             ->add('firstname', TextType::class,[

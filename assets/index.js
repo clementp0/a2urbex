@@ -6,6 +6,7 @@ import ClearCache from './js/components/cache'
 import Search from './js/components/search'
 import UserModal from './js/components/user'
 import FavoritePopup from './js/components/favorite'
+import ImageInput from './js/components/custominput'
 
 import './js/components/chat'
 
@@ -13,6 +14,7 @@ $(() => {
   ClearCache.init('#clear-cache-button', 'a2urbex')
   Search.init('.pin-search')
   UserModal.init('.inmodal')
+  ImageInput.auto()
   $('.pin-fav-wrapper').each(function () {
     FavoritePopup.init(this)
   })
