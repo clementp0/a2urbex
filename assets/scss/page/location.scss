@@ -87,95 +87,6 @@
   }
 }
 
-// custom file input
-.custom-file {
-  width: 80%;
-  height: 70px;
-  position: relative;
-  display: inline-block;
-  margin-bottom: 0;
-}
-.custom-file-label {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 1;
-  padding: 0.375rem 0.75rem;
-  border-radius: 0;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #303030;
-  border: 1px solid #404040;
-  height: 63px;
-
-  &::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 3;
-    display: block;
-    content: 'Browse (JPG, JPEG, PNG file)';
-    width: calc(100% - 90px);
-    background-color: #303030;
-    border: 1px solid #404040;
-    border-radius: 0px;
-    font-weight: 400;
-    line-height: 2;
-    color: #495057;
-    font-size: 12px !important;
-    height: 100%;
-    padding-top: 17px;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-label.image-label-placeholder {
-  display: flex;
-}
-
-.custom-file-input {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: calc(1.5em + 0.75rem + 2px);
-  margin: 0;
-  opacity: 0;
-}
-.upload-form-item .custom-file {
-  margin-top: 30px;
-  max-width: 80%;
-}
-
-#fileSize {
-  color: #ffffff61;
-  margin: 0;
-  font-weight: 400;
-  margin-left: 6px;
-}
-
-#image-preview {
-  background-image: url('../../img/default.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 62px;
-  z-index: 20;
-  position: absolute;
-  left: -1px;
-  bottom: -1px;
-  border: 2px solid #404040;
-  width: 90px;
-  position: absolute;
-  z-index: 20;
-  bottom: 0px;
-  left: 0px;
-}
-
 // check coordinates button
 .coordinates {
   border-radius: 2px;
@@ -205,13 +116,5 @@ label.image-label-placeholder {
     .title_location {
       width: 100%;
     }
-  }
-
-  .custom-file-label::after {
-    padding-top: 5px;
-  }
-  #fileSize {
-    font-size: 10px;
-    padding-top: 3px;
   }
 }

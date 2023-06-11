@@ -78,44 +78,6 @@ i.fa-solid.fa-heart {
   padding: 8px 15px;
 }
 
-.form-group {
-  margin-bottom: 1rem;
-}
-.form-check {
-  margin-bottom: 0;
-  min-height: unset;
-}
-input[type='checkbox'] {
-  position: relative;
-  border-radius: 0;
-  float: unset;
-  background-color: unset;
-  border: unset;
-}
-input[type='checkbox']::before {
-  content: '';
-  display: block;
-  position: absolute;
-  text-align: center;
-  height: 100%;
-  width: 100%;
-  left: 0;
-  border: 1px solid #ffffff24;
-  background-color: #404040;
-}
-
-input[type='checkbox']:checked::before {
-  content: '';
-  display: block;
-  position: absolute;
-  text-align: center;
-  height: 100%;
-  width: 100%;
-  left: 0;
-  border: 3px solid #404040;
-  background-color: #60a5fa;
-}
-
 button:focus {
   outline: unset;
 }

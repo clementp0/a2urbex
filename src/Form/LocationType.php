@@ -44,8 +44,7 @@ class LocationType extends AbstractType
                 'label_attr' => ['class' => 'image-label-placeholder'],
                 'required' => false,
                 'attr' => [
-                    'accept' => ".jpg, .jpeg, .png",
-                    'onchange'=>'previewImage(event)'
+                    'accept' => ".jpg, .jpeg, .png"
                 ],
             ])
             ->add('type', EntityType::class, [
