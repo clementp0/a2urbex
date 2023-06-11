@@ -70,6 +70,9 @@
   min-height: unset;
 }
 
+.custom-file-input{
+  width: 10px;
+}
 // checkbox
 input[type='checkbox'] {
   position: relative;
@@ -201,4 +204,9 @@ input[type='checkbox']:checked::before {
     font-size: 10px;
     padding-top: 3px;
   }
+}
+
+
+.long-text{
+  min-height: 150px!important;
 }

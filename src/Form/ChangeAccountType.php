@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\UploadedFile;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -25,12 +26,12 @@ class ChangeAccountType extends AbstractType
                 'disabled' => true,
                 'label' => 'Email',
             ])
-            ->add('previousImage', TextType::class, [
+            ->add('previousImage', HiddenType::class, [
                 'data' => $options['previousImage'],
                 'required' => false,
                 'attr' => ['class' => 'custom-file-image']
             ])
-            ->add('previousBanner', TextType::class, [
+            ->add('previousBanner', HiddenType::class, [
                 'data' => $options['previousBanner'],
                 'required' => false,
                 'attr' => ['class' => 'custom-file-banner']
@@ -60,18 +61,22 @@ class ChangeAccountType extends AbstractType
             ->add('youtube', TextType::class,[
                 'required' => false,
                 'label' => 'YouTube',
+                'attr' => ['placeholder' => 'https://www.youtube.com/channel/UJR5GpH']
             ])
             ->add('tiktok', TextType::class,[
                 'required' => false,
                 'label' => 'TikTok',
+                'attr' => ['placeholder' => 'a2urbex']
             ])
             ->add('instagram', TextType::class,[
                 'required' => false,
                 'label' => 'Instagram',
+                'attr' => ['placeholder' => 'a2urbex']
             ])
-            ->add('about', TextType::class,[
+            ->add('about', TextareaType::class,[
                 'required' => false,
                 'label' => 'About',
+                'attr' => ['class' => 'long-text']
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Save',
