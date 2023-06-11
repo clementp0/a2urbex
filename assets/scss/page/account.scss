@@ -147,6 +147,7 @@
       text-align: right;
 
       &-item {
+        display: none;
         position: relative;
         top: 10px;
         background-color: #2d2d2d;
@@ -156,6 +157,10 @@
         font-size: 15px;
         font-weight: 400;
         margin-top: 8px;
+        width: fit-content;
+        &.show{
+          display: block;
+        }
       }
     }
   }

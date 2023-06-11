@@ -24,8 +24,15 @@
 				<div class="profile__container-infos-picture" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
 				<div class="profile__container-infos-add">
 				{% if connected_user.id != user.id %}
-				<a href="#" class="profile__container-infos-add-item">
-					<i class="fa-solid fa-user-plus"></i> <span>Add friend</span></a>
+				<a href="{{ path('app_friend_add', {'id' : user.id, 'async': '1'} )}}" class="profile__container-infos-add-item add_friend {% if friend_status == 'not_friend' %}show{% endif %}">
+					<i class="fa-solid fa-user-plus"></i> <span>Add friend</span>
+				</a>
+				<a href="{{ path('app_friend_remove', {'id' : user.id, 'async': '1'} )}}" class="profile__container-infos-add-item remove_friend {% if friend_status == 'friend' %}show{% endif %}">
+					<i class="fa-solid fa-user-plus"></i> <span>Remove</span>
+				</a>
+				<a class="profile__container-infos-add-item pending_friend {% if friend_status == 'pending' %}show{% endif %}">
+					<i class="fa-solid fa-user-plus"></i> <span>Pending</span>
+				</a>
 				{% endif %}
 				</div>
 			</div>
@@ -48,4 +55,6 @@
 		{% endif %}
 		</div>
 	</div>
+
+	{{ friend_status }}
 {% endblock %}

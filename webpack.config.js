@@ -90,6 +90,7 @@ Encore.setOutputPath('public/build/') // directory where compiled assets will be
 
   // account
   .addStyleEntry('account-style', './assets/scss/page/account.scss')
+  .addEntry('account-script', './assets/js/page/account.js')
 
   // contact
   .addStyleEntry('contact-style', './assets/scss/page/contact.scss')

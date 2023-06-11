@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
-
+use App\Service\FriendService;
 use App\Repository\LocationRepository;
 use App\Repository\FriendRepository;
 use App\Repository\UserRepository;
@@ -19,6 +19,7 @@ use App\Repository\FavoriteRepository;
 class AccountController extends AppController
 {
     public function __construct(
+        private FriendService $friendService,
         private EntityManagerInterface $entityManager,
         private HashidsServiceInterface $hashidsService,
         private UserRepository $userRepository,
@@ -126,7 +127,9 @@ class AccountController extends AppController
             'user' => $user,
             'urbex_count' => $urbex_count,
             'favorites_count' => $favorites_count,
-            'friends_count' => $friends_count
+            'friends_count' => $friends_count,
+            'friend_status' => $this->friendService->isFriend($user->getId(), $this->getUser()),
+            'friend' => $this->friendService->getFriend($user->getId(), $this->getUser())
         ]);
     }
 

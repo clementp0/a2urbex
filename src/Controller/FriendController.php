@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Service\FriendService;
 use App\Repository\UserRepository;
 use App\Repository\FriendRepository;
 use App\Entity\Friend;
@@ -13,6 +13,7 @@ use App\Entity\Friend;
 class FriendController extends AppController {
 
     public function __construct(
+        private FriendService $friendService,
         private FriendRepository $friendRepository,
         private UserRepository $userRepository
     ) {
@@ -108,12 +109,7 @@ class FriendController extends AppController {
     }
 
     private function state($id) {
-        $friend = $this->friendRepository->findOneBy([
-            'user' => $this->getUser(), 
-            'friend' => $this->userRepository->find($id),
-            'pending' => false
-        ]);
-        
-        return new JsonResponse(['state' => $friend ? true : false]);
+        $state = $this->friendService->isFriend($id, $this->getUser());
+        return new JsonResponse(['state' => $state]);
     }
 }
