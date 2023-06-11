@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,7 +12,7 @@ use App\Repository\UserRepository;
 use App\Service\MessageService;
 use App\Service\ChannelService;
 
-class ChatController extends AbstractController
+class ChatController extends AppController
 {
     public function __construct(
         private MessageService $messageService, 

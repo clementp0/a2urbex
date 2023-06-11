@@ -8,15 +8,16 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
 use App\Repository\FriendRepository;
 use App\Entity\Friend;
-use Symfony\Component\Security\Core\Security;
 
 class FriendController extends AppController {
 
-    public function __construct(private Security $security, private FriendRepository $friendRepository) {}
+    public function __construct(private FriendRepository $friendRepository) {
+        parent::__construct();
+    }
 
     #[Route('/friend', name: 'app_friend')]
     public function index(): Response {
-        $user = $this->security->getUser();
+        $user = $this->getUser();
 
         return $this->render('friend/index.html.twig', [
             'pending' => $this->friendRepository->findPending($user),
@@ -28,7 +29,8 @@ class FriendController extends AppController {
     #[Route('/friend/add/', name: 'app_friend_add_default')]
     #[Route('/friend/add/{id}', name: 'app_friend_add')]
     public function add($id, UserRepository $userRepository): Response {
-        $cuser = $this->security->getUser();
+        dd('here');
+        $cuser = $this->getUser();
         $fuser = $userRepository->find($id);
 
         if($cuser && $fuser) {
@@ -57,7 +59,7 @@ class FriendController extends AppController {
 
     #[Route('/friend/accept/{id}', name: 'app_friend_accept')]
     public function accept($id) {
-        $user = $this->security->getUser();
+        $user = $this->getUser();
         $friend = $this->friendRepository->find($id);
 
         if($friend && $user === $friend->getFriend()) {
@@ -79,7 +81,7 @@ class FriendController extends AppController {
 
     #[Route('/friend/decline/{id}', name: 'app_friend_decline')]
     public function decline($id) {
-        $user = $this->security->getUser();
+        $user = $this->getUser();
         $friend = $this->friendRepository->find($id);
         if($friend && $user === $friend->getFriend()) $this->friendRepository->remove($friend, true);
 
@@ -88,7 +90,7 @@ class FriendController extends AppController {
 
     #[Route('/friend/remove/{id}', name: 'app_friend_remove')]
     public function remove($id) {
-        $user = $this->security->getUser();
+        $user = $this->getUser();
         $friend = $this->friendRepository->find($id);
         if($friend && $user === $friend->getUser()) {
             $this->friendRepository->remove($friend, true);

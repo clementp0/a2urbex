@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpKernel\Event\ControllerEvent;
 
 class AppController extends AbstractController {
+    protected $async;
+    
+    public function __construct() {
+        $this->async = isset($_GET['async']) && $_GET['async'] === '1';
+    }
 }
