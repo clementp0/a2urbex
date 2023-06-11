@@ -4,66 +4,9 @@
   font-weight: 500;
   width: 500px;
   max-width: 100%;
-  min-height: 380px;
   border: 1px solid #404040;
   background-color: #303030;
   padding: 50px 11px 11px;
   border-radius: 5px;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  .form-group {
-    & > label {
-      color: #60a5fa;
-      width: fit-content;
-      background-color: #404040;
-      font-size: 14px;
-      border-radius: 5px;
-      line-height: 1;
-      margin: auto;
-      padding: calc(0.375rem + 1px) 8px;
-      text-align: left;
-      width: 80%;
-    }
-
-    & > input::placeholder,
-    & > select::placeholder {
-      color: #6d6d6d;
-    }
-
-    & > input {
-      color: white;
-      margin: auto auto 20px;
-      background-color: transparent;
-      border: none;
-      border-bottom: 1px solid #ffffff24;
-      width: 80%;
-      font-size: 12px;
-      height: 40px;
-      border-radius: 0;
-      padding: 0.375rem 0.75rem;
-    }
-    & > input[disabled] {
-      color: #a2a2a2;
-    }
-  }
-
-  #change_password_submit,
-  #change_account_submit,
-  .change-password {
-    border-radius: 2px;
-    margin: auto;
-    width: 80%;
-    height: 40px;
-    border: none;
-    background-color: #222222;
-    color: #a2a2a2;
-
-    &:hover {
-      color: white;
-    }
-  }
+  margin: 30px auto;
 }

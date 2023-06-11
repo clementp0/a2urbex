@@ -23,81 +23,12 @@
     border-radius: 5px;
     padding: 20px;
     min-width: 550px;
-
-    & > .form-group {
-      & > label {
-        color: #60a5fa;
-        width: fit-content;
-        background-color: #404040;
-        font-size: 14px;
-        border-radius: 5px;
-        line-height: 1;
-        margin: auto;
-        padding: calc(0.375rem + 1px) 8px;
-        text-align: left;
-        width: 80%;
-      }
-
-      & > input {
-        color: white;
-        margin: auto auto 20px;
-        background-color: transparent;
-        border: none;
-        border-bottom: 1px solid #ffffff24;
-        width: 80%;
-        font-size: 12px;
-        height: 40px;
-        border-radius: 0;
-        padding: 0.375rem 0.75rem;
-      }
-
-      & > select {
-        color: white;
-        background-color: #303030;
-        margin: auto auto 20px;
-        border: none;
-        border-bottom: 1px solid #ffffff24;
-        width: 80%;
-        font-size: 12px;
-        height: 40px;
-        border-radius: 0;
-        padding: 0.375rem 0.75rem;
-      }
-
-      & > input::placeholder,
-      & > select::placeholder {
-        color: #6d6d6d;
-      }
-    }
-  }
-
-  #location_submit {
-    border-radius: 2px;
-    margin: auto;
-    width: 80%;
-    height: 40px;
-    border: none;
-    background-color: #222222;
-    color: #a2a2a2;
   }
 
   div.my_locations {
     margin-left: 40px;
     width: 50%;
   }
-}
-
-// check coordinates button
-.coordinates {
-  border-radius: 2px;
-  margin: auto;
-  display: inherit;
-  width: 80%;
-  height: 40px;
-  padding: 8px;
-  border: none;
-  background-color: #3e3d3d;
-  color: #a2a2a2;
 }
 
 @media screen and (max-width: 880px) {

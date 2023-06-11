@@ -1,10 +1,78 @@
 .form-group {
   margin-bottom: 1rem;
+
+  & > label {
+    color: #60a5fa;
+    width: fit-content;
+    background-color: #404040;
+    font-size: 14px;
+    border-radius: 5px;
+    line-height: 1;
+    margin: auto;
+    padding: 8px;
+    text-align: left;
+    width: 80%;
+  }
+
+  & > input,
+  & > select {
+    color: white;
+    margin: auto auto 20px;
+    border: none;
+    border-bottom: 1px solid #ffffff24;
+    width: 80%;
+    font-size: 12px;
+    height: 40px;
+    border-radius: 0;
+    padding: 0.375rem 0.75rem;
+    background-color: transparent;
+
+    &::placeholder {
+      color: #6d6d6d;
+    }
+  }
+
+  & > input[disabled] {
+    color: #a2a2a2;
+    background-color: unset;
+  }
+
+  & > select {
+    background-color: #303030;
+  }
 }
+.form-group [type='submit'],
+.btn-submit {
+  border-radius: 2px;
+  margin: auto;
+  width: 80%;
+  height: 40px;
+  border: none;
+  background-color: #222222;
+  color: #a2a2a2;
+  display: block;
+  padding: 8px;
+
+  &.light {
+    background-color: #3e3d3d;
+
+    &:hover {
+      background-color: #3e3d3d;
+    }
+  }
+
+  &:hover {
+    color: white;
+    background-color: #222222;
+  }
+}
+
 .form-check {
   margin-bottom: 0;
   min-height: unset;
 }
+
+// checkbox
 input[type='checkbox'] {
   position: relative;
   border-radius: 0;
@@ -23,7 +91,6 @@ input[type='checkbox']::before {
   border: 1px solid #ffffff24;
   background-color: #404040;
 }
-
 input[type='checkbox']:checked::before {
   content: '';
   display: block;
