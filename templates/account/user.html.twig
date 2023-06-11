@@ -23,8 +23,10 @@
 				</div>
 				<div class="profile__container-infos-picture" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
 				<div class="profile__container-infos-add">
+				{% if connected_user.id != user.id %}
 				<a href="#" class="profile__container-infos-add-item">
 					<i class="fa-solid fa-user-plus"></i> <span>Add friend</span></a>
+				{% endif %}
 				</div>
 			</div>
 			<p class="profile__container-name">{{ user.firstname }}<span>#{{ user.id }}</span>{% if 'ROLE_ADMIN' in  user.roles %} <i class="fa-solid fa-shield-halved" title="Admin"></i>{% endif %}
