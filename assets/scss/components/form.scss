@@ -14,8 +14,7 @@
     width: 80%;
   }
 
-  & > input,
-  & > select {
+  .form-control {
     color: white;
     margin: auto auto 20px;
     border: none;
@@ -30,14 +29,13 @@
     &::placeholder {
       color: #6d6d6d;
     }
-  }
 
-  & > input[disabled] {
-    color: #a2a2a2;
-    background-color: unset;
+    &[disabled] {
+      color: #a2a2a2;
+      background-color: unset;
+    }
   }
-
-  & > select {
+  select.form-control {
     background-color: #303030;
   }
 }
