@@ -100,9 +100,6 @@ Encore.setOutputPath('public/build/') // directory where compiled assets will be
   // home
   .addStyleEntry('home-style', './assets/scss/page/home.scss')
 
-  // home
-  .addStyleEntry('user-style', './assets/scss/page/user.scss')
-  
   // location
   .addStyleEntry('location-style', './assets/scss/page/location.scss')
   .addEntry('location-script', './assets/js/page/location.js')
