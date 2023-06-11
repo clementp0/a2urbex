@@ -37,7 +37,8 @@ class LocationType extends AbstractType
             ])
             ->add('previousImage', HiddenType::class, [
                 'data' => $options['previousImage'],
-                'required' => false
+                'required' => false,
+                'attr' => ['class' => 'custom-file-image']
             ])
             ->add('image', FileType::class, [
                 'label' => 'Image',

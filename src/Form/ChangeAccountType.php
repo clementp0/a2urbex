@@ -25,13 +25,15 @@ class ChangeAccountType extends AbstractType
                 'disabled' => true,
                 'label' => 'Email',
             ])
-            ->add('previousImage', HiddenType::class, [
+            ->add('previousImage', TextType::class, [
                 'data' => $options['previousImage'],
-                'required' => false
+                'required' => false,
+                'attr' => ['class' => 'custom-file-image']
             ])
-            ->add('previousBanner', HiddenType::class, [
+            ->add('previousBanner', TextType::class, [
                 'data' => $options['previousBanner'],
-                'required' => false
+                'required' => false,
+                'attr' => ['class' => 'custom-file-banner']
             ])
             ->add('image', FileType::class, [
                 'label' => 'Image',

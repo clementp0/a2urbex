@@ -6,23 +6,24 @@
 				<i class="fa-solid fa-plus"></i>
 				Create new Location
 			</p>
+
 			{{ form(form) }}
-				<a href="" target="_blank" class="coordinates btn-submit light">
-					Check coordinates
-				</a>
-			</div>
+			
+			<a href="" target="_blank" class="coordinates btn-submit light">
+				Check coordinates
+			</a>
+		</div>
 
-			<div class="my_locations">
-				<p class="title_location my_locations">
-					<i class="fa-solid fa-location-dot"></i>
-					My Locations ({{ total_result }})
-				</p>
+		<div class="my_locations">
+			<p class="title_location my_locations">
+				<i class="fa-solid fa-location-dot"></i>
+				My Locations ({{ total_result }})
+			</p>
 
-				{% include 'location/list.html.twig' %}
+			{% include 'location/list.html.twig' %}
 
-				<div class="pin-pagination">
-					{{knp_pagination_render(locations)}}
-				</div>
+			<div class="pin-pagination">
+				{{knp_pagination_render(locations)}}
 			</div>
 		</div>
 	</div>

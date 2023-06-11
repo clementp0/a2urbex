@@ -37,7 +37,14 @@ export default class ImageInput {
     this.error = $('<div>').addClass('error')
     this.parent.find('> div').prepend(this.error)
 
+    const inputName = this.input
+      .attr('name')
+      .slice(0, -1)
+      .replace(this.parent.find('> div').attr('id') + '[', '')
+    const defaultImage = this.parent.find('.custom-file-' + inputName).val()
+
     this.preview = $('<div>').addClass('image-preview')
+    if (defaultImage) this.preview.css('backgroundImage', `url("${defaultImage}")`)
     this.item.find('.custom-file-label').append(this.preview)
   }
 
