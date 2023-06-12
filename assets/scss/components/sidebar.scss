@@ -170,14 +170,14 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        &>a{
+        & > a {
           width: 100%;
           display: flex;
           flex-direction: row;
           margin-bottom: 4px;
           margin-top: 4px;
           color: #5a5a5a;
-          font-size: .875rem;
+          font-size: 0.875rem;
           font-weight: 500;
           align-items: center;
         }
@@ -202,7 +202,7 @@
           background-size: cover;
           background-repeat: no-repeat;
           &::after {
-            content: "";
+            content: '';
             background-color: #00ff50;
             display: flex;
             width: 7px;
@@ -277,11 +277,4 @@
       margin-left: 0;
     }
   }
-}
-
-#t1,
-#t2 {
-  width: 20px;
-  height: 20px;
-  background: red;
 }
