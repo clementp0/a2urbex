@@ -16,9 +16,7 @@ class FriendController extends AppController {
         private FriendService $friendService,
         private FriendRepository $friendRepository,
         private UserRepository $userRepository
-    ) {
-        $this->getAsync();
-    }
+    ) {}
 
     #[Route('/friend', name: 'app_friend')]
     public function index(): Response {
@@ -55,7 +53,7 @@ class FriendController extends AppController {
             $this->friendRepository->save($friend, true);
         }
 
-        if($this->async) return $this->state($id);
+        if($this->isAsync()) return $this->state($id);
         else return $this->redirectToRoute('app_friend');
     }
 
@@ -106,7 +104,19 @@ class FriendController extends AppController {
             $this->friendRepository->remove($oldFriend, true);
         }
 
-        if($this->async) return $this->state($id);
+        if($this->isAsync()) return $this->state($id);
+        else return $this->redirectToRoute('app_friend');
+    }
+
+    #[Route('/friend/cancel/{id}', name: 'app_friend_cancel')]
+    public function cancel($id) {
+        $user = $this->getUser();
+        $fuser = $this->userRepository->find($id);
+        $friend = $this->friendRepository->findOneBy(['user' => $user, 'friend' => $fuser, 'pending' => true]);
+
+        if($friend) $this->friendRepository->remove($friend, true);
+        
+        if($this->isAsync()) return $this->state($id);
         else return $this->redirectToRoute('app_friend');
     }
 

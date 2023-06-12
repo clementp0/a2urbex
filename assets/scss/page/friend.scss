@@ -51,15 +51,18 @@
     }
 
     .friend-item-action {
+      display: flex;
+      align-items: center;
       a {
         font-size: 20px;
-        margin: 0 10px;
+        padding: 0 10px;
       }
 
       .waiting {
         border: 1px solid #404040;
         border-radius: 5px;
         padding: 3px 10px;
+        margin-left: 5px;
       }
     }
   }
