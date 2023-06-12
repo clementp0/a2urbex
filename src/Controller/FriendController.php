@@ -53,7 +53,7 @@ class FriendController extends AppController {
             $this->friendRepository->save($friend, true);
         }
 
-        if($this->isAsync()) return $this->state($id);
+        if($this->isAsync()) return $this->state($fuser);
         else return $this->redirectToRoute('app_friend');
     }
 
@@ -104,7 +104,7 @@ class FriendController extends AppController {
             $this->friendRepository->remove($oldFriend, true);
         }
 
-        if($this->isAsync()) return $this->state($id);
+        if($this->isAsync()) return $this->state($fuser);
         else return $this->redirectToRoute('app_friend');
     }
 
@@ -116,12 +116,12 @@ class FriendController extends AppController {
 
         if($friend) $this->friendRepository->remove($friend, true);
         
-        if($this->isAsync()) return $this->state($id);
+        if($this->isAsync()) return $this->state($fuser);
         else return $this->redirectToRoute('app_friend');
     }
 
-    private function state($id) {
-        $state = $this->friendService->isFriend($id, $this->getUser());
+    private function state($user) {
+        $state = $this->friendService->isFriend($this->getUser(), $user);
         return new JsonResponse(['state' => $state]);
     }
 }

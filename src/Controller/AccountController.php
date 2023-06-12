@@ -128,8 +128,7 @@ class AccountController extends AppController
             'urbex_count' => $urbex_count,
             'favorites_count' => $favorites_count,
             'friends_count' => $friends_count,
-            'friend_status' => $this->friendService->isFriend($user->getId(), $this->getUser()),
-            'friend' => $this->friendService->getFriend($user->getId(), $this->getUser())
+            'friend_status' => $this->friendService->isFriend($this->getUser(), $user),
         ]);
     }
 

@@ -1,33 +1,33 @@
-$(()=>{
-    $(".add_friend").on("click", function(e){
-        e.preventDefault()
-        const url = $(this).attr('href')
-        $.ajax({
-            url: url,
-            method: 'POST',
-            dataType: 'json',
-            success: function (data) {
-              changeBtnState(data.state)
-            },
-          })
+$(() => {
+  $('.add_friend').on('click', function (e) {
+    e.preventDefault()
+    const url = $(this).attr('href')
+    friendAction(url)
+  })
+  $('.remove_friend').on('click', function (e) {
+    e.preventDefault()
+    const url = $(this).attr('href')
+    friendAction(url)
+  })
+  $('.pending_friend').on('click', function (e) {
+    e.preventDefault()
+    const url = $(this).attr('href')
+    friendAction(url)
+  })
+
+  function friendAction(url) {
+    $.ajax({
+      url: url,
+      method: 'POST',
+      dataType: 'json',
+      success: function (data) {
+        if (!data || !data.state) alert('An error occured')
+
+        $('.profile__container-infos-add-item').removeClass('show')
+        if (data.state === 'friend') $('.remove_friend').addClass('show')
+        if (data.state === 'not_friend') $('.add_friend').addClass('show')
+        if (data.state === 'pending') $('.pending_friend').addClass('show')
+      },
     })
-    $(".remove_friend").on("click", function(e){
-        e.preventDefault()
-        const url = $(this).attr('href')
-        $.ajax({
-            url: url,
-            method: 'POST',
-            dataType: 'json',
-            success: function (data) {
-              changeBtnState(data.state)
-            },
-          })
-    })
-    function changeBtnState(state){
-        $(".profile__container-infos-add-item").removeClass("show")
-        if (state === 'friend') $(".remove_friend").addClass("show")
-        if (state === 'not_friend') $(".add_friend").addClass("show")
-        if (state === 'pending') $(".pending_friend").addClass("show")
-        console.log(state);
-    }
+  }
 })

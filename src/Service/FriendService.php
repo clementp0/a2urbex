@@ -12,19 +12,11 @@ class FriendService {
         private UserRepository $userRepository
     ){}
 
-    public function isFriend($id, $user) {
-        $friend = $this->getFriend($id, $user);
+    public function isFriend($u1, $u2) {
+        $friend = $this->friendRepository->findOneBy(['user' => $u1, 'friend' => $u2]);
         $status = $friend ? 'friend' : 'not_friend' ;
         if($friend && $friend->isPending()) $status = 'pending';
 
         return $status;
-    }
-
-    public function getFriend($id, $user){
-        $friend = $this->friendRepository->findOneBy([
-            'user' => $user, 
-            'friend' => $this->userRepository->find($id)
-        ]);
-        return $friend;
     }
 }
