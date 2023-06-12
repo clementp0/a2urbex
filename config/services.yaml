@@ -5,12 +5,13 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 
 parameters:
-  danilovl_hashids:
-    salt: 'BonjourQueFaisTuIciHug0'
-    min_hash_length: 20
-    alphabet: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
   uploads_directory: '%kernel.project_dir%/public/uploads/exports/'
   public_directory: '%kernel.project_dir%/public/'
+
+danilovl_hashids:
+  salt: 'V3u17ccoZzKnigK9rkn9lWb41hmpJdfa1D25Ejdv'
+  min_hash_length: 10
+  alphabet: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
 
 services:
   App\Twig\AppExtension:

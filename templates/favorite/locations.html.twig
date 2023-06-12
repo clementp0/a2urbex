@@ -1,7 +1,4 @@
 {% extends 'base.html.twig' %}
-{% if id|default(null) %}
-	{% set key = "#{id}#{hashkey}" %}
-{% endif %}
 
 {% block content %}
 	{% if id|default(null) %}
@@ -9,7 +6,7 @@
 		<div class="favorite-wrapper">
 			{% include 'location/list.html.twig' %}
 		</div>
-		<a href="{{ path('app_map_favorite', {'key': key | hashids_encode}) }}" class="map-link">
+		<a href="{{ path('app_map_favorite', {'key': hashFav(id)}) }}" class="map-link">
 			<i class="fa-solid fa-map-location-dot"></i>
 		</a>
 	{% else %}

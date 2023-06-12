@@ -7,19 +7,18 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\LocationRepository;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
-use Danilovl\HashidsBundle\Service\HashidsService;
 use Symfony\Component\HttpFoundation\Request;
 use App\Class\Search;
 use App\Form\SearchType;
 use App\Service\LocationService;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Service\HashService;
 
 class MapController extends AppController
 {
     public function __construct(
         private LocationRepository $locationRepository,
-        private HashidsServiceInterface $hashidsService,
+        private HashService $hashService,
         private LocationService $locationService,
         private PaginatorInterface $paginator
     ) {}
@@ -68,11 +67,8 @@ class MapController extends AppController
 
     #[Route('/map/async/{key}/', name: 'app_map_async_key')]
     public function asyncMapKey($key) {
-        $hashKey = $_ENV["HASH_KEY"];
-        $mapKey = $this->hashidsService->decode($key);
-        $mapId = str_replace($hashKey,'',$mapKey);
-
-        $locations = $this->locationRepository->findByIdFav($mapId[0]);
+        $favId = $this->hashService->decodeFav($key);
+        $locations = $this->locationRepository->findByIdFav($favId);
         return $this->defaultLocations($locations);
     }
 
@@ -92,9 +88,8 @@ class MapController extends AppController
             'user'
         ];
 
-        $hashKey = $_ENV["HASH_KEY"];
         foreach($locations as $loc) {
-            $loc['loc']->lid = $this->hashidsService->encode($loc['loc']->getId().$hashKey);
+            $loc['loc']->lid = $this->hashService->encodeLoc($loc['loc']->getId());
         }
 
         $serializer = $this->container->get('serializer');

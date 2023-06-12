@@ -5,10 +5,15 @@ namespace App\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Symfony\Component\HttpFoundation\RequestStack;
+use App\Service\HashService;
 
 class AppExtension extends AbstractExtension
 {
-    public function __construct(private RequestStack $requestStack, private $rootDirectory) {}
+    public function __construct(
+        private RequestStack $requestStack, 
+        private $rootDirectory,
+        private HashService $hashService
+    ) {}
 
     public function getFunctions()
     {
@@ -16,7 +21,10 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getStyleName', [$this, 'getStyleName']),
             new TwigFunction('getScriptName', [$this, 'getScriptName']),
             new TwigFunction('adminConvert', [$this, 'adminConvert']),
-            new TwigFunction('getEnv', [$this, 'getEnvVariable'])
+            new TwigFunction('getEnv', [$this, 'getEnvVariable']),
+            new TwigFunction('hashLoc', [$this, 'getHashLoc']),
+            new TwigFunction('hashFav', [$this, 'getHashFav']),
+            new TwigFunction('hashUsr', [$this, 'getHashUsr']),
         ];
     }
 
@@ -52,5 +60,15 @@ class AppExtension extends AbstractExtension
 
     public function getEnvVariable($name) {
         return $_ENV[$name];
+    }
+
+    public function getHashLoc($id) {
+        return $this->hashService->encodeLoc($id);
+    }
+    public function getHashFav($id) {
+        return $this->hashService->encodeFav($id);
+    }
+    public function getHashUsr($id) {
+        return $this->hashService->encodeUsr($id);
     }
 }

@@ -7,8 +7,6 @@ use App\Class\Search;
 use App\Form\LocationType;
 use App\Form\SearchType;
 use App\Repository\UploadRepository;
-use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
-use Danilovl\HashidsBundle\Service\HashidsService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,13 +20,14 @@ use App\Repository\LocationRepository;
 use App\Service\LocationService;
 use App\Repository\FriendRepository;
 use App\Service\WebsocketService;
+use App\Service\HashService;
 
 class LocationController extends AppController
 {
 
     public function __construct(
         private Security $security,
-        private HashidsServiceInterface $hashidsService,
+        private HashService $hashService,
         private LocationService $locationService,
         private LocationRepository $locationRepository
     ) {}
@@ -60,7 +59,6 @@ class LocationController extends AppController
         $onlineExplorers = $userOnlineService->getOnlineExplorers();
 
         return $this->render('location/index.html.twig', [
-            'hashkey' => $_ENV["HASH_KEY"],
             'websocket' => $_ENV["WEBSOCKET_URL"],
             'websocket_token' => $websocketService->getToken($this->getUser()),
             'user' => $this->getUser(),
@@ -101,9 +99,9 @@ class LocationController extends AppController
     }
 
     #[Route('location/{key}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, PaginatorInterface $paginator): Response
+    public function edit(Request $request, PaginatorInterface $paginator, $key): Response
     {
-        $location = $this->getLocationFromKey($request->get('key'), true);
+        $location = $this->getLocationFromKey($key, true);
         $image = $location->getImage();
 
         $location->removeImage();
@@ -138,7 +136,6 @@ class LocationController extends AppController
         $totalResults = $locationData->getTotalItemCount();
 
         return $this->render('location/new.html.twig', [
-            'hashkey' => $_ENV["HASH_KEY"],
             'locations' => $locationData,
             'total_result' => $totalResults,
             'location' => $location,
@@ -148,9 +145,9 @@ class LocationController extends AppController
     
 
     #[Route('/location/{key}/delete', name: 'app_location_delete', methods: ['POST'])]
-    public function delete_location(Request $request): Response
+    public function delete_location(Request $request, $key): Response
     {
-        $location = $this->getLocationFromKey($request->get('key'), true);
+        $location = $this->getLocationFromKey($key, true);
 
         if($this->isOwned($location) && $this->isCsrfTokenValid('delete'.$location->getId(), $request->request->get('_token'))) {
             $image = $location->getImage();
@@ -164,17 +161,17 @@ class LocationController extends AppController
     }
 
     #[Route('/location/{key}', name: 'app_location_show', methods: ['GET'])]
-    public function show(Request $request): Response
+    public function show($key): Response
     {
-        $location = $this->getLocationFromKey($request->get('key'));
+        $location = $this->getLocationFromKey($key);
         return $this->render('location/show.html.twig', [
             'item' => $location,
         ]);
     }
 
     #[Route('/location/{key}/admin', name: 'app_location_admin')]
-    public function admin(Request $request) {
-        $id = $this->getLocationFromKey($request->get('key'), false, true);
+    public function admin($key) {
+        $id = $this->getLocationFromKey($key, false, true);
         return $this->redirect('/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId='.$id);
     }
 
@@ -214,10 +211,7 @@ class LocationController extends AppController
     }
 
     private function getLocationFromKey($key, $data = false, $id = false) {
-        $hashKey = $_ENV["HASH_KEY"];
-        $locationKey = $this->hashidsService->decode($key);
-        $locationId = str_replace($hashKey,'',$locationKey);
-        $locationId = is_array($locationId) ? $locationId[0] : $locationId;
+        $locationId = $this->hashService->decodeLoc($key);
 
         if($id === true) return (int)$locationId;
 

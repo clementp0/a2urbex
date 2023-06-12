@@ -10,8 +10,7 @@
 
 		{% for user in onlineUsers %}
 			{% if user.status is not defined %}
-				{% set key = "#{user.id}#{hashkey}" %}
-				<a href="{{ path('app_user', {'key': key | hashids_encode}) }}">
+				<a href="{{ path('app_user', {'key': hashUsr(user.id)}) }}">
 					<div class="useractive" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
 					{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
 				</a>
@@ -22,8 +21,7 @@
 		{% for user in onlineUsers %}
 			{% if user.status is defined %}
 				{% if user.status == "away" %}
-					{% set key = "#{user.id}#{hashkey}" %}
-					<a href="{{ path('app_user', {'key': key | hashids_encode}) }}">
+					<a href="{{ path('app_user', {'key': hashUsr(user.id)}) }}">
 						<div class="useractive away" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
 						{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
 						<span class="ago">{{ user.active }}</span>
@@ -42,8 +40,7 @@
 		{% for user in onlineUsers %}
 			{% if user.status is defined %}
 				{% if user.status == "offline" %}
-					{% set key = "#{user.id}#{hashkey}" %}
-					<a href="{{ path('app_user', {'key': key | hashids_encode}) }}">
+					<a href="{{ path('app_user', {'key': hashUsr(user.id)}) }}">
 						<div class="useractive offline" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
 						{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
 						<span class="ago">{{ user.active }}</span>
@@ -62,8 +59,7 @@
 	<div class="online">
 		{% for user in onlineUsers %}
 			{% if user.status is not defined %}
-				{% set key = "#{user.id}#{hashkey}" %}
-				<a href="{{ path('app_user', {'key': key | hashids_encode}) }}">
+				<a href="{{ path('app_user', {'key': hashUsr(user.id)}) }}">
 					<div class="useractive" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
                     {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
 				</a>
@@ -72,8 +68,7 @@
 		{% for user in onlineExplorers %}
 			{% if user.status is defined %}
 				{% if user.status == "away" %}
-					{% set key = "#{user.id}#{hashkey}" %}
-					<a href="{{ path('app_user', {'key': key | hashids_encode}) }}">
+					<a href="{{ path('app_user', {'key': hashUsr(user.id)}) }}">
                         <div class="useractive away" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
 						{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
 						<span class="ago">{{ user.active }}</span>
@@ -84,8 +79,7 @@
 		{% for user in onlineExplorers %}
 			{% if user.status is defined %}
 				{% if user.status == "offline" %}
-					{% set key = "#{user.id}#{hashkey}" %}
-					<a href="{{ path('app_user', {'key': key | hashids_encode}) }}">
+					<a href="{{ path('app_user', {'key': hashUsr(user.id)}) }}">
                     <div class="useractive offline" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
 						{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
 						<span class="ago">{{ user.active }}</span>

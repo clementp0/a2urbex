@@ -8,24 +8,24 @@ use App\Form\ChangeAccountType;
 use App\Form\ChangePasswordType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Danilovl\HashidsBundle\Interfaces\HashidsServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\FriendService;
 use App\Repository\LocationRepository;
 use App\Repository\FriendRepository;
 use App\Repository\UserRepository;
 use App\Repository\FavoriteRepository;
+use App\Service\HashService;
 
 class AccountController extends AppController
 {
     public function __construct(
         private FriendService $friendService,
         private EntityManagerInterface $entityManager,
-        private HashidsServiceInterface $hashidsService,
         private UserRepository $userRepository,
         private LocationRepository $locationRepository,
         private FavoriteRepository $favoriteRepository,
         private FriendRepository $friendRepository,
+        private HashService $hashService,
     ) {}     
 
     #[Route('/account', name: 'app_account')]
@@ -57,8 +57,7 @@ class AccountController extends AppController
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('app_user',[
-                "key" => $this->hashidsService->encode($user->getId().$_ENV["HASH_KEY"])]);
+            return $this->redirectToRoute('app_user', ["key" => $this->hashService->encodeUsr($user->getId())]);
         } else {
             $base = ($request->server->get('HTTPS') ? 'https://' : 'http://') . $request->server->get('HTTP_HOST') . '/';
             if(str_replace($base, '', $request->server->get('HTTP_REFERER')) === 'account/password') {
@@ -94,7 +93,7 @@ class AccountController extends AppController
                 $this->entityManager->flush();
 
                 $request->getSession()->set('password_notification', 'Your password has been successfully updated.');
-                return $this->redirectToRoute('app_account');
+                return $this->redirectToRoute('app_user', ["key" => $this->hashService->encodeUsr($user->getId())]);
             } else {
                 $request->getSession()->set('password_notification', 'Your old password is invalid.');
             } 
@@ -109,9 +108,10 @@ class AccountController extends AppController
     }
 
     #[Route('/user/{key}', name: 'app_user', methods: ['GET'])]
-    public function user(Request $request) {
+    public function user($key) {
         // USER
-        $user = $this->getUserFromKey($request->get('key'));
+        $id = $this->hashService->decodeUsr($key);
+        $user = $this->userRepository->findOneById($id);
         // LOCATIONS
         $urbex_count = $this->locationRepository->createQueryBuilder('a')->select('count(a.id)')->andWhere('a.user = '.$user->getId())->getQuery()->getSingleScalarResult();
         // FAVORITES 
@@ -122,7 +122,6 @@ class AccountController extends AppController
         $friends_count = $friends ? count($friends) : 0;
 
         return $this->render('account/user.html.twig', [
-            'hashkey' => $_ENV["HASH_KEY"],
             'connected_user' => $this->getUser(),
             'user' => $user,
             'urbex_count' => $urbex_count,
@@ -130,21 +129,6 @@ class AccountController extends AppController
             'friends_count' => $friends_count,
             'friend_status' => $this->friendService->isFriend($this->getUser(), $user),
         ]);
-    }
-
-    private function getUserFromKey($key, $data = false, $id = false) {
-        $hashKey = $_ENV["HASH_KEY"];
-        $userKey = $this->hashidsService->decode($key);
-        $userId = str_replace($hashKey,'',$userKey);
-        $userId = is_array($userId) ? $userId : $userId;
-
-        if($id === true) return (int)$userId;
-        
-        $user = $this->userRepository->findById($userId);
-        
-        if(!$user) return null;
-        if($data == true) return $user;
-        return $user[0];
     }
 }
 

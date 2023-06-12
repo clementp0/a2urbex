@@ -9,8 +9,7 @@
     <div class="friend-requests">
         {% for friend in pending %}
             <div class="friend-item">
-                {% set key = "#{friend.user.id}#{hashkey}" %}
-                <a href="{{ path('app_user', {'key': key | hashids_encode}) }}" class="friend-item-profil">
+                <a href="{{ path('app_user', {'key': hashUsr(friend.user.id)}) }}" class="friend-item-profil">
                     <div class="friend-item-profil-left"><i class="fa-solid fa-user"></i></div>
                     <div class="friend-item-profil-right">
                         <p class="friend-item-name">{{ friend.user.firstname }} {{ friend.user.lastname|first }}</p>
@@ -25,8 +24,7 @@
         {% endfor %}
         {% for friend in waiting %}
             <div class="friend-item">
-                {% set key = "#{friend.friend.id}#{hashkey}" %}
-                <a href="{{ path('app_user', {'key': key | hashids_encode}) }}" class="friend-item-profil">
+                <a href="{{ path('app_user', {'key': hashUsr(friend.friend.id)}) }}" class="friend-item-profil">
                     <div class="friend-item-profil-left"><i class="fa-solid fa-user"></i></div>
                     <div class="friend-item-profil-right">
                         <p class="friend-item-name">{{ friend.friend.firstname }} {{ friend.friend.lastname|first }}</p>
@@ -44,8 +42,7 @@
     <div class="friends">
         {% for friend in friends %}
             <div class="friend-item">
-                {% set key = "#{friend.friend.id}#{hashkey}" %}
-                <a href="{{ path('app_user', {'key': key | hashids_encode}) }}" class="friend-item-profil">
+                <a href="{{ path('app_user', {'key': hashUsr(friend.friend.id)}) }}" class="friend-item-profil">
                     <div class="friend-item-profil-left"><i class="fa-solid fa-user"></i></div>
                     <div class="friend-item-profil-right">
                         <p class="friend-item-name">{{ friend.friend.firstname }} {{ friend.friend.lastname|first }}</p>

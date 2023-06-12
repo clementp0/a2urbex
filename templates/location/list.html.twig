@@ -1,7 +1,6 @@
 <div class="pin-box">
 	{% if locations|length %}
 		{% for item in locations %}
-			{% set key = "#{item.loc.id}#{hashkey}" %}
 
 			<div class="pin-container" {% if item.loc.disabled == 1 %} id="disabled" {% endif %}>
 				<div class="pin-top-container">
@@ -10,7 +9,7 @@
 						<i class="fa-solid fa-robot"></i>
 					{% endif %}
 
-					<a href="{{ path('app_location_show', {'key': key | hashids_encode }) }}">
+					<a href="{{ path('app_location_show', {'key': hashLoc(item.loc.id) }) }}">
 						{% if item.loc.image|default(null) %}
 							<div class="pin-img" style="background-image:url('{{ item.loc.image }}')"></div>
 						{% else %}
@@ -61,7 +60,7 @@
 						{% if (item.loc.user and app.user.id == item.loc.user.id) or ('ROLE_ADMIN' in app.user.roles) %}
 							<div class="pin-edit pin-action">
 								{% if item.loc.user and app.user.id == item.loc.user.id %}
-									<a href="{{ path('app_location_edit', {'key': key | hashids_encode}) }}">
+									<a href="{{ path('app_location_edit', {'key': hashLoc(item.loc.id)}) }}">
 										<i class="fa-solid fa-pen-to-square"></i>
 									</a>
 								{% elseif 'ROLE_ADMIN' in app.user.roles %}

@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('app_location_delete', {'key': key | hashids_encode}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+<form method="post" action="{{ path('app_location_delete', {'key': hashLoc(item.loc.id)}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.loc.id) }}">
     <button class="btn delete"><i class="fa-solid fa-trash"></i></button>
 </form>

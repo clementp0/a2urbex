@@ -2,9 +2,8 @@
 {% block content %}
 	<div class="fav-list">
 		{% for item in favorites %}
-			{% set key = "#{item.fav.id}#{hashkey}" %}
 			<div class="fav-item">
-				<a href="{{ path('app_favorite_locations', {'key': key | hashids_encode}) }}">
+				<a href="{{ path('app_favorite_locations', {'key': hashFav(item.fav.id)}) }}">
 					<p class="fav-item-name">{{ item.fav.name }}</p>
 					<p class="fav-item-loc">{{ item.count }}
 						location
@@ -39,7 +38,7 @@
 							<i class="fa-solid fa-user-plus"></i>
 							Add User
 						</a>
-						<a class="fav-item-copy-link" data-toggle="tooltip" href="{{ path('app_favorite_locations', {'key': key | hashids_encode}) }}">
+						<a class="fav-item-copy-link" data-toggle="tooltip" href="{{ path('app_favorite_locations', {'key': hashFav(item.fav.id)}) }}">
 							<i class="fa-solid fa-link"></i>
 							Share link
 						</a>

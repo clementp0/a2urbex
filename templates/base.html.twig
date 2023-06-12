@@ -95,8 +95,7 @@
 										</a>
 									{% endif %}
 
-									{% set key = "#{app.user.id}#{hashkey}" %}
-									<a href="{{ path('app_user', {'key': key | hashids_encode}) }}">
+									<a href="{{ path('app_user', {'key': hashUsr(app.user.id)}) }}">
 										<i class="fa-solid fa-lock"></i>
 										Account
 									</a>
