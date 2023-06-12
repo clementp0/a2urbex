@@ -47,10 +47,11 @@ $(() => {
     if (!confirm('Change list permission')) e.preventDefault()
   })
 
+  console
   $('.fav-item-copy-link').on('click', function (e) {
     e.preventDefault()
     if (confirm('Copy list link')) {
-      const copyText = $(this).attr('href')
+      const copyText = location.origin + $(this).attr('href')
       document.addEventListener(
         'copy',
         function (e) {
