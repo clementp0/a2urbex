@@ -37,25 +37,22 @@ class FriendController extends AppController {
         $cuser = $this->getUser();
         $fuser = $this->userRepository->find($id);
 
-        if($cuser && $fuser) {
-            $exist = $this->friendRepository->findOneBy(['user' => $cuser, 'friend' => $fuser]);
+        $exist = $this->friendRepository->findOneBy(['user' => $cuser, 'friend' => $fuser]);
 
-            if(!$exist) {
-                $pending = $this->friendRepository->findOneBy(['user' => $fuser, 'friend' => $cuser]);
-                if($pending) {
-                    $pending->setPending(false);
-                    $this->friendRepository->save($pending, true);
-                }
-
-                $friend = new Friend();
-                $friend
-                    ->setUser($cuser)
-                    ->setFriend($fuser)
-                    ->setPending($pending ? false : true)
-                ;
-                $this->friendRepository->save($friend, true);
+        if(!$exist) {
+            $pending = $this->friendRepository->findOneBy(['user' => $fuser, 'friend' => $cuser]);
+            if($pending) {
+                $pending->setPending(false);
+                $this->friendRepository->save($pending, true);
             }
 
+            $friend = new Friend();
+            $friend
+                ->setUser($cuser)
+                ->setFriend($fuser)
+                ->setPending($pending ? false : true)
+            ;
+            $this->friendRepository->save($friend, true);
         }
 
         if($this->async) return $this->state($id);
@@ -65,9 +62,10 @@ class FriendController extends AppController {
     #[Route('/friend/accept/{id}', name: 'app_friend_accept')]
     public function accept($id) {
         $user = $this->getUser();
-        $friend = $this->friendRepository->find($id);
+        $fuser = $this->userRepository->find($id);
+        $friend = $this->friendRepository->findOneBy(['user' => $fuser, 'friend' => $user, 'pending' => true]);
 
-        if($friend && $user === $friend->getFriend()) {
+        if($friend) {
             $friend->setPending(false);
             $this->friendRepository->save($friend, true);
 
@@ -87,8 +85,10 @@ class FriendController extends AppController {
     #[Route('/friend/decline/{id}', name: 'app_friend_decline')]
     public function decline($id) {
         $user = $this->getUser();
-        $friend = $this->friendRepository->find($id);
-        if($friend && $user === $friend->getFriend()) $this->friendRepository->remove($friend, true);
+        $fuser = $this->userRepository->find($id);
+        $friend = $this->friendRepository->findOneBy(['user' => $fuser, 'friend' => $user, 'pending' => true]);
+
+        if($friend) $this->friendRepository->remove($friend, true);
 
         return $this->redirectToRoute('app_friend');
     }
@@ -96,8 +96,10 @@ class FriendController extends AppController {
     #[Route('/friend/remove/{id}', name: 'app_friend_remove')]
     public function remove($id) {
         $user = $this->getUser();
-        $friend = $this->friendRepository->find($id);
-        if($friend && $user === $friend->getUser()) {
+        $fuser = $this->userRepository->find($id);
+        $friend = $this->friendRepository->findOneBy(['user' => $user, 'friend' => $fuser, 'pending' => false]);
+
+        if($friend) {
             $this->friendRepository->remove($friend, true);
             
             $oldFriend = $this->friendRepository->findOneBy(['user' => $friend->getFriend(), 'friend' => $friend->getUser()]);

@@ -17,8 +17,8 @@
                     </div>
                 </div>
                 <div class="friend-item-action">
-                    <a href={{ path('app_friend_accept', {id: friend.id}) }} class="friend-accept"><i class="fa-solid fa-check"></i></a>
-                    <a href={{ path('app_friend_decline', {id: friend.id}) }} class="friend-decline"><i class="fa-solid fa-xmark"></i></a>
+                    <a href={{ path('app_friend_accept', {id: friend.user.id}) }} class="friend-accept"><i class="fa-solid fa-check"></i></a>
+                    <a href={{ path('app_friend_decline', {id: friend.user.id}) }} class="friend-decline"><i class="fa-solid fa-xmark"></i></a>
                 </div>
             </div>
         {% endfor %}
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="friend-item-action">
-                    <a href={{ path('app_friend_remove', {id: friend.id}) }} class="friend-remove"><i class="fa-solid fa-trash"></i></a>
+                    <a href={{ path('app_friend_remove', {id: friend.friend.id}) }} class="friend-remove"><i class="fa-solid fa-trash"></i></a>
                 </div>
             </div>
         {% endfor %}
