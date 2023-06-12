@@ -48,6 +48,12 @@
           font-size: 12px;
         }
       }
+
+      &:hover {
+        .friend-item-profil-right .friend-item-name {
+          color: #60a5fa;
+        }
+      }
     }
 
     .friend-item-action {

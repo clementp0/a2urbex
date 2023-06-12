@@ -9,13 +9,14 @@
     <div class="friend-requests">
         {% for friend in pending %}
             <div class="friend-item">
-                <div class="friend-item-profil">
+                {% set key = "#{friend.user.id}#{hashkey}" %}
+                <a href="{{ path('app_user', {'key': key | hashids_encode}) }}" class="friend-item-profil">
                     <div class="friend-item-profil-left"><i class="fa-solid fa-user"></i></div>
                     <div class="friend-item-profil-right">
                         <p class="friend-item-name">{{ friend.user.firstname }} {{ friend.user.lastname|first }}</p>
                         <p class="friend-item-username">{{ friend.user.firstname }}#{{ friend.user.id }}</p>
                     </div>
-                </div>
+                </a>
                 <div class="friend-item-action">
                     <a href={{ path('app_friend_accept', {id: friend.user.id}) }} class="friend-accept"><i class="fa-solid fa-check"></i></a>
                     <a href={{ path('app_friend_decline', {id: friend.user.id}) }} class="friend-decline"><i class="fa-solid fa-xmark"></i></a>
@@ -24,13 +25,14 @@
         {% endfor %}
         {% for friend in waiting %}
             <div class="friend-item">
-                <div class="friend-item-profil">
+                {% set key = "#{friend.friend.id}#{hashkey}" %}
+                <a href="{{ path('app_user', {'key': key | hashids_encode}) }}" class="friend-item-profil">
                     <div class="friend-item-profil-left"><i class="fa-solid fa-user"></i></div>
                     <div class="friend-item-profil-right">
                         <p class="friend-item-name">{{ friend.friend.firstname }} {{ friend.friend.lastname|first }}</p>
                         <p class="friend-item-username">{{ friend.friend.firstname }}#{{ friend.friend.id }}</p>
                     </div>
-                </div>
+                </a>
                 <div class="friend-item-action">
                     <a href={{ path('app_friend_cancel', {id: friend.friend.id}) }} class="friend-cancel"><i class="fa-solid fa-xmark"></i></a>
                     <div class="waiting">Waiting...</div>
@@ -42,13 +44,14 @@
     <div class="friends">
         {% for friend in friends %}
             <div class="friend-item">
-                <div class="friend-item-profil">
+                {% set key = "#{friend.friend.id}#{hashkey}" %}
+                <a href="{{ path('app_user', {'key': key | hashids_encode}) }}" class="friend-item-profil">
                     <div class="friend-item-profil-left"><i class="fa-solid fa-user"></i></div>
                     <div class="friend-item-profil-right">
                         <p class="friend-item-name">{{ friend.friend.firstname }} {{ friend.friend.lastname|first }}</p>
                         <p class="friend-item-username">{{ friend.friend.firstname }}#{{ friend.friend.id }}</p>
                     </div>
-                </div>
+                </a>
                 <div class="friend-item-action">
                     <a href={{ path('app_friend_remove', {id: friend.friend.id}) }} class="friend-remove"><i class="fa-solid fa-trash"></i></a>
                 </div>
