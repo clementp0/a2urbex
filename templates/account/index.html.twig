@@ -1,13 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-	{% if notification %}
-		<div class="alert alert-info">
-			{{ notification }}
-		</div>
-	{% endif %}
 	<div id="change-account-wrapper">
 		{{ form(form) }}
-			<a href="{{ path('app_account_password') }}" class="btn btn-primary btn-submit">Change password</a>
-		</div>
-	{% endblock %}
+		<a href="{{ path('app_account_password') }}" class="btn btn-primary btn-submit">Change password</a>
+	</div>
+{% endblock %}

@@ -70,7 +70,7 @@
   min-height: unset;
 }
 
-.custom-file-input{
+.custom-file-input {
   width: 10px;
 }
 // checkbox
@@ -102,12 +102,6 @@ input[type='checkbox']:checked::before {
   left: 0;
   border: 3px solid #404040;
   background-color: #60a5fa;
-}
-
-// upload kmz page
-.upload-form-item .custom-file {
-  margin-top: 30px;
-  max-width: 80%;
 }
 
 // custom file input
@@ -206,7 +200,6 @@ input[type='checkbox']:checked::before {
   }
 }
 
-
-.long-text{
-  min-height: 150px!important;
+.long-text {
+  min-height: 150px !important;
 }

@@ -8,7 +8,6 @@ use App\Form\ChangeAccountType;
 use App\Form\ChangePasswordType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Service\FriendService;
 use App\Repository\LocationRepository;
 use App\Repository\FriendRepository;
@@ -20,21 +19,20 @@ class AccountController extends AppController
 {
     public function __construct(
         private FriendService $friendService,
-        private EntityManagerInterface $entityManager,
         private UserRepository $userRepository,
         private LocationRepository $locationRepository,
         private FavoriteRepository $favoriteRepository,
         private FriendRepository $friendRepository,
-        private HashService $hashService,
+        private HashService $hashService
     ) {}     
 
     #[Route('/account', name: 'app_account')]
     public function account(Request $request) {
-        $notification = null;
+        $notification = $this->getNotification($request);
+        
         $user = $this->getUser();
         $image = $user->getImage();
         $banner = $user->getBanner();
-        $user = $this->getUser();
         $user->removeImage();
         $user->removeBanner();
         $form = $this->createForm(ChangeAccountType::class, $user, [
@@ -44,27 +42,18 @@ class AccountController extends AppController
 
         $form->handleRequest($request);
         
-        if($form->isSubmitted() && $form->isValid()) {
-            if($user->getImage() === null && $user->getPreviousImage()) {
-                $user->setImageDirect($image);
+        if($form->isSubmitted()) {
+            if($form->isValid()) {
+                if($user->getImage() === null && $user->getPreviousImage()) $user->setImageDirect($image);
+                if($user->getBanner() === null && $user->getPreviousBanner()) $user->setBannerDirect($banner);
+                $this->userRepository->add($user);
+    
+                $this->setNotification($request, 'Your profile was successfully updated', 1);
+                return $this->redirectToRoute('app_user', ["key" => $this->hashService->encodeUsr($user->getId())]);
+            } else {
+                $this->setNotification($request, 'An error occured while updating your profile', 0);
+                $notification = $this->getNotification($request);
             }
-            if($user->getBanner() === null && $user->getPreviousBanner()) {
-                $user->setBannerDirect($banner);
-            }
-            $user
-                ->setFirstname($form->get('firstname')->getData())
-                ->setLastname($form->get('lastname')->getData());
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-
-            return $this->redirectToRoute('app_user', ["key" => $this->hashService->encodeUsr($user->getId())]);
-        } else {
-            $base = ($request->server->get('HTTPS') ? 'https://' : 'http://') . $request->server->get('HTTP_HOST') . '/';
-            if(str_replace($base, '', $request->server->get('HTTP_REFERER')) === 'account/password') {
-                $notification = $request->getSession()->get('password_notification');
-                $request->getSession()->set('password_notification', null);
-            }
-            $request->getSession()->set('password_notification', null);
         }
 
         return $this->render('account/index.html.twig', [
@@ -76,39 +65,43 @@ class AccountController extends AppController
     #[Route('/account/password', name: 'app_account_password')]
     public function password(Request $request, UserPasswordEncoderInterface $encoder)
     {
+        $notification = $this->getNotification($request);
+
         $user = $this->getUser();
         $form = $this->createForm(ChangePasswordType::class, $user);
-
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-            $oldPassword = $form->get('old_password')->getData();
-
-            if($encoder->isPasswordValid($user, $oldPassword)) {
-                $newPassword = $form->get('new_password')->getData();
-                $password = $encoder->encodePassword($user, $newPassword);
-
-                $user->setPassword($password);
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
-
-                $request->getSession()->set('password_notification', 'Your password has been successfully updated.');
-                return $this->redirectToRoute('app_user', ["key" => $this->hashService->encodeUsr($user->getId())]);
+        if($form->isSubmitted()) {
+            if($form->isValid()) {
+                $oldPassword = $form->get('old_password')->getData();
+    
+                if($encoder->isPasswordValid($user, $oldPassword)) {
+                    $newPassword = $form->get('new_password')->getData();
+                    $password = $encoder->encodePassword($user, $newPassword);
+    
+                    $user->setPassword($password);
+                    $this->userRepository->add($user);
+                    
+                    $this->setNotification($request, 'Your password was successfully updated', 1);
+                    return $this->redirectToRoute('app_user', ["key" => $this->hashService->encodeUsr($user->getId())]);
+                } else {
+                    $this->setNotification($request, 'Your old password is invalid', 0);
+                    $notification = $this->getNotification($request);
+                } 
             } else {
-                $request->getSession()->set('password_notification', 'Your old password is invalid.');
-            } 
-        } else {
-            $request->getSession()->set('password_notification', null);
+                $this->setNotification($request, 'An error occured while updating your password', 0);
+                $notification = $this->getNotification($request);
+            }
         }
 
         return $this->render('account/password.html.twig', [
             'form' => $form->createView(),
-            'notification' => $request->getSession()->get('password_notification')
+            'notification' => $notification
         ]);
     }
 
     #[Route('/user/{key}', name: 'app_user', methods: ['GET'])]
-    public function user($key) {
+    public function user($key, Request $request) {
         // USER
         $id = $this->hashService->decodeUsr($key);
         $user = $this->userRepository->findOneById($id);
@@ -128,7 +121,30 @@ class AccountController extends AppController
             'favorites_count' => $favorites_count,
             'friends_count' => $friends_count,
             'friend_status' => $this->friendService->isFriend($this->getUser(), $user),
+            'notification' => $this->getNotification($request)
         ]);
+    }
+
+    private function setNotification($request, $value, $type = null) {
+        $val = $value === null ? null : $value.'|'.$type;
+        $request->getSession()->set('account_notification', $val);
+    }
+    private function getNotification($request) {
+        $notification = $request->getSession()->get('account_notification');
+        $this->setNotification($request, null);
+
+        if($notification === null) return null;
+        
+        $split = explode('|', $notification);
+
+        $class = '';
+        if($split[1] === '0') $class = 'error';
+        if($split[1] === '1') $class = 'success';
+
+        return [
+            'text' => $split[0],
+            'class' => $class
+        ];
     }
 }
 

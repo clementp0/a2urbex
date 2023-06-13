@@ -27,97 +27,108 @@
 			{% endif %}
 		{% endblock %}
 	</head>
-	<header>
-		<nav class="navbar navbar-expend-md navbar-dark fixed-top">
-			<div class="navbar-collapse" id="navbarCollapse">
-				<div class="filter"></div>
-				<div class="discord_desktop">
-					<a href="https://discord.com/invite/MDbDPJqxZV" target="_blank">
-						<i class="fa-brands fa-discord"></i>
-					</a>
-				</div>
-				<div class="logo">
-					<a href="{% if app.user %}{{ path('app_location_index') }}{% else %}{{ path('app_home') }}{% endif %}">
-						<i class="fas fa-globe-europe"></i>a2urbex
-					</a>
-				</div>
-				{% if app.user %}
-					{% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles %}
-						<div class="settings">
-							<div class="dropdown">
-								<button class="dropbtn">
-								<div class="dropbtn-image" style="background-image:url('{% if app.user.image %}{{app.user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
-									{{ app.user.firstname }}
-								</button>
-								<div class="dropdown-content">
-									<div class="menu_header">
-										<div class="menu_icon">
-											<div class="menu_icon-image" style="background-image:url('{% if app.user.image %}{{app.user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
+	<body {% if app.request.attributes.get('_route') is defined %} id="{{ app.request.attributes.get('_route') }}" {% endif %}>
+		<header>
+			<nav class="navbar navbar-expend-md navbar-dark fixed-top">
+				<div class="navbar-collapse" id="navbarCollapse">
+					<div class="filter"></div>
+					<div class="discord_desktop">
+						<a href="https://discord.com/invite/MDbDPJqxZV" target="_blank">
+							<i class="fa-brands fa-discord"></i>
+						</a>
+					</div>
+					<div class="logo">
+						<a href="{% if app.user %}{{ path('app_location_index') }}{% else %}{{ path('app_home') }}{% endif %}">
+							<i class="fas fa-globe-europe"></i>a2urbex
+						</a>
+					</div>
+					{% if app.user %}
+						{% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles %}
+							<div class="settings">
+								<div class="dropdown">
+									<button class="dropbtn">
+									<div class="dropbtn-image" style="background-image:url('{% if app.user.image %}{{app.user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
+										{{ app.user.firstname }}
+									</button>
+									<div class="dropdown-content">
+										<div class="menu_header">
+											<div class="menu_icon">
+												<div class="menu_icon-image" style="background-image:url('{% if app.user.image %}{{app.user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
+											</div>
+											<div class="menu_data">
+												<p>Logged in as</p>
+												{{ app.user.firstname }}#{{ app.user.id }}</div>
 										</div>
-										<div class="menu_data">
-											<p>Logged in as</p>
-											{{ app.user.firstname }}#{{ app.user.id }}</div>
-									</div>
-									<a href="{{ path('app_location_index') }}">
-										<i class="fa fa-fw fa-location-dot"></i>
-										Locations
-
-									</a>
-									<a href="{{ path('new_location') }}">
-										<i class="fa-solid fa-location-pin-lock"></i>
-										My Locations
-
-									</a>
-									<a href="{{ path('app_favorite') }}">
-										<i class="fa fa-fw fa-heart"></i>
-										My favorites
-
-									</a>
-									<a href="{{ path('app_friend') }}">
-										<i class="fa-solid fa-users"></i>
-										My friends
-
-									</a>
-									<a href="" id="clear-cache-button">
-										<i class="fa-solid fa-rotate-right"></i>
-										Refresh
-
-									</a>
-									<a class="discord_mobile" href="https://discord.com/invite/MDbDPJqxZV" target="_blank">
-										<i class="fa-brands fa-discord"></i>
-										Discord</a>
-
-									{% if 'ROLE_ADMIN' in app.user.roles %}
-										<a href="{{ path('admin') }}">
-											<i class="fa-solid fa-gear"></i>
-											Admin
+										<a href="{{ path('app_location_index') }}">
+											<i class="fa fa-fw fa-location-dot"></i>
+											Locations
 
 										</a>
-									{% endif %}
+										<a href="{{ path('new_location') }}">
+											<i class="fa-solid fa-location-pin-lock"></i>
+											My Locations
 
-									<a href="{{ path('app_user', {'key': hashUsr(app.user.id)}) }}">
-										<i class="fa-solid fa-lock"></i>
-										Account
-									</a>
+										</a>
+										<a href="{{ path('app_favorite') }}">
+											<i class="fa fa-fw fa-heart"></i>
+											My favorites
 
-									<a class="menu_logout" href="{{ path('app_logout') }}">
-										<i class="fa fa-fw fa-sign-out"></i>
-										Logout
+										</a>
+										<a href="{{ path('app_friend') }}">
+											<i class="fa-solid fa-users"></i>
+											My friends
 
-									</a>
+										</a>
+										<a href="" id="clear-cache-button">
+											<i class="fa-solid fa-rotate-right"></i>
+											Refresh
+
+										</a>
+										<a class="discord_mobile" href="https://discord.com/invite/MDbDPJqxZV" target="_blank">
+											<i class="fa-brands fa-discord"></i>
+											Discord</a>
+
+										{% if 'ROLE_ADMIN' in app.user.roles %}
+											<a href="{{ path('admin') }}">
+												<i class="fa-solid fa-gear"></i>
+												Admin
+
+											</a>
+										{% endif %}
+
+										<a href="{{ path('app_user', {'key': hashUsr(app.user.id)}) }}">
+											<i class="fa-solid fa-lock"></i>
+											Account
+										</a>
+
+										<a class="menu_logout" href="{{ path('app_logout') }}">
+											<i class="fa fa-fw fa-sign-out"></i>
+											Logout
+
+										</a>
+									</div>
 								</div>
 							</div>
-						</div>
+						{% endif %}
+					{% else %}
+						<a class="login_register" href="{{ path('app_login') }}">Connect</a>
 					{% endif %}
-				{% else %}
-					<a class="login_register" href="{{ path('app_login') }}">Connect</a>
-				{% endif %}
 
+				</div>
+			</nav>
+		</header>
+
+		{% if notification is defined and notification is not null %}
+			<div class="notification {{ notification.class is defined ? notification.class : '' }}">
+				<p>{{ notification.text }}</p>
+				<a class="notification-close">
+					<i class="fa-solid fa-xmark"></i>
+				</a>
 			</div>
-		</nav>
-	</header>
-	<body {% if app.request.attributes.get('_route') is defined %} id="{{ app.request.attributes.get('_route') }}" {% endif %}>
+		{% endif %}
+		
 		{% block content %}{% endblock %}
+
 		<footer>
 			<div class="love">Your Exploration Co-Pilot.</div>
 			<a class="contact_desktop" href="{{ path('app_links') }}">Contact</a>

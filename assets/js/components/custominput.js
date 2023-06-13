@@ -75,10 +75,7 @@ export default class ImageInput {
     const fileName = this.input.val()
     const fileExtension = fileName.split('.').pop().toLowerCase()
 
-    console.log(this.error)
-
     if (fileName.length && !['jpg', 'jpeg', 'png'].includes(fileExtension)) {
-      console.log('error')
       const errorMessage =
         '<span class="alert alert-danger d-block">' +
         ' <span class="d-block">' +

@@ -118,17 +118,6 @@ button.btn.delete {
   }
 }
 
-@media (max-width: 768px) {
-  footer {
-    .contact_desktop {
-      display: none;
-    }
-    .contact_mobile {
-      display: block;
-    }
-  }
-}
-
 // import Kml File page
 .import-form {
   text-align: center;
@@ -154,4 +143,70 @@ button.btn.delete {
   background-color: #222222 !important;
   color: #a2a2a2 !important;
   border-radius: 0px !important;
+}
+
+// upload kml page
+.upload-form-item .custom-file {
+  margin-top: 30px;
+  max-width: 80%;
+}
+
+// notification
+.notification {
+  display: none;
+  max-width: 80%;
+  margin: 0 auto;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #838383;
+  background-color: #222222;
+  position: relative;
+
+  p {
+    margin: 0;
+    padding-right: 15px;
+    text-align: left;
+  }
+
+  &.success {
+    border: 1px solid #436949;
+    background-color: #71ac7e;
+    &,
+    & a {
+      color: #436949;
+    }
+  }
+
+  &.error {
+    border: 1px solid #694343;
+    background-color: #ac7171;
+    &,
+    & a {
+      color: #694343;
+    }
+  }
+
+  &-close {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  footer {
+    .contact_desktop {
+      display: none;
+    }
+    .contact_mobile {
+      display: block;
+    }
+  }
 }

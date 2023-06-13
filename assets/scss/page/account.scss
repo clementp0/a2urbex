@@ -1,4 +1,4 @@
-#change_password,
+#change-password-wrapper,
 #change-account-wrapper {
   text-align: center;
   font-weight: 500;
@@ -9,6 +9,10 @@
   padding: 50px 11px 11px;
   border-radius: 5px;
   margin: 30px auto;
+
+  .btn-submit {
+    margin-bottom: 1rem;
+  }
 }
 
 // Profile page
@@ -26,12 +30,12 @@
       rgb(33 33 33) 75%,
       rgb(34 34 34) 100%
     );
-    padding: 50px 0px 20px 0px;
+    padding: 30px 0px 20px 0px;
   }
 
   &-banner {
     max-width: 80%;
-    margin: auto;
+    margin: 20px auto 0;
     height: 250px;
     background-size: cover;
     background-repeat: no-repeat;

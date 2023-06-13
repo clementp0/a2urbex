@@ -30,4 +30,18 @@ $(() => {
       },
     })
   }
+
+  const notification = $('.notification')
+  if (notification.length) {
+    $('.notification-close').on('click', function () {
+      $(this).parents('.notification').remove()
+    })
+    if ($('#app_user').length) $('.profile__container-header').prepend(notification.show())
+
+    if ($('#app_account').length)
+      $('#change_account').prepend(notification.show().css('top', '-20px'))
+
+    if ($('#app_account_password').length)
+      $('#change_password').prepend(notification.show().css('top', '-20px'))
+  }
 })
