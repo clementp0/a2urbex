@@ -2,7 +2,7 @@
  
 namespace App\Class;
 use App\Entity\Country;
-use App\Entity\Type;
+use App\Entity\Category;
 
  class Search
  {
@@ -20,10 +20,10 @@ use App\Entity\Type;
 
 
     /*
-    * @var Type[]
+    * @var Category[]
     */
 
-    public $type = [];
+    public $category = [];
     
    /*
     * @var string 

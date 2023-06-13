@@ -17,15 +17,15 @@
                 <p class="pin-page-title">{{ item.loc.name }}</p>
             {% endif %}
 
-            {% if item.loc.type %}
-                <p class="pin-type">
-                    <span class="pin-type-icon"><i class="fa-solid {{ item.loc.type.icon }}"></i></span>
-                    <span class="pin-type-text">{{ item.loc.type }}</span>
+            {% if item.loc.category %}
+                <p class="pin-category">
+                    <span class="pin-category-icon"><i class="fa-solid {{ item.loc.category.icon }}"></i></span>
+                    <span class="pin-category-text">{{ item.loc.category }}</span>
                 </p>
             {% else %}
-                <p class="pin-type">
-                    <span class="pin-type-icon"><i class="fa-solid fa-map-pin"></i></span>
-                    <span class="pin-type-text">other</span>
+                <p class="pin-category">
+                    <span class="pin-category-icon"><i class="fa-solid fa-map-pin"></i></span>
+                    <span class="pin-category-text">other</span>
                 </p>
             {% endif %}
 

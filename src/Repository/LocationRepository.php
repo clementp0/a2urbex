@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Location;
 use App\Class\Search;
 use App\Entity\Country;
-use App\Entity\Type;
+use App\Entity\Category;
 
 use App\Entity\User;
 use App\Entity\Favorite;
@@ -88,11 +88,11 @@ class LocationRepository extends ServiceEntityRepository
             ->addSelect('c');
         }
 
-        if (!empty($search->type)){
+        if (!empty($search->category)){
             $query = $query
-            ->join( 'l.type', 't')
-            ->andWhere('t.id IN (:type)')
-            ->setParameter('type', $search->type)
+            ->join( 'l.category', 't')
+            ->andWhere('t.id IN (:category)')
+            ->setParameter('category', $search->category)
             ->addSelect('t');
         }
 

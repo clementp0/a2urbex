@@ -75,7 +75,7 @@ class FetchController extends AppController
         
         foreach($locations as $location) {
             if(!$location->getCountry()) $this->locationService->addCountry($location);
-            if(!$location->getType()) $this->locationService->addType($location);
+            if(!$location->getCategory()) $this->locationService->addCategory($location);
             $this->locationRepository->add($location);
         }
         

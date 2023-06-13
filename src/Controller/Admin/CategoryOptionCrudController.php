@@ -2,18 +2,18 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\TypeOption;
+use App\Entity\CategoryOption;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
 
-class TypeOptionCrudController extends AbstractCrudController
+class CategoryOptionCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return TypeOption::class;
+        return CategoryOption::class;
     }
 
     
@@ -22,7 +22,7 @@ class TypeOptionCrudController extends AbstractCrudController
         return [
             // IdField::new('id'),
             TextField::new('name'),
-            AssociationField::new('type'),
+            AssociationField::new('category'),
         ];
     }
     

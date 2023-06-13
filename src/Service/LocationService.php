@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Repository\TypeRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\CountryRepository;
 use Geocoder\Provider\Provider;
 use Geocoder\Query\ReverseQuery;
@@ -13,7 +13,7 @@ use App\Repository\LocationRepository;
 
 class LocationService {
     public function __construct(
-        TypeRepository $typeRepository, 
+        CategoryRepository $categoryRepository, 
         CountryRepository $countryRepository, 
         Provider $googleMapsGeocoder,
         private Security $security,
@@ -23,11 +23,11 @@ class LocationService {
         $this->googleMapsGeocoder = $googleMapsGeocoder;
         $this->countryRepository = $countryRepository;
 
-        $this->typeOptions = [];
-        foreach($typeRepository->findAll() as $type) {
-            $typeOptions = $type->getTypeOptions();
-            foreach($typeOptions as $item) {
-                $this->typeOptions[] = $item;
+        $this->categoryOptions = [];
+        foreach($categoryRepository->findAll() as $category) {
+            $categoryOptions = $category->getCategoryOptions();
+            foreach($categoryOptions as $item) {
+                $this->categoryOptions[] = $item;
             }
         }
     }
@@ -65,11 +65,11 @@ class LocationService {
         $location->setCountry($country);
     }
 
-    public function addType($location) {
+    public function addCategory($location) {
         $name = $location->getName();
-        foreach($this->typeOptions as $typeOption) {
-            if(strpos(strtolower($name), $typeOption->getName()) !== false) {
-                $location->setType($typeOption->getType());
+        foreach($this->categoryOptions as $categoryOption) {
+            if(strpos(strtolower($name), $categoryOption->getName()) !== false) {
+                $location->setCategory($categoryOption->getCategory());
                 break;
             }
         }

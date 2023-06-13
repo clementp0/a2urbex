@@ -47,13 +47,14 @@ function setMarkers(map, items) {
 
   items.forEach((item) => {
     let current = pins['default']
-    if (item.loc.type) {
-      if (!pins[item.loc.type.icon]) {
-        pins[item.loc.type.icon] = { ...icon }
-        pins[item.loc.type.icon].url = pins[item.loc.type.icon].url + item.loc.type.icon + '.png'
+    if (item.loc.category) {
+      if (!pins[item.loc.category.icon]) {
+        pins[item.loc.category.icon] = { ...icon }
+        pins[item.loc.category.icon].url =
+          pins[item.loc.category.icon].url + item.loc.category.icon + '.png'
       }
 
-      current = pins[item.loc.type.icon]
+      current = pins[item.loc.category.icon]
     }
 
     const marker = new google.maps.Marker({
@@ -65,7 +66,7 @@ function setMarkers(map, items) {
       icon: current,
       shape: shape,
       title: item.loc.name,
-      type: item.loc.type,
+      type: item.loc.category,
       zIndex: current.zIndex,
     })
 
@@ -90,12 +91,12 @@ function popup(item) {
     $('#map-overlay .map-overlay-img').css('backgroundImage', 'url(' + item.loc.image + ')')
   }
   if (item.loc.name) $('#map-overlay .map-overlay-title').text(item.loc.name)
-  $('#map-overlay .map-overlay-type .pin-type-text').text(
-    item.loc.type !== null ? item.loc.type.name : 'other'
+  $('#map-overlay .map-overlay-category .pin-category-text').text(
+    item.loc.category !== null ? item.loc.category.name : 'other'
   )
-  $('#map-overlay .map-overlay-type .pin-type-icon').html(
-    item.loc.type !== null
-      ? '<i class="fa-solid ' + item.loc.type.icon + '"></i>'
+  $('#map-overlay .map-overlay-category .pin-category-icon').html(
+    item.loc.category !== null
+      ? '<i class="fa-solid ' + item.loc.category.icon + '"></i>'
       : '<i class="fa-solid fa-map-pin"></i>'
   )
 
@@ -211,12 +212,12 @@ function search(map, json, inputWrapper, value) {
   inputResult.empty()
 
   result.forEach((item) => {
-    const type = item.loc.type
+    const category = item.loc.category
     const row = $('<div>')
 
     row.addClass('item').html(`
-      <span class="icon" style="${type ? 'color: ' + type.color : ''}">
-        <i class="fa-solid ${type ? type.icon : 'fa-map-pin'}" ></i>
+      <span class="icon" style="${category ? 'color: ' + category.color : ''}">
+        <i class="fa-solid ${category ? category.icon : 'fa-map-pin'}" ></i>
       </span>
       <span class="name">${item.loc.name}</span>
     `)

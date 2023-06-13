@@ -4,15 +4,15 @@ namespace App\Form;
 
 use App\Entity\Location;
 use App\Entity\Country;
-use App\Entity\Type;
+use App\Entity\Category;
 use App\Entity\User;
+
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use App\Entity\UploadedFile;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -50,8 +50,8 @@ class LocationType extends AbstractType
                     'class' => 'custom-dd'
                 ],
             ])
-            ->add('type', EntityType::class, [
-                'class' => Type::class,
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
                 'choice_label' => 'name',
                 'required' => true,
             ])

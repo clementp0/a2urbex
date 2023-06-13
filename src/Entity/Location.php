@@ -38,7 +38,7 @@ class Location
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'locations')]
-    private ?Type $type = null;
+    private ?Category $category = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
@@ -204,14 +204,14 @@ class Location
         return $this;
     }
 
-    public function getType(): ?Type
+    public function getCategory(): ?Category
     {
-        return $this->type;
+        return $this->category;
     }
 
-    public function setType(?Type $type): self
+    public function setCategory(?Category $category): self
     {
-        $this->type = $type;
+        $this->category = $category;
 
         return $this;
     }

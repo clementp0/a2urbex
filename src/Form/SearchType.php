@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Class\Search;
 use App\Entity\Country;
-use App\Entity\Type;
+use App\Entity\Category;
 use App\Entity\Location;
 use App\Repository\LocationRepository;
 use App\Repository\CountryRepository;
@@ -47,9 +47,9 @@ class SearchType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
             ])
-            ->add('type', EntityType::class, [
-                'label' => 'Type',
-                'class' => Type::class,
+            ->add('category', EntityType::class, [
+                'label' => 'Category',
+                'class' => Category::class,
                 'multiple' => true,
                 'expanded' => true
             ]);

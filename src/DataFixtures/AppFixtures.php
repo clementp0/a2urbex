@@ -6,17 +6,17 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 use App\Entity\Country;
-use App\Entity\Type;
-use App\Entity\TypeOption;
+use App\Entity\Category;
+use App\Entity\CategoryOption;
 
 class AppFixtures extends Fixture {
     public function load(ObjectManager $manager): void {
-        $this->addTypes($manager);
+        $this->addCategory($manager);
         $this->addCountries($manager);
     }
 
-    private function addTypes($manager) {
-        $types = [
+    private function addCategory($manager) {
+        $categories = [
             'castle' => ['château', 'chateau', 'pałac', 'schloss', 'castle'],
             'hostel' => ['hotel', 'hôtel', 'hostel', 'resort'],
             'cinema' => ['cinéma', 'cinema'],
@@ -28,15 +28,15 @@ class AppFixtures extends Fixture {
             'restaurant' => ['restaurant'],
         ];
 
-        foreach($types as $name => $options) {
-            $t = new Type();
+        foreach($categories as $name => $options) {
+            $t = new Category();
             $t->setName($name);
             $manager->persist($t);
 
             foreach($options as $option) {
-                $o = new TypeOption();
+                $o = new CategoryOption();
                 $o->setName($option);
-                $o->setType($t);
+                $o->setCategory($t);
                 $manager->persist($o);
             }
         }

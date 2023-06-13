@@ -3,13 +3,13 @@
 namespace App\Entity;
 
 use Stringable;
-use App\Repository\TypeRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TypeRepository::class)]
-class Type implements Stringable
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+class Category implements Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,10 +19,10 @@ class Type implements Stringable
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'type', targetEntity: TypeOption::class)]
-    private Collection $typeOptions;
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: CategoryOption::class)]
+    private Collection $categoryOptions;
 
-    #[ORM\OneToMany(mappedBy: 'type', targetEntity: Location::class)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Location::class)]
     private Collection $locations;
 
     #[ORM\Column(length: 255)]
@@ -33,7 +33,7 @@ class Type implements Stringable
 
     public function __construct()
     {
-        $this->typeOptions = new ArrayCollection();
+        $this->categoryOptions = new ArrayCollection();
         $this->locations = new ArrayCollection();
     }
 
@@ -60,29 +60,29 @@ class Type implements Stringable
     }
 
     /**
-     * @return Collection<int, TypeOption>
+     * @return Collection<int, CategoryOption>
      */
-    public function getTypeOptions(): Collection
+    public function getCategoryOptions(): Collection
     {
-        return $this->typeOptions;
+        return $this->categoryOptions;
     }
 
-    public function addTypeOption(TypeOption $typeOption): self
+    public function addCategoryOption(CategoryOption $categoryOption): self
     {
-        if (!$this->typeOptions->contains($typeOption)) {
-            $this->typeOptions->add($typeOption);
-            $typeOption->setType($this);
+        if (!$this->categoryOptions->contains($categoryOption)) {
+            $this->categoryOptions->add($categoryOption);
+            $categoryOption->setCategory($this);
         }
 
         return $this;
     }
 
-    public function removeTypeOption(TypeOption $typeOption): self
+    public function removeCategoryOption(CategoryOption $categoryOption): self
     {
-        if ($this->typeOptions->removeElement($typeOption)) {
+        if ($this->categoryOptions->removeElement($categoryOption)) {
             // set the owning side to null (unless already changed)
-            if ($typeOption->getType() === $this) {
-                $typeOption->setType(null);
+            if ($categoryOption->getCategory() === $this) {
+                $categoryOption->setCategory(null);
             }
         }
 
@@ -101,7 +101,7 @@ class Type implements Stringable
     {
         if (!$this->locations->contains($location)) {
             $this->locations->add($location);
-            $location->setType($this);
+            $location->setCategory($this);
         }
 
         return $this;
@@ -111,8 +111,8 @@ class Type implements Stringable
     {
         if ($this->locations->removeElement($location)) {
             // set the owning side to null (unless already changed)
-            if ($location->getType() === $this) {
-                $location->setType(null);
+            if ($location->getCategory() === $this) {
+                $location->setCategory(null);
             }
         }
 

@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\TypeOptionRepository;
+use App\Repository\CategoryOptionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TypeOptionRepository::class)]
-class TypeOption
+#[ORM\Entity(repositoryClass: CategoryOptionRepository::class)]
+class CategoryOption
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,9 +16,9 @@ class TypeOption
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'typeOptions')]
+    #[ORM\ManyToOne(inversedBy: 'categoryOptions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Type $type = null;
+    private ?Category $category = null;
 
     public function getId(): ?int
     {
@@ -37,14 +37,14 @@ class TypeOption
         return $this;
     }
 
-    public function getType(): ?Type
+    public function getCategory(): ?Category
     {
-        return $this->type;
+        return $this->category;
     }
 
-    public function setType(?Type $type): self
+    public function setCategory(?Category $category): self
     {
-        $this->type = $type;
+        $this->category = $category;
 
         return $this;
     }

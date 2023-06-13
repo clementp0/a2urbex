@@ -31,19 +31,19 @@
 							<i class="fa-solid fa-earth-europe"></i>
 						</a>
 					</div>
-					{% if item.loc.type %}
-						<p class="pin-type">
-							<span class="pin-type-icon">
-								<i class="fa-solid {{ item.loc.type.icon }}"></i>
+					{% if item.loc.category %}
+						<p class="pin-category">
+							<span class="pin-category-icon">
+								<i class="fa-solid {{ item.loc.category.icon }}"></i>
 							</span>
-							<span class="pin-type-text">{{ item.loc.type }}</span>
+							<span class="pin-category-text">{{ item.loc.category }}</span>
 						</p>
 					{% else %}
-						<p class="pin-type">
-							<span class="pin-type-icon">
+						<p class="pin-category">
+							<span class="pin-category-icon">
 								<i class="fa-solid fa-map-pin"></i>
 							</span>
-							<span class="pin-type-text">other</span>
+							<span class="pin-category-text">other</span>
 						</p>
 					{% endif %}
 					{% if item.loc.comments %}

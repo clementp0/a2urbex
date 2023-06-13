@@ -7,8 +7,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Entity\Location;
 use App\Entity\Country;
-use App\Entity\Type;
-use App\Entity\TypeOption;
+use App\Entity\Category;
+use App\Entity\CategoryOption;
 use App\Repository\LocationRepository;
 
 class HomeController extends AppController
@@ -32,9 +32,9 @@ class HomeController extends AppController
             ->getQuery()
             ->getSingleScalarResult();
 
-        //Type_count
-        $repoType = $em->getRepository(Type::class);
-        $type_count = $repoType->createQueryBuilder('a')
+        //Category_count
+        $repoCategory = $em->getRepository(Category::class);
+        $category_count = $repoCategory->createQueryBuilder('a')
             ->select('count(a.id)')
             ->getQuery()
             ->getSingleScalarResult();
@@ -55,7 +55,7 @@ class HomeController extends AppController
         return $this->render('home/index.html.twig', [
             'pins' => $pins_count,
             'country' => $country_count,
-            'type' => $type_count,
+            'category' => $category_count,
             'ai' => $ai,
             'done' => $done + 130,
         ]);

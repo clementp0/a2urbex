@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\TypeOption;
+use App\Entity\CategoryOption;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<TypeOption>
+ * @extends ServiceEntityRepository<CategoryOption>
  *
- * @method TypeOption|null find($id, $lockMode = null, $lockVersion = null)
- * @method TypeOption|null findOneBy(array $criteria, array $orderBy = null)
- * @method TypeOption[]    findAll()
- * @method TypeOption[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CategoryOption|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CategoryOption|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CategoryOption[]    findAll()
+ * @method CategoryOption[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TypeOptionRepository extends ServiceEntityRepository
+class CategoryOptionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TypeOption::class);
+        parent::__construct($registry, CategoryOption::class);
     }
 
-    public function save(TypeOption $entity, bool $flush = false): void
+    public function save(CategoryOption $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class TypeOptionRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(TypeOption $entity, bool $flush = false): void
+    public function remove(CategoryOption $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class TypeOptionRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return TypeOption[] Returns an array of TypeOption objects
+//     * @return CategoryOption[] Returns an array of CategoryOption objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class TypeOptionRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?TypeOption
+//    public function findOneBySomeField($value): ?CategoryOption
 //    {
 //        return $this->createQueryBuilder('t')
 //            ->andWhere('t.exampleField = :val')

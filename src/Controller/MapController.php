@@ -77,7 +77,7 @@ class MapController extends AppController
             'id',
             'favorites', 
             'country', 
-            'typeOptions', 
+            'categoryOptions', 
             'locations', 
             'description', 
             'url', 

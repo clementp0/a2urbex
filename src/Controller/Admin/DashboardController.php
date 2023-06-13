@@ -15,8 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Entity\Location;
 use App\Entity\Country;
-use App\Entity\Type;
-use App\Entity\TypeOption;
+use App\Entity\Category;
+use App\Entity\CategoryOption;
 use App\Entity\Source;
 use App\Repository\LocationRepository;
 use App\Repository\MessageRepository;
@@ -41,13 +41,13 @@ class DashboardController extends AbstractDashboardController
         $em = $this->getDoctrine()->getManager();
         $repoLocation = $em->getRepository(Location::class);
         $repoCountry = $em->getRepository(Country::class);
-        $repoType = $em->getRepository(Type::class);
+        $repoCategory = $em->getRepository(Category::class);
         $repoSource = $em->getRepository(Source::class);
 
         $location_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $pending_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->where('a.pending = 1')->getQuery()->getSingleScalarResult();
         $country_count = $repoCountry->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
-        $type_count = $repoType->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $category_count = $repoCategory->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $source_count = $repoSource->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $ai_wainting_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->where('a.image IS NULL')->getQuery()->getSingleScalarResult();
         $ai_count = $repoLocation->createQueryBuilder('a')->where('a.ai = true')->select('count(a.id)')->getQuery()->getSingleScalarResult();
@@ -63,7 +63,7 @@ class DashboardController extends AbstractDashboardController
             'location_count' => $location_count,
             'pending_count' => $pending_count,
             'country_count' => $country_count,
-            'type_count' => $type_count,
+            'category_count' => $category_count,
             'source_count' => $source_count,
             'ai_wainting_count' => $ai_wainting_count,
             'ai_count' => $ai_count,
@@ -102,8 +102,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu('Locations', 'fas fa-map')->setSubItems([
             MenuItem::linkToCrud('Pins', 'fas fa-map-marker', Location::class),
             MenuItem::linkToCrud('Country', 'fas fa-globe-europe', Country::class),
-            MenuItem::linkToCrud('Type', 'fas fa-clinic-medical', Type::class),
-            MenuItem::linkToCrud('Type Options', 'fas fa-wrench', TypeOption::class)
+            MenuItem::linkToCrud('Category', 'fas fa-clinic-medical', Category::class),
+            MenuItem::linkToCrud('Category Options', 'fas fa-wrench', CategoryOption::class)
         ]);
 
         yield MenuItem::subMenu('Source', 'fa fa-upload')->setSubItems([
