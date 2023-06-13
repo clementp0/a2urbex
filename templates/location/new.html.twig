@@ -3,8 +3,10 @@
 	<div class="personal_locations">
 		<div class="new_location">
 			<p class="title_location">
-				<i class="fa-solid fa-plus"></i>
-				Create new Location
+				<a href="{{path('new_location')}}">
+					<i class="fa-solid fa-plus"></i>
+					Create new Location
+				</a>
 			</p>
 
 			{{ form(form) }}

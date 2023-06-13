@@ -7,12 +7,16 @@
   .title_location {
     min-width: 160px;
     width: 50%;
-    color: #60a5fa;
     background-color: #404040;
     border-radius: 5px;
     line-height: 1;
     margin-bottom: 10px;
     padding: calc(0.375rem + 1px) 8px;
+
+    &,
+    a {
+      color: #60a5fa;
+    }
   }
 
   #location {
