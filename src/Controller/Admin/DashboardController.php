@@ -17,7 +17,7 @@ use App\Entity\Location;
 use App\Entity\Country;
 use App\Entity\Type;
 use App\Entity\TypeOption;
-use App\Entity\Upload;
+use App\Entity\Source;
 use App\Repository\LocationRepository;
 use App\Repository\MessageRepository;
 use App\Service\MessageService;
@@ -42,13 +42,13 @@ class DashboardController extends AbstractDashboardController
         $repoLocation = $em->getRepository(Location::class);
         $repoCountry = $em->getRepository(Country::class);
         $repoType = $em->getRepository(Type::class);
-        $repoUpload = $em->getRepository(Upload::class);
+        $repoSource = $em->getRepository(Source::class);
 
         $location_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $pending_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->where('a.pending = 1')->getQuery()->getSingleScalarResult();
         $country_count = $repoCountry->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $type_count = $repoType->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
-        $source_count = $repoUpload->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $source_count = $repoSource->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $ai_wainting_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->where('a.image IS NULL')->getQuery()->getSingleScalarResult();
         $ai_count = $repoLocation->createQueryBuilder('a')->where('a.ai = true')->select('count(a.id)')->getQuery()->getSingleScalarResult();
 
@@ -72,7 +72,7 @@ class DashboardController extends AbstractDashboardController
             'ai_status' => $ai_status,
 
             'current_time' => date("d/m/Y H:i", time()),
-            'sources' => $repoUpload->findAll(),
+            'sources' => $repoSource->findAll(),
             'websocket' => $_ENV["WEBSOCKET_URL"],
             'websocket_token' => $this->websocketService->getToken($this->getUser()),
 
@@ -106,9 +106,9 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Type Options', 'fas fa-wrench', TypeOption::class)
         ]);
 
-        yield MenuItem::subMenu('Upload', 'fa fa-upload')->setSubItems([
-            MenuItem::linkToUrl('Import File', 'fa fa-upload', 'upload'),
-            MenuItem::linkToCrud('Upload', 'fas fa-file', Upload::class),
+        yield MenuItem::subMenu('Source', 'fa fa-upload')->setSubItems([
+            MenuItem::linkToRoute('Import File', 'fa fa-upload', 'source_upload'),
+            MenuItem::linkToCrud('Source', 'fas fa-file', Source::class),
         ]);
 
         yield MenuItem::subMenu('Settings', 'fa fa-gear')->setSubItems([

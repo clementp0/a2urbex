@@ -10,9 +10,9 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 
-use App\Entity\Upload;
-use App\Form\UploadType;
-use App\Repository\UploadRepository;
+use App\Entity\Source;
+use App\Form\SourceType;
+use App\Repository\SourceRepository;
 
 use App\Entity\Location;
 use App\Repository\LocationRepository;
@@ -29,14 +29,14 @@ class SourceController extends AppController
     }
 
     #[Route('/source/upload', name: 'source_upload', methods: ['GET', 'POST'])]
-    public function new(Request $request, SluggerInterface $slugger, UploadRepository $uploadRepository)
+    public function new(Request $request, SluggerInterface $slugger, SourceRepository $sourceRepository)
     {
-        $upload = new Upload();
-        $form = $this->createForm(UploadType::class, $upload);
+        $source = new Source();
+        $form = $this->createForm(SourceType::class, $source);
         $form->handleRequest($request);
         $status = 'Waiting for data...';
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile $Filename */
+            /** @var SourceedFile $Filename */
             $Filename = $form->get('upload')->getData();
             if ($Filename) {
                 $originalFilename = pathinfo($Filename->getClientOriginalName(), PATHINFO_FILENAME);
@@ -50,11 +50,11 @@ class SourceController extends AppController
                     );
                 } catch (FileException $e) {}
 
-                $this->uploadRepository = $uploadRepository;
-                $upload->setFilename($newFilename);
-                $upload->setName($safeFilename);
-                $upload->setDate(new \DateTime());
-                $this->uploadRepository->save($upload, true);
+                $this->sourceRepository = $sourceRepository;
+                $source->setFilename($newFilename);
+                $source->setName($safeFilename);
+                $source->setDate(new \DateTime());
+                $this->sourceRepository->save($source, true);
                 $status = 'Uploaded successfully';
             }
             
@@ -66,13 +66,13 @@ class SourceController extends AppController
     }
 
     #[Route('/source/{id}/delete', name: 'source_delete', methods: ['GET'])]
-    public function delete($id, ManagerRegistry $doctrine, Request $request, UploadRepository $uploadRepository): Response
+    public function delete($id, ManagerRegistry $doctrine, Request $request, SourceRepository $sourceRepository): Response
     {
-        $upload = $uploadRepository->find($id);
+        $source = $sourceRepository->find($id);
         $publicDir = $this->getParameter('public_directory');
 
-        if($upload && $upload->getName()) {
-            $removeSources = $this->locationRepository->findBySource($upload->getName());
+        if($source && $source->getName()) {
+            $removeSources = $this->locationRepository->findBySource($source->getName());
             $entityManager = $doctrine->getManager();
             foreach ($removeSources as $removeSource) {
                 $entityManager->remove($removeSource['loc']);
@@ -89,13 +89,13 @@ class SourceController extends AppController
     }
 
     #[Route('/source/{id}/run', name: 'source_run')]
-    public function run($id, UploadRepository $uploadRepository): Response {
-        $upload = $uploadRepository->find($id);
-        $uploadsDir = $this->getParameter('uploads_directory');
-        $this->source = $upload->getName();
-        $upload->setDone(1);
+    public function run($id, SourceRepository $sourceRepository): Response {
+        $source = $sourceRepository->find($id);
+        $this->source = $source->getName();
+        $source->setDone(1);
         
-        $this->parseFile($uploadsDir.$upload->getFilename());
+        $sourcesDir = $this->getParameter('uploads_directory');
+        $this->parseFile($sourcesDir.$source->getFilename());
 
         return $this->redirect('/admin');
     }

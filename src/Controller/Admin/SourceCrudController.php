@@ -2,14 +2,14 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Upload;
+use App\Entity\Source;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class UploadCrudController extends AbstractCrudController
+class SourceCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Upload::class;
+        return Source::class;
     }
 
     /*
