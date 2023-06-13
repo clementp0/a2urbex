@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 
 parameters:
-  uploads_directory: '%kernel.project_dir%/public/uploads/exports/'
+  source_directory: '%kernel.project_dir%/private/source/'
   public_directory: '%kernel.project_dir%/public/'
 
 danilovl_hashids:

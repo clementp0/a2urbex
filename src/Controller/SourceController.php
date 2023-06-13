@@ -45,7 +45,7 @@ class SourceController extends AppController
                 
                 try {
                     $Filename->move(
-                        $this->getParameter('uploads_directory'),
+                        $this->getParameter('source_directory'),
                         $newFilename
                     );
                 } catch (FileException $e) {}
@@ -94,8 +94,7 @@ class SourceController extends AppController
         $this->source = $source->getName();
         $source->setDone(1);
         
-        $sourcesDir = $this->getParameter('uploads_directory');
-        $this->parseFile($sourcesDir.$source->getFilename());
+        $this->parseFile($this->getParameter('source_directory').$source->getFilename());
 
         return $this->redirect('/admin');
     }
