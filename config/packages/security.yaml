@@ -35,7 +35,7 @@ security:
   access_control:
     # ADMIN Access
     - { path: ^/admin, roles: ROLE_ADMIN }
-    - { path: ^/build_admin, roles: ROLE_ADMIN }
+    - { path: ^/private, roles: ROLE_ADMIN }
     - { path: ^/generation, roles: ROLE_ADMIN }
     - { path: ^/fetch, roles: ROLE_ADMIN }
     - { path: ^/check, roles: ROLE_ADMIN }

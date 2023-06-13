@@ -28,7 +28,7 @@ webpack_encore:
   # {{ encore_entry_script_tags('entry1', null, 'frontend') }}
   builds:
     mainConfig: '%kernel.project_dir%/public/build'
-    adminConfig: '%kernel.project_dir%/build_admin'
+    adminConfig: '%kernel.project_dir%/private/build'
 
   # frontend: '%kernel.project_dir%/public/frontend/build'
 
@@ -42,7 +42,7 @@ framework:
       mainConfig:
         json_manifest_path: '%kernel.project_dir%/public/build/manifest.json'
       adminConfig:
-        json_manifest_path: '%kernel.project_dir%/build_admin/manifest.json'
+        json_manifest_path: '%kernel.project_dir%/private/build/manifest.json'
 #when@prod:
 #    webpack_encore:
 #        # Cache the entrypoints.json (rebuild Symfony's cache when entrypoints.json changes)

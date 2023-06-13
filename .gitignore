@@ -13,7 +13,8 @@
 /node_modules/
 /public/assets/build/
 /public/build/
-/build_admin/
+/private/build/
+/private/source/
 npm-debug.log
 yarn-error.log
 ### webpack ###

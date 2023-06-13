@@ -162,9 +162,9 @@ class DashboardController extends AbstractDashboardController
 
     }
 
-    #[Route('/build_admin/{file}', name: 'build_admin')]
+    #[Route('/private/build/{file}', name: 'private/build')]
     public function publicAdmin($rootDirectory, $file) {
-        $path = $rootDirectory.'build_admin/'.$file;
+        $path = $rootDirectory.'private/build/'.$file;
         if(file_exists($path)) {
             $contentType = mime_content_type($path);
             $content = $this->dataService->getFile($path);
