@@ -6,7 +6,7 @@
     <div class="pin-page">
         <div class="pin-page-img">
             {% if item.loc.image|default(null) %}
-            <img src="{{ item.loc.image }}">
+                <img src="{{ item.loc.image }}">
             {% else %}
             <img src="/assets/default.png">
             {% endif %}
@@ -14,40 +14,55 @@
         </div>
         <div>
             {% if app.user %}
-            <p class="pin-page-title">{{ item.loc.name }}</p>
-            {% endif %}
-            {% if item.loc.type %}
-            <p class="pin-type">
-                <span class="pin-type-icon"><i class="fa-solid {{ item.loc.type.icon }}"></i></span>
-                <span class="pin-type-text">{{ item.loc.type }}</span>
-            </p>
-            {% else %}
-            <p class="pin-type">
-                <span class="pin-type-icon"><i class="fa-solid fa-map-pin"></i></span>
-                <span class="pin-type-text">other</span>
-            </p>
-            {% endif %}
-            {% if item.loc.ai == 1 %}<div class="aigenerated"><i class="fa-solid fa-robot"></i> Ai Generated Image</div>{% endif %}
-            {% if item.loc.comments|default(null) %}
-            <div class="pin-warning">
-            <p><i class="fa-solid fa-triangle-exclamation"></i> : {{ item.loc.comments}}</p>
-            </div>
-            {% endif %}
-            {% if item.loc.done|default(null) %}
-            <div class="pin-done">
-            <p><i class="fas fa-check-square"></i> : This location has been done </p>
-            </div>
+                <p class="pin-page-title">{{ item.loc.name }}</p>
             {% endif %}
 
-            <p class="pin-action">
+            {% if item.loc.type %}
+                <p class="pin-type">
+                    <span class="pin-type-icon"><i class="fa-solid {{ item.loc.type.icon }}"></i></span>
+                    <span class="pin-type-text">{{ item.loc.type }}</span>
+                </p>
+            {% else %}
+                <p class="pin-type">
+                    <span class="pin-type-icon"><i class="fa-solid fa-map-pin"></i></span>
+                    <span class="pin-type-text">other</span>
+                </p>
+            {% endif %}
+
+            {% if item.loc.ai == 1 %}
+                <div class="aigenerated"><i class="fa-solid fa-robot"></i> Ai Generated Image</div>
+            {% endif %}
+
+            {% if item.loc.comments|default(null) %}
+                <div class="pin-warning">
+                    <p><i class="fa-solid fa-triangle-exclamation"></i> : {{ item.loc.comments}}</p>
+                </div>
+            {% endif %}
+
+            {% if item.loc.done|default(null) %}
+                <div class="pin-done">
+                    <p><i class="fas fa-check-square"></i> : This location has been done </p>
+                </div>
+            {% endif %}
+
+            <div class="pin-action">
                  <a class="" target="blank" href="https://waze.com/ul?q={{ item.loc.lat }},{{ item.loc.lon }}&navigate=yes&zoom=17'"><i class="fa-brands fa-waze"></i></a>
                 <a class="pin-map" target="blank" href="https://www.google.com/maps?t=k&q={{ item.loc.lat }},{{ item.loc.lon }}"><i class="fa-solid fa-earth-europe"></i></a>
                 {% if app.user %}
-                {% if 'ROLE_ADMIN' in app.user.roles %}
-                    <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                    {% if (item.loc.user and app.user.id == item.loc.user.id) or ('ROLE_ADMIN' in app.user.roles) %}
+                        {% if item.loc.user and app.user.id == item.loc.user.id %}
+                            <a href="{{ path('app_location_edit', {'key': hashLoc(item.loc.id)}) }}">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        {% elseif 'ROLE_ADMIN' in app.user.roles %}
+                            <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        {% endif %}
+                        {% include 'location/_delete_form.html.twig' %}
+                    {% endif %}
                 {% endif %}
-                {% endif %}
-            </p>
+            </div>
         </div>
     </div>
 {% endblock %}

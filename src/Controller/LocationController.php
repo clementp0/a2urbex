@@ -90,9 +90,7 @@ class LocationController extends AppController
             $entityManager->persist($location);
             $entityManager->flush();
     
-            return $this->redirectToRoute('new_location', [
-                'id' => $location->getId()
-            ]);
+            return $this->redirectToRoute('new_location');
         }
 
         return $this->getForUserLocationPage($request, $paginator, $location, $form);
@@ -148,6 +146,7 @@ class LocationController extends AppController
     public function delete_location(Request $request, $key): Response
     {
         $location = $this->getLocationFromKey($key, true);
+        $referer = $request->headers->get('referer');
 
         if($this->isOwned($location) && $this->isCsrfTokenValid('delete'.$location->getId(), $request->request->get('_token'))) {
             $image = $location->getImage();
@@ -155,8 +154,10 @@ class LocationController extends AppController
                 unlink($this->getParameter('public_directory').$image);
             }
             $this->locationRepository->remove($location);
+
+            if(strpos($referer, $key) !== false) return $this->redirectToRoute('new_location');
         }
-        $referer = $request->headers->get('referer');
+
         return $this->redirect($referer);
     }
 
