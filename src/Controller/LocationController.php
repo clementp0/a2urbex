@@ -51,24 +51,18 @@ class LocationController extends AppController
             $request->query->getInt('page', 1),
             50
         );
-        $totalResults = $locationData->getTotalItemCount();
         
         $user = $this->getUser();
         $userOnlineService->addUser($user);
-        $onlineUsers = $userOnlineService->getOnlineUsers();
-        $onlineExplorers = $userOnlineService->getOnlineExplorers();
 
         return $this->render('location/index.html.twig', [
             'websocket' => $_ENV["WEBSOCKET_URL"],
-            'websocket_token' => $websocketService->getToken($this->getUser()),
-            'user' => $this->getUser(),
-            'user_role' => $this->getUser()->getRoles(),
-            'user_id' => $this->getUser()->getId(),
+            'websocket_token' => $websocketService->getToken($user),
             'locations' => $locationData,
             'search_form' => $form->createView(),
-            'total_result' => $totalResults,
-            'onlineUsers' => $onlineUsers,
-            'onlineExplorers' => $onlineExplorers,
+            'total_result' => $locationData->getTotalItemCount(),
+            'friends' => $userOnlineService->getFriends($user),
+            'explorers' => $userOnlineService->getExplorers()
         ]);
     }
 

@@ -1,91 +1,25 @@
-<div
-	class="online_section">
-
-	{# ONLINE USERS :  #}
-	<p class="online_title">
-		<i class="fa-solid fa-user"></i>
-		Online Friends
-	</p>
+<div class="online_section">
+	{# ONLINE FRIENDS :  #}
+	<p class="online_title"><i class="fa-solid fa-user"></i> Online Friends</p>
 	<div class="online">
-
-		{% for user in onlineUsers %}
-			{% if user.status is not defined %}
-				<a href="{{ path('app_user', {'key': hashUsr(user.id)}) }}">
-					<div class="useractive" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
-					{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
-				</a>
-			{% endif %}
-		{% endfor %}
-
-		{# AWAY USERS :  #}
-		{% for user in onlineUsers %}
-			{% if user.status is defined %}
-				{% if user.status == "away" %}
-					<a href="{{ path('app_user', {'key': hashUsr(user.id)}) }}">
-						<div class="useractive away" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
-						{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
-						<span class="ago">{{ user.active }}</span>
-					</a>
-				{% endif %}
-			{% endif %}
+		{% for user in friends.online %}
+			{% include 'security/_online_row.html.twig' with {'user': user} %}
 		{% endfor %}
 	</div>
 
-	{# OFFLINE USERS :  #}
-	<p class="online_title">
-		<i class="fa-solid fa-user"></i>
-		Offline Friends
-	</p>
+	{# OFFLINE FRIENDS :  #}
+	<p class="online_title"><i class="fa-solid fa-user"></i> Offline Friends</p>
 	<div class="online">
-		{% for user in onlineUsers %}
-			{% if user.status is defined %}
-				{% if user.status == "offline" %}
-					<a href="{{ path('app_user', {'key': hashUsr(user.id)}) }}">
-						<div class="useractive offline" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
-						{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
-						<span class="ago">{{ user.active }}</span>
-					</a>
-				{% endif %}
-			{% endif %}
+		{% for user in friends.offline %}
+			{% include 'security/_online_row.html.twig' with {'user': user} %}
 		{% endfor %}
 	</div>
-
 
 	{# EXPLORERS : #}
-	<p class="online_title">
-		<i class="fa-solid fa-user"></i>
-		Explorers ({{ onlineExplorers|length }})
-	</p>
+	<p class="online_title"><i class="fa-solid fa-user"></i> Explorers ({{ explorers|length }})</p>
 	<div class="online">
-		{% for user in onlineUsers %}
-			{% if user.status is not defined %}
-				<a href="{{ path('app_user', {'key': hashUsr(user.id)}) }}">
-					<div class="useractive" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
-                    {{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
-				</a>
-			{% endif %}
-		{% endfor %}
-		{% for user in onlineExplorers %}
-			{% if user.status is defined %}
-				{% if user.status == "away" %}
-					<a href="{{ path('app_user', {'key': hashUsr(user.id)}) }}">
-                        <div class="useractive away" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
-						{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
-						<span class="ago">{{ user.active }}</span>
-					</a>
-				{% endif %}
-			{% endif %}
-		{% endfor %}
-		{% for user in onlineExplorers %}
-			{% if user.status is defined %}
-				{% if user.status == "offline" %}
-					<a href="{{ path('app_user', {'key': hashUsr(user.id)}) }}">
-                    <div class="useractive offline" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
-						{{ user.firstname }}<span class="user_id_in_name">#{{ user.id }}</span>
-						<span class="ago">{{ user.active }}</span>
-					</a>
-				{% endif %}
-			{% endif %}
+		{% for user in explorers %}
+			{% include 'security/_online_row.html.twig' with {'user': user} %}
 		{% endfor %}
 	</div>
 </div>

@@ -127,4 +127,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         return $q->setMaxResults(10)->getQuery()->getResult();
     }
+
+    public function findUsers($user = null, $friends = false) {
+        $qb = $this->createQueryBuilder('u')->orderBy('u.lastActiveAt', 'DESC');
+
+        if($user && $friends) {
+            $users = [$user->getId()];
+            $f = $this->friendRepository->findFriendForSearch($user->getId());
+            if($f) foreach($f as $item) $users[] = $item['id'];
+
+            $qb->andWhere('u.id IN ('.implode(', ', $users).')');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

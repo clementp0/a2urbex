@@ -11,7 +11,7 @@
         </a>
         <p class="pin-results">Displaying <b>{{ total_result }}</b> result{{ total_result > 1 ? 's' : '' }}</p>
 
-        {% if onlineUsers is defined %}
+        {% if explorers is defined %}
             {{ include('security/online.html.twig') }}
         {% endif %}
     </div>
