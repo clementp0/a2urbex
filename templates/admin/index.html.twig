@@ -112,20 +112,21 @@
 		</div>
 
 		<div class="line">
-			<a class="btn btn-success" href="{{ path('upload')}}">Import File</a>
-			<a class="btn btn-primary run-source" href="#">Run</a>
-			<a class="btn btn-danger delete-source" href="#">Delete</a>
+			<a class="btn btn-success" href="{{ path('source_upload')}}">Import File</a>
+			<a class="btn btn-primary source-run" data-href="{{ path('source_run', {id: 0})}}">Run</a>
+			<a class="btn btn-danger source-delete" data-href="{{ path('source_delete', {id: 0})}}">Delete</a>
 		</div>
 	</div>
 
 	<div class="right">
 		<div class="line sm">
-			<p>Sources ({{upload_count}}) :</p>
+			<p>Sources ({{source_count}}) :</p>
 		</div>
 
 		<div class="line">
-			<select class="output uploads">
-				{% for item in uploads %}
+			<select class="output sources">
+				<option disabled selected value="0">Select a source</option>
+				{% for item in sources %}
 					<option value="{{item.id}}">{{item.Name}}</option>
 				{% endfor %}
 			</select>

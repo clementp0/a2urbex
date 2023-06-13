@@ -18,20 +18,22 @@ $(() => {
   $('head').append(meta)
 
   // import / run / delete source file
-  $('.delete-source').on('click', function () {
-    const target_name = $('.output.uploads :selected').text()
-
-    if (confirm('Delete source ' + target_name + ' source ?'))
-      $('.delete-source').attr('href', 'delete/' + target_name)
+  $('.source-run').on('click', function () {
+    source($(this), 'Run')
+  })
+  $('.source-delete').on('click', function () {
+    source($(this), 'Delete')
   })
 
-  $('.run-source').on('click', function () {
-    const target_name = $('.output.uploads :selected').text()
-    const target_id = $('.output.uploads :selected').val()
+  function source(item, type = 'Run') {
+    const targetName = $('.output.sources :selected').text()
+    const targetId = $('.output.sources :selected').val()
+    const url = item.data('href').replace('/0/', '/' + targetId + '/')
 
-    if (confirm('Run source ' + target_name + ' ?'))
-      $('.run-source').attr('href', 'import/' + target_id)
-  })
+    if (targetId === '0') return alert('Select a source')
+
+    if (confirm(type + ' source ' + targetName + ' source ?')) item.attr('href', url)
+  }
 
   // websocket
   if (typeof websocketUrl !== 'undefined' && typeof websocketToken !== 'undefined') {

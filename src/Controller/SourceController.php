@@ -4,13 +4,22 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Persistence\ManagerRegistry;
+
+use App\Entity\Upload;
+use App\Form\UploadType;
+use App\Repository\UploadRepository;
 
 use App\Entity\Location;
 use App\Repository\LocationRepository;
-use App\Repository\UploadRepository;
 use App\Service\LocationService;
 
-class ImportController extends AppController
+
+class SourceController extends AppController
 {
     public function __construct(LocationRepository $locationRepository, LocationService $locationService) {
         $this->locationRepository = $locationRepository;
@@ -19,8 +28,68 @@ class ImportController extends AppController
         $this->source = '';
     }
 
-    #[Route('/import/{id}', name: 'app_import')]
-    public function import($id, UploadRepository $uploadRepository): Response {
+    #[Route('/source/upload', name: 'source_upload', methods: ['GET', 'POST'])]
+    public function new(Request $request, SluggerInterface $slugger, UploadRepository $uploadRepository)
+    {
+        $upload = new Upload();
+        $form = $this->createForm(UploadType::class, $upload);
+        $form->handleRequest($request);
+        $status = 'Waiting for data...';
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $Filename */
+            $Filename = $form->get('upload')->getData();
+            if ($Filename) {
+                $originalFilename = pathinfo($Filename->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$Filename->guessExtension();
+                
+                try {
+                    $Filename->move(
+                        $this->getParameter('uploads_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {}
+
+                $this->uploadRepository = $uploadRepository;
+                $upload->setFilename($newFilename);
+                $upload->setName($safeFilename);
+                $upload->setDate(new \DateTime());
+                $this->uploadRepository->save($upload, true);
+                $status = 'Uploaded successfully';
+            }
+            
+        }
+        return $this->renderForm('source/index.html.twig', [
+            'form' => $form,
+            'status' => $status,
+        ]);
+    }
+
+    #[Route('/source/{id}/delete', name: 'source_delete', methods: ['GET'])]
+    public function delete($id, ManagerRegistry $doctrine, Request $request, UploadRepository $uploadRepository): Response
+    {
+        $upload = $uploadRepository->find($id);
+        $publicDir = $this->getParameter('public_directory');
+
+        if($upload && $upload->getName()) {
+            $removeSources = $this->locationRepository->findBySource($upload->getName());
+            $entityManager = $doctrine->getManager();
+            foreach ($removeSources as $removeSource) {
+                $entityManager->remove($removeSource['loc']);
+
+                $image = $removeSource['loc']->getImage();
+                if(strlen($image) > 4 && file_exists($publicDir.$image)) {
+                    unlink($publicDir.$image);
+                }
+            }
+
+            $entityManager->flush();
+        }
+        return $this->redirect('/admin');
+    }
+
+    #[Route('/source/{id}/run', name: 'source_run')]
+    public function run($id, UploadRepository $uploadRepository): Response {
         $upload = $uploadRepository->find($id);
         $uploadsDir = $this->getParameter('uploads_directory');
         $this->source = $upload->getName();

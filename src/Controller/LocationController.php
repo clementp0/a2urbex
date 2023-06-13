@@ -176,34 +176,6 @@ class LocationController extends AppController
         return $this->redirect('/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId='.$id);
     }
 
-    #[Route('/delete/{source}', name: 'delete_location_source', methods: ['GET'])]
-    public function delete(ManagerRegistry $doctrine, Request $request, UploadRepository $uploadRepository): Response
-    {
-        $publicDir = $this->getParameter('public_directory');
-        $source = $request->get('source');
-
-        if($source) {
-            $removeSources = $this->locationRepository->findBySource($source);
-            $entityManager = $doctrine->getManager();
-            foreach ($removeSources as $removeSource) {
-                $entityManager->remove($removeSource['loc']);
-
-                $image = $removeSource['loc']->getImage();
-                if(strlen($image) > 4 && file_exists($publicDir.$image)) {
-                    unlink($publicDir.$image);
-                }
-            }
-
-            $entityManager->flush();
-        }
-        return $this->redirect('/admin');
-    }
-
-    #[Route('/delete', name: 'delete_location_source_empty', methods: ['GET'])]
-    public function deleteEmpty(){
-        return $this->redirect('/admin');
-    }
-
     private function isOwned($location) {
         $user = $this->security->getUser();        
         if(!$user) return false;

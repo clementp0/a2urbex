@@ -48,7 +48,7 @@ class DashboardController extends AbstractDashboardController
         $pending_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->where('a.pending = 1')->getQuery()->getSingleScalarResult();
         $country_count = $repoCountry->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $type_count = $repoType->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
-        $upload_count = $repoUpload->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $source_count = $repoUpload->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $ai_wainting_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->where('a.image IS NULL')->getQuery()->getSingleScalarResult();
         $ai_count = $repoLocation->createQueryBuilder('a')->where('a.ai = true')->select('count(a.id)')->getQuery()->getSingleScalarResult();
 
@@ -64,7 +64,7 @@ class DashboardController extends AbstractDashboardController
             'pending_count' => $pending_count,
             'country_count' => $country_count,
             'type_count' => $type_count,
-            'upload_count' => $upload_count,
+            'source_count' => $source_count,
             'ai_wainting_count' => $ai_wainting_count,
             'ai_count' => $ai_count,
 
@@ -72,8 +72,8 @@ class DashboardController extends AbstractDashboardController
             'ai_status' => $ai_status,
 
             'current_time' => date("d/m/Y H:i", time()),
+            'sources' => $repoUpload->findAll(),
             'websocket' => $_ENV["WEBSOCKET_URL"],
-            'uploads' => $repoUpload->findAll(),
             'websocket_token' => $this->websocketService->getToken($this->getUser()),
 
             'pinterest' => $this->configRepository->get('pinterest'),

@@ -36,9 +36,6 @@ security:
     # ADMIN Access
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/build_admin, roles: ROLE_ADMIN }
-    - { path: ^/upload, roles: ROLE_ADMIN }
-    - { path: ^/delete, roles: ROLE_ADMIN }
-    - { path: ^/compte, roles: ROLE_ADMIN }
     - { path: ^/generation, roles: ROLE_ADMIN }
     - { path: ^/fetch, roles: ROLE_ADMIN }
     - { path: ^/check, roles: ROLE_ADMIN }
@@ -47,6 +44,7 @@ security:
     - { path: ^/download-database, roles: ROLE_ADMIN }
     - { path: ^/chat/clear/global, roles: ROLE_ADMIN }
     - { path: ^/chat/add/admin, roles: ROLE_ADMIN }
+    - { path: ^/source, roles: ROLE_ADMIN }
 
     # USER Access
     - { path: ^/locations, roles: [ROLE_ADMIN, ROLE_USER] }
