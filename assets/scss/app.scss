@@ -122,33 +122,23 @@ button.btn.delete {
 .import-form {
   text-align: center;
   font-weight: 500;
-  width: 300px;
+  width: 500px;
+  max-width: calc(100% - 20px);
   height: fit-content;
   border: 1px solid #404040;
   background-color: #303030;
   padding: 50px 11px 50px 11px;
   border-radius: 5px;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+  margin: 50px auto;
 
-.import-btn {
-  margin: auto !important;
-  width: 80% !important;
-  height: 40px !important;
-  border: none !important;
-  background-color: #222222 !important;
-  color: #a2a2a2 !important;
-  border-radius: 0px !important;
-}
+  .custom-file {
+    margin: 30px auto;
+    width: 80%;
 
-// upload kml page
-.upload-form-item .custom-file {
-  margin-top: 30px;
-  max-width: 80%;
+    input {
+      width: 100%;
+    }
+  }
 }
 
 // notification

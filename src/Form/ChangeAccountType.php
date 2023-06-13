@@ -37,16 +37,18 @@ class ChangeAccountType extends AbstractType
                 'attr' => ['class' => 'custom-file-banner']
             ])
             ->add('image', FileType::class, [
+                'row_attr' => ['class' => 'custom-file-image-preview'],
                 'label' => 'Image',
-                'label_attr' => ['class' => 'image-label-placeholder'],
+                'label_attr' => ['class' => 'custom-file-label'],
                 'required' => false,
                 'attr' => [
                     'accept' => ".jpg, .jpeg, .png",
                 ],
             ])
             ->add('banner', FileType::class, [
+                'row_attr' => ['class' => 'custom-file-image-preview'],
                 'label' => 'Banner',
-                'label_attr' => ['class' => 'image-label-placeholder'],
+                'label_attr' => ['class' => 'custom-file-label'],
                 'required' => false,
                 'attr' => [
                     'accept' => ".jpg, .jpeg, .png",

@@ -4,6 +4,7 @@ namespace App\Form;
 use App\Entity\Upload;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -14,19 +15,18 @@ class UploadType extends AbstractType
     {
         $builder
             ->add('upload', FileType::class, [
+                'label_attr' => ['class' => 'custom-file-label'],
                 'label' => '(KML/KMZ file)',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
                     new File([
-                        // 'mimeTypes' => [
-                        //     'application/kmz',
-                        //     'application/kml',
-                        // ],
                         'mimeTypesMessage' => 'Please upload a valid KMZ/KML document',
                     ])
                 ],
-            ]);
+            ])
+            ->add('submit', SubmitType::class);
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -1,4 +1,4 @@
-export default class ImageInput {
+export default class CustomInput {
   static init(...args) {
     return new this(...args)
   }
@@ -8,23 +8,24 @@ export default class ImageInput {
     $('.custom-file').each(function () {
       const item = $(this)
       const parent = item.parents('form')
-      const label = item.siblings('label')
 
-      items.push(ImageInput.init(item, parent, label))
+      items.push(CustomInput.init(item, parent))
     })
   }
 
-  constructor(item, parent, label) {
+  constructor(item, parent) {
     this.item = item
     this.parent = parent
-    this.label = label
 
     this.fileSize = null
     this.error = null
     this.preview = null
+
     this.reader = new FileReader()
+    this.label = item.siblings('label')
     this.input = item.find('input')
     this.name = this.label.text()
+    this.isImage = item.parents('.custom-file-image-preview').length
 
     this.default()
     this.triggers()
@@ -33,6 +34,8 @@ export default class ImageInput {
   default() {
     this.fileSize = $('<div>').addClass('file-size')
     this.label.append(this.fileSize)
+
+    if (!this.isImage) return
 
     this.error = $('<div>').addClass('error')
     this.parent.find('> div').prepend(this.error)
@@ -50,6 +53,9 @@ export default class ImageInput {
 
   triggers() {
     this.item.on('change', (e) => this.change(e))
+
+    if (!this.isImage) return
+
     this.reader.onload = (e) => this.image(e)
     this.parent.on('submit', (e) => this.submit(e))
   }
