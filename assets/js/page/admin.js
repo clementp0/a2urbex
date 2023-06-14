@@ -36,9 +36,8 @@ $(() => {
   }
 
   // websocket
-  if (typeof websocketUrl !== 'undefined' && typeof websocketToken !== 'undefined') {
-    const url = websocketUrl + '?' + websocketToken
-    const websocket = WebsocketConnector.init(url, open, close)
+  if (typeof websocketUrl !== 'undefined') {
+    const websocket = WebsocketConnector.init(websocketUrl, open, close)
   }
 
   function open(socket) {

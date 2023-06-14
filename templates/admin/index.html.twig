@@ -186,8 +186,7 @@
 </section>
 
 <script>
-	const websocketUrl = "{{ websocket }}";
-	const websocketToken = "{{ websocket_token }}";
+	const websocketUrl = "{{ websocketUrl() }}";
 	const pinterestUrl = "{{ path('app_fetch_pinterest_async') }}";
 	const chatAddAdminUrl = "{{ path('chat_add_admin') }}";
 </script>

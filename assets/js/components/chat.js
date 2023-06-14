@@ -16,8 +16,7 @@ $(() => {
     })
 
     // websocket
-    const url = websocketUrl + '?' + websocketToken
-    const websocket = WebsocketConnector.init(url, open)
+    const websocket = WebsocketConnector.init(websocketUrl, open)
 
     function open(socket) {
       socket.subscribe(chatGlobalChannel, newMessage)

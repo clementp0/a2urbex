@@ -56,8 +56,6 @@ class LocationController extends AppController
         $userOnlineService->addUser($user);
 
         return $this->render('location/index.html.twig', [
-            'websocket' => $_ENV["WEBSOCKET_URL"],
-            'websocket_token' => $websocketService->getToken($user),
             'locations' => $locationData,
             'search_form' => $form->createView(),
             'total_result' => $locationData->getTotalItemCount(),

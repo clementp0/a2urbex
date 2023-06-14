@@ -136,7 +136,10 @@
 				<i class="fa-solid fa-envelope"></i>
 			</a>
 		</footer>
-		
+
+		<script>
+			const websocketUrl = "{{ websocketUrl() }}"
+		</script>		
 		{% if app.environment == 'dev' %}
 		<script id="__bs_script__">
 			(function() {

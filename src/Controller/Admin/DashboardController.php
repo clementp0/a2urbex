@@ -73,8 +73,7 @@ class DashboardController extends AbstractDashboardController
 
             'current_time' => date("d/m/Y H:i", time()),
             'sources' => $repoSource->findAll(),
-            'websocket' => $_ENV["WEBSOCKET_URL"],
-            'websocket_token' => $this->websocketService->getToken($this->getUser()),
+            'websocket' => $_ENV["WEBSOCKET_URL"],                  
 
             'pinterest' => $this->configRepository->get('pinterest'),
             'wikimapia' => $this->configRepository->get('wikimapia'),

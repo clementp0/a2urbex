@@ -6,13 +6,17 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Symfony\Component\HttpFoundation\RequestStack;
 use App\Service\HashService;
+use App\Service\WebsocketService;
+use Symfony\Component\Security\Core\Security;
 
 class AppExtension extends AbstractExtension
 {
     public function __construct(
         private RequestStack $requestStack, 
         private $rootDirectory,
-        private HashService $hashService
+        private HashService $hashService,
+        private WebsocketService $websocketService,
+        private Security $security
     ) {}
 
     public function getFunctions()
@@ -25,6 +29,8 @@ class AppExtension extends AbstractExtension
             new TwigFunction('hashLoc', [$this, 'getHashLoc']),
             new TwigFunction('hashFav', [$this, 'getHashFav']),
             new TwigFunction('hashUsr', [$this, 'getHashUsr']),
+            new TwigFunction('hashUsr', [$this, 'getHashUsr']),
+            new TwigFunction('websocketUrl', [$this, 'getWebsocketUrl']),
         ];
     }
 
@@ -70,5 +76,11 @@ class AppExtension extends AbstractExtension
     }
     public function getHashUsr($id) {
         return $this->hashService->encodeUsr($id);
+    }
+
+    public function getWebsocketUrl() {
+        $websocket = $_ENV["WEBSOCKET_URL"];
+        $token = $this->websocketService->getToken($this->security->getUser());
+        return $websocket.($token ? '?'.$token : '');
     }
 }
