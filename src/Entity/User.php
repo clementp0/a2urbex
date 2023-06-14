@@ -35,8 +35,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $lastname = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $ProfilePicture = null;
 
     #[ORM\ManyToMany(targetEntity: Favorite::class, mappedBy: 'users')]
     private Collection $favorites;
@@ -74,7 +72,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $image = null;
 
-    public $imageError;
     public $previousImage;
     public $previousBanner;
 
@@ -219,18 +216,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    public function getProfilePicture(): ?string
-    {
-        return $this->ProfilePicture;
-    }
-
-    public function setProfilePicture(string $ProfilePicture): self
-    {
-        $this->ProfilePicture = $ProfilePicture;
 
         return $this;
     }

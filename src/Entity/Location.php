@@ -66,7 +66,6 @@ class Location
 
     public ?string $lid = null;
 
-    public $imageError;
     public $previousImage;
 
     #[ORM\Column(nullable: true)]
