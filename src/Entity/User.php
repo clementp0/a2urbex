@@ -81,6 +81,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $banner = null;
 
+    #[ORM\ManyToMany(targetEntity: Chat::class, mappedBy: 'users')]
+    private Collection $chats;
+
     // #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, orphanRemoval: true)]
     // private Collection $favorites;
 
@@ -91,6 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->friends = new ArrayCollection();
         $this->friendRequests = new ArrayCollection();
         $this->channels = new ArrayCollection();
+        $this->chats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -542,6 +546,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
     public function removeBanner(): self {
         $this->banner = null;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Chat>
+     */
+    public function getChats(): Collection
+    {
+        return $this->chats;
+    }
+
+    public function addChat(Chat $chat): self
+    {
+        if (!$this->chats->contains($chat)) {
+            $this->chats->add($chat);
+            $chat->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChat(Chat $chat): self
+    {
+        if ($this->chats->removeElement($chat)) {
+            $chat->removeUser($this);
+        }
+
         return $this;
     }
 }

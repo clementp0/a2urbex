@@ -19,7 +19,9 @@ $(() => {
     const websocket = WebsocketConnector.init(websocketUrl, open)
 
     function open(socket) {
-      socket.subscribe(chatGlobalChannel, newMessage)
+      socket.subscribe(chatChannel, newMessage)
+      return
+      socket.subscribe(chatChannel, newMessage)
 
       $.ajax({
         url: chatGetUrl,

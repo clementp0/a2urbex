@@ -32,7 +32,7 @@ class WebsocketServer implements MessageComponentInterface {
         $channel = $data['channel'];
         $message = isset($data['message']) ? $data['message'] : '';
 
-        if(!$this->channelService->hasAccess($channel, $user)) return;
+        if(!$this->channelService->hasAccess($channel, $user)) return; // todo rework
 
         switch ($type) {
             case 'subscribe':

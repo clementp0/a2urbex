@@ -23,7 +23,7 @@ class ChatController extends AppController
 
     #[Route('/chat/add/admin', name: 'chat_add_admin', methods: ['GET', 'POST'])]
     public function addAdminChat(Request $request): Response {
-        $global = $_ENV['CHAT_GLOBAL'];
+        $global = $_ENV['CHAT_CHANNEL_GLOBAL'];
         $messageContent = $request->getContent();
 
         $success = $this->messageService->saveMessage($global, $messageContent, null, true);
@@ -48,7 +48,7 @@ class ChatController extends AppController
     //Clear Chat
     #[Route('/chat/clear/global', name: 'chat_clear_global')]
     public function clearChat() {
-        $global = $_ENV['CHAT_GLOBAL'];
+        $global = $_ENV['CHAT_CHANNEL_GLOBAL'];
         $channel = $this->channelService->get($global);
 
         $this->messageRepository->clearChat($channel->getId());

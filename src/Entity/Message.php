@@ -25,7 +25,7 @@ class Message
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Channel $channel = null;
+    private ?Chat $chat = null;
 
     public function getId(): ?int
     {
@@ -68,14 +68,14 @@ class Message
         return $this;
     }
 
-    public function getChannel(): ?Channel
+    public function getChat(): ?Chat
     {
-        return $this->channel;
+        return $this->chat;
     }
 
-    public function setChannel(?Channel $channel): self
+    public function setChat(?Chat $chat): self
     {
-        $this->channel = $channel;
+        $this->chat = $chat;
 
         return $this;
     }

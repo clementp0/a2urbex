@@ -7,9 +7,9 @@
 		</button>
 	</div>
 	<script>
-		const chatAddUrl = "{{ path('chat_add', {channel: getEnv('CHAT_GLOBAL')}) }}";
-		const chatGetUrl = "{{ path('chat_get', {channel: getEnv('CHAT_GLOBAL')}) }}";
-		const chatGlobalChannel = "{{ getEnv('CHAT_GLOBAL') }}";
+		const chatAddUrl = "{{ path('chat_add', {channel: 0}) }}";
+		const chatGetUrl = "{{ path('chat_get', {channel: 0}) }}";
+		const chatChannel = "{{ getEnv('CHAT_CHANNEL') }}";
 		const currentId = "{{ app.user.id }}";
 	</script>
 {% endblock %}

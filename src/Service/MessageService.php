@@ -35,7 +35,7 @@ class MessageService {
         'channels'
     ];
 
-    public function saveMessage($channelName, $messageContent, $sender = null, $server = false) {
+    public function saveMessage($channelName, $messageContent, $sender = null, $server = false) { // rework
         if($server === false && !$sender) return;
         if($server === false && !$this->channelService->hasAccess($channelName, $sender)) return;
         if(!mb_strlen($messageContent)) return;
@@ -58,7 +58,7 @@ class MessageService {
         return true;
     }
 
-    public function getMessages($channelName, $user) {
+    public function getMessages($channelName, $user) { // rework
         if(!$this->channelService->hasAccess($channelName, $user)) return;
 
         $channel = $this->channelService->get($channelName);
