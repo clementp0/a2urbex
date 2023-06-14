@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -18,17 +19,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['chat'])]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(type: 'json')]
+    #[Groups(['chat'])]
     private array $roles = [];
 
     #[ORM\Column(type: 'string')]
     private ?string $password = null;
 
+    #[Groups(['chat'])]
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $firstname = null;
 
@@ -70,6 +74,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $instagram = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['chat'])]
     private ?string $image = null;
 
     public $previousImage;
