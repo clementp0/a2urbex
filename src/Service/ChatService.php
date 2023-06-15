@@ -79,8 +79,8 @@ class ChatService {
     public function getChats($user) {
         $chats = $user->getChats();
         foreach($chats as $k => $chat) {
-            $chat->firstMessage = $chat->getMessages()->first();
-            if(!$chat->firstMessage) {
+            $chat->lastMessage = $chat->getMessages()->last();
+            if(!$chat->lastMessage) {
                 unset($chats[$k]);
                 continue;
             }
@@ -107,6 +107,16 @@ class ChatService {
             }
         }
 
+        $chats = $chats->toArray();
+        usort($chats, [$this, 'sortByDate']);
+        $chats = array_reverse($chats);
+        
         return $this->serialize($chats);
+    }
+
+    private function sortByDate($a, $b) {
+        $dateA = strtotime($a->lastMessage->getDatetime()->format('Y-m-d H:i:s'));
+        $dateB = strtotime($a->lastMessage->getDatetime()->format('Y-m-d H:i:s'));
+        return $dateA - $dateB;
     }
 }

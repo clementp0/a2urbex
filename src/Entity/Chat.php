@@ -35,7 +35,7 @@ class Chat
     private ?bool $multi = null;
 
     #[Groups(['chat'])]
-    public $firstMessage;
+    public $lastMessage;
 
     public function __construct()
     {

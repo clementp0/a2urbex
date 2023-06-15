@@ -69,7 +69,6 @@ class ChatController extends AppController
         if(!$user) return;
 
         return new Response($this->chatService->getChats($user));
-        die;
     }
 
     // get chat name of chat with a user
