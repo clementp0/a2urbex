@@ -40,7 +40,7 @@ class FavoriteController extends AppController
 
         $serializer = $this->container->get('serializer');
         $favorites = $this->favoriteRepository->findByEnabled();
-        $favorites = $serializer->serialize(['favs' => $favorites, 'fids' => $loc['fids']], 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['users', 'locations']]);
+        $favorites = $serializer->serialize(['favs' => $favorites, 'fids' => $loc['fids']], 'json', ['groups' => 'favorite']);
         return new Response($favorites);
     }
 
