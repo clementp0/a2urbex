@@ -18,23 +18,6 @@ class MessageService {
         private WebsocketClient $websocketClient
     ) {}
 
-    private $ignoreList = [
-        'favorites', 
-        'locations', 
-        'friends', 
-        'friendRequests', 
-        'password',
-        'lastname',
-        'salt',
-        'username',
-        'userIdentifier',
-        'email',
-        'lastActiveAt',
-        'websocketToken',
-        'chat',
-        'chats'
-    ];
-
     public function saveMessage($chatName, $messageContent, $sender = null, $server = false) {
         if($server === false && !$this->channelService->hasChatAccess($chatName, $sender)) return;
         if(!mb_strlen($messageContent)) return;
@@ -58,7 +41,7 @@ class MessageService {
         return true;
     }
 
-    public function getMessages($chatName, $user) { // rework
+    public function getMessages($chatName, $user) {
         if(!$this->channelService->hasChatAccess($chatName, $user)) return;
 
         $chat = $this->channelService->getChat($chatName);
