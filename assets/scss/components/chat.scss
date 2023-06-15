@@ -1,11 +1,3 @@
-.first_location {
-  display: none;
-  position: fixed;
-  bottom: 107px;
-  right: 100px;
-  color: white;
-  animation: first-location-move 2s infinite;
-}
 #messenger_dot {
   display: none;
   background-color: #60a5fa;
@@ -23,9 +15,6 @@
 }
 
 .messenger_icon {
-  position: fixed;
-  bottom: 170px;
-  right: 25px;
   background-color: #787878;
   color: #222222;
   width: 50px;
@@ -247,13 +236,13 @@
 
 @keyframes first-location-move {
   0% {
-    transform: translateX(0);
+    transform: translateX(calc(-100% - 20px));
   }
   50% {
-    transform: translateX(10px);
+    transform: translateX(calc(-100% - 10px));
   }
   100% {
-    transform: translateX(0px);
+    transform: translateX(calc(-100% - 20px));
   }
 }
 

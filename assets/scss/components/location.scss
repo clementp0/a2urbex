@@ -1,8 +1,5 @@
 // float map button
 .map-link {
-  position: fixed;
-  bottom: 50px;
-  right: 25px;
   background-color: #303030;
   width: 50px;
   height: 50px;
@@ -13,11 +10,24 @@
   font-size: 20px;
 }
 
+// new location arrow to indicate how to create new location
+.first-location {
+  &.hide {
+    display: none;
+  }
+
+  position: absolute;
+  left: 0;
+  transform: translateX(calc(-100% - 20px));
+  white-space: nowrap;
+  margin: 0;
+  color: white;
+  animation: first-location-move 2s infinite;
+  font-size: 1rem;
+}
+
 // global new location button
 #new-location {
-  position: fixed;
-  bottom: 110px;
-  right: 25px;
   background-color: #60a5fa;
   color: #222222;
   width: 50px;

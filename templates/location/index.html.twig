@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Location index
-{% endblock %}
+{% block title %}Location index{% endblock %}
 
 {% block content %}
 	<div class="pin-wrapper has-sidebar">
@@ -10,30 +9,12 @@
 			{% include 'location/list.html.twig' %}
 		</div>
 	</div>
+{% endblock %}
 
-	<div class="messenger_icon">
-		<div id="messenger_dot"></div>
-		<i class="fa-solid fa-comment"></i>
-	</div>
-
-	<p class="first_location">Add a new pin!
-		<i class="fa-solid fa-arrow-right"></i>
-	</p>
-
+{% block action %}
 	<a href="{{ path('new_location') }}" id="new-location" class="new-link">
+		<p class="first-location {% if locations|length %}hide{% endif %}">Add a new pin! <i class="fa-solid fa-arrow-right"></i></p>
 		<i class="fa-solid fa-plus"></i>
 	</a>
-
-	<a href="{{ path('app_map_filter') }}" id="map-filter" class="map-link">
-		<i class="fa-solid fa-map-location-dot"></i>
-	</a>
-
-	<div class="messenger">
-		<p class="messenger_title"> <i class="fa-solid fa-earth-europe"></i> General Chat</p>
-		<div class="messenger_close">
-			<i class="fa-solid fa-xmark"></i>
-		</div>
-
-		{% include 'websocket/index.html.twig' %}
-	</div>
+	<a href="{{ path('app_map_filter') }}" id="map-filter" class="map-link"><i class="fa-solid fa-map-location-dot"></i></a>
 {% endblock %}

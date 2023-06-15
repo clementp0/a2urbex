@@ -190,6 +190,15 @@ button.btn.delete {
   }
 }
 
+#bottom-right-action {
+  position: fixed;
+  right: 25px;
+  bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
 @media (max-width: 768px) {
   footer {
     .contact_desktop {
