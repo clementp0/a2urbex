@@ -43,7 +43,7 @@ class WebsocketService {
     }
 
     private function generateToken() {
-        return UUid::v4()->toBase32();
+        return Uuid::v4()->toBase32();
     }
 
     public function getServerToken() {
