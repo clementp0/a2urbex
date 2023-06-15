@@ -128,7 +128,7 @@ class FavoriteController extends AppController
                 $fav->setName($name)->addUser($this->getUser())->addLocation($location);
                 $this->favoriteRepository->save($fav, true);
             }
-            $fids = $this->locationRepository->findById($lid)['fids'];
+            $fids = $this->locationRepository->findById($locid)['fids'];
         }
         
         echo json_encode(['success' => $success, 'fids' => $fids]);exit();

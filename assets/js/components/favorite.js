@@ -6,7 +6,6 @@ export default class FavoritePopup {
     this.element = $(selector)
     this.button = this.element.find('.pin-fav')
     this.popup = this.element.find('.pin-fav-add')
-    this.id = this.element.attr('data-id')
 
     this.triggers()
   }
@@ -19,14 +18,19 @@ export default class FavoritePopup {
     this.element.find('.pin-fav-add-new-confirm').on('click', (e) => this.addNew(e))
   }
 
+  getId() {
+    return this.element.attr('data-id')
+  }
+
   open(e) {
     e.preventDefault()
+    const id = this.getId()
 
     $.ajax({
       url: this.button.attr('href'),
       method: 'POST',
       dataType: 'json',
-      data: { lid: this.id },
+      data: { lid: id },
     })
       .done((json) => {
         if (json) {
@@ -38,7 +42,7 @@ export default class FavoritePopup {
               : null
 
           json.favs.forEach((item) => {
-            let cid = 'fav_' + this.id + '_' + item.fav.id
+            let cid = 'fav_' + id + '_' + item.fav.id
             let line = $('<div>').addClass('form-check')
             let input = $(
               '<input type="checkbox" class="form-check-input pin-fav-item" value="' +
@@ -84,7 +88,7 @@ export default class FavoritePopup {
       method: 'POST',
       dataType: 'json',
       data: {
-        lid: this.id,
+        lid: this.getId(),
         fid: current.val(),
         checked: current.prop('checked') ? 1 : 0,
       },
@@ -120,7 +124,7 @@ export default class FavoritePopup {
         url: this.element.data('url'),
         method: 'POST',
         dataType: 'json',
-        data: { lid: this.id, name },
+        data: { lid: this.getId(), name },
       })
         .done((json) => {
           if (json.success) {
