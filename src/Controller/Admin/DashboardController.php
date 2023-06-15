@@ -20,7 +20,6 @@ use App\Entity\CategoryOption;
 use App\Entity\Source;
 use App\Repository\LocationRepository;
 use App\Repository\MessageRepository;
-use App\Service\MessageService;
 use App\Service\DataService;
 use App\Repository\ConfigRepository;
 use Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension;

@@ -45,13 +45,13 @@ class ChatController extends AppController
         return new Response($this->messageService->getMessages($channel, $user));
     }
 
-    //Clear Chat
+    // Clear Chat 
     #[Route('/chat/clear/global', name: 'chat_clear_global')]
-    public function clearChat() {
+    public function clearChat() { // rework
         $global = $_ENV['CHAT_CHANNEL_GLOBAL'];
-        $channel = $this->channelService->get($global);
+        $chat = $this->channelService->getChat($global);
 
-        $this->messageRepository->clearChat($channel->getId());
+        $this->messageRepository->clearChat($chat->getId());
         $this->messageService->saveMessage($global, 'WELCOME TO A2URBEX', null, true);
         return $this->redirect('/admin');
     }

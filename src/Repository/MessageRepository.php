@@ -39,8 +39,8 @@ class MessageRepository extends ServiceEntityRepository
         }
     }
 
-    public function clearChat($channel) {
-        return $this->getEntityManager()->createQuery('DELETE FROM App\Entity\Message m WHERE m.channel = '.$channel)->execute();
+    public function clearChat($chat) {
+        return $this->getEntityManager()->createQuery('DELETE FROM App\Entity\Message m WHERE m.chat = '.$chat)->execute();
     }
 
    public function getChat($channel): array {
