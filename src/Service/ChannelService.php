@@ -6,7 +6,10 @@ use App\Repository\ChannelRepository;
 use App\Repository\ChatRepository;
 
 class ChannelService {
-    public function __construct(private ChannelRepository $channelRepository) {}
+    public function __construct(
+        private ChannelRepository $channelRepository,
+        private ChatRepository $chatRepository,
+    ) {}
 
     public function hasAccess($channelName, $user = null) {
         $channel = $this->get($channelName);

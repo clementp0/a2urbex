@@ -13,18 +13,21 @@ class WebsocketClient {
         $this->url = $_ENV['WEBSOCKET_URL'].'?'.$websocketService->getServerToken();
     }
 
-    public function sendEvent($channel, $value) {
+    public function sendEvent($channel, $value, $chat = null) {
         $loop = Factory::create();
         $reactConnector = new \React\Socket\Connector($loop, ['tls' => ['allow_self_signed' => true, 'verify_peer' => false, 'verify_peer_name' => false]]);
         $connector = new Connector($loop, $reactConnector);
 
         $connector($this->url, [], ['Origin' => 'http://localhost'])
-            ->then(function (WebSocket $conn) use ($channel, $value) {
-                $conn->send(json_encode([
+            ->then(function (WebSocket $conn) use ($channel, $value, $chat) {
+                $object = [
                     'type' => 'publish',
                     'channel' => $channel,
                     'message' => $value
-                ]));
+                ];
+                if($chat !== null) $object['chat'] = $chat;
+
+                $conn->send(json_encode($object));
                 $conn->close();
             }, function (Exception $e) use ($loop) {
                 echo "Could not connect: {$e->getMessage()}\n";

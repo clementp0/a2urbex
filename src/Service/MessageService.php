@@ -31,50 +31,42 @@ class MessageService {
         'email',
         'lastActiveAt',
         'websocketToken',
-        'channel',
-        'channels'
+        'chat',
+        'chats'
     ];
 
-    public function saveMessage($channelName, $messageContent, $sender = null, $server = false) { // rework
-        if($server === false && !$sender) return;
-        if($server === false && !$this->channelService->hasAccess($channelName, $sender)) return;
+    public function saveMessage($chatName, $messageContent, $sender = null, $server = false) {
+        if($server === false && !$this->channelService->hasChatAccess($chatName, $sender)) return;
         if(!mb_strlen($messageContent)) return;
         
-        $channel = $this->channelService->get($channelName);
-
+        $chat = $this->channelService->getChat($chatName);
+        
         $message = new Message();
         $message
-            ->setChannel($channel)
+            ->setChat($chat)
             ->setMessage($messageContent)
             ->setDateTime(new \DateTime('@'.strtotime('now')))
         ;
         if($sender) $message->setSender($sender);
-
+        
         $this->messageRepository->save($message, true);
 
         $json = $this->serialize($message);
-        $this->websocketClient->sendEvent($channelName, $json);
+        $chatChannel = $_ENV['CHAT_CHANNEL'];
+        $this->websocketClient->sendEvent($chatChannel, $json, $chatName);
 
         return true;
     }
 
-    public function getMessages($channelName, $user) { // rework
-        if(!$this->channelService->hasAccess($channelName, $user)) return;
+    public function getMessages($chatName, $user) { // rework
+        if(!$this->channelService->hasChatAccess($chatName, $user)) return;
 
-        $channel = $this->channelService->get($channelName);
-        $messages = $this->messageRepository->getChat($channel);
+        $chat = $this->channelService->getChat($chatName);
 
-        return $this->serialize($messages);
+        return $this->serialize($chat->getMessages());
     }
 
     private function serialize($data) {
-        return $this->serializer->serialize(
-            $data, 
-            'json', 
-            [
-                'circular_reference_handler' => function ($object) {return $object->getId(); },
-                AbstractNormalizer::IGNORED_ATTRIBUTES => $this->ignoreList
-            ]
-        );
+        return $this->serializer->serialize($data, 'json', ['groups' => ['chat']]);
     }
 }
