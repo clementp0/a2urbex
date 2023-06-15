@@ -29,10 +29,12 @@ class WebsocketServer implements MessageComponentInterface {
 
         $data = json_decode($message, true);
         $type = $data['type'];
+        $message = isset($data['message']) ? $data['message'] : null;
         $channel = $data['channel'];
-        $message = isset($data['message']) ? $data['message'] : '';
+        $chat = isset($data['chat']) ? $data['chat'] : null;
 
-        if(!$this->channelService->hasAccess($channel, $user)) return; // todo rework
+        if($chat && !$this->channelService->hasChatAccess($chat, $user)) return;
+        elseif(!$this->channelService->hasAccess($channel, $user)) return;
 
         switch ($type) {
             case 'subscribe':
@@ -44,13 +46,15 @@ class WebsocketServer implements MessageComponentInterface {
                 break;
 
             case 'publish':
-                if($message && mb_strlen($message)) {
-                    $messageData = [
-                        'channel' => $channel,
-                        'content' => $message
-                    ];
-                    $this->publish($channel, json_encode($messageData));
-                }
+                if(!$message || !mb_strlen($message)) break;
+
+                $messageData = [
+                    'channel' => $channel,
+                    'content' => $message
+                ];
+                if($chat) $messageData['chat'] = $chat;
+
+                $this->publish($channel, json_encode($messageData), $chat);
                 break;
         }
     }
@@ -73,9 +77,13 @@ class WebsocketServer implements MessageComponentInterface {
         }
     }
 
-    protected function publish($channelName, $message) {
+    protected function publish($channelName, $message, $chat) {
         if (isset($this->channels[$channelName])) {
             foreach ($this->channels[$channelName] as $connection) {
+                $token = $connection->httpRequest->getUri()->getQuery();
+                $user = $this->websocketService->getUser($token);
+                if($chat && !$this->channelService->hasChatAccess($chat, $user)) continue;
+                
                 $connection->send($message);
             }
         }
