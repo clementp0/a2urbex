@@ -9,13 +9,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use App\Repository\MessageRepository;
 use App\Repository\UserRepository;
-use App\Service\MessageService;
+use App\Service\ChatService;
 use App\Service\ChannelService;
 
 class ChatController extends AppController
 {
     public function __construct(
-        private MessageService $messageService, 
+        private ChatService $chatService, 
         private MessageRepository $messageRepository, 
         private UserRepository $userRepository,
         private ChannelService $channelService, 
@@ -26,7 +26,7 @@ class ChatController extends AppController
         $global = $_ENV['CHAT_CHANNEL_GLOBAL'];
         $messageContent = $request->getContent();
 
-        $success = $this->messageService->saveMessage($global, $messageContent, null, true);
+        $success = $this->chatService->saveMessage($global, $messageContent, null, true);
         return $this->chatReturn($success);
     }
 
@@ -34,7 +34,7 @@ class ChatController extends AppController
     public function addChat($channel, Request $request): Response {
         $user = $this->getUser();
         $messageContent = $request->getContent();
-        $success = $this->messageService->saveMessage($channel, $messageContent, $user);
+        $success = $this->chatService->saveMessage($channel, $messageContent, $user);
 
         return $this->chatReturn($success);
     }
@@ -42,7 +42,7 @@ class ChatController extends AppController
     #[Route('/chat/get/{channel}', name: 'chat_get', methods: ['GET', 'POST'])]
     public function getChat($channel): Response {
         $user = $this->getUser();
-        return new Response($this->messageService->getMessages($channel, $user));
+        return new Response($this->chatService->getMessages($channel, $user));
     }
 
     // Clear Chat 
@@ -52,7 +52,7 @@ class ChatController extends AppController
         $chat = $this->channelService->getChat($global);
 
         $this->messageRepository->clearChat($chat->getId());
-        $this->messageService->saveMessage($global, 'WELCOME TO A2URBEX', null, true);
+        $this->chatService->saveMessage($global, 'WELCOME TO A2URBEX', null, true);
         return $this->redirect('/admin');
     }
 

@@ -10,7 +10,7 @@ use App\Entity\Message;
 use App\Service\ChannelService;
 use App\Websocket\WebsocketClient;
 
-class MessageService {
+class ChatService {
     public function __construct(
         private MessageRepository $messageRepository,
         private SerializerInterface $serializer,
