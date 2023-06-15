@@ -39,28 +39,17 @@ class ChatRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Chat[] Returns an array of Chat objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Chat
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findOneBy2User($user1, $user2) {
+        return $this->createQueryBuilder('c')
+            ->join('c.users', 'u1')
+            ->join('c.users', 'u2')
+            ->andWhere('u1.id = :user1')
+            ->andWhere('u2.id = :user2')
+            ->andWhere('c.multi IS NULL OR c.multi = false')
+            ->setParameter('user1', $user1->getId())
+            ->setParameter('user2', $user2->getId())
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

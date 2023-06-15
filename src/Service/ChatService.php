@@ -57,15 +57,56 @@ class ChatService {
         return $this->serializer->serialize($data, 'json', ['groups' => ['chat']]);
     }
 
-    public function createChat($users) {
+    public function createChat($users, $multi = false) {
         $chatName = Uuid::v4()->toBase32();
 
         $chat = new Chat();
         $chat->setName($chatName);
         foreach($users as $user) $chat->addUser($user);
+        if($multi === true || count($users) > 2) $chat->setMulti(true);
 
         $this->chatRepository->save($chat, true);
 
         return $chatName;
+    }
+
+    public function getUserChat($user1, $user2) {
+        $chat = $this->chatRepository->findOneBy2User($user1, $user2);
+        if(!$chat) return $this->createChat([$user1, $user2]);
+        else return $chat->getName();
+    }
+
+    public function getChats($user) {
+        $chats = $user->getChats();
+        foreach($chats as $k => $chat) {
+            $chat->firstMessage = $chat->getMessages()->first();
+            if(!$chat->firstMessage) {
+                unset($chats[$k]);
+                continue;
+            }
+
+            if(!$chat->getTitle()) {
+                $title = '';
+                if($chat->getUsers()->count() === 2) {
+                    foreach($chat->getUsers() as $u) {
+                        if($u === $user) {
+                            continue;
+                        } else {
+                            $title = $u->getFirstname().'#'.$u->getId();
+                            break;
+                        }
+                    }
+                } else {
+                    $names = [];
+                    foreach($chat->getUsers() as $u) {
+                        $names[] =  $u->getFirstname();
+                    }
+                    $title = implode(', ', $names);
+                }
+                $chat->setTitle($title);
+            }
+        }
+
+        return $this->serialize($chats);
     }
 }

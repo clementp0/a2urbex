@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Repository\MessageRepository;
+use App\Repository\ChatRepository;
 use App\Repository\UserRepository;
 use App\Service\ChatService;
 use App\Service\ChannelService;
@@ -17,6 +18,7 @@ class ChatController extends AppController
     public function __construct(
         private ChatService $chatService, 
         private MessageRepository $messageRepository, 
+        private ChatRepository $chatRepository, 
         private UserRepository $userRepository,
         private ChannelService $channelService, 
     ) {}
@@ -47,7 +49,7 @@ class ChatController extends AppController
 
     // Clear Chat 
     #[Route('/chat/clear/global', name: 'chat_clear_global')]
-    public function clearChat() { // rework
+    public function clearChat() {
         $global = $_ENV['CHAT_CHANNEL_GLOBAL'];
         $chat = $this->channelService->getChat($global);
 
@@ -58,5 +60,26 @@ class ChatController extends AppController
 
     private function chatReturn($success) {
         return new JsonResponse(['success' => $success ? true : false]);
+    }
+
+    // get all user chats
+    #[Route('/chat/get')]
+    public function getUserChats() {
+        $user = $this->getUser();
+        if(!$user) return;
+
+        return new Response($this->chatService->getChats($user));
+        die;
+    }
+
+    // get chat name of chat with a user
+    #[Route('/chat/user/{id}')]
+    public function getChatName($id) {
+        $u1 = $this->getUser();
+        $u2 = $this->userRepository->find($id);
+        if(!$u1 || !$u2 || $u1 === $u2) return new JsonResponse(['name' => '']);
+
+        $name = $this->chatService->getUserChat($u1, $u2);
+        return new JsonResponse(['name' => $name]);
     }
 }

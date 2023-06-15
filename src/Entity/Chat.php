@@ -6,6 +6,7 @@ use App\Repository\ChatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ChatRepository::class)]
 class Chat
@@ -16,13 +17,25 @@ class Chat
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['chat'])]
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'chats')]
+    #[Groups(['chat'])]
     private Collection $users;
 
     #[ORM\OneToMany(mappedBy: 'chat', targetEntity: Message::class, orphanRemoval: true)]
     private Collection $messages;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['chat'])]
+    private ?string $title = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $multi = null;
+
+    #[Groups(['chat'])]
+    public $firstMessage;
 
     public function __construct()
     {
@@ -97,6 +110,30 @@ class Chat
                 $message->setChat(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function isMulti(): ?bool
+    {
+        return $this->multi;
+    }
+
+    public function setMulti(?bool $multi): self
+    {
+        $this->multi = $multi;
 
         return $this;
     }
