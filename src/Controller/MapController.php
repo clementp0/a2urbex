@@ -73,29 +73,10 @@ class MapController extends AppController
     }
 
     private function defaultLocations($locations) {
-        $ignoreList = [
-            'id',
-            'favorites', 
-            'country', 
-            'categoryOptions', 
-            'locations', 
-            'description', 
-            'url', 
-            'pid',
-            '__initializer__', 
-            '__cloner__', 
-            '__isInitialized__',
-            'user'
-        ];
-
-        foreach($locations as $loc) {
-            $loc['loc']->lid = $this->hashService->encodeLoc($loc['loc']->getId());
-        }
-
+        foreach($locations as $loc) $loc['loc']->lid = $this->hashService->encodeLoc($loc['loc']->getId());
+        
         $serializer = $this->container->get('serializer');
-        $locations = $serializer->serialize($locations, 'json', [
-            AbstractNormalizer::IGNORED_ATTRIBUTES => $ignoreList,
-        ]);
+        $locations = $serializer->serialize($locations, 'json', ['groups' => 'map']);
 
         return new Response($locations);
     }

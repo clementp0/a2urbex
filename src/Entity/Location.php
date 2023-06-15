@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: LocationRepository::class)]
 class Location
@@ -23,21 +24,26 @@ class Location
     private ?string $url = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['map'])]
     private ?string $image = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['map'])]
     private ?float $lon = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['map'])]
     private ?float $lat = null;
 
     #[ORM\ManyToOne(inversedBy: 'locations')]
     private ?Country $country = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['map'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'locations')]
+    #[Groups(['map'])]
     private ?Category $category = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
@@ -56,6 +62,7 @@ class Location
     private ?string $source = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['map'])]
     private ?bool $disabled = null;
 
     #[ORM\Column(nullable: true)]
@@ -64,6 +71,7 @@ class Location
     #[ORM\ManyToOne(inversedBy: 'locations')]
     private ?User $user = null;
 
+    #[Groups(['map'])]
     public ?string $lid = null;
 
     public $previousImage;
