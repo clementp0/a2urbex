@@ -5,16 +5,41 @@
 	</div>
 
 	<div class="chat-wrapper">
-		<p class="chat-title"> <i class="fa-solid fa-earth-europe"></i> General Chat</p>
-		<div class="chat-close"><i class="fa-solid fa-xmark"></i></div>
-		
-		<div id="chat" class="custom-scroll"></div>
+		<div class="chat-list">
+			<div class="chat-header">
+				<p class="chat-title"><i class="fa-solid fa-earth-europe"></i> Chats</p>
+				<div class="chat-close"><i class="fa-solid fa-xmark"></i></div>
+			</div>
+			<div class="chat-inner custom-scroll">
+				<div class="item">
+					<div class="item-left">
+						<div class="item-left-image"></div>
+					</div>
+					<div class="item-right">
+						<p class="item-right-title">Global</p>
+						<p class="item-right-message">
+							<span class="item-right-message-text">Comment faire pour obtenir un super rank pour avoir accès à tout</span>
+							<span class="item-right-message-date">10/07</span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
 
-		<div class="form-group message-send">
-			<input type="text" id="message">
-			<button type="button" class="message-btn" id="sendBtn">
-				<i class="fa-solid fa-paper-plane"></i>
-			</button>
+		<div class="chat-messages">
+			<div class="chat-header">
+				<p class="chat-title"><i class="fa-solid fa-earth-europe"></i> General Chat</p>
+				<div class="chat-back"><i class="fa-solid fa-arrow-left"></i></div>
+			</div>
+			
+			<div id="chat" class="custom-scroll"></div>
+
+			<div class="form-group message-send">
+				<input type="text" id="message">
+				<button type="button" class="message-btn" id="sendBtn">
+					<i class="fa-solid fa-paper-plane"></i>
+				</button>
+			</div>
 		</div>
 	</div>
 

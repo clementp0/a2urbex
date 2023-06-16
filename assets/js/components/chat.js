@@ -12,6 +12,13 @@ $(() => {
       chatWrapper.removeClass('show')
     })
 
+    $('.chat-list .item').on('click', () => {
+      $('.chat-messages').addClass('open')
+    })
+    $('.chat-back').on('click', () => {
+      $('.chat-messages').removeClass('open')
+    })
+
     // websocket
     const websocket = WebsocketConnector.init(websocketUrl, open)
 
