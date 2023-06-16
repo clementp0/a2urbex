@@ -1,20 +1,4 @@
-#messenger_dot {
-  display: none;
-  background-color: #60a5fa;
-  width: 15px;
-  height: 15px;
-  border-radius: 10px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  animation: notification-blink 1.3s linear infinite;
-}
-
-.messenger_dot_notification {
-  display: block !important;
-}
-
-.messenger_icon {
+.chat-icon {
   background-color: #787878;
   color: #222222;
   width: 50px;
@@ -25,9 +9,25 @@
   border-radius: 50%;
   font-size: 20px;
   cursor: pointer;
+
+  .chat-dot {
+    display: none;
+    background-color: #60a5fa;
+    width: 15px;
+    height: 15px;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: notification-blink 1.3s linear infinite;
+
+    &.new {
+      display: block;
+    }
+  }
 }
 
-.messenger {
+.chat-wrapper {
   background-color: #303030;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
   background-color: #303030;
@@ -46,7 +46,7 @@
     transform: translateX(0%);
   }
 
-  .messenger_title {
+  .chat-title {
     border: #525252 1px solid;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
@@ -54,7 +54,7 @@
     padding: 10px;
     color: #a2a2a2;
   }
-  .messenger_close {
+  .chat-close {
     position: absolute;
     top: 7px;
     right: 6px;
@@ -70,6 +70,7 @@
     }
   }
 }
+
 #chat {
   flex-grow: 1;
   border-left: #525252 1px solid;
@@ -152,7 +153,7 @@
   }
 }
 
-.message_send {
+.message-send {
   width: 100%;
   margin: 0;
   background-color: #303030;
@@ -172,15 +173,13 @@
     font-size: 13px;
     padding: 4px 4px 4px 8px;
     height: 30px;
+
+    &::focus {
+      outline: none;
+    }
   }
 
-  input:focus {
-    outline: none;
-  }
-  .message_btn:focus {
-    outline: none;
-  }
-  .message_btn {
+  .message-btn {
     background-color: transparent;
     color: #737373;
     border: none;
@@ -189,6 +188,10 @@
     width: 30px;
     height: 30px;
     margin-left: 5px;
+
+    &::focus {
+      outline: none;
+    }
 
     i {
       position: relative;
@@ -218,7 +221,7 @@
 }
 
 @media screen and (max-width: 850px) {
-  .messenger {
+  .chat-wrapper {
     margin: 0%;
     height: calc(100% - 45px);
     position: fixed;
@@ -226,7 +229,7 @@
     top: 44px;
     right: 0;
 
-    .messenger_title {
+    .chat-title {
       border: #525252 px solid;
       border-top-left-radius: 0px;
       border-top-right-radius: 0px;

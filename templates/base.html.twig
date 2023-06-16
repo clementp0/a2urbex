@@ -130,21 +130,8 @@
 		{% block content %}{% endblock %}
 
 		<div id="bottom-right-action">
-			<div class="messenger_icon">
-				<div id="messenger_dot"></div>
-				<i class="fa-solid fa-comment"></i>
-			</div>
-
+			{% include 'chat/index.html.twig' %}
 			{% block action %}{% endblock %}
-			
-			<div class="messenger">
-				<p class="messenger_title"> <i class="fa-solid fa-earth-europe"></i> General Chat</p>
-				<div class="messenger_close">
-					<i class="fa-solid fa-xmark"></i>
-				</div>
-
-				{% include 'websocket/index.html.twig' %}
-			</div>
 		</div>
 
 		<footer>

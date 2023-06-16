@@ -1,18 +1,15 @@
 import WebsocketConnector from './websocket'
 
 $(() => {
-  const messenger = $('.messenger')
+  const chatWrapper = $('.chat-wrapper')
 
-  if (messenger.length) {
-    const messengerIcon = $('.messenger_icon')
-    const messengerClose = $('.messenger_close')
-
-    messengerIcon.on('click', () => {
-      $('#messenger_dot').removeClass('messenger_dot')
-      messenger.addClass('show')
+  if (chatWrapper.length) {
+    $('.chat-icon').on('click', () => {
+      $('.chat-dot').removeClass('new')
+      chatWrapper.addClass('show')
     })
-    messengerClose.on('click', () => {
-      messenger.removeClass('show')
+    $('.chat-close').on('click', () => {
+      chatWrapper.removeClass('show')
     })
 
     // websocket
@@ -20,11 +17,9 @@ $(() => {
 
     function open(socket) {
       socket.subscribe(chatChannel, newMessage)
-      return
-      socket.subscribe(chatChannel, newMessage)
 
       $.ajax({
-        url: chatGetUrl,
+        url: chatGetUrl.replace('/0', '/global'),
         method: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -42,7 +37,7 @@ $(() => {
 
     function newMessage(data) {
       addMessage(JSON.parse(data))
-      $('#messenger_dot').addClass('messenger_dot')
+      $('.chat-dot').addClass('new')
       $('#chat').scrollTop($('#chat')[0].scrollHeight)
     }
 
@@ -55,7 +50,7 @@ $(() => {
       $.ajax({
         type: 'POST',
         dataType: 'json',
-        url: chatAddUrl,
+        url: chatAddUrl.replace('/0', '/global'),
         data: messageValue,
         success: (data) => {
           if (!data.success) window.location.reload()
