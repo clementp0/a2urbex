@@ -9,6 +9,7 @@ export default class Chat {
     this.icon = icon
     this.wrapper = wrapper
     this.current = null
+    this.chatOpen = false
 
     this.default()
     this.triggers()
@@ -35,13 +36,19 @@ export default class Chat {
     this.closeEl.on('click', () => this.close())
     this.backEl.on('click', () => this.back())
     this.list.on('click', '.item', (e) => this.openChat(e))
+    this.messages.find('#message').on('keydown', (e) => {
+      if (e.key === 'Enter' || e.keyCode === 13) this.sendMessage(e)
+    })
+    this.messages.find('#sendBtn').on('click', (e) => this.sendMessage(e))
   }
 
   open() {
+    this.chatOpen = true
     this.wrapper.addClass('show')
     this.dot.removeClass('new')
   }
   close() {
+    this.chatOpen = false
     this.wrapper.removeClass('show')
   }
   back() {
@@ -79,26 +86,29 @@ export default class Chat {
   }
 
   renderList(data) {
-    data.forEach((item) => {
-      const line = this.list.find('.default').clone()
+    data.forEach((item) => this.renderItem(item.name, item.title, item.lastMessage, item.user))
+  }
 
-      line
-        .attr('data-name', item.name)
-        .removeClass('default')
-        .find('.item-right-title')
-        .text(item.title)
-        .end()
-        .find('.item-right-message-text')
-        .text(item.lastMessage.message)
-        .end()
-        .find('.item-right-message-date')
-        .text(this.formatDate(item.lastMessage.datetime, true))
+  renderItem(name, title, message, user, prepend = false) {
+    const line = this.list.find('.default').clone()
 
-      if (item.user && item.user.image)
-        line.find('.item-left-image').css('backgroundImage', `url(item.user.image)`)
+    line
+      .attr('data-name', name)
+      .removeClass('default')
+      .find('.item-right-title')
+      .text(title)
+      .end()
+      .find('.item-right-message-text')
+      .text(message.message)
+      .end()
+      .find('.item-right-message-date')
+      .text(this.formatDate(message.datetime, true))
 
-      this.list.find('.chat-inner').append(line)
-    })
+    if (user && user.image)
+      line.find('.item-left-image').css('backgroundImage', `url(item.user.image)`)
+
+    if (prepend) this.list.find('.chat-inner').prepend(line)
+    else this.list.find('.chat-inner').append(line)
   }
 
   renderChat(data) {
@@ -135,7 +145,37 @@ export default class Chat {
     this.messages.find('#chat').append(line)
   }
 
-  newMessage(data) {}
+  sendMessage(e) {
+    e.preventDefault()
+
+    const messageValue = this.messages.find('#message').val().trim()
+    if (messageValue === '') return
+
+    $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: this.addUrl.replace('/0', '/' + this.current),
+      data: messageValue,
+      success: (data) => {
+        if (!data.success) window.location.reload()
+        else this.messages.find('#message').val('')
+      },
+    })
+  }
+
+  newMessage(data) {
+    console.log(data)
+    if (data.chat.name === this.current) {
+      this.renderChatRow(data.message)
+      this.messages.find('#chat').scrollTop($('#chat')[0].scrollHeight)
+    } else {
+      if (this.chatOpen === false) this.dot.addClass('new')
+    }
+
+    const item = this.list.find('.item[data-name="' + data.chat.name + '"]')
+    if (item) item.remove()
+    this.renderItem(data.chat.name, data.chat.title, data.message, data.message.sender, true)
+  }
 
   formatDate(datetime, small = false) {
     const timestamp = Date.parse(datetime)
@@ -167,42 +207,10 @@ $(() => {
   if (chatWrapper.length) {
     // websocket
 
-    function open(socket) {
-      $('#message').on('keydown', function (event) {
-        if (event.key === 'Enter' || event.keyCode === 13) send(event)
-      })
-      $('#sendBtn').on('click', function (event) {
-        send(event)
-      })
-    }
-
     function newMessage(data) {
       addMessage(JSON.parse(data))
       $('.chat-dot').addClass('new')
       $('#chat').scrollTop($('#chat')[0].scrollHeight)
-    }
-
-    const send = (event) => {
-      event.preventDefault()
-
-      const messageValue = $('#message').val().trim()
-      if (messageValue === '') return
-
-      $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        url: chatAddUrl.replace('/0', '/global'),
-        data: messageValue,
-        success: (data) => {
-          if (!data.success) window.location.reload()
-          else $('#message').val('')
-        },
-      })
-    }
-
-    function addMessage(data) {
-      const messageHTML = renderRow(data)
-      $('#chat').append(messageHTML)
     }
   }
 })

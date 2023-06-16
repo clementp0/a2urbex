@@ -32,8 +32,9 @@ class WebsocketServer implements MessageComponentInterface {
         $message = isset($data['message']) ? $data['message'] : null;
         $channel = $data['channel'];
         $chat = isset($data['chat']) ? $data['chat'] : null;
+        $chatName = $chat ? $chat['name'] : null;
 
-        if($chat && !$this->channelService->hasChatAccess($chat, $user)) return;
+        if($chat && !$this->channelService->hasChatAccess($chatName, $user)) return;
         elseif(!$this->channelService->hasAccess($channel, $user)) return;
 
         switch ($type) {
@@ -46,7 +47,7 @@ class WebsocketServer implements MessageComponentInterface {
                 break;
 
             case 'publish':
-                if(!$message || !mb_strlen($message)) break;
+                if(!$message) break;
 
                 $messageData = [
                     'channel' => $channel,
@@ -54,7 +55,7 @@ class WebsocketServer implements MessageComponentInterface {
                 ];
                 if($chat) $messageData['chat'] = $chat;
 
-                $this->publish($channel, json_encode($messageData), $chat);
+                $this->publish($channel, json_encode($messageData), $chatName);
                 break;
         }
     }

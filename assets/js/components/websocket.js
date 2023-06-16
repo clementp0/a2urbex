@@ -42,7 +42,14 @@ export default class WebsocketConnector {
     if (this.debug) console.log('receive', data)
 
     if (this.channels[data.channel] && typeof this.channels[data.channel] === 'function') {
-      this.channels[data.channel](data.content)
+      if (data.chat) {
+        this.channels[data.channel]({
+          chat: data.chat,
+          message: data.content,
+        })
+      } else {
+        this.channels[data.channel](data.content)
+      }
     }
   }
 

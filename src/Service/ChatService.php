@@ -38,9 +38,8 @@ class ChatService {
         
         $this->messageRepository->save($message, true);
 
-        $json = $this->serialize($message);
         $chatChannel = $_ENV['CHAT_CHANNEL'];
-        $this->websocketClient->sendEvent($chatChannel, $json, $chatName);
+        $this->websocketClient->sendEvent($chatChannel, json_decode($this->serialize($message)), json_decode($this->serialize($chat)));
 
         return true;
     }
