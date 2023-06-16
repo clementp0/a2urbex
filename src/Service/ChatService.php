@@ -116,7 +116,7 @@ class ChatService {
 
     private function sortByDate($a, $b) {
         $dateA = strtotime($a->lastMessage->getDatetime()->format('Y-m-d H:i:s'));
-        $dateB = strtotime($a->lastMessage->getDatetime()->format('Y-m-d H:i:s'));
-        return $dateA - $dateB;
+        $dateB = strtotime($b->lastMessage->getDatetime()->format('Y-m-d H:i:s'));
+        return $dateA < $dateB ? -1 : 1;
     }
 }
