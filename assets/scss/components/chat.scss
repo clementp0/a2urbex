@@ -58,7 +58,8 @@
     }
 
     .chat-close,
-    .chat-back {
+    .chat-back,
+    .chat-loading {
       position: absolute;
       top: 10px;
       right: 10px;
@@ -74,6 +75,20 @@
       &:hover,
       &:active {
         color: white;
+      }
+    }
+
+    .chat-loading {
+      right: 35px;
+      pointer-events: none;
+      display: none;
+
+      i {
+        animation: chat-loading 1.8s ease infinite;
+      }
+
+      &.show {
+        display: block;
       }
     }
   }
@@ -184,74 +199,88 @@
       overflow-y: scroll;
       padding: 10px;
 
-      .message_date {
-        font-size: 10px;
-        opacity: 0.6;
-        margin-top: 5px;
-      }
       .message {
         display: block;
         max-width: 70%;
         margin-bottom: 10px;
-      }
-      .message_content {
-        background-color: #737373;
-        font-size: 14px;
-        width: fit-content;
-        padding: 5px 8px;
-        color: white;
-        border-radius: 10px;
-        margin-bottom: 0;
-      }
-      .name {
-        font-size: 11px;
-        color: #5a5a5a;
-        margin-bottom: 0.2rem;
-        margin-top: 0.2rem;
-      }
 
-      .SERVER > .message_content {
-        width: 100% !important;
-        max-width: 100% !important;
-        text-align: center;
-        border-radius: 0;
-      }
-      .message.SERVER {
-        max-width: 100% !important;
-      }
-
-      .ROLE_ADMIN > .name {
-        color: #ffd000;
-        font-weight: 400;
-        display: flex;
-
-        .shield {
-          margin-left: 3px;
+        &.default {
+          display: none;
         }
-      }
-
-      .user_current {
-        margin-left: auto;
 
         .name {
-          width: fit-content;
-          margin-left: auto;
+          font-size: 11px;
+          color: #5a5a5a;
+          margin-bottom: 0.2rem;
+          margin-top: 0.2rem;
         }
 
-        .message_date {
-          text-align: right;
+        .message-content {
+          background-color: #737373;
+          font-size: 14px;
+          width: fit-content;
+          padding: 5px 8px;
+          color: white;
+          border-radius: 10px;
+          margin-bottom: 0;
         }
-        .message_content {
+
+        .message-date {
+          font-size: 10px;
+          opacity: 0.6;
+          margin-top: 5px;
+        }
+
+        .shield {
+          display: none;
+        }
+        &.ROLE_ADMIN {
+          .shield {
+            display: inline;
+            margin-left: 0;
+            margin-right: 3px;
+          }
+        }
+
+        &.user-current {
           margin-left: auto;
-          background-color: #5da0f1;
+
+          .name {
+            width: fit-content;
+            margin-left: auto;
+          }
+
+          .message-content {
+            margin-left: auto;
+            background-color: #5da0f1;
+          }
+          .message-date {
+            text-align: right;
+          }
+
+          &.ROLE_ADMIN .name {
+            flex-direction: row-reverse;
+          }
+        }
+
+        &.SERVER {
+          max-width: 100% !important;
+
+          .message-content {
+            width: 100% !important;
+            max-width: 100% !important;
+            text-align: center;
+            border-radius: 0;
+          }
         }
 
         &.ROLE_ADMIN .name {
-          flex-direction: row-reverse;
+          color: #ffd000;
+          font-weight: 400;
+          display: flex;
 
           .shield {
-            margin-left: 0;
-            margin-right: 3px;
+            margin-left: 3px;
           }
         }
       }
@@ -334,18 +363,6 @@
   }
 }
 
-@keyframes first-location-move {
-  0% {
-    transform: translateX(calc(-100% - 20px));
-  }
-  50% {
-    transform: translateX(calc(-100% - 10px));
-  }
-  100% {
-    transform: translateX(calc(-100% - 20px));
-  }
-}
-
 @keyframes notification-blink {
   0% {
     background-color: #456893;
@@ -355,5 +372,17 @@
   }
   100% {
     background-color: #456893;
+  }
+}
+
+@keyframes chat-loading {
+  0% {
+    transform: rotate(0);
+  }
+  80% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

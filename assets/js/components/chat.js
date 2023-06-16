@@ -19,7 +19,7 @@ export default class Chat {
     this.getUrl = this.wrapper.data('geturl')
     this.getAllUrl = this.wrapper.data('getallurl')
     this.channel = this.wrapper.data('channel')
-    this.user = this.wrapper.data('user')
+    this.user = Number.parseInt(this.wrapper.data('user'))
 
     this.dot = this.icon.find('.chat-dot')
     this.list = this.wrapper.find('.chat-list')
@@ -48,10 +48,6 @@ export default class Chat {
     this.messages.removeClass('open')
     this.current = null
   }
-  openChat(e) {
-    this.current = 'to define'
-    // this.list
-  }
 
   openSocket(socket) {
     socket.subscribe(this.channel, (data) => this.newMessage(data))
@@ -66,11 +62,28 @@ export default class Chat {
     })
   }
 
+  openChat(e) {
+    this.list.find('.chat-loading').addClass('show')
+
+    const current = $(e.currentTarget)
+    this.current = current.data('name')
+
+    $.ajax({
+      url: this.getUrl.replace('/0', '/' + this.current),
+      method: 'GET',
+      dataType: 'json',
+      success: (data) => {
+        if (data) this.renderChat(data)
+      },
+    })
+  }
+
   renderList(data) {
     data.forEach((item) => {
       const line = this.list.find('.default').clone()
 
       line
+        .attr('data-name', item.name)
         .removeClass('default')
         .find('.item-right-title')
         .text(item.title)
@@ -86,6 +99,40 @@ export default class Chat {
 
       this.list.find('.chat-inner').append(line)
     })
+  }
+
+  renderChat(data) {
+    this.messages.find('.message:not(.default)').remove()
+
+    data.forEach((item) => {
+      this.renderChatRow(item)
+    })
+
+    this.messages.find('#chat').scrollTop($('#chat')[0].scrollHeight)
+    this.messages.addClass('open')
+    this.list.find('.chat-loading').removeClass('show')
+  }
+
+  renderChatRow(item) {
+    const line = this.messages.find('.default').clone()
+
+    if (item.sender && item.sender.roles) item.sender.roles.forEach((role) => line.addClass(role))
+    else line.addClass('SERVER')
+
+    if (item.sender && item.sender.id === this.user) line.addClass('user-current')
+
+    if (item.sender) line.find('.name-text').text(item.sender.firstname + '#' + item.sender.id)
+    else line.find('.name-text').text('a2urbex')
+
+    line
+      .removeClass('default')
+      .find('.message-content')
+      .text(item.message)
+      .end()
+      .find('.message-date')
+      .text(this.formatDate(item.datetime))
+
+    this.messages.find('#chat').append(line)
   }
 
   newMessage(data) {}
@@ -121,17 +168,6 @@ $(() => {
     // websocket
 
     function open(socket) {
-      socket.subscribe(chatChannel, newMessage)
-
-      $.ajax({
-        url: chatGetUrl.replace('/0', '/global'),
-        method: 'GET',
-        dataType: 'json',
-        success: function (data) {
-          renderChatHistory(data)
-        },
-      })
-
       $('#message').on('keydown', function (event) {
         if (event.key === 'Enter' || event.keyCode === 13) send(event)
       })
@@ -167,61 +203,6 @@ $(() => {
     function addMessage(data) {
       const messageHTML = renderRow(data)
       $('#chat').append(messageHTML)
-    }
-
-    function renderChatHistory(chatHistory) {
-      const chatHTML = chatHistory
-        .map((item) => {
-          return renderRow(item)
-        })
-        .join('')
-
-      $('#chat').html(chatHTML)
-      $('#chat').scrollTop($('#chat')[0].scrollHeight)
-    }
-
-    function renderRow(item) {
-      const timestamp = Date.parse(item.datetime)
-      const date = new Date(timestamp)
-      const dateFormatted = date.toLocaleString('fr-FR', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      })
-
-      const sender = item.sender
-        ? item.sender
-        : {
-            id: 0,
-            firstname: 'a2urbex',
-            roles: ['SERVER'],
-          }
-
-      return (
-        "<div class='message " +
-        sender.roles.join(' ') +
-        (sender.id === currentId ? ' user_current' : '') +
-        "'>" +
-        "<p class='name'>" +
-        '<span>' +
-        sender.firstname +
-        '#' +
-        sender.id +
-        '</span>' +
-        (sender.roles.includes('ROLE_ADMIN')
-          ? '<span class="shield"><i class="fa-solid fa-shield-halved"></i></span>'
-          : '') +
-        '</p>' +
-        "<p class='message_content'> " +
-        item.message +
-        '</p>' +
-        "<p class='message_date'> " +
-        dateFormatted +
-        '</p>' +
-        '</div>'
-      )
     }
   }
 })

@@ -254,3 +254,15 @@ p.pin-category {
     }
   }
 }
+
+@keyframes first-location-move {
+  0% {
+    transform: translateX(calc(-100% - 20px));
+  }
+  50% {
+    transform: translateX(calc(-100% - 10px));
+  }
+  100% {
+    transform: translateX(calc(-100% - 20px));
+  }
+}

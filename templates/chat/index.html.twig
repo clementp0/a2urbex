@@ -16,6 +16,7 @@
 			<div class="chat-header">
 				<p class="chat-title"><i class="fa-solid fa-earth-europe"></i> Chats</p>
 				<div class="chat-close"><i class="fa-solid fa-xmark"></i></div>
+				<div class="chat-loading"><i class="fa-solid fa-spinner"></i></div>
 			</div>
 			<div class="chat-inner custom-scroll">
 				<div class="item default">
@@ -39,7 +40,13 @@
 				<div class="chat-back"><i class="fa-solid fa-arrow-left"></i></div>
 			</div>
 			
-			<div id="chat" class="custom-scroll"></div>
+			<div id="chat" class="custom-scroll">
+				<div class='message default'>
+					<p class='name'><span class="name-text"></span><span class="shield"><i class="fa-solid fa-shield-halved"></i></span></p>
+					<p class='message-content'></p>
+					<p class='message-date'></p>
+				</div>
+			</div>
 
 			<div class="form-group message-send">
 				<input type="text" id="message">
