@@ -198,19 +198,3 @@ export default class Chat {
     }
   }
 }
-
-$(() => {
-  return
-
-  const chatWrapper = $('.chat-wrapper')
-
-  if (chatWrapper.length) {
-    // websocket
-
-    function newMessage(data) {
-      addMessage(JSON.parse(data))
-      $('.chat-dot').addClass('new')
-      $('#chat').scrollTop($('#chat')[0].scrollHeight)
-    }
-  }
-})
