@@ -27,7 +27,7 @@
   }
 }
 
-.chat-wrapper {
+#chat-wrapper {
   background-color: #303030;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
   border-radius: 6px;
@@ -95,6 +95,10 @@
         padding: 10px;
         cursor: pointer;
         position: relative;
+
+        &.default {
+          display: none;
+        }
 
         &:hover,
         &:active {

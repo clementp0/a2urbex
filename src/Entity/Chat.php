@@ -21,7 +21,6 @@ class Chat
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'chats')]
-    #[Groups(['chat'])]
     private Collection $users;
 
     #[ORM\OneToMany(mappedBy: 'chat', targetEntity: Message::class, orphanRemoval: true)]
@@ -36,6 +35,8 @@ class Chat
 
     #[Groups(['chat'])]
     public $lastMessage;
+    #[Groups(['chat'])]
+    public $user;
 
     public function __construct()
     {

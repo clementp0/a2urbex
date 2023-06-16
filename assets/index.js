@@ -7,8 +7,7 @@ import Search from './js/components/search'
 import UserModal from './js/components/user'
 import FavoritePopup from './js/components/favorite'
 import CustomInput from './js/components/custominput'
-
-import './js/components/chat'
+import Chat from './js/components/chat'
 
 $(() => {
   ClearCache.init('#clear-cache-button', 'a2urbex')
@@ -18,6 +17,10 @@ $(() => {
   $('.pin-fav-wrapper').each(function () {
     FavoritePopup.init(this)
   })
+
+  const chatIcon = $('.chat-icon')
+  const chatWrapper = $('#chat-wrapper')
+  if (chatIcon.length && chatWrapper.length) Chat.init(chatIcon, chatWrapper)
 
   // open/close side menu
   $('.pin-open-search').on('click', () => {

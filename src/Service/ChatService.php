@@ -93,6 +93,7 @@ class ChatService {
                             continue;
                         } else {
                             $title = $u->getFirstname().'#'.$u->getId();
+                            $chat->user = $u;
                             break;
                         }
                     }

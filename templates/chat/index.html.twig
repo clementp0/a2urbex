@@ -4,22 +4,29 @@
 		<i class="fa-solid fa-comment"></i>
 	</div>
 
-	<div class="chat-wrapper">
+	<div 
+		id="chat-wrapper"
+		data-addurl="{{ path('chat_add', {channel: 0}) }}"
+		data-geturl="{{ path('chat_get', {channel: 0}) }}"
+		data-getallurl="{{ path('chat_get_all') }}"
+		data-channel="{{ getEnv('CHAT_CHANNEL') }}"
+		data-user="{{ app.user.id }}"
+	>
 		<div class="chat-list">
 			<div class="chat-header">
 				<p class="chat-title"><i class="fa-solid fa-earth-europe"></i> Chats</p>
 				<div class="chat-close"><i class="fa-solid fa-xmark"></i></div>
 			</div>
 			<div class="chat-inner custom-scroll">
-				<div class="item">
+				<div class="item default">
 					<div class="item-left">
 						<div class="item-left-image"></div>
 					</div>
 					<div class="item-right">
-						<p class="item-right-title">Global</p>
+						<p class="item-right-title"></p>
 						<p class="item-right-message">
-							<span class="item-right-message-text">Comment faire pour obtenir un super rank pour avoir accès à tout</span>
-							<span class="item-right-message-date">10/07</span>
+							<span class="item-right-message-text"></span>
+							<span class="item-right-message-date"></span>
 						</p>
 					</div>
 				</div>
@@ -42,11 +49,4 @@
 			</div>
 		</div>
 	</div>
-
-	<script>
-		const chatAddUrl = "{{ path('chat_add', {channel: 0}) }}";
-		const chatGetUrl = "{{ path('chat_get', {channel: 0}) }}";
-		const chatChannel = "{{ getEnv('CHAT_CHANNEL') }}";
-		const currentId = "{{ app.user.id }}";
-	</script>
 {% endblock %}

@@ -63,7 +63,7 @@ class ChatController extends AppController
     }
 
     // get all user chats
-    #[Route('/chat/get')]
+    #[Route('/chat/get', name: 'chat_get_all')]
     public function getUserChats() {
         $user = $this->getUser();
         if(!$user) return;
@@ -72,7 +72,7 @@ class ChatController extends AppController
     }
 
     // get chat name of chat with a user
-    #[Route('/chat/user/{id}')]
+    #[Route('/chat/user/{id}', name: 'chat_get_name')]
     public function getChatName($id) {
         $u1 = $this->getUser();
         $u2 = $this->userRepository->find($id);

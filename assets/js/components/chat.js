@@ -1,26 +1,124 @@
 import WebsocketConnector from './websocket'
 
+export default class Chat {
+  static init(...args) {
+    return new this(...args)
+  }
+
+  constructor(icon, wrapper) {
+    this.icon = icon
+    this.wrapper = wrapper
+    this.current = null
+
+    this.default()
+    this.triggers()
+  }
+
+  default() {
+    this.addUrl = this.wrapper.data('addurl')
+    this.getUrl = this.wrapper.data('geturl')
+    this.getAllUrl = this.wrapper.data('getallurl')
+    this.channel = this.wrapper.data('channel')
+    this.user = this.wrapper.data('user')
+
+    this.dot = this.icon.find('.chat-dot')
+    this.list = this.wrapper.find('.chat-list')
+    this.messages = this.wrapper.find('.chat-messages')
+    this.closeEl = this.list.find('.chat-close')
+    this.backEl = this.messages.find('.chat-back')
+
+    this.websocket = WebsocketConnector.init(websocketUrl, (socket) => this.openSocket(socket))
+  }
+
+  triggers() {
+    this.icon.on('click', () => this.open())
+    this.closeEl.on('click', () => this.close())
+    this.backEl.on('click', () => this.back())
+    this.list.on('click', '.item', (e) => this.openChat(e))
+  }
+
+  open() {
+    this.wrapper.addClass('show')
+    this.dot.removeClass('new')
+  }
+  close() {
+    this.wrapper.removeClass('show')
+  }
+  back() {
+    this.messages.removeClass('open')
+    this.current = null
+  }
+  openChat(e) {
+    this.current = 'to define'
+    // this.list
+  }
+
+  openSocket(socket) {
+    socket.subscribe(this.channel, (data) => this.newMessage(data))
+
+    $.ajax({
+      url: this.getAllUrl,
+      method: 'GET',
+      dataType: 'json',
+      success: (data) => {
+        if (data) this.renderList(data)
+      },
+    })
+  }
+
+  renderList(data) {
+    data.forEach((item) => {
+      const line = this.list.find('.default').clone()
+
+      line
+        .removeClass('default')
+        .find('.item-right-title')
+        .text(item.title)
+        .end()
+        .find('.item-right-message-text')
+        .text(item.lastMessage.message)
+        .end()
+        .find('.item-right-message-date')
+        .text(this.formatDate(item.lastMessage.datetime, true))
+
+      if (item.user && item.user.image)
+        line.find('.item-left-image').css('backgroundImage', `url(item.user.image)`)
+
+      this.list.find('.chat-inner').append(line)
+    })
+  }
+
+  newMessage(data) {}
+
+  formatDate(datetime, small = false) {
+    const timestamp = Date.parse(datetime)
+    const date = new Date(timestamp)
+
+    const params = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }
+
+    if (small === false) return date.toLocaleString('fr-FR', params)
+
+    if (Date.now() > timestamp + 24 * 60 * 60 * 1000) {
+      return date.toLocaleString('fr-FR', { month: params.month, day: params.day })
+    } else {
+      return date.toLocaleString('fr-FR', { hour: params.hour, minute: params.minute })
+    }
+  }
+}
+
 $(() => {
+  return
+
   const chatWrapper = $('.chat-wrapper')
 
   if (chatWrapper.length) {
-    $('.chat-icon').on('click', () => {
-      $('.chat-dot').removeClass('new')
-      chatWrapper.addClass('show')
-    })
-    $('.chat-close').on('click', () => {
-      chatWrapper.removeClass('show')
-    })
-
-    $('.chat-list .item').on('click', () => {
-      $('.chat-messages').addClass('open')
-    })
-    $('.chat-back').on('click', () => {
-      $('.chat-messages').removeClass('open')
-    })
-
     // websocket
-    const websocket = WebsocketConnector.init(websocketUrl, open)
 
     function open(socket) {
       socket.subscribe(chatChannel, newMessage)
