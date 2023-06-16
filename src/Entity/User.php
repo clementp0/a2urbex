@@ -469,7 +469,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if (!in_array($extension, $validExtensions)) {
                 throw new \Exception('Invalid file type');
             } else {
-                $filename = $_ENV['IMG_LOCATION_PATH'] . md5(uniqid()) . '.' . $extension;
+                $filename = $_ENV['IMG_USER_PATH'] . md5(uniqid()) . '.' . $extension;
                 $file->move(
                     $this->getUploadDir(),
                     $filename
@@ -494,7 +494,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
     private function getUploadDir()
     {
-        return $this->getPublicDir().$_ENV['IMG_LOCATION_PATH'];
+        return $this->getPublicDir().$_ENV['IMG_USER_PATH'];
     }
 
     public function getBanner(): ?string
@@ -519,7 +519,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if (!in_array($extension, $validExtensions)) {
                 throw new \Exception('Invalid file type');
             } else {
-                $filename = $_ENV['IMG_LOCATION_PATH'] . md5(uniqid()) . '.' . $extension;
+                $filename = $_ENV['IMG_USER_PATH'] . md5(uniqid()) . '.' . $extension;
                 $file->move(
                     $this->getUploadDir(),
                     $filename
