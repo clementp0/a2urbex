@@ -164,7 +164,6 @@ export default class Chat {
   }
 
   newMessage(data) {
-    console.log(data)
     if (data.chat.name === this.current) {
       this.renderChatRow(data.message)
       this.messages.find('#chat').scrollTop($('#chat')[0].scrollHeight)

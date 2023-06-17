@@ -130,7 +130,9 @@
 		{% block content %}{% endblock %}
 
 		<div id="bottom-right-action">
-			{% include 'chat/index.html.twig' %}
+			{% if app.user %}
+				{% include 'chat/index.html.twig' %}
+			{% endif %}
 			{% block action %}{% endblock %}
 		</div>
 
