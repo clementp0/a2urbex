@@ -77,6 +77,8 @@ class ChatService {
 
     public function getChats($user) {
         $chats = $user->getChats();
+        $chats[] = $this->chatRepository->findOneBy(['name' => $_ENV['CHAT_CHANNEL_GLOBAL']]);
+
         foreach($chats as $k => $chat) {
             $chat->lastMessage = $chat->getMessages()->last();
             if(!$chat->lastMessage) {
