@@ -39,8 +39,12 @@ class ChatService {
         
         $this->messageRepository->save($message, true);
         
-        $this->formatChat($chat, $sender); // replace with receiver if 1st message and not multi
-
+        if($sender && !$chat->isMulti() && $chat->getMessages()->count() === 1) {
+            $this->formatChat($chat, $sender, true);
+        } else {
+            $this->formatChat($chat);
+        }
+        
         $chatChannel = $_ENV['CHAT_CHANNEL'];
         $this->websocketClient->sendEvent(
             $chatChannel, 
@@ -101,11 +105,16 @@ class ChatService {
         return $this->serialize($chats);
     }
 
-    private function formatChat($chat, $user) {
+    private function formatChat($chat, $user = null, $invert = false) {
         if(!$chat->getTitle()) {
             $names = [];
             foreach($chat->getUsers() as $u) {
-                if($u !== $user) $names[] = $u->getFirstname().'#'.$u->getId();;
+                if(
+                    ($invert === false && $u !== $user) 
+                    || ($invert === true && $u === $user)
+                ) {
+                    $names[] = $u->getFirstname().'#'.$u->getId();;
+                }
                 if(!$chat->isMulti() && count($names)) break;
             }
             $chat->setTitle(implode(', ', $names));
@@ -113,7 +122,10 @@ class ChatService {
 
         if(!$chat->getImage() && !$chat->isMulti()) {
             foreach($chat->getUsers() as $u) {
-                if($u !== $user) {
+                if(
+                    ($invert === false && $u !== $user) 
+                    || ($invert === true && $u === $user)
+                ) {
                     $chat->setImage($u->getImage());
                     break;
                 }
