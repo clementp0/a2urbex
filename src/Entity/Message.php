@@ -21,7 +21,7 @@ class Message
 
     #[ORM\Column(length: 255)]
     #[Groups(['chat'])]
-    private ?string $message = null;
+    private ?string $value = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups(['chat'])]
@@ -48,14 +48,14 @@ class Message
         return $this;
     }
 
-    public function getMessage(): ?string
+    public function getValue(): ?string
     {
-        return $this->message;
+        return $this->value;
     }
 
-    public function setMessage(string $message): self
+    public function setValue(string $value): self
     {
-        $this->message = $message;
+        $this->value = $value;
 
         return $this;
     }

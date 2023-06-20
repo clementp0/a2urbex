@@ -35,8 +35,10 @@ class Chat
 
     #[Groups(['chat'])]
     public $lastMessage;
+    
     #[Groups(['chat'])]
-    public $user;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
 
     public function __construct()
     {
@@ -135,6 +137,18 @@ class Chat
     public function setMulti(?bool $multi): self
     {
         $this->multi = $multi;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

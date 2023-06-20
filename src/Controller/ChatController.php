@@ -71,14 +71,14 @@ class ChatController extends AppController
         return new Response($this->chatService->getChats($user));
     }
 
-    // get chat name of chat with a user
-    #[Route('/chat/user/{id}', name: 'chat_get_name')]
+    // get chat info with a user
+    #[Route('/chat/user/{id}', name: 'chat_get_user')]
     public function getChatName($id) {
         $u1 = $this->getUser();
         $u2 = $this->userRepository->find($id);
-        if(!$u1 || !$u2 || $u1 === $u2) return new JsonResponse(['name' => '']);
+        
+        if(!$u1 || !$u2 || $u1 === $u2) return new JsonResponse(null);
 
-        $name = $this->chatService->getUserChat($u1, $u2);
-        return new JsonResponse(['name' => $name]);
+        return new Response($this->chatService->getUserChat($u1, $u2));
     }
 }

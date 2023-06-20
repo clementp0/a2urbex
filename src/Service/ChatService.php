@@ -31,15 +31,22 @@ class ChatService {
         $message = new Message();
         $message
             ->setChat($chat)
-            ->setMessage($messageContent)
+            ->setValue($messageContent)
             ->setDateTime(new \DateTime('@'.strtotime('now')))
         ;
+        
         if($sender) $message->setSender($sender);
         
         $this->messageRepository->save($message, true);
+        
+        $this->formatChat($chat, $sender);
 
         $chatChannel = $_ENV['CHAT_CHANNEL'];
-        $this->websocketClient->sendEvent($chatChannel, json_decode($this->serialize($message)), json_decode($this->serialize($chat)));
+        $this->websocketClient->sendEvent(
+            $chatChannel, 
+            json_decode($this->serialize($message)), 
+            json_decode($this->serialize($chat))
+        );
 
         return true;
     }
@@ -52,10 +59,6 @@ class ChatService {
         return $this->serialize($chat->getMessages());
     }
 
-    private function serialize($data) {
-        return $this->serializer->serialize($data, 'json', ['groups' => ['chat']]);
-    }
-
     public function createChat($users, $multi = false) {
         $chatName = Uuid::v4()->toBase32();
 
@@ -66,13 +69,15 @@ class ChatService {
 
         $this->chatRepository->save($chat, true);
 
-        return $chatName;
+        return $chat;
     }
 
     public function getUserChat($user1, $user2) {
         $chat = $this->chatRepository->findOneBy2User($user1, $user2);
-        if(!$chat) return $this->createChat([$user1, $user2]);
-        else return $chat->getName();
+        if(!$chat) $chat = $this->createChat([$user1, $user2]);
+        $this->formatChat($chat, $user1);
+
+        return $this->serialize($chat);
     }
 
     public function getChats($user) {
@@ -86,27 +91,7 @@ class ChatService {
                 continue;
             }
 
-            if(!$chat->getTitle()) {
-                $title = '';
-                if($chat->getUsers()->count() === 2) {
-                    foreach($chat->getUsers() as $u) {
-                        if($u === $user) {
-                            continue;
-                        } else {
-                            $title = $u->getFirstname().'#'.$u->getId();
-                            $chat->user = $u;
-                            break;
-                        }
-                    }
-                } else {
-                    $names = [];
-                    foreach($chat->getUsers() as $u) {
-                        $names[] =  $u->getFirstname();
-                    }
-                    $title = implode(', ', $names);
-                }
-                $chat->setTitle($title);
-            }
+            $this->formatChat($chat, $user);
         }
 
         $chats = $chats->toArray();
@@ -114,6 +99,30 @@ class ChatService {
         $chats = array_reverse($chats);
         
         return $this->serialize($chats);
+    }
+
+    private function formatChat($chat, $user) {
+        if(!$chat->getTitle()) {
+            $names = [];
+            foreach($chat->getUsers() as $u) {
+                if($u !== $user) $names[] = $u->getFirstname().'#'.$u->getId();;
+                if(!$chat->isMulti() && count($names)) break;
+            }
+            $chat->setTitle(implode(', ', $names));
+        }
+
+        if(!$chat->getImage() && !$chat->isMulti()) {
+            foreach($chat->getUsers() as $u) {
+                if($u !== $user) {
+                    $chat->setImage($u->getImage());
+                    break;
+                }
+            }
+        }
+    }
+
+    private function serialize($data) {
+        return $this->serializer->serialize($data, 'json', ['groups' => ['chat']]);
     }
 
     private function sortByDate($a, $b) {
