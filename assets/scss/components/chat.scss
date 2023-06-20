@@ -42,6 +42,7 @@
   flex-direction: column;
   border: #525252 1px solid;
   overflow: hidden;
+  z-index: 1;
 
   &.show {
     transform: translateX(0%);
@@ -359,9 +360,9 @@
 }
 
 @media screen and (max-width: 850px) {
-  .chat-wrapper {
+  #chat-wrapper {
     margin: 0%;
-    height: calc(100% - 45px);
+    height: calc(100% - 88px);
     position: fixed;
     width: 100%;
     top: 44px;
