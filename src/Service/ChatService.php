@@ -34,12 +34,12 @@ class ChatService {
             ->setValue($messageContent)
             ->setDateTime(new \DateTime('@'.strtotime('now')))
         ;
-        
+
         if($sender) $message->setSender($sender);
         
         $this->messageRepository->save($message, true);
         
-        $this->formatChat($chat, $sender);
+        $this->formatChat($chat, $sender); // replace with receiver if 1st message and not multi
 
         $chatChannel = $_ENV['CHAT_CHANNEL'];
         $this->websocketClient->sendEvent(

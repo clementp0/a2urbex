@@ -80,35 +80,49 @@ export default class Chat {
       method: 'GET',
       dataType: 'json',
       success: (data) => {
-        if (data) this.renderChat(data)
+        if (data) {
+          this.renderChat(data)
+          current.removeClass('new')
+        }
       },
     })
   }
 
   renderList(data) {
-    data.forEach((item) => this.renderItem(item.name, item.title, item.lastMessage, item.user))
+    data.forEach((item) => this.renderItem(item, item.lastMessage))
   }
 
-  renderItem(name, title, message, user, prepend = false) {
+  renderItem(chat, message) {
     const line = this.list.find('.default').clone()
 
     line
-      .attr('data-name', name)
+      .attr('data-name', chat.name)
       .removeClass('default')
       .find('.item-right-title')
-      .text(title)
+      .text(chat.title)
       .end()
       .find('.item-right-message-text')
-      .text(message.message)
+      .text(message.value)
       .end()
       .find('.item-right-message-date')
       .text(this.formatDate(message.datetime, true))
 
-    if (user && user.image)
-      line.find('.item-left-image').css('backgroundImage', `url(item.user.image)`)
+    if (chat.image) line.find('.item-left-image').css('backgroundImage', `url(${chat.image})`)
 
-    if (prepend) this.list.find('.chat-inner').prepend(line)
-    else this.list.find('.chat-inner').append(line)
+    this.list.find('.chat-inner').append(line)
+  }
+
+  updateItem(name, message, current = false) {
+    const line = this.list.find('.item[data-name="' + name + '"]')
+
+    line
+      .find('.item-right-message-text')
+      .text(message.value)
+      .end()
+      .find('.item-right-message-date')
+      .text(this.formatDate(message.datetime, true))
+
+    if (!current) line.addClass('new')
   }
 
   renderChat(data) {
@@ -118,7 +132,7 @@ export default class Chat {
       this.renderChatRow(item)
     })
 
-    this.messages.find('#chat').scrollTop($('#chat')[0].scrollHeight)
+    this.scrollBottom()
     this.messages.addClass('open')
     this.list.find('.chat-loading').removeClass('show')
   }
@@ -137,7 +151,7 @@ export default class Chat {
     line
       .removeClass('default')
       .find('.message-content')
-      .text(item.message)
+      .text(item.value)
       .end()
       .find('.message-date')
       .text(this.formatDate(item.datetime))
@@ -164,16 +178,21 @@ export default class Chat {
   }
 
   newMessage(data) {
-    if (data.chat.name === this.current) {
+    const current = data.chat.name === this.current
+
+    if (current) {
       this.renderChatRow(data.message)
-      this.messages.find('#chat').scrollTop($('#chat')[0].scrollHeight)
-    } else {
-      if (this.chatOpen === false) this.dot.addClass('new')
+      this.scrollBottom()
+    } else if (this.chatOpen === false) {
+      this.dot.addClass('new')
     }
 
-    const item = this.list.find('.item[data-name="' + data.chat.name + '"]')
-    if (item) item.remove()
-    this.renderItem(data.chat.name, data.chat.title, data.message, data.message.sender, true)
+    this.updateItem(data.chat.name, data.message, current)
+  }
+
+  scrollBottom() {
+    const chat = this.messages.find('#chat')
+    chat.scrollTop(chat[0].scrollHeight)
   }
 
   formatDate(datetime, small = false) {
