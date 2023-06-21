@@ -21,7 +21,7 @@ class FriendController extends AppController {
     #[Route('/friend', name: 'app_friend')]
     public function index(): Response {
         $user = $this->getUser();
-
+        // dd($this->friendRepository->findFriends($user));
         return $this->render('friend/index.html.twig', [
             'pending' => $this->friendRepository->findPending($user),
             'waiting' => $this->friendRepository->findWaiting($user),

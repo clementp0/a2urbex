@@ -10,7 +10,7 @@
         {% for friend in pending %}
             <div class="friend-item">
                 <a href="{{ path('app_user', {'key': hashUsr(friend.user.id)}) }}" class="friend-item-profil">
-                    <div class="friend-item-profil-left"><i class="fa-solid fa-user"></i></div>
+                    <div class="friend-item-profil-left">{% if friend.friend.image %}<img src="{{ friend.friend.image }}">{% endif %}</div>
                     <div class="friend-item-profil-right">
                         <p class="friend-item-name">{{ friend.user.firstname }} {{ friend.user.lastname|first }}</p>
                         <p class="friend-item-username">{{ friend.user.firstname }}#{{ friend.user.id }}</p>
@@ -25,7 +25,7 @@
         {% for friend in waiting %}
             <div class="friend-item">
                 <a href="{{ path('app_user', {'key': hashUsr(friend.friend.id)}) }}" class="friend-item-profil">
-                    <div class="friend-item-profil-left"><i class="fa-solid fa-user"></i></div>
+                    <div class="friend-item-profil-left">{% if friend.friend.image %}<img src="{{ friend.friend.image }}">{% endif %}</div>
                     <div class="friend-item-profil-right">
                         <p class="friend-item-name">{{ friend.friend.firstname }} {{ friend.friend.lastname|first }}</p>
                         <p class="friend-item-username">{{ friend.friend.firstname }}#{{ friend.friend.id }}</p>
@@ -41,9 +41,10 @@
 
     <div class="friends">
         {% for friend in friends %}
+        
             <div class="friend-item">
                 <a href="{{ path('app_user', {'key': hashUsr(friend.friend.id)}) }}" class="friend-item-profil">
-                    <div class="friend-item-profil-left"><i class="fa-solid fa-user"></i></div>
+                    <div class="friend-item-profil-left">{% if friend.friend.image %}<img src="{{ friend.friend.image }}">{% endif %}</div>
                     <div class="friend-item-profil-right">
                         <p class="friend-item-name">{{ friend.friend.firstname }} {{ friend.friend.lastname|first }}</p>
                         <p class="friend-item-username">{{ friend.friend.firstname }}#{{ friend.friend.id }}</p>
