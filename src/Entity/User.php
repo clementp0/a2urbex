@@ -83,11 +83,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $banner = null;
 
-    #[ORM\ManyToMany(targetEntity: Chat::class, mappedBy: 'users')]
-    private Collection $chats;
-
-    // #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, orphanRemoval: true)]
-    // private Collection $favorites;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ChatUser::class, orphanRemoval: true)]
+    private Collection $chatUsers;
 
     public function __construct()
     {
@@ -96,7 +93,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->friends = new ArrayCollection();
         $this->friendRequests = new ArrayCollection();
         $this->channels = new ArrayCollection();
-        $this->chats = new ArrayCollection();
+        $this->chatUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -540,27 +537,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Chat>
+     * @return Collection<int, ChatUser>
      */
-    public function getChats(): Collection
+    public function getChatUsers(): Collection
     {
-        return $this->chats;
+        return $this->chatUsers;
     }
 
-    public function addChat(Chat $chat): self
+    public function addChatUser(ChatUser $chatUser): static
     {
-        if (!$this->chats->contains($chat)) {
-            $this->chats->add($chat);
-            $chat->addUser($this);
+        if (!$this->chatUsers->contains($chatUser)) {
+            $this->chatUsers->add($chatUser);
+            $chatUser->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeChat(Chat $chat): self
+    public function removeChatUser(ChatUser $chatUser): static
     {
-        if ($this->chats->removeElement($chat)) {
-            $chat->removeUser($this);
+        if ($this->chatUsers->removeElement($chatUser)) {
+            // set the owning side to null (unless already changed)
+            if ($chatUser->getUser() === $this) {
+                $chatUser->setUser(null);
+            }
         }
 
         return $this;

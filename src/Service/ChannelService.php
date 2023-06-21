@@ -16,7 +16,7 @@ class ChannelService {
 
         return $channel && ((
             !$channel->getRole() 
-            && ($channel->getUsers()->count() === 0 || $channel->getUsers()->contains($user))
+            && ($channel->getUsers()->isEmpty() || $channel->getUsers()->contains($user))
         ) || (
             $channel->getRole() && $user
             && ($user->hasRole('ROLE_SERVER') || $user->hasRole($channel->getRole()))
@@ -32,7 +32,7 @@ class ChannelService {
         if(!$this->hasAccess($chatChannel, $user)) return false;
 
         $chat = $this->getChat($chatName);
-        return $chat && ($chat->getUsers()->count() === 0 || $chat->getUsers()->contains($user));
+        return $chat && ($chat->getChatUsers()->isEmpty() || $this->chatRepository->containUser($chat, $user));
     }
 
     public function getChat($chatName) {

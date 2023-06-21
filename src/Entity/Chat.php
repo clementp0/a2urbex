@@ -20,30 +20,31 @@ class Chat
     #[Groups(['chat'])]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'chats')]
-    private Collection $users;
-
+    
     #[ORM\OneToMany(mappedBy: 'chat', targetEntity: Message::class, orphanRemoval: true)]
     private Collection $messages;
-
+    
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['chat'])]
     private ?string $title = null;
-
+    
     #[ORM\Column(nullable: true)]
     private ?bool $multi = null;
-
+    
     #[Groups(['chat'])]
     public $lastMessage;
     
     #[Groups(['chat'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+    
+    #[ORM\OneToMany(mappedBy: 'chat', targetEntity: ChatUser::class, orphanRemoval: true, cascade: ["persist"])]
+    private Collection $chatUsers;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->chatUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -59,30 +60,6 @@ class Chat
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        $this->users->removeElement($user);
 
         return $this;
     }
@@ -149,6 +126,36 @@ class Chat
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ChatUser>
+     */
+    public function getChatUsers(): Collection
+    {
+        return $this->chatUsers;
+    }
+
+    public function addChatUser(ChatUser $chatUser): static
+    {
+        if (!$this->chatUsers->contains($chatUser)) {
+            $this->chatUsers->add($chatUser);
+            $chatUser->setChat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChatUser(ChatUser $chatUser): static
+    {
+        if ($this->chatUsers->removeElement($chatUser)) {
+            // set the owning side to null (unless already changed)
+            if ($chatUser->getChat() === $this) {
+                $chatUser->setChat(null);
+            }
+        }
 
         return $this;
     }

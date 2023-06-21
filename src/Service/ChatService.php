@@ -2,13 +2,13 @@
 
 namespace App\Service;
 
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Uid\Uuid;
 
 use App\Repository\MessageRepository;
 use App\Entity\Message;
 use App\Entity\Chat;
+use App\Entity\ChatUser;
 use App\Repository\ChatRepository;
 use App\Service\ChannelService;
 use App\Websocket\WebsocketClient;
@@ -68,9 +68,14 @@ class ChatService {
 
         $chat = new Chat();
         $chat->setName($chatName);
-        foreach($users as $user) $chat->addUser($user);
-        if($multi === true || count($users) > 2) $chat->setMulti(true);
+        foreach($users as $user) {
+            $chatUser = new ChatUser();
+            $chatUser->setUser($user);
+            $chat->addChatUser($chatUser);
+        } 
 
+        if($multi === true || count($users) > 2) $chat->setMulti(true);
+        
         $this->chatRepository->save($chat, true);
 
         return $chat;
@@ -85,7 +90,7 @@ class ChatService {
     }
 
     public function getChats($user) {
-        $chats = $user->getChats();
+        $chats = $this->chatRepository->findByUser($user);
         $chats[] = $this->chatRepository->findOneBy(['name' => $_ENV['CHAT_CHANNEL_GLOBAL']]);
 
         foreach($chats as $k => $chat) {
@@ -98,7 +103,6 @@ class ChatService {
             $this->formatChat($chat, $user);
         }
 
-        $chats = $chats->toArray();
         usort($chats, [$this, 'sortByDate']);
         $chats = array_reverse($chats);
         
@@ -106,14 +110,16 @@ class ChatService {
     }
 
     private function formatChat($chat, $user = null, $invert = false) {
+        $users = $this->chatRepository->findUsers($chat);
+
         if(!$chat->getTitle()) {
             $names = [];
-            foreach($chat->getUsers() as $u) {
+            foreach($users as $u) {
                 if(
                     ($invert === false && $u !== $user) 
                     || ($invert === true && $u === $user)
                 ) {
-                    $names[] = $u->getFirstname().'#'.$u->getId();;
+                    $names[] = $u->getFirstname().'#'.$u->getId();
                 }
                 if(!$chat->isMulti() && count($names)) break;
             }
@@ -121,7 +127,7 @@ class ChatService {
         }
 
         if(!$chat->getImage() && !$chat->isMulti()) {
-            foreach($chat->getUsers() as $u) {
+            foreach($users as $u) {
                 if(
                     ($invert === false && $u !== $user) 
                     || ($invert === true && $u === $user)
