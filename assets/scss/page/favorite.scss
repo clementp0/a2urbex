@@ -47,6 +47,7 @@ p.favorite-page-title {
     }
     .fav-item-user-list-pp {
       background-image: url("/public/assets/default_profile.png");
+      display: flex;
       background-size: contain;
       background-position: center;
       border-radius: 100px;

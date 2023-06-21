@@ -149,6 +149,9 @@
     &-add {
       text-align: right;
       display: flex;
+      width: 120px;
+      flex-direction: row;
+      justify-content: flex-end;
 
       &-item {
         display: none;

@@ -26,11 +26,11 @@
 
 				{% if connected_user.id != user.id %}
 				<a href="{{ path('chat_get_user', {'id' : user.id} )}}" class="profile__container-infos-add-item send_user_message show">
-					<i class="fa-solid fa-message"></i> <span>Send message</span>
+					<i class="fa-solid fa-message"></i>
 				</a>
 
 				<a href="{{ path('app_friend_add', {'id' : user.id, 'async': '1'} )}}" class="profile__container-infos-add-item add_friend {% if friend_status == 'not_friend' %}show{% endif %}">
-					<i class="fa-solid fa-user-plus"></i> <span>Add friend</span>
+					<i class="fa-solid fa-user-plus"></i> <span>Add</span>
 				</a>
 				<a href="{{ path('app_friend_remove', {'id' : user.id, 'async': '1'} )}}" class="profile__container-infos-add-item remove_friend {% if friend_status == 'friend' %}show{% endif %}">
 					<i class="fa-solid fa-user-xmark"></i> <span>Remove</span>
@@ -49,7 +49,7 @@
 		<div class="profile__container-content-stats">
 		<h3 class="profile__container-content-stats-title">Stats</h3>
 			<p><i class="fa-sharp fa-solid fa-location-pin"></i> {{ urbex_count }} pin{% if urbex_count > 1 %}s{% endif %}</p>
-			<p><i class="fa-sharp fa-solid fa-heart-circle-plus"></i> {{ favorites_count }} list{% if favorites_count > 1 %}s{% endif %}</p>
+			<p><i class="fa-sharp fa-solid fa-heart-circle-plus"></i> {{ favorites_count - 1 }} list{% if favorites_count > 1 %}s{% endif %}</p>
 			<p><i class="fa-solid fa-user-group"></i> {{ friends_count }} friend{% if friends_count > 1 %}s{% endif %}</p>
 		</div>
 		<div class="profile__container-content-desc">
