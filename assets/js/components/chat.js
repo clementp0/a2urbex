@@ -28,6 +28,7 @@ export default class Chat {
     this.closeEl = this.list.find('.chat-close')
     this.backEl = this.messages.find('.chat-back')
 
+    this.list.find('.chat-loading').addClass('show')
     this.websocket = WebsocketConnector.init(websocketUrl, (socket) => this.openSocket(socket))
   }
 
@@ -94,6 +95,7 @@ export default class Chat {
 
   renderList(data) {
     data.forEach((item) => this.renderItem(item, item.lastMessage))
+    this.list.find('.chat-loading').removeClass('show')
   }
 
   renderItem(chat, message, prepend = false, notification = false) {
