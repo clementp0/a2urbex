@@ -5,25 +5,25 @@
 			<div class="fav-item">
 				<a href="{{ path('app_favorite_locations', {'key': hashFav(item.fav.id)}) }}">
 					<p class="fav-item-name">{{ item.fav.name }}</p>
-					<p class="fav-item-loc">{{ item.count }}
-						location
-						{% if item.count > 1 %}s
-						{% endif %}.</p>
+					<p class="fav-item-loc">{{ item.count }} location{% if item.count > 1 %}s{% endif %}.</p>
 					<p class="fav-item-user">
 						{% if item.fav.users|length > 1 %}
-							<span class="fav-item-user-text">Shared with :</span>
-							<span class="fav-item-user-list">
+							
 								{% set userIteration = 0 %}
+								<div class="fav-item-user-list">
+								<span class="fav-item-user-text">Shared with :</span>
 								{% for u in item.fav.users %}
 									{% if u.id != app.user.id %}
 										{% set userIteration = userIteration + 1 %}
+										{# OLD DISPLAY METHOD 
 										{% if userIteration > 1 %}
 											<span class="span-coma">,</span>
 										{% endif %}
-										<span>{{u.firstname}}#{{u.id}}</span>
+										<span>{{u.firstname}}#{{u.id}}</span> #}
+										<div title="{{u.firstname}}#{{u.id}}"  class="fav-item-user-list-pp">{% if u.image %} <img scr="{{ u.image }}">{% endif %}</div>
 									{% endif %}
 								{% endfor %}
-							</span>
+								</div>
 						{% endif %}
 					</p>
 				</a>
