@@ -23,7 +23,12 @@
 				</div>
 				<div class="profile__container-infos-picture" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
 				<div class="profile__container-infos-add">
+
 				{% if connected_user.id != user.id %}
+				<a href="{{ path('chat_get_user', {'id' : user.id} )}}" class="profile__container-infos-add-item send_user_message show">
+					<i class="fa-solid fa-message"></i> <span>Send message</span>
+				</a>
+
 				<a href="{{ path('app_friend_add', {'id' : user.id, 'async': '1'} )}}" class="profile__container-infos-add-item add_friend {% if friend_status == 'not_friend' %}show{% endif %}">
 					<i class="fa-solid fa-user-plus"></i> <span>Add friend</span>
 				</a>

@@ -35,11 +35,13 @@ export default class Chat {
     this.icon.on('click', () => this.open())
     this.closeEl.on('click', () => this.close())
     this.backEl.on('click', () => this.back())
-    this.list.on('click', '.item', (e) => this.openChat(e))
+    this.list.on('click', '.item', (e) => this.openChatTrigger(e))
     this.messages.find('#message').on('keydown', (e) => {
       if (e.key === 'Enter' || e.keyCode === 13) this.sendMessage(e)
     })
     this.messages.find('#sendBtn').on('click', (e) => this.sendMessage(e))
+
+    $('body').on('click', '.send_user_message', (e) => this.renderNewChat(e))
   }
 
   open() {
@@ -69,10 +71,12 @@ export default class Chat {
     })
   }
 
-  openChat(e) {
-    this.list.find('.chat-loading').addClass('show')
-
+  openChatTrigger(e) {
     const current = $(e.currentTarget)
+    this.openChat(current)
+  }
+  openChat(current) {
+    this.list.find('.chat-loading').addClass('show')
     this.current = current.data('name')
 
     $.ajax({
@@ -92,7 +96,7 @@ export default class Chat {
     data.forEach((item) => this.renderItem(item, item.lastMessage))
   }
 
-  renderItem(chat, message) {
+  renderItem(chat, message, prepend = false, notification = false) {
     const line = this.list.find('.default').clone()
 
     line
@@ -102,18 +106,25 @@ export default class Chat {
       .text(chat.title)
       .end()
       .find('.item-right-message-text')
-      .text(message.value)
+      .text(message?.value)
       .end()
       .find('.item-right-message-date')
-      .text(this.formatDate(message.datetime, true))
+      .text(message ? this.formatDate(message.datetime, true) : '')
 
     if (chat.image) line.find('.item-left-image').css('backgroundImage', `url(${chat.image})`)
 
-    this.list.find('.chat-inner').append(line)
+    if (notification) line.addClass('new')
+
+    if (prepend === true) this.list.find('.chat-inner').prepend(line)
+    else this.list.find('.chat-inner').append(line)
+
+    return line
   }
 
-  updateItem(name, message, current = false) {
-    const line = this.list.find('.item[data-name="' + name + '"]')
+  updateItem(chat, message, current = false) {
+    let line = this.list.find('.item[data-name="' + chat.name + '"]')
+
+    if (!line.length) return this.renderItem(chat, message, true, true)
 
     line
       .find('.item-right-message-text')
@@ -123,6 +134,8 @@ export default class Chat {
       .text(this.formatDate(message.datetime, true))
 
     if (!current) line.addClass('new')
+
+    this.list.find('.chat-inner').prepend(line)
   }
 
   renderChat(data) {
@@ -187,7 +200,27 @@ export default class Chat {
       this.dot.addClass('new')
     }
 
-    this.updateItem(data.chat.name, data.message, current)
+    this.updateItem(data.chat, data.message, current)
+  }
+
+  renderNewChat(e) {
+    e.preventDefault()
+
+    $.ajax({
+      url: $(e.currentTarget).attr('href'),
+      method: 'GET',
+      dataType: 'json',
+      success: (data) => {
+        if (!data) return
+
+        if (this.current !== data.name) this.back()
+        this.open()
+
+        let line = this.list.find('.item[data-name="' + data.name + '"]')
+        if (!line.length) line = this.renderItem(data, null, true)
+        this.openChat(line)
+      },
+    })
   }
 
   scrollBottom() {

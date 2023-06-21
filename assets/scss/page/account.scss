@@ -147,8 +147,8 @@
     }
 
     &-add {
-      width: 120px;
       text-align: right;
+      display: flex;
 
       &-item {
         display: none;
@@ -164,6 +164,10 @@
         width: fit-content;
         &.show {
           display: block;
+        }
+
+        &.send_user_message {
+          margin-right: 10px;
         }
       }
     }
