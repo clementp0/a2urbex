@@ -141,11 +141,19 @@ export default class Chat {
   renderChat(data) {
     this.messages.find('.message:not(.default)').remove()
 
-    data.forEach((item) => {
-      this.renderChatRow(item)
-    })
-
+    data.forEach((item) => this.renderChatRow(item))
     this.scrollBottom()
+
+    let line = this.list.find('.item[data-name="' + this.current + '"]')
+    if (line.length) {
+      this.messages
+        .find('.chat-title-text')
+        .text(line.find('.item-right-title').text())
+        .end()
+        .find('.chat-title-image')
+        .css('backgroundImage', line.find('.item-left-image').css('backgroundImage'))
+    }
+
     this.messages.addClass('open')
     this.list.find('.chat-loading').removeClass('show')
   }
