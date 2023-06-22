@@ -23,7 +23,7 @@ $(() => {
       success: function (data) {
         if (!data || !data.state) alert('An error occured')
 
-        $('.profile__container-infos-add-item').removeClass('show')
+        $('.friend-action').removeClass('show')
         if (data.state === 'friend') $('.remove_friend').addClass('show')
         if (data.state === 'not_friend') $('.add_friend').addClass('show')
         if (data.state === 'pending') $('.pending_friend').addClass('show')

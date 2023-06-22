@@ -22,23 +22,35 @@
 					{% endif %}
 				</div>
 				<div class="profile__container-infos-picture" style="background-image:url('{% if user.image %}{{user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
+				
 				<div class="profile__container-infos-add">
+					{% if connected_user.id != user.id %}
+					<a 
+						href="{{ path('chat_get_user', {'id' : user.id} )}}" 
+						class="profile__container-infos-add-item send_user_message show"
+					>
+						<i class="fa-solid fa-message"></i>
+					</a>
 
-				{% if connected_user.id != user.id %}
-				<a href="{{ path('chat_get_user', {'id' : user.id} )}}" class="profile__container-infos-add-item send_user_message show">
-					<i class="fa-solid fa-message"></i>
-				</a>
-
-				<a href="{{ path('app_friend_add', {'id' : user.id, 'async': '1'} )}}" class="profile__container-infos-add-item add_friend {% if friend_status == 'not_friend' %}show{% endif %}">
-					<i class="fa-solid fa-user-plus"></i> <span>Add</span>
-				</a>
-				<a href="{{ path('app_friend_remove', {'id' : user.id, 'async': '1'} )}}" class="profile__container-infos-add-item remove_friend {% if friend_status == 'friend' %}show{% endif %}">
-					<i class="fa-solid fa-user-xmark"></i> <span>Remove</span>
-				</a>
-				<a href="{{ path('app_friend_cancel', {'id' : user.id, 'async': '1'} )}}" class="profile__container-infos-add-item pending_friend {% if friend_status == 'pending' %}show{% endif %}">
-					<i class="fa-solid fa-user-minus"></i> <span>Pending</span>
-				</a>
-				{% endif %}
+					<a 
+						href="{{ path('app_friend_add', {'id' : user.id, 'async': '1'} )}}" 
+						class="profile__container-infos-add-item friend-action add_friend {% if friend_status == 'not_friend' %}show{% endif %}"
+					>
+						<i class="fa-solid fa-user-plus"></i> <span>Add</span>
+					</a>
+					<a 
+						href="{{ path('app_friend_remove', {'id' : user.id, 'async': '1'} )}}" 
+						class="profile__container-infos-add-item friend-action remove_friend {% if friend_status == 'friend' %}show{% endif %}"
+					>
+						<i class="fa-solid fa-user-xmark"></i> <span>Remove</span>
+					</a>
+					<a 
+						href="{{ path('app_friend_cancel', {'id' : user.id, 'async': '1'} )}}" 
+						class="profile__container-infos-add-item friend-action pending_friend {% if friend_status == 'pending' %}show{% endif %}"
+					>
+						<i class="fa-solid fa-user-minus"></i> <span>Pending</span>
+					</a>
+					{% endif %}
 				</div>
 			</div>
 			<p class="profile__container-name">{{ user.firstname }}<span>#{{ user.id }}</span>{% if 'ROLE_ADMIN' in  user.roles %} <i class="fa-solid fa-shield-halved" title="Admin"></i>{% endif %}

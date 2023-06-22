@@ -136,7 +136,7 @@
     }
 
     &-socials {
-      width: 120px;
+      width: 150px;
 
       & > a {
         font-size: 20px;
@@ -147,9 +147,9 @@
     }
 
     &-add {
+      width: 150px;
       text-align: right;
       display: flex;
-      width: 120px;
       flex-direction: row;
       justify-content: flex-end;
 
