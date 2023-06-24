@@ -1,6 +1,12 @@
 <img src="https://media.discordapp.net/attachments/778932989693526038/1122258914428330024/image.png">
 <h1 align="center">a2urbex</h1>
 <p align="center">
+  <a href="https://a2urbex.eu" target="_blank"><img alt="website" src="https://img.shields.io/badge/a2urbex-1C1C1C?style=flat-square&logo=About.me&logoColor=white" height="25"></a>
+  <a href="https://instagram.com/a2urbex" target="_blank"><img alt="instagram" src="https://img.shields.io/badge/Instagram-E4405F?style=flat-square&logo=instagram&logoColor=white" height="25"></a>
+  <a href="https://www.tiktok.com/@a2urbex" target="_blank"><img alt="tiktok" src="https://img.shields.io/badge/TikTok-EF2950?style=flat-square&logo=tiktok&logoColor=white" height="25"></a>
+  <a href="mailto:contact@a2urbex.eu" target="_blank"><img alt="mail" src="https://img.shields.io/badge/Contact-1C1C1C?style=flat-square&logo=gmail&logoColor=white" height="25"></a>
+</p>
+<p align="center">
   <a href="https://a2urbex.eu" target="_blank"><img src="https://img.shields.io/website.svg?label=a2urbex&down_color=red&down_message=down&up_color=green&up_message=up&url=http%3A%2F%2Fa2urbex.eu"></a>
   <img src="https://img.shields.io/github/last-commit/clementp0/a2urbex/main">
   <img src="https://img.shields.io/github/contributors/clementp0/a2urbex">
