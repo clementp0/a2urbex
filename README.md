@@ -51,14 +51,30 @@ We continue to add features very (*very*) regularly...
 <details>
   <summary>👀 Screenshots </summary>
   <br>
-  <p>Home Page</p>
-  <img src="https://cdn.discordapp.com/attachments/778932989693526038/1096463190486958090/homepage.png">
-  <p>Home</p>
-  <img src="https://cdn.discordapp.com/attachments/778932989693526038/1096463189845233724/home.png">
-  <p>Add</p>
-  <img src="https://cdn.discordapp.com/attachments/778932989693526038/1096463188926681169/add.png">
-  <p>Admin</p>
-  <img src="https://cdn.discordapp.com/attachments/778932989693526038/1096463189199306802/admin.png">
-  <p>Map</p>
-  <img src="https://cdn.discordapp.com/attachments/778932989693526038/1096463190776352901/map.png">
+  <p>🏠 Home Page</p>
+  <img src="https://media.discordapp.net/attachments/778932989693526038/1122526185449082930/homepage.png">
+    <h1></h1>
+  <p>✔️ Home</p>
+  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523838832451726/home.png">
+    <h1></h1>
+  <p>➕ Add</p>
+  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523901314990090/add.png">
+    <h1></h1>
+  <p>🗺️ Map</p>
+  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523872529494036/map.png">
+    <h1></h1>
+  <p>👤 User profile</p>
+  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523872818896896/profile.png">
+    <h1></h1>
+  <p>👥 Friend(s) list</p>
+  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523902397120672/favorites.png">
+    <h1></h1>
+  <p>🧡 Favorites list</p>
+  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523902397120672/favorites.png">
+    <h1></h1>
+  <p>💬 Chats</p>
+  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523902023839834/chat.png">
+    <h1></h1>
+  <p>⚙️ Admin</p>
+  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523901684097185/admin.png">
 </details>
