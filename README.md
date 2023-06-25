@@ -25,28 +25,165 @@
   <img src="https://img.shields.io/badge/symfony-5.4-blue">
   <img src="https://img.shields.io/badge/easyadmin-4.0.7-blue">
 </p>
-<details>
-  <summary> ✔️ Features</summary>
+<br>
+<table align="center">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Not done yet</th>
+      <th>Working <i">(expect some issues)</i></th>
+      <th>Working</th>
+    </tr>
+  </thead>
+<tbody align="center">
+   <tr>
+      <td>Favourite lists</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>General Chat (websocket)</td>
+      <td></td>
+      <td>✅</td>
+      <td></td>
+   </tr>
+   <tr>
+      <td>User Chat (websocket)</td>
+      <td></td>
+      <td>✅</td>
+      <td></td>
+   </tr>
+   <tr>
+      <td>Group Chat (websocket)</td>
+      <td>✅</td>
+      <td></td>
+      <td></td>
+   </tr>
+   <tr>
+      <td>Import Status (websocket)</td>
+      <td></td>
+      <td>✅</td>
+      <td></td>
+   </tr>
+   <tr>
+      <td>User Profile</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>User management</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Image generation by AI</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Import of KMZ / KML files</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Direct Waze / Map links</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Pinterest scraper</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Wikimapia scraper</td>
+      <td></td>
+      <td>✅</td>
+      <td></td>
+   </tr>
+   <tr>
+      <td>Online user management</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Progressive Web App</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Map filters</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Map search</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Persistant session</td>
+      <td></td>
+      <td>✅</td>
+      <td></td>
+   </tr>
+   <tr>
+      <td>Profile Editing</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Urbex Creation</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Comments</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Responsive</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Coordinates Checker</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Automatic country</td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+   <tr>
+      <td>Notifications</td>
+      <td>✅</td>
+      <td></td>
+      <td></td>
+   </tr>
+</tbody>
+</table>
 
-
-- Favourite lists 
-- General Chat (websocket)
-- User Chat (websocket)
-- Group Chat (websocket)
-- Import Status (websocket)
-- User Profile 
-- User management 
-- Image generation by AI 
-- Import of KMZ / KML files  
-- Direct Waze / Map links 
-- Pinterest scraper
-- Wikimapia scraper 
-- Online user management 
-- Progressive Web App 
-- And much much more... 
-
-We continue to add features very (*very*) regularly... 
-</details>
+<p align="center">We continue to add features very (<i>very</i>) regularly... </p>
 <h1></h1>
 <details>
   <summary>👀 Screenshots </summary>
