@@ -184,6 +184,40 @@
 </table>
 
 <p align="center">We continue to add features very (<i>very</i>) regularly... </p>
+
+<p align="center"><b>Web browser support</b></p>
+
+<table align="center">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Not supported</th>
+      <th>Supported (with issues)</th>
+      <th>Supported</th>
+    </tr>
+  </thead>
+  <tbody align="center">
+   <tr>
+      <td><img src="https://img.shields.io/badge/Microsoft-Edge-green"></td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+    <tr>
+      <td><img src="https://img.shields.io/badge/Apple-Safari-orange"></td>
+      <td></td>
+      <td>⚠️ CrossOrigin issues</td>
+      <td></td>
+   </tr>
+    <tr>
+      <td> <img src="https://img.shields.io/badge/Google-Chrome-green"></td>
+      <td></td>
+      <td></td>
+      <td>✅</td>
+   </tr>
+  </tbody>
+</table>
+
 <h1></h1>
 <details>
   <summary>👀 Screenshots </summary>
