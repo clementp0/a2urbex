@@ -204,7 +204,7 @@
   <img src="https://media.discordapp.net/attachments/778932989693526038/1122523872818896896/profile.png">
     <h1></h1>
   <p>👥 Friend(s) list</p>
-  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523902397120672/favorites.png">
+  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523903072411738/friends.png">
     <h1></h1>
   <p>🧡 Favorites list</p>
   <img src="https://media.discordapp.net/attachments/778932989693526038/1122523902397120672/favorites.png">
