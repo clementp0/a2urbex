@@ -1,4 +1,4 @@
-<img src="https://media.discordapp.net/attachments/778932989693526038/1122258914428330024/image.png">
+<img src="https://media.discordapp.net/attachments/778932989693526038/1122529904043491564/banner.png">
 <h1 align="center">a2urbex</h1>
 <p align="center">
   <a href="https://a2urbex.eu" target="_blank"><img alt="website" src="https://img.shields.io/badge/a2urbex-1C1C1C?style=flat-square&logo=About.me&logoColor=white" height="25"></a>
@@ -17,7 +17,7 @@
 </p>
 <h1></h1>
 <p align="center">
-<b>a2urbex</b> was born from a common passion between <a href="https://github.com/clementp0">@clementp0</a> and <a href="https://github.com/LahaxeHugo">@LahaxeHugo</a>. We have been doing urbex (*urban exploration*) for 4 years now and we needed a simple solution to centralize locations, with comments, status, categories, filters, and more... 
+<b>a2urbex</b> was born from a common passion between <a href="https://github.com/clementp0">@clementp0</a> and <a href="https://github.com/LahaxeHugo">@LahaxeHugo</a>. We have been doing urbex (urban exploration) for 4 years now and we needed a simple solution to centralize locations, with comments, status, categories, filters, and more... 
 </p>
 <p align="center">That's how a2urbex.eu was born. A simple and clean platform in Symfony with EasyAdmin.</p>
 <p align="center">
