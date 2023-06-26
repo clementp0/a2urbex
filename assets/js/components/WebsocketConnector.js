@@ -1,8 +1,4 @@
 export default class WebsocketConnector {
-  static init(...args) {
-    return new this(...args)
-  }
-
   constructor(url, open = null, close = null) {
     this.url = url
     this.openCallback = open

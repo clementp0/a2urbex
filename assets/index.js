@@ -2,25 +2,25 @@ import $ from 'jquery'
 import './js/notifications'
 import './js/registersw'
 
-import ClearCache from './js/components/cache'
-import Search from './js/components/search'
-import UserModal from './js/components/user'
-import FavoritePopup from './js/components/favorite'
-import CustomInput from './js/components/custominput'
-import Chat from './js/components/chat'
+import ClearCache from './js/components/ClearCache'
+import Search from './js/components/Search'
+import UserModal from './js/components/UserModal'
+import FavoritePopup from './js/components/FavoritePopup'
+import CustomInput from './js/components/CustomInput'
+import Chat from './js/components/Chat'
 
 $(() => {
-  ClearCache.init('#clear-cache-button', 'a2urbex')
-  Search.init('.pin-search')
-  UserModal.init('.inmodal')
+  new ClearCache('#clear-cache-button', 'a2urbex')
+  new Search('.pin-search')
   CustomInput.auto()
+  new UserModal('.inmodal')
   $('.pin-fav-wrapper').each(function () {
-    FavoritePopup.init(this)
+    new FavoritePopup(this)
   })
 
   const chatIcon = $('.chat-icon')
   const chatWrapper = $('#chat-wrapper')
-  if (chatIcon.length && chatWrapper.length) Chat.init(chatIcon, chatWrapper)
+  if (chatIcon.length && chatWrapper.length) new Chat(chatIcon, chatWrapper)
 
   // open/close side menu
   $('.pin-open-search').on('click', () => {

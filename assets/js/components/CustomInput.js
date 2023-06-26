@@ -1,15 +1,11 @@
 export default class CustomInput {
-  static init(...args) {
-    return new this(...args)
-  }
-
   static auto() {
     let items = []
     $('.custom-file').each(function () {
       const item = $(this)
       const parent = item.parents('form')
 
-      items.push(CustomInput.init(item, parent))
+      items.push(new CustomInput(item, parent))
     })
   }
 

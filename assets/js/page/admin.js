@@ -2,11 +2,11 @@ import $ from 'jquery'
 import '../notifications'
 import '../registersw'
 
-import ClearCache from '../components/cache'
-import WebsocketConnector from '../components/websocket'
+import ClearCache from '../components/ClearCache'
+import WebsocketConnector from '../components/WebsocketConnector'
 
 $(() => {
-  ClearCache.init('#clear-cache-button', 'a2urbex')
+  new ClearCache('#clear-cache-button', 'a2urbex')
 
   // global
   $(document).attr('title', '@a2urbex')
@@ -37,7 +37,7 @@ $(() => {
 
   // websocket
   if (typeof websocketUrl !== 'undefined') {
-    const websocket = WebsocketConnector.init(websocketUrl, open, close)
+    const websocket = new WebsocketConnector(websocketUrl, open, close)
   }
 
   function open(socket) {

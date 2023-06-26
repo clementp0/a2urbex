@@ -1,7 +1,4 @@
 export default class Search {
-  static init(...args) {
-    return new this(...args)
-  }
   constructor(selector) {
     this.element = $(selector)
 

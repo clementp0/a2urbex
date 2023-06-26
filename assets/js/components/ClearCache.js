@@ -1,7 +1,4 @@
 export default class ClearCache {
-  static init(...args) {
-    return new this(...args)
-  }
   constructor(selector, name) {
     this.element = $(selector)
     this.name = name

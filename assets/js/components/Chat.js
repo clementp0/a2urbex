@@ -1,10 +1,6 @@
-import WebsocketConnector from './websocket'
+import WebsocketConnector from './WebsocketConnector'
 
 export default class Chat {
-  static init(...args) {
-    return new this(...args)
-  }
-
   constructor(icon, wrapper) {
     this.icon = icon
     this.wrapper = wrapper
@@ -29,7 +25,7 @@ export default class Chat {
     this.backEl = this.messages.find('.chat-back')
 
     this.list.find('.chat-loading').addClass('show')
-    this.websocket = WebsocketConnector.init(websocketUrl, (socket) => this.openSocket(socket))
+    this.websocket = new WebsocketConnector(websocketUrl, (socket) => this.openSocket(socket))
   }
 
   triggers() {

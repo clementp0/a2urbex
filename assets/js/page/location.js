@@ -1,8 +1,8 @@
-import Coord from '../components/coord'
+import Coord from '../components/Coord'
 
 $(() => {
   if ($('#location').length) {
-    Coord.init('#location', '#location_lat', '#location_lon')
+    new Coord('#location', '#location_lat', '#location_lon')
 
     $('.coordinates').insertAfter('#location_lon')
     $('#location_lat, #location_lon').on('keyup', function () {

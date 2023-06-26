@@ -1,7 +1,4 @@
 export default class FavoritePopup {
-  static init(...args) {
-    return new this(...args)
-  }
   constructor(selector) {
     this.element = $(selector)
     this.button = this.element.find('.pin-fav')

@@ -1,7 +1,4 @@
 export default class Coord {
-  static init(...args) {
-    return new this(...args)
-  }
   constructor(selector, selectorLat, selectorLon) {
     this.element = $(selector)
     this.latElement = $(selectorLat)
