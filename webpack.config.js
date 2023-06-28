@@ -45,6 +45,7 @@ function applyEncore(encore, port) {
         {
           host: 'localhost',
           port: port,
+          ghostMode: false,
           ui: {
             port: parseInt(port) + 1,
           },
@@ -121,7 +122,6 @@ Encore.setOutputPath('public/build/') // directory where compiled assets will be
 applyEncore(Encore, port)
 const mainConfig = Encore.getWebpackConfig()
 mainConfig.name = 'mainConfig'
-//applyConfig(mainConfig, 3010)
 
 Encore.reset()
 
@@ -134,6 +134,5 @@ Encore.setOutputPath('private/build/')
 applyEncore(Encore, adminPort)
 const adminConfig = Encore.getWebpackConfig()
 adminConfig.name = 'adminConfig'
-//applyConfig(mainConfig, process.env.WEBPACK_ADMIN_PORT)
 
 module.exports = [mainConfig, adminConfig]
