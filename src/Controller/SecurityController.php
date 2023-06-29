@@ -85,6 +85,7 @@ class SecurityController extends AppController
 
         if($type === 'fav') $url = $this->generateUrl('app_favorite_share_user_default', ['id' => $param]);
         elseif($type === 'friend') $url = $this->generateUrl('app_friend_add_default');
+        elseif($type === 'chat') $url = null;
 
         return $this->render('security/user-modal.html.twig', [
             'type' => $type,
@@ -102,6 +103,7 @@ class SecurityController extends AppController
 
         if($type === 'fav') $result = $userRepository->findForSearchFav($search, $param);
         elseif($type === 'friend') $result = $userRepository->findForSearchFriend($search, $user->getId());
+        elseif($type === 'chat') $result = $userRepository->findForSearchChat($search, $param, $user->getId());
         
         $serializer = $this->container->get('serializer');
         $serialized = $serializer->serialize($result, 'json');

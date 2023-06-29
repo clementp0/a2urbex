@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\Security;
 use App\Repository\FriendRepository;
 use App\Repository\FavoriteRepository;
+use App\Repository\ChatRepository;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -26,10 +27,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ManagerRegistry $registry, 
         private Security $security, 
         private FriendRepository $friendRepository,
-        private FavoriteRepository $favoriteRepository
+        private FavoriteRepository $favoriteRepository,
+        private ChatRepository $chatRepository
     )
     {
         parent::__construct($registry, User::class);
+        $this->maxResult = 10;
     }
 
     /**
@@ -107,7 +110,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             $q->andWhere('u.id NOT IN ('.implode(', ', $friends).')');
         }
 
-        return $q->setMaxResults(10)->getQuery()->getResult();
+        return $q->setMaxResults($this->maxResult)->getQuery()->getResult();
     }
 
     public function findForSearchFav($search, $favId) {
@@ -121,7 +124,34 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             $q->andWhere('u.id NOT IN ('.implode(', ', $users).')');
         }
 
-        return $q->setMaxResults(10)->getQuery()->getResult();
+        return $q->setMaxResults($this->maxResult)->getQuery()->getResult();
+    }
+
+    public function findForSearchChat($search, $param, $userId) {
+        $q = $this->getSearchQuery($search, $userId);
+
+        $config = [];
+        if($param) {
+            foreach(explode('_', $param) as $item) {
+                [$k, $v] = explode(':', $item);
+                if($k === 'ids') $config[$k] = array_map('intval', explode('-', $v));
+                else $config[$k] = $v;
+            }
+        }
+
+        if(isset($config['ids'])) $q->andWhere('u.id NOT IN ('.implode(', ', $config['ids']).')');
+        if(isset($config['name'])) {
+            $c = $this->chatRepository->findOneByName($config['name']);
+            if($c) {
+                $u = $this->chatRepository->findUsers($c);
+                $users = [];
+                foreach($u as $item) $users[] = $item->getId();
+
+                $q->andWhere('u.id NOT IN ('.implode(', ', $config['ids']).')');
+            }
+        }
+
+        return $q->setMaxResults($this->maxResult)->getQuery()->getResult();
     }
 
     public function findUsers($user = null, $friends = false) {
