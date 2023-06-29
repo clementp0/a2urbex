@@ -13,6 +13,11 @@ export default class ChatList extends ChatScreen {
     this.innerElement.on('click', '.item', (e) => this.openItemTrigger(e))
   }
 
+  close() {
+    this.main.isOpen = false
+    this.main.screenElement.removeClass('show')
+  }
+
   getList() {
     $.ajax({
       url: this.main.getAllUrl,

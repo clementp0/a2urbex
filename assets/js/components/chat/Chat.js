@@ -1,5 +1,6 @@
 import WebsocketConnector from '../WebsocketConnector'
 import ChatList from './ChatList'
+import ChatNew from './ChatNew'
 import ChatScreen from './ChatScreen'
 
 export default class Chat extends ChatScreen {
@@ -37,11 +38,6 @@ export default class Chat extends ChatScreen {
     this.isOpen = true
     this.screenElement.addClass('show')
     this.dot(false)
-  }
-
-  close() {
-    this.isOpen = false
-    this.screenElement.removeClass('show')
   }
 
   dot(bool = true) {
