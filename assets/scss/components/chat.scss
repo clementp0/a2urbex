@@ -85,7 +85,7 @@
 
       &.right {
         margin-left: auto;
-        padding-left: 10px; 
+        padding-left: 10px;
       }
 
       &.left {
@@ -106,20 +106,20 @@
         display: flex;
         justify-content: center;
         align-items: center;
-  
+
         &:hover,
         &:active {
           color: white;
         }
-  
+
         &.chat-loading {
           pointer-events: none;
           display: none;
-    
+
           i {
             animation: chat-loading 1.8s ease infinite;
           }
-    
+
           &.show {
             display: flex;
             justify-content: center;
@@ -130,13 +130,26 @@
     }
   }
 
-  .chat-list {
+  .chat-screen {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    background-color: #303030;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.5s;
 
+    &:not(.chat-default) {
+      transform: translateX(100%);
+      &.open {
+        transform: translateX(0);
+      }
+    }
+  }
+
+  .chat-list {
     .chat-inner {
       height: calc(100% - 45px);
       overflow-y: scroll;
@@ -213,7 +226,8 @@
         }
 
         &.new {
-          .item-right-title, .item-right-message {
+          .item-right-title,
+          .item-right-message {
             color: white !important;
           }
         }
@@ -221,23 +235,8 @@
     }
   }
 
-  .chat-messages {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #303030;
-    display: flex;
-    flex-direction: column;
-    transform: translateX(100%);
-    transition: transform 0.5s;
-
-    &.open {
-      transform: translateX(0);
-    }
-
-    #chat {
+  .chat-item {
+    .chat-inner {
       flex-grow: 1;
       overflow-y: scroll;
       padding: 10px;
@@ -329,7 +328,7 @@
       }
     }
 
-    .message-send {
+    .message-form {
       width: 100%;
       margin: 0;
       text-align: center;
@@ -337,7 +336,7 @@
       padding: 5px;
       display: flex;
 
-      input#message {
+      .message-input {
         flex-grow: 1;
         background-color: #737373;
         border: none;
@@ -352,7 +351,7 @@
         }
       }
 
-      .message-btn {
+      .message-send {
         background-color: transparent;
         color: #737373;
         border: none;

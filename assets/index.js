@@ -7,7 +7,7 @@ import Search from './js/components/Search'
 import UserModal from './js/components/UserModal'
 import FavoritePopup from './js/components/FavoritePopup'
 import CustomInput from './js/components/CustomInput'
-import Chat from './js/components/Chat'
+import Chat from './js/components/chat/Chat'
 
 $(() => {
   new ClearCache('#clear-cache-button', 'a2urbex')
