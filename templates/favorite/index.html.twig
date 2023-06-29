@@ -12,7 +12,7 @@
 								<span class="fav-item-user-text">Shared with :</span>
 								{% for u in item.fav.users %}
 									{% if u.id != app.user.id %}
-										<div title="{{u.firstname}}#{{u.id}}"  class="fav-item-user-list-pp">{% if u.image %} <img src="{{ u.image }}">{% endif %}</div>
+										<div title="{{u.username}}"  class="fav-item-user-list-pp">{% if u.image %} <img src="{{ u.image }}">{% endif %}</div>
 									{% endif %}
 								{% endfor %}
 								</div>

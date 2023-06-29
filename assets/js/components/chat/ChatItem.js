@@ -86,7 +86,7 @@ export default class ChatItem extends ChatScreen {
 
     if (item.sender && item.sender.id === this.user) line.addClass('user-current')
 
-    if (item.sender) line.find('.name-text').text(item.sender.firstname + '#' + item.sender.id)
+    if (item.sender) line.find('.name-text').text(item.sender.username)
     else line.find('.name-text').text('a2urbex')
 
     line

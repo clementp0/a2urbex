@@ -119,7 +119,7 @@ class ChatService {
                     ($invert === false && $u !== $user) 
                     || ($invert === true && $u === $user)
                 ) {
-                    $names[] = $u->getFirstname().'#'.$u->getId();
+                    $names[] = $u->getUsername();
                 }
                 if(!$chat->isMulti() && count($names)) break;
             }
