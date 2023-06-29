@@ -11,18 +11,16 @@ import Chat from './js/components/chat/Chat'
 
 $(() => {
   new ClearCache('#clear-cache-button', 'a2urbex')
-  new Search('.pin-search')
   CustomInput.auto()
-  new UserModal('.inmodal')
-  $('.pin-fav-wrapper').each(function () {
-    new FavoritePopup(this)
-  })
 
+  // Chat
   const chatIcon = $('.chat-icon')
   const chatWrapper = $('#chat-wrapper')
   if (chatIcon.length && chatWrapper.length) new Chat(chatIcon, chatWrapper)
 
-  // open/close side menu
+  // Side menu
+  new Search('.pin-search')
+
   $('.pin-open-search').on('click', () => {
     $('.has-sidebar').toggleClass('menu-open')
   })
@@ -32,6 +30,8 @@ $(() => {
   })
 
   // Friend page
+  new UserModal('.add-friend.inmodal')
+
   $('.friend-accept').on('click', (e) => {
     if (!confirm('Accept user ?')) e.preventDefault()
   })
@@ -43,6 +43,12 @@ $(() => {
   })
 
   // Favorite page
+  new UserModal('.fav-item-share-user.inmodal')
+
+  $('.pin-fav-wrapper').each(function () {
+    new FavoritePopup(this)
+  })
+
   $('.fav-item-delete').on('click', function (e) {
     if (!confirm('Delete list')) e.preventDefault()
   })
@@ -50,7 +56,6 @@ $(() => {
     if (!confirm('Change list permission')) e.preventDefault()
   })
 
-  console
   $('.fav-item-copy-link').on('click', function (e) {
     e.preventDefault()
     if (confirm('Copy list link')) {
