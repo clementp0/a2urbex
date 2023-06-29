@@ -26,7 +26,7 @@
 					</button>
 					<div class="dropdown-favorite-content">
 					
-						<a href="{{ path('app_user_modal', {'fav': item.fav.id}) }}" class="inmodal fav-item-share-user{{ item.fav.master ? ' disabled' : '' }}">
+						<a href="{{ path('app_user_modal', {'type': 'fav', 'param': item.fav.id}) }}" class="inmodal fav-item-share-user{{ item.fav.master ? ' disabled' : '' }}">
 							<i class="fa-solid fa-user-plus"></i>
 							Add User
 						</a>

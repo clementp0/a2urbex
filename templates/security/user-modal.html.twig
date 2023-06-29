@@ -7,7 +7,7 @@
                 <p>Select a user</p>
             </div>
             <div class="cmodal-search-wrapper">
-                <input type="text" placeholder="Search by username" class="cmodal-search" data-url="{{ path('app_user_search', {fav: fav}) }}">
+                <input type="text" placeholder="Search by username" class="cmodal-search" data-url="{{ path('app_user_search', {type, param}) }}">
                 <i class="fa-solid fa-magnifying-glass cmodal-search-icon"></i>
             </div>
             <div class="cmodal-result hidden"></div>
@@ -17,11 +17,13 @@
             </div>
         </div>
         <div class="cmodal-footer">
-            {% if fav %}
-                <a data-href="{{ path('app_favorite_share_user_default', {id: fav}) }}" data-origin="Select a user above" data-alt="Add %user%" class="disabled">Select a user above</a>
-            {% else %}
-                <a data-href="{{ path('app_friend_add_default') }}" data-origin="Select a user above" data-alt="Add %user%" class="disabled">Select a user above</a>
-            {% endif %}
+            <a 
+                data-href="{{ url }}" 
+                data-origin="Select a user above" 
+                data-alt="Add %user%" 
+                class="cmodal-confirm disabled"
+                data-type="{{ type }}"
+            >Select a user above</a>
         </div>
     </div>
 </div>

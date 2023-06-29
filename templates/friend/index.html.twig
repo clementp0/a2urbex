@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="friend-wrapper">
-    <a href="{{ path('app_user_modal') }}" class="inmodal add-friend">Add Friend</a>
+    <a href="{{ path('app_user_modal', {'type': 'friend'}) }}" class="inmodal add-friend">Add Friend</a>
 
     <div class="friend-requests">
         {% for friend in pending %}

@@ -95,34 +95,30 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
 
-    public function findForSearchFriend($search, $userId, $exclude) {
+    public function findForSearchFriend($search, $userId) {
         $q = $this->getSearchQuery($search, $userId);
 
-        if($exclude) {
-            $f = $this->friendRepository->findFriendForSearch($userId, true);
-            if($f) {
-                $friends = array_map(function($item) {
-                    return $item['id'];
-                }, $f);
-                
-                $q->andWhere('u.id NOT IN ('.implode(', ', $friends).')');
-            }
+        $f = $this->friendRepository->findFriendForSearch($userId, true);
+        if($f) {
+            $friends = array_map(function($item) {
+                return $item['id'];
+            }, $f);
+            
+            $q->andWhere('u.id NOT IN ('.implode(', ', $friends).')');
         }
 
         return $q->setMaxResults(10)->getQuery()->getResult();
     }
 
-    public function findForSearchFav($search, $favId, $exclude) {
+    public function findForSearchFav($search, $favId) {
         $q = $this->getSearchQuery($search);
 
-        if($exclude) {
-            $u = $this->favoriteRepository->find($favId)->getUsers();
-            if($u) {
-                $users = [];
-                foreach($u as $item) $users[] = $item->getId();
+        $u = $this->favoriteRepository->find($favId)->getUsers();
+        if($u) {
+            $users = [];
+            foreach($u as $item) $users[] = $item->getId();
 
-                $q->andWhere('u.id NOT IN ('.implode(', ', $users).')');
-            }
+            $q->andWhere('u.id NOT IN ('.implode(', ', $users).')');
         }
 
         return $q->setMaxResults(10)->getQuery()->getResult();

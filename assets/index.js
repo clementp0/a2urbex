@@ -5,11 +5,13 @@ import './js/registersw'
 import ClearCache from './js/components/ClearCache'
 import Search from './js/components/Search'
 import UserModal from './js/components/UserModal'
+import UserModalAction from './js/components/UserModalAction'
 import FavoritePopup from './js/components/FavoritePopup'
 import CustomInput from './js/components/CustomInput'
 import Chat from './js/components/chat/Chat'
 
 $(() => {
+  new UserModalAction()
   new ClearCache('#clear-cache-button', 'a2urbex')
   CustomInput.auto()
 

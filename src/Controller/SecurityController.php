@@ -78,25 +78,30 @@ class SecurityController extends AppController
     }
 
 
-    #[Route('/user/modal', name: 'app_user_modal')]
-    public function modal(Request $request): Response 
+    #[Route('/user/{type}/modal', name: 'app_user_modal')]
+    public function modal(Request $request, $type): Response 
     {
+        $param = $request->get('param');
+
+        if($type === 'fav') $url = $this->generateUrl('app_favorite_share_user_default', ['id' => $param]);
+        elseif($type === 'friend') $url = $this->generateUrl('app_friend_add_default');
+
         return $this->render('security/user-modal.html.twig', [
-            'fav' => $request->get('fav')
+            'type' => $type,
+            'param' => $param,
+            'url' => $url
         ]);
     }
 
-    #[Route('/user/search', name: 'app_user_search')]
-    public function search(Request $request, Security $security, UserRepository $userRepository): Response 
+    #[Route('/user/{type}/search', name: 'app_user_search')]
+    public function search($type, Request $request, Security $security, UserRepository $userRepository): Response 
     {
         $search = $request->get('search');
         $user = $security->getUser();
-        $exclude = $request->get('exclude') === 'true';
-        $favId = $request->get('fav');
-        $type = $favId ? 'fav' : 'friend';
+        $param = $request->get('param');
 
-        if($type === 'friend') $result = $userRepository->findForSearchFriend($search, $user->getId(), $exclude);
-        if($type === 'fav') $result = $userRepository->findForSearchFav($search, $favId, $exclude);
+        if($type === 'fav') $result = $userRepository->findForSearchFav($search, $param);
+        elseif($type === 'friend') $result = $userRepository->findForSearchFriend($search, $user->getId());
         
         $serializer = $this->container->get('serializer');
         $serialized = $serializer->serialize($result, 'json');
