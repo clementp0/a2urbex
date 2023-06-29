@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -38,6 +39,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $lastname = null;
+
+    #[Groups(['chat'])]
+    #[SerializedName('lastname')]
+    private ?string $abbreviatedLastname = null;
+
+    #[Groups(['chat'])]
+    private ?string $username = null;
 
 
     #[ORM\ManyToMany(targetEntity: Favorite::class, mappedBy: 'users')]
@@ -119,14 +127,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @see UserInterface
      */
     public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
-
-    /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
-     */
-    public function getUsername(): string
     {
         return (string) $this->email;
     }
@@ -215,11 +215,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastname;
     }
 
+    public function getAbbreviatedLastname(): ?string
+    {
+        return mb_substr($this->lastname, 0, 1);
+    }
+
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
 
         return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->firstname . '#' . $this->id;
     }
 
     /**

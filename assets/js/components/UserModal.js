@@ -1,6 +1,12 @@
+import UserModalAction from './UserModalAction'
+
 export default class UserModal {
-  constructor(selector) {
+  constructor(selector, callback = null) {
     this.element = $(selector)
+    this.callback = callback
+    this.action = null
+    this.current = null
+
     this.triggers()
   }
 
@@ -11,26 +17,23 @@ export default class UserModal {
   open(e) {
     e.preventDefault()
     const current = $(e.currentTarget)
-
-    const url = current.attr('href')
-
     current.addClass('disabled')
 
     $.ajax({
       type: 'POST',
-      url,
+      url: current.attr('href'),
       success: (data) => {
         current.removeClass('disabled')
-
-        $('body').find('.cmodal-background').remove().end().append(data)
-
-        setTimeout(() => {
-          $('body').find('.cmodal-background').removeClass('hidden')
-        }, 10)
+        this.action = new UserModalAction($(data), this)
       },
       error: () => {
         current.removeClass('disabled')
       },
     })
+  }
+
+  deleteAction() {
+    this.action = null
+    this.current = null
   }
 }

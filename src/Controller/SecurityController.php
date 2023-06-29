@@ -106,7 +106,7 @@ class SecurityController extends AppController
         elseif($type === 'chat') $result = $userRepository->findForSearchChat($search, $param, $user->getId());
         
         $serializer = $this->container->get('serializer');
-        $serialized = $serializer->serialize($result, 'json');
+        $serialized = $serializer->serialize($result, 'json', ['groups' => ['chat']]);
         
         return new Response($serialized);
     }

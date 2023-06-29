@@ -1,51 +1,67 @@
 export default class UserModalAction {
-  constructor() {
+  constructor(html, parent) {
+    this.element = html
+    this.parent = parent
     this.prevString = ''
+
+    this.default()
     this.triggers()
   }
 
+  default() {
+    this.clearModals()
+    $('body').append(this.element)
+
+    setTimeout(() => {
+      this.element.removeClass('hidden')
+    }, 10)
+
+    this.modalElement = this.element.find('.cmodal')
+    this.closeElement = this.element.find('.cmodal-close')
+    this.searchElement = this.element.find('.cmodal-search')
+    this.searchWrapperElement = this.element.find('.cmodal-search-wrapper')
+    this.resultElement = this.element.find('.cmodal-result')
+    this.noresultElement = this.element.find('.cmodal-noresult')
+    this.unselectElement = this.element.find('.cmodal-unselect')
+    this.selectedElement = this.element.find('.cmodal-selected')
+    this.validateElement = this.element.find('.cmodal-footer a')
+  }
+
+  clearModals() {
+    $('body').find('.cmodal-background').remove()
+  }
+
   triggers() {
-    $('body').on('click', '.cmodal-background', this.close)
-    $('body').on('click', '.cmodal-close', this.close)
-    $('body').on('click', '.cmodal', (e) => e.stopPropagation())
+    this.element.on('click', () => this.close())
+    this.closeElement.on('click', () => this.close())
+    this.modalElement.on('click', (e) => e.stopPropagation())
+    this.searchElement.on('keyup', (e) => this.search())
+    this.searchElement.on('paste', (e) => setTimeout(() => this.search(), 100))
+    this.unselectElement.on('click', (e) => this.unselect())
 
-    $('body').on('keyup', '.cmodal-search', (e) => this.search(e))
-    $('body').on('paste', '.cmodal-search', (e) => setTimeout(() => this.search(e), 100))
-
-    $('body').on('click', '.cmodal-unselect', this.unselect)
+    if (typeof this.parent.callback === 'function')
+      this.validateElement.on('click', (e) => this.parent.callback(e))
   }
 
   close() {
-    const item = $('.cmodal-background')
-
-    item.addClass('hidden')
-    this.prevString = ''
+    this.element.addClass('hidden')
 
     setTimeout(() => {
-      item.remove()
+      this.element.remove()
+      this.parent.deleteAction()
     }, 500)
   }
 
-  search(e) {
-    const current = $(e.currentTarget)
-    let string = current.val()
-    const url = current.data('url')
-
-    const container = $('body').find('.cmodal .cmodal-result')
-    const noresult = $('body').find('.cmodal .cmodal-noresult')
-    const selected = $('body').find('.cmodal .cmodal-selected')
-    const validate = $('body').find('.cmodal .cmodal-footer a')
-    const searchWrapper = $('body').find('.cmodal .cmodal-search-wrapper')
+  search() {
+    let string = this.searchElement.val()
+    const url = this.searchElement.data('url')
 
     string = string.trim()
     if (string === this.prevString) return
     this.prevString = string
-    if (string.length < 1) {
-      container.empty()
-      return
-    }
+    if (string.length < 1) return this.resultElement.empty()
 
-    noresult.find('.cmodal-string').text(string)
+    this.noresultElement.find('.cmodal-string').text(string)
 
     $.ajax({
       type: 'POST',
@@ -55,11 +71,11 @@ export default class UserModalAction {
         search: string,
       },
       success: (data) => {
-        container.empty()
+        this.resultElement.empty()
 
         if (data.length) {
-          noresult.addClass('hidden')
-          container.removeClass('hidden')
+          this.noresultElement.addClass('hidden')
+          this.resultElement.removeClass('hidden')
 
           data.forEach((element) => {
             const item = $(
@@ -72,25 +88,30 @@ export default class UserModalAction {
                   </div>`
             )
 
-            item.on('click', function () {
-              const clone = $(this).clone()
+            item.on('click', (e) => {
+              this.parent.current = element
+
+              const clone = $(e.currentTarget).clone()
               const selectedId = clone.data('id')
               const selectedName = clone.find('.cmodal-item-name').text()
 
-              searchWrapper.addClass('hidden').find('.cmodal-search').val('')
-              selected.append(clone).removeClass('hidden')
-              container.addClass('hidden').empty()
-              validate
-                .attr('href', validate.data('href') + selectedId)
-                .text(validate.data('alt').replace('%user%', selectedName))
+              this.searchWrapperElement.addClass('hidden')
+
+              this.searchElement.val('')
+              this.selectedElement.append(clone).removeClass('hidden')
+              this.resultElement.addClass('hidden').empty()
+
+              this.validateElement
+                .attr('href', this.validateElement.data('href') + selectedId)
+                .text(this.validateElement.data('alt').replace('%user%', selectedName))
                 .removeClass('disabled')
             })
 
-            container.append(item)
+            this.resultElement.append(item)
           })
         } else {
-          container.addClass('hidden')
-          noresult.removeClass('hidden')
+          this.resultElement.addClass('hidden')
+          this.noresultElement.removeClass('hidden')
         }
       },
       error: () => {},
@@ -98,12 +119,13 @@ export default class UserModalAction {
   }
 
   unselect() {
-    const selected = $('body').find('.cmodal .cmodal-selected')
-    const validate = $('body').find('.cmodal .cmodal-footer a')
-    const searchWrapper = $('body').find('.cmodal .cmodal-search-wrapper')
+    this.parent.current = null
 
-    searchWrapper.removeClass('hidden')
-    selected.addClass('hidden').find('.cmodal-item').remove()
-    validate.addClass('disabled').text(validate.data('origin')).attr('href', '#')
+    this.searchWrapperElement.removeClass('hidden')
+    this.selectedElement.addClass('hidden').find('.cmodal-item').remove()
+    this.validateElement
+      .addClass('disabled')
+      .text(this.validateElement.data('origin'))
+      .attr('href', '#')
   }
 }

@@ -86,7 +86,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     private function getSearchQuery($search, $userId = null) {
         $q = $this->createQueryBuilder('u')
-            ->select('u.id, u.firstname, SUBSTRING(u.lastname, 1, 1) lastname, CONCAT(u.firstname, \'#\', u.id) username')
             ->orderBy('u.firstname', 'ASC')
             ->andWhere('CONCAT(u.firstname, \'#\', u.id) LIKE :search')
             ->setParameter('search', '%'.$search.'%')
