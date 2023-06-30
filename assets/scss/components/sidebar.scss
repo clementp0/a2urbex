@@ -201,6 +201,8 @@
           background-position: center;
           background-size: cover;
           background-repeat: no-repeat;
+          background-image: url('../../img/default_profile.png');
+
           &::after {
             content: '';
             background-color: #00ff50;

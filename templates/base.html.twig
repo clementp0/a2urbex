@@ -47,13 +47,13 @@
 							<div class="settings">
 								<div class="dropdown">
 									<button class="dropbtn">
-									<div class="dropbtn-image" style="background-image:url('{% if app.user.image %}{{app.user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
+									<div class="dropbtn-image" {% if app.user.image %}style="background-image:url('{{app.user.image}}')"{% endif %}></div>
 										{{ app.user.firstname }}
 									</button>
 									<div class="dropdown-content">
 										<div class="menu_header">
 											<div class="menu_icon">
-												<div class="menu_icon-image" style="background-image:url('{% if app.user.image %}{{app.user.image}}{% else %} /assets/default_profile.png {% endif %}')"></div>
+												<div class="menu_icon-image" {% if app.user.image %}style="background-image:url('{{app.user.image}}')"{% endif %}></div>
 											</div>
 											<div class="menu_data">
 												<p>Logged in as</p>
