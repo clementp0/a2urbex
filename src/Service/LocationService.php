@@ -101,10 +101,7 @@ class LocationService {
             }
 
             if ($submit) {
-                return $this->$this->getBaseQuery()
-                    ->andWhere('l.user = :user')
-                    ->setParameter('user', $user)
-                    ->findWithSearchAndUsers($search, $users, $query);
+                return $this->locationRepository->findWithSearchAndUsers($search, $users, $query);
             } else {
                 return $this->locationRepository->findByUsers($users, $query);
             }
