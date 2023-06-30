@@ -12,6 +12,7 @@ use App\Repository\ChatRepository;
 use App\Repository\UserRepository;
 use App\Service\ChatService;
 use App\Service\ChannelService;
+use App\Entity\Chat;
 
 class ChatController extends AppController
 {
@@ -80,5 +81,33 @@ class ChatController extends AppController
         if(!$u1 || !$u2 || $u1 === $u2) return new JsonResponse(null);
 
         return new Response($this->chatService->getUserChat($u1, $u2));
+    }
+
+    // new group chat
+    #[Route('/chat/group/new', name: 'chat_new_group')]
+    public function newChat(Request $request) {
+        $title = $request->get('title');
+        $image = $request->get('image');
+        $ids = $request->get('ids');
+
+        $user = $this->getUser();
+        $newUsers = $this->userRepository->findBy(['id' => $ids]);
+        $users = array_merge([$user], $newUsers);
+
+        if(!mb_strlen($title) || !count($newUsers)) $this->chatReturn(false);
+        
+        $chat = $this->chatService->createChat($users, true, $user);
+        $chat->setTitle($title);
+
+        if(mb_strlen($image)) $chat->setImageCustom($image);
+
+        $this->chatRepository->save($chat, true);
+
+        $usernames = [];
+        foreach($newUsers as $u) $usernames[] = $u->getUsername();
+        $message = $user->getUsername().' created a new chat with ' . implode(', ', $usernames);
+        $success = $this->chatService->saveMessage($chat->getName(), $message, null, true);
+
+        return $this->chatReturn($success);
     }
 }

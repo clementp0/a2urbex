@@ -63,7 +63,7 @@ class ChatService {
         return $this->serialize($chat->getMessages());
     }
 
-    public function createChat($users, $multi = false) {
+    public function createChat($users, $multi = false, $admin = null) {
         $chatName = Uuid::v4()->toBase32();
 
         $chat = new Chat();
@@ -71,6 +71,7 @@ class ChatService {
         foreach($users as $user) {
             $chatUser = new ChatUser();
             $chatUser->setUser($user);
+            if($admin && $admin === $user) $chatUser->setOp(true);
             $chat->addChatUser($chatUser);
         } 
 

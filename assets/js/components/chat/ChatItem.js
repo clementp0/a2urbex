@@ -82,7 +82,8 @@ export default class ChatItem extends ChatScreen {
     const line = this.innerElement.find('.default').clone()
 
     if (item.sender && item.sender.roles) item.sender.roles.forEach((role) => line.addClass(role))
-    else line.addClass('SERVER')
+    else if (this.name === 'global') line.addClass('SERVER')
+    else line.addClass('INFO')
 
     if (item.sender && item.sender.id === this.user) line.addClass('user-current')
 

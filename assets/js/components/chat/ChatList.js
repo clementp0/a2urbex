@@ -69,7 +69,7 @@ export default class ChatList extends ChatScreen {
       .find('.item-right-message-date')
       .text(this.formatDate(message.datetime, true))
 
-    if (!this.isCurrentItem(chat.name) && !this.isSelf(message.sender.id)) {
+    if (!this.isCurrentItem(chat.name) && !this.isSelf(message.sender?.id)) {
       this.items[chat.name].addClass('new')
     }
 
@@ -109,7 +109,7 @@ export default class ChatList extends ChatScreen {
     if (this.screens[data.chat.name]) {
       this.screens[data.chat.name].renderChatRow(data.message)
       this.screens[data.chat.name].scrollBottom()
-    } else if (this.main.isOpen === false && !this.isSelf(data.message.sender.id)) {
+    } else if (this.main.isOpen === false && !this.isSelf(data.message.sender?.id)) {
       this.main.dot()
     }
 

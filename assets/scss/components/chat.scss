@@ -245,7 +245,7 @@
 
       .message {
         display: block;
-        max-width: 70%;
+        max-width: 80%;
         margin-bottom: 10px;
 
         &.default {
@@ -308,13 +308,33 @@
         }
 
         &.SERVER {
-          max-width: 100% !important;
+          max-width: 100%;
 
           .message-content {
-            width: 100% !important;
-            max-width: 100% !important;
+            width: 100%;
+            max-width: 100%;
             text-align: center;
             border-radius: 0;
+          }
+        }
+
+        &.INFO {
+          max-width: 100%;
+
+          .name,
+          .message-date {
+            display: none;
+          }
+
+          .message-content {
+            width: 100%;
+            max-width: 100%;
+
+            background-color: unset;
+            text-align: center;
+            color: #5a5a5a;
+            font-size: 12px;
+            line-height: 16px;
           }
         }
 
@@ -348,8 +368,11 @@
         padding: 4px 4px 4px 8px;
         height: 30px;
 
-        &::focus {
+        &:focus-visible {
           outline: none;
+        }
+        &:focus {
+          box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
         }
       }
 

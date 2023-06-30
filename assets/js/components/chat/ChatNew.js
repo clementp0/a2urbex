@@ -15,6 +15,11 @@ export default class ChatNew extends ChatScreen {
     this.triggers()
   }
 
+  close() {
+    this.clear()
+    super.close()
+  }
+
   default() {
     this.searchElement = this.screenElement.find('.chat-new-search')
     this.createElement = this.screenElement.find('.chat-new-submit')
@@ -74,7 +79,7 @@ export default class ChatNew extends ChatScreen {
     const line = this.usersElement.find('.default').clone()
 
     line.removeClass('default').find('.item-left-username').text(user.username)
-    if (user.image) line.find('.item-left-image').css('backgroundImage', user.image)
+    if (user.image) line.find('.item-left-image').css('backgroundImage', `url(${user.image})`)
 
     this.usersElement.append(line)
     this.ids.add(user.id)
@@ -94,15 +99,27 @@ export default class ChatNew extends ChatScreen {
 
     this.image = null
     this.imageElement.val('')
+    this.imagePreviewElement.css('backgroundImage', 'unset').css('height', '0px')
   }
 
   create(e) {
     e.preventDefault()
 
     if (!this.title.length) return alert('Choose a chat name')
+    if (!this.ids.size) return alert('Add a user')
 
-    console.log(this.title)
-    console.log(this.image)
-    console.log(this.ids)
+    $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: this.createElement.attr('href'),
+      data: {
+        title: this.title,
+        image: this.image,
+        ids: [...this.ids],
+      },
+      success: (data) => {
+        if (data && data.success) this.close()
+      },
+    })
   }
 }

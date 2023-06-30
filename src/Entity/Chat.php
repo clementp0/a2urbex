@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Filesystem\Filesystem;
 
 #[ORM\Entity(repositoryClass: ChatRepository::class)]
 class Chat
@@ -128,6 +129,39 @@ class Chat
         $this->image = $image;
 
         return $this;
+    }
+
+    public function setImageCustom(?string $string): static
+    {
+        [$data, $image] = explode(',', $string);
+        preg_match('#image/(.*);#', $data, $matches);
+        if(!count($matches) || !isset($matches[1])) return $this;
+
+        $extension = $matches[1];
+        $validExtensions = ['jpg', 'jpeg', 'png'];
+
+        if (!in_array($extension, $validExtensions)) {
+            throw new \Exception('Invalid file type');
+        } else {
+            $filename = md5(uniqid()) . '.' . $extension;
+            $filepath = $this->getUploadDir() . $filename;
+            
+            $filesystem = new Filesystem();
+            $filesystem->dumpFile($filepath, base64_decode($image));
+
+            if($this->image) unlink($this->getPublicDir().$this->image);
+            $this->image = $_ENV['IMG_CHAT_PATH'] . $filename;
+        }        
+
+        return $this;
+    }
+
+    private function getPublicDir() {
+        return __DIR__ . '/../../public/';
+    }
+    private function getUploadDir()
+    {
+        return $this->getPublicDir().$_ENV['IMG_CHAT_PATH'];
     }
 
     /**
