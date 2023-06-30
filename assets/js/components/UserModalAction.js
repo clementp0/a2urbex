@@ -80,12 +80,16 @@ export default class UserModalAction {
           data.forEach((element) => {
             const item = $(
               `<div class="cmodal-item" data-id="${element.id}">
-                    <div class="cmodal-item-left"><i class="fa-solid fa-user"></i></div>
-                    <div class="cmodal-item-right">
-                      <p class="cmodal-item-name">${element.firstname} ${element.lastname}</p>
-                      <p class="cmodal-item-username">${element.username}</p>
-                    </div>
-                  </div>`
+                <div class="cmodal-item-left">
+                  <div class="cmodal-item-image" ${
+                    element.image ? `style="background-image: url(${element.image})"` : ''
+                  }></div>
+                </div>
+                <div class="cmodal-item-right">
+                  <p class="cmodal-item-name">${element.firstname} ${element.lastname}</p>
+                  <p class="cmodal-item-username">${element.username}</p>
+                </div>
+              </div>`
             )
 
             item.on('click', (e) => {

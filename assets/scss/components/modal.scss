@@ -138,8 +138,18 @@
         width: 30px;
       }
 
+      .cmodal-item-image {
+        width: 30px;
+        height: 30px;
+        background-image: url('../../img/default_profile.png');
+        border-radius: 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
       .cmodal-item-right {
-        margin-left: 5px;
+        margin-left: 10px;
       }
 
       .cmodal-item-name {
