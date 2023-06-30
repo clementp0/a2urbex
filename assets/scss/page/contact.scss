@@ -11,10 +11,10 @@
     display: none;
   }
 
-  .user .contact__container {
+  &.user .contact__container {
     margin: 3.5rem 0;
   }
-  .nouser header {
+  &.nouser header {
     display: none;
   }
 }
