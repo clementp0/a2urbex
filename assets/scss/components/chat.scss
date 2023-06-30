@@ -147,13 +147,17 @@
         transform: translateX(0);
       }
     }
+
+    .chat-inner {
+      flex-grow: 1;
+      overflow-y: scroll;
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   .chat-list {
     .chat-inner {
-      height: calc(100% - 45px);
-      overflow-y: scroll;
-
       .item {
         display: flex;
         align-items: center;
@@ -237,8 +241,6 @@
 
   .chat-item {
     .chat-inner {
-      flex-grow: 1;
-      overflow-y: scroll;
       padding: 10px;
 
       .message {
@@ -388,6 +390,126 @@
         &:hover::after,
         &:active::after {
           transform: scale(1);
+        }
+      }
+    }
+  }
+
+  .chat-new {
+    .chat-inner {
+      padding: 10px;
+      row-gap: 20px;
+
+      .chat-new {
+        &-title {
+          border: none;
+          border-bottom: 1px solid #404040;
+          background-color: transparent;
+          color: #bbb;
+          font-size: 14px;
+          padding: 4px 8px;
+
+          &:focus {
+            box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+          }
+          &:focus-visible {
+            outline: 0;
+          }
+        }
+
+        &-users {
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          row-gap: 8px;
+
+          .item {
+            display: flex;
+            align-items: center;
+
+            &.default {
+              display: none;
+            }
+
+            &-left {
+              display: flex;
+              align-items: center;
+              width: calc(100% - 24px);
+              padding-right: 5px;
+
+              &-image {
+                width: 30px;
+                height: 30px;
+                background-image: url('../../img/default_profile.png');
+                border-radius: 50%;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                margin-right: 10px;
+                flex-shrink: 0;
+              }
+              &-username {
+                color: #bdbdbd;
+                font-size: 14px;
+                margin: 0;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              }
+            }
+            &-right {
+              &-close {
+                width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+
+                &:hover {
+                  color: #bdbdbd;
+                }
+              }
+            }
+          }
+        }
+
+        &-search,
+        &-submit,
+        &-image-label {
+          background-color: #222222;
+          color: #8d8d8d;
+          display: block;
+          text-align: center;
+          padding: 5px;
+          cursor: pointer;
+
+          &:hover {
+            color: #60a5fa;
+          }
+        }
+
+        &-search,
+        &-image-label {
+          background-color: #3e3d3d;
+        }
+
+        &-image-label {
+          .max-size {
+            font-size: 12px;
+            opacity: 0.7;
+          }
+        }
+
+        &-image {
+          width: 1px;
+          height: 1px;
+        }
+        &-image-preview {
+          background-color: #363636;
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
         }
       }
     }

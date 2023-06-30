@@ -66,4 +66,15 @@ export default class ChatScreen {
   scrollBottom() {
     this.innerElement.scrollTop(this.innerElement[0].scrollHeight)
   }
+
+  buildSearchUrl(url, params) {
+    let parameters = []
+
+    if (params.name) parameters.push('name:' + params.name)
+    if (params.ids && params.ids.length) parameters.push('ids:' + params.ids.join('-'))
+
+    if (!parameters.length) return url
+
+    return url + (url.includes('?') ? '&' : '?') + 'param=' + parameters.join('_')
+  }
 }

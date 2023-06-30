@@ -17,7 +17,7 @@
 				<p class="chat-title"><i class="fa-solid fa-earth-europe"></i> Chats</p>
 				<div class="chat-action-wrapper right">
 					<div class="chat-action chat-loading"><i class="fa-solid fa-spinner"></i></div>
-					<div class="chat-action chat-create"><i class="fa-solid fa-plus"></i></div>
+					<div class="chat-action chat-new-button"><i class="fa-solid fa-plus"></i></div>
 					<div class="chat-action chat-close"><i class="fa-solid fa-xmark"></i></div>
 				</div>
 			</div>
@@ -63,6 +63,46 @@
 						<i class="fa-solid fa-paper-plane"></i>
 					</button>
 				</div>
+			</div>
+		</div>
+
+		<div class="chat-screen chat-new">
+			<div class="chat-header">
+				<div class="chat-action-wrapper left">
+					<div class="chat-action chat-close"><i class="fa-solid fa-angle-left"></i></div>
+				</div>
+				<p class="chat-title">Create new chat</p>
+			</div>
+			<div class="chat-inner custom-scroll">
+				<input type="text" class="chat-new-title" placeholder="Chat name" maxlength="50">
+
+				<div>
+					<label for="chat-new-image" class="chat-new-image-label">
+						<i class="fa-solid fa-image"></i> Add image <span class="max-size">(Max 2MB)</span>
+						<input type="file" class="chat-new-image" id="chat-new-image" accept="image/png, image/jpg, image/jpeg">
+					</label>
+					
+					<div class="chat-new-image-preview"></div>
+				</div>
+
+				<a data-href="{{ path('app_user_modal', {'type': 'chat'}) }}" class="inmodal chat-new-search">
+					<i class="fa-solid fa-user-plus"></i> Add user
+				</a>
+
+				<div class="chat-new-users">
+					<div class="item default">
+						<div class="item-left">
+							<div class="item-left-image"></div>
+							<p class="item-left-username"></p>
+						</div>
+						<div class="item-right">
+							<div class="item-right-close">
+								<i class="fa-solid fa-xmark"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<a href="#" class="chat-new-submit">Create</a>
 			</div>
 		</div>
 	</div>
