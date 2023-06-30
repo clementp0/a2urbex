@@ -1,42 +1,30 @@
 {% extends 'base.html.twig' %}
 {% block content %}
-
-	<style>
-	{% if not app.user %}
-	header{
-    	display:none;
-  	}
-	{% else %}
-	#app_links{
-		  padding-top: 3.5rem;
-	}
-	.contact__container{
-		margin-bottom: 3.5rem;
-	}
-	{% endif %}
-	</style>
 	<div class="contact__container">
-	<img src="logov3/a2urbex192x192.png">
-	<hr>
-	<a target="blank" href="https://www.tiktok.com/@a2urbex"><i class="fa-brands fa-tiktok"></i> a2urbex</a>
-	<a target="blank" href="https://www.instagram.com/a2urbex/"><i class="fa-brands fa-instagram"></i> a2urbex</a>
-	<a target="blank" href="https://a2urbex.eu"><i class="fa-solid fa-earth-europe"></i> a2urbex.eu</a>
-	<p><i class="fa-solid fa-envelope"></i> contact@a2urbex.eu</p>
-	{# <p><i class="fa-solid fa-envelope"></i> support@a2urbex.eu</p> #}
-	<div class="contact__individual">
-	<div class="contact__individual-clement">
-	<img src="./contact/clement.png">
-	<hr>
-	<a target="blank" href="https://github.com/clementp0"><i class="fa-brands fa-github"></i> Clementp0</a>
-	<a target="blank" href="https://instagram.com/clement.po"><i class="fa-brands fa-instagram"></i> clement.po</a>
-	</div>
-	<div class="contact__individual-hugo">
-	<img src="./contact/hugo.png">
-	<hr>
-	<a target="blank" href="https://github.com/LahaxeHugo"><i class="fa-brands fa-github"></i> LahaxeHugo</a>
-	<a target="blank" href="https://www.instagram.com/hugolahaxe/"><i class="fa-brands fa-instagram"></i> hugolahaxe</a>
-	</div>
-	</div>
+		<img src="logov3/a2urbex192x192.png">
+		<hr>
+
+		<a target="blank" href="https://www.tiktok.com/@a2urbex"><i class="fa-brands fa-tiktok"></i> a2urbex</a>
+		<a target="blank" href="https://www.instagram.com/a2urbex/"><i class="fa-brands fa-instagram"></i> a2urbex</a>
+		<a target="blank" href="https://a2urbex.eu"><i class="fa-solid fa-earth-europe"></i> a2urbex.eu</a>
+
+		<p><i class="fa-solid fa-envelope"></i> contact@a2urbex.eu</p>
+
+		<div class="contact__individual">
+			<div class="contact__individual-clement">
+				<img src="./contact/clement.png">
+				<hr>
+				<a target="blank" href="https://github.com/clementp0"><i class="fa-brands fa-github"></i> Clementp0</a>
+				<a target="blank" href="https://instagram.com/clement.po"><i class="fa-brands fa-instagram"></i> clement.po</a>
+			</div>
+
+			<div class="contact__individual-hugo">
+				<img src="./contact/hugo.png">
+				<hr>
+				<a target="blank" href="https://github.com/LahaxeHugo"><i class="fa-brands fa-github"></i> LahaxeHugo</a>
+				<a target="blank" href="https://www.instagram.com/hugolahaxe/"><i class="fa-brands fa-instagram"></i> hugolahaxe</a>
+			</div>
+		</div>
 	</div>
 
 

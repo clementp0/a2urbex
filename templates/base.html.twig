@@ -27,7 +27,10 @@
 			{% endif %}
 		{% endblock %}
 	</head>
-	<body {% if app.request.attributes.get('_route') is defined %} id="{{ app.request.attributes.get('_route') }}" {% endif %}>
+	<body 
+		{% if app.request.attributes.get('_route') is defined %} id="{{ app.request.attributes.get('_route') }}" {% endif %}
+		class="{% if app.user %}user{% else %}nouser{% endif %}"
+	>
 		<header>
 			<nav class="navbar navbar-expend-md navbar-dark fixed-top">
 				<div class="navbar-collapse" id="navbarCollapse">
