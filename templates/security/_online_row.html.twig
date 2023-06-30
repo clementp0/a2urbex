@@ -1,7 +1,7 @@
 <a href="{{ path('app_user', {'key': hashUsr(user.id)}) }}">
     <div 
         class="useractive {% if user.status != 'online' %}{{ user.status }}{% endif %}" 
-        {% if app.user.image %}style="background-image:url('{{user.image}}')"{% endif %}
+        {% if user.image %}style="background-image:url('{{user.image}}')"{% endif %}
     ></div>
     {{ user.firstname }}
     <span class="user_id_in_name">#{{ user.id }}</span>
