@@ -84,7 +84,7 @@ class ChatController extends AppController
     }
 
     // new group chat
-    #[Route('/chat/group/new', name: 'chat_new_group')]
+    #[Route('/chat/new', name: 'chat_new')]
     public function newChat(Request $request) {
         $title = $request->get('title');
         $image = $request->get('image');
@@ -109,5 +109,11 @@ class ChatController extends AppController
         $success = $this->chatService->saveMessage($chat->getName(), $message, null, true);
 
         return $this->chatReturn($success);
+    }
+
+    #[Route('/chat/info/{channel}', name: 'chat_info')]
+    public function getInfo($channel) {
+        $user = $this->getUser();
+        return new Response($this->chatService->getInfo($channel, $user));
     }
 }

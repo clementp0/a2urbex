@@ -17,11 +17,10 @@ class Chat
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
     #[Groups(['chat'])]
+    #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    
     #[ORM\OneToMany(mappedBy: 'chat', targetEntity: Message::class, orphanRemoval: true)]
     private Collection $messages;
     
@@ -39,6 +38,7 @@ class Chat
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
     
+    #[Groups(['chatInfo'])]
     #[ORM\OneToMany(mappedBy: 'chat', targetEntity: ChatUser::class, orphanRemoval: true, cascade: ["persist"])]
     private Collection $chatUsers;
 

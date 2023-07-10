@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ChatUserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ChatUserRepository::class)]
 class ChatUser
@@ -17,12 +18,15 @@ class ChatUser
     #[ORM\JoinColumn(nullable: false)]
     private ?Chat $chat = null;
 
+    #[Groups(['chatInfo'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $pseudo = null;
 
+    #[Groups(['chatInfo'])]
     #[ORM\Column(nullable: true)]
-    private ?bool $Op = null;
+    private ?bool $op = null;
 
+    #[Groups(['chatInfo'])]
     #[ORM\ManyToOne(inversedBy: 'chatUsers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -58,12 +62,12 @@ class ChatUser
 
     public function isOp(): ?bool
     {
-        return $this->Op;
+        return $this->op;
     }
 
     public function setOp(?bool $Op): static
     {
-        $this->Op = $Op;
+        $this->op = $Op;
 
         return $this;
     }

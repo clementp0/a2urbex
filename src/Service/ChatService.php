@@ -110,6 +110,13 @@ class ChatService {
         return $this->serialize($chats);
     }
 
+    public function getInfo($chatName, $user) {
+        if(!$this->channelService->hasChatAccess($chatName, $user)) return;
+
+        $chat = $this->channelService->getChat($chatName);
+        return $this->serialize($chat, ['chatInfo']);
+    }
+
     private function formatChat($chat, $user = null, $invert = false) {
         $users = $this->chatRepository->findUsers($chat);
 
@@ -140,8 +147,8 @@ class ChatService {
         }
     }
 
-    private function serialize($data) {
-        return $this->serializer->serialize($data, 'json', ['groups' => ['chat']]);
+    private function serialize($data, $extra = []) {
+        return $this->serializer->serialize($data, 'json', ['groups' => ['chat', ...$extra]]);
     }
 
     private function sortByDate($a, $b) {
