@@ -12,9 +12,9 @@ export default class ChatScreen {
   }
 
   screenDefault() {
-    this.headerElement = this.screenElement.find('.chat-header')
-    this.innerElement = this.screenElement.find('.chat-inner')
-    this.closeElement = this.screenElement.find('.chat-close')
+    this.headerElement = this.screenElement.find('.chat-header').first()
+    this.innerElement = this.screenElement.find('.chat-inner').first()
+    this.closeElement = this.screenElement.find('.chat-close').first()
   }
 
   screenTriggers() {
@@ -61,6 +61,9 @@ export default class ChatScreen {
   }
   getAddUrl(name) {
     return this.main.addUrl.replace('/0', '/' + name)
+  }
+  getInfoUrl(name) {
+    return this.main.infoUrl.replace('/0', '/' + name)
   }
 
   scrollBottom() {
