@@ -16,7 +16,6 @@ export default class Chat extends ChatScreen {
   }
 
   default() {
-    this.loading()
     this.addUrl = this.screenElement.data('addurl')
     this.getUrl = this.screenElement.data('geturl')
     this.getAllUrl = this.screenElement.data('getallurl')

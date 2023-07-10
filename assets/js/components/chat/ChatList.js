@@ -6,6 +6,7 @@ export default class ChatList extends ChatScreen {
     super(element, parent)
 
     this.items = {}
+    this.loading()
     this.triggers()
   }
 
