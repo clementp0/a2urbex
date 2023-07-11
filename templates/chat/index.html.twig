@@ -92,12 +92,31 @@
 								<span class="text-editable"><i class="fa-solid fa-image"></i> <span class="chat-edit-image-type">Add</span> image <span class="max-size">(Max 2MB)</span></span>
 								<input type="file" class="chat-edit-image" id="chat-edit-image" accept="image/png, image/jpg, image/jpeg">
 							</label>
+
 							<a href="{{ path('chat_image', {channel: 0}) }}" class="chat-edit-button chat-edit-image-button">
 								<i class="fa-solid fa-check icon-confirm"></i>
 								<i class="fa-solid fa-pen icon-edit"></i>
 							</a>
 							
 							<div class="chat-edit-image-preview"></div>
+						</div>
+
+						<a data-href="{{ path('app_user_modal', {'type': 'chat'}) }}" class="inmodal chat-edit-search">
+							<i class="fa-solid fa-user-plus"></i> Add user
+						</a>
+
+						<div class="chat-edit-users">
+							<div class="item default">
+								<div class="item-left">
+									<div class="item-left-image"></div>
+									<p class="item-left-username"></p>
+								</div>
+								<div class="item-right">
+									<div class="item-right-remove">
+										<i class="fa-solid fa-xmark"></i>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -134,7 +153,7 @@
 							<p class="item-left-username"></p>
 						</div>
 						<div class="item-right">
-							<div class="item-right-close">
+							<div class="item-right-remove">
 								<i class="fa-solid fa-xmark"></i>
 							</div>
 						</div>
