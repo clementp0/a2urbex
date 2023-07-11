@@ -1,3 +1,4 @@
+import ChatInfo from './ChatInfo'
 import ChatScreen from './ChatScreen'
 
 export default class ChatItem extends ChatScreen {
@@ -29,15 +30,22 @@ export default class ChatItem extends ChatScreen {
   }
 
   default() {
-    this.messageInput = this.screenElement.find('.message-input')
-    this.messageSend = this.screenElement.find('.message-send')
+    this.inputElement = this.screenElement.find('.message-input')
+    this.sendElement = this.screenElement.find('.message-send')
+    this.infoElement = this.screenElement.find('.chat-info-button')
+    this.infoUrl = this.formatUrl(this.infoElement.attr('href'), this.name)
+    if (this.name !== 'global') this.infoElement.removeClass('hidden')
+
+    this.screens.info = new ChatInfo(this.screenElement.find('.chat-info'), this)
   }
 
   triggers() {
-    this.messageInput.on('keydown', (e) => {
+    this.inputElement.on('keydown', (e) => {
       if (e.key === 'Enter' || e.keyCode === 13) this.sendMessage(e)
     })
-    this.messageSend.on('click', (e) => this.sendMessage(e))
+    this.sendElement.on('click', (e) => this.sendMessage(e))
+
+    this.infoElement.on('click', (e) => this.openInfo(e))
   }
 
   getChat() {
@@ -104,7 +112,7 @@ export default class ChatItem extends ChatScreen {
   sendMessage(e) {
     e.preventDefault()
 
-    const messageValue = this.messageInput.val().trim()
+    const messageValue = this.inputElement.val().trim()
     if (messageValue === '') return
 
     $.ajax({
@@ -114,8 +122,14 @@ export default class ChatItem extends ChatScreen {
       data: messageValue,
       success: (data) => {
         if (!data.success) alert('An error occurred')
-        else this.messageInput.val('')
+        else this.inputElement.val('')
       },
     })
+  }
+
+  openInfo(e) {
+    e.preventDefault()
+    this.loading()
+    this.screens.info.getInfo(this.infoUrl)
   }
 }

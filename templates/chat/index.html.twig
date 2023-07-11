@@ -47,6 +47,12 @@
 						<span class="chat-title-image"></span>
 						<span class="chat-title-text"></span>
 					</p>
+					<div class="chat-action-wrapper right">
+						<div class="chat-action chat-loading"><i class="fa-solid fa-spinner"></i></div>
+						<a class="chat-action chat-info-button hidden" href="{{ path('chat_info', {channel: 0}) }}">
+							<i class="fa-solid fa-circle-info"></i>
+						</a>
+					</div>
 				</div>
 				
 				<div class="chat-inner custom-scroll">
@@ -63,6 +69,38 @@
 						<i class="fa-solid fa-paper-plane"></i>
 					</button>
 				</div>
+
+				<div class="chat-screen chat-info">
+					<div class="chat-header">
+						<div class="chat-action-wrapper left">
+							<div class="chat-action chat-close"><i class="fa-solid fa-angle-left"></i></div>
+						</div>
+					</div>
+
+					<div class="chat-inner custom-scroll">
+						<div class="chat-edit-title-wrapper default">
+							<input type="text" class="chat-edit-title" placeholder="Chat name" maxlength="50">
+							<a href="{{ path('chat_title', {channel: 0}) }}" class="chat-edit-button chat-edit-title-button">
+								<i class="fa-solid fa-check icon-confirm"></i>
+								<i class="fa-solid fa-pen icon-edit"></i>
+							</a>
+						</div>
+
+						<div class="chat-edit-image-wrapper default">
+							<label for="chat-edit-image" class="chat-edit-image-label">
+								<span class="text-default"><i class="fa-solid fa-image"></i> Image</span>
+								<span class="text-editable"><i class="fa-solid fa-image"></i> <span class="chat-edit-image-type">Add</span> image <span class="max-size">(Max 2MB)</span></span>
+								<input type="file" class="chat-edit-image" id="chat-edit-image" accept="image/png, image/jpg, image/jpeg">
+							</label>
+							<a href="{{ path('chat_image', {channel: 0}) }}" class="chat-edit-button chat-edit-image-button">
+								<i class="fa-solid fa-check icon-confirm"></i>
+								<i class="fa-solid fa-pen icon-edit"></i>
+							</a>
+							
+							<div class="chat-edit-image-preview"></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -74,22 +112,22 @@
 				<p class="chat-title">Create new chat</p>
 			</div>
 			<div class="chat-inner custom-scroll">
-				<input type="text" class="chat-new-title" placeholder="Chat name" maxlength="50">
+				<input type="text" class="chat-edit-title" placeholder="Chat name" maxlength="50">
 
-				<div>
-					<label for="chat-new-image" class="chat-new-image-label">
-						<i class="fa-solid fa-image"></i> Add image <span class="max-size">(Max 2MB)</span>
-						<input type="file" class="chat-new-image" id="chat-new-image" accept="image/png, image/jpg, image/jpeg">
+				<div class="chat-edit-image-wrapper">
+					<label for="chat-new-image" class="chat-edit-image-label">
+						<i class="fa-solid fa-image"></i> <span class="chat-edit-image-type">Add</span> image <span class="max-size">(Max 2MB)</span>
+						<input type="file" class="chat-edit-image" id="chat-new-image" accept="image/png, image/jpg, image/jpeg">
 					</label>
 					
-					<div class="chat-new-image-preview"></div>
+					<div class="chat-edit-image-preview"></div>
 				</div>
 
-				<a data-href="{{ path('app_user_modal', {'type': 'chat'}) }}" class="inmodal chat-new-search">
+				<a data-href="{{ path('app_user_modal', {'type': 'chat'}) }}" class="inmodal chat-edit-search">
 					<i class="fa-solid fa-user-plus"></i> Add user
 				</a>
 
-				<div class="chat-new-users">
+				<div class="chat-edit-users">
 					<div class="item default">
 						<div class="item-left">
 							<div class="item-left-image"></div>
@@ -102,7 +140,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="{{ path('chat_new_group') }}" class="chat-new-submit">Create</a>
+				<a href="{{ path('chat_new') }}" class="chat-edit-submit">Create</a>
 			</div>
 		</div>
 	</div>

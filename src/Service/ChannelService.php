@@ -27,12 +27,13 @@ class ChannelService {
         return $this->channelRepository->findOneBy(['name' => $channelName]);
     }
 
-    public function hasChatAccess($chatName, $user) {
+    public function hasChatAccess($chatName, $user, $op = false) {
         $chatChannel = $_ENV['CHAT_CHANNEL'];
         if(!$this->hasAccess($chatChannel, $user)) return false;
 
         $chat = $this->getChat($chatName);
-        return $chat && ($chat->getChatUsers()->isEmpty() || $this->chatRepository->containUser($chat, $user));
+        if(!$op) return $chat && ($chat->getChatUsers()->isEmpty() || $this->chatRepository->containUser($chat, $user));
+        else return $chat && !$chat->getChatUsers()->isEmpty() && $this->chatRepository->containUser($chat, $user, $op);
     }
 
     public function getChat($chatName) {

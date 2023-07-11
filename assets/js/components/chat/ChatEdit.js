@@ -16,8 +16,10 @@ export default class ChatEdit extends ChatScreen {
 
   editDefault() {
     this.titleElement = this.screenElement.find('.chat-edit-title')
+    this.imageWrapperElement = this.screenElement.find('.chat-edit-image-wrapper')
     this.imageElement = this.screenElement.find('.chat-edit-image')
     this.imagePreviewElement = this.screenElement.find('.chat-edit-image-preview')
+    this.imageTypeElement = this.screenElement.find('.chat-edit-image-type')
     this.searchElement = this.screenElement.find('.chat-edit-search')
 
     this.url = this.searchElement.data('href')
@@ -39,6 +41,9 @@ export default class ChatEdit extends ChatScreen {
   updateTitle() {
     this.title = this.titleElement.val()
   }
+  updateTitleElement() {
+    this.titleElement.val(this.title)
+  }
 
   updateImage(e) {
     const file = e.target.files[0]
@@ -51,6 +56,10 @@ export default class ChatEdit extends ChatScreen {
 
   updateImagePreview(e) {
     this.image = e.target.result
+    this.updateImagePreviewElement()
+  }
+  updateImagePreviewElement() {
     this.imagePreviewElement.css('backgroundImage', `url(${this.image})`).css('height', '150px')
+    this.imageTypeElement.text('Edit')
   }
 }

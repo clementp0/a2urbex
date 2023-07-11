@@ -396,11 +396,10 @@
 
         i {
           position: relative;
-          z-index: 2;
           left: -1px;
         }
 
-        &::after {
+        &::before {
           content: '';
           position: absolute;
           top: 0;
@@ -414,8 +413,8 @@
           background-color: rgba(0, 0, 0, 0.3);
         }
 
-        &:hover::after,
-        &:active::after {
+        &:hover::before,
+        &:active::before {
           transform: scale(1);
         }
       }
@@ -437,7 +436,8 @@
       background-color: transparent;
       color: #bbb;
       font-size: 14px;
-      padding: 4px 8px;
+      padding: 4px 24px 4px 8px;
+      width: 100%;
 
       &:focus {
         box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
@@ -540,6 +540,60 @@
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
+    }
+
+    &-image-wrapper,
+    &-title-wrapper {
+      position: relative;
+
+      &.hidden {
+        display: none;
+      }
+
+      .icon-edit.hidden {
+        display: none;
+      }
+
+      &.default {
+        .icon-confirm,
+        .text-editable {
+          display: none;
+        }
+
+        input,
+        label {
+          pointer-events: none;
+        }
+      }
+      &:not(.default) {
+        &.modified {
+          .icon-edit {
+            display: none;
+          }
+        }
+        &:not(.modified) {
+          .icon-confirm {
+            display: none;
+          }
+        }
+        .text-default {
+          display: none;
+        }
+      }
+    }
+
+    &-button {
+      width: 24px;
+      height: 24px;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &-title-button {
+      top: 3px;
     }
   }
 }

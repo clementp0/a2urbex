@@ -61,6 +61,7 @@ export default class ChatNew extends ChatEdit {
     this.image = null
     this.imageElement.val('')
     this.imagePreviewElement.css('backgroundImage', 'unset').css('height', '0px')
+    this.imageTypeElement.text('Add')
   }
 
   create(e) {

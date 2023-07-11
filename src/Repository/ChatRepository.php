@@ -77,7 +77,7 @@ class ChatRepository extends ServiceEntityRepository
         ;
     }
 
-    public function containUser($chat, $user) {
+    public function containUser($chat, $user, $op = false) {
         $qb = $this->createQueryBuilder('c')
             ->select('COUNT(cu)')
             ->join('c.chatUsers', 'cu')
@@ -85,6 +85,8 @@ class ChatRepository extends ServiceEntityRepository
             ->andWhere('cu.user = :user')
             ->setParameter('chat', $chat)
             ->setParameter('user', $user);
+
+        if($op) $qb->andWhere('cu.op = true');
 
         $result = $qb->getQuery()->getSingleScalarResult();
 

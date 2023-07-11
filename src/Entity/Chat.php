@@ -24,10 +24,11 @@ class Chat
     #[ORM\OneToMany(mappedBy: 'chat', targetEntity: Message::class, orphanRemoval: true)]
     private Collection $messages;
     
-    #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['chat'])]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
     
+    #[Groups(['chat'])]
     #[ORM\Column(nullable: true)]
     private ?bool $multi = null;
     

@@ -24,7 +24,7 @@ class ChatController extends AppController
         private ChannelService $channelService, 
     ) {}
 
-    #[Route('/chat/add/admin', name: 'chat_add_admin', methods: ['GET', 'POST'])]
+    #[Route('/chat/admin/add', name: 'chat_add_admin', methods: ['GET', 'POST'])]
     public function addAdminChat(Request $request): Response {
         $global = $_ENV['CHAT_CHANNEL_GLOBAL'];
         $messageContent = $request->getContent();
@@ -33,7 +33,7 @@ class ChatController extends AppController
         return $this->chatReturn($success);
     }
 
-    #[Route('/chat/add/{channel}', name: 'chat_add', methods: ['GET', 'POST'])]
+    #[Route('/chat/{channel}/add', name: 'chat_add', methods: ['GET', 'POST'])]
     public function addChat($channel, Request $request): Response {
         $user = $this->getUser();
         $messageContent = $request->getContent();
@@ -42,14 +42,14 @@ class ChatController extends AppController
         return $this->chatReturn($success);
     }
 
-    #[Route('/chat/get/{channel}', name: 'chat_get', methods: ['GET', 'POST'])]
+    #[Route('/chat/{channel}/get', name: 'chat_get', methods: ['GET', 'POST'])]
     public function getChat($channel): Response {
         $user = $this->getUser();
         return new Response($this->chatService->getMessages($channel, $user));
     }
 
     // Clear Chat 
-    #[Route('/chat/clear/global', name: 'chat_clear_global')]
+    #[Route('/chat/global/clear', name: 'chat_clear_global')]
     public function clearChat() {
         $global = $_ENV['CHAT_CHANNEL_GLOBAL'];
         $chat = $this->channelService->getChat($global);
@@ -111,9 +111,43 @@ class ChatController extends AppController
         return $this->chatReturn($success);
     }
 
-    #[Route('/chat/info/{channel}', name: 'chat_info')]
+    #[Route('/chat/{channel}/info', name: 'chat_info')]
     public function getInfo($channel) {
         $user = $this->getUser();
         return new Response($this->chatService->getInfo($channel, $user));
+    }
+
+    #[Route('/chat/{channel}/title', name: 'chat_title')]
+    public function updateTitle($channel, Request $request) {
+        $user = $this->getUser();
+
+        $success = false;
+
+        if($this->channelService->hasChatAccess($channel, $user, true)) {
+            $chat = $this->channelService->getChat($channel);
+            $chat->setTitle($request->get('title'));
+
+            $this->chatRepository->save($chat, true);
+            $success = true;
+        }
+        
+        return $this->chatReturn($success);
+    }
+    
+    #[Route('/chat/{channel}/image', name: 'chat_image')]
+    public function updateImage($channel, Request $request) {
+        $user = $this->getUser();
+        $success = false;
+        $image = $request->get('image');
+
+        if($this->channelService->hasChatAccess($channel, $user) && mb_strlen($image)) {
+            $chat = $this->channelService->getChat($channel);
+            $chat->setImageCustom($image);
+
+            $this->chatRepository->save($chat, true);
+            $success = true;
+        }
+
+        return $this->chatReturn($success);
     }
 }

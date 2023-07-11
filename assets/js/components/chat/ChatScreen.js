@@ -57,13 +57,14 @@ export default class ChatScreen {
   }
 
   getGetUrl(name) {
-    return this.main.getUrl.replace('/0', '/' + name)
+    return this.formatUrl(this.main.getUrl, name)
   }
   getAddUrl(name) {
-    return this.main.addUrl.replace('/0', '/' + name)
+    return this.formatUrl(this.main.addUrl, name)
   }
-  getInfoUrl(name) {
-    return this.main.infoUrl.replace('/0', '/' + name)
+
+  formatUrl(url, name) {
+    return url.replace('/0', '/' + name)
   }
 
   scrollBottom() {
