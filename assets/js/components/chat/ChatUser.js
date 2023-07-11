@@ -1,22 +1,29 @@
 export default class ChatUser {
-  constructor(element, parent, data) {
+  constructor(element, parent, data, user) {
     this.element = element
     this.parent = parent
     this.data = data
+    this.user = user
 
     this.default()
     this.triggers()
+    console.log(this)
   }
 
-  static initItem(parent, user) {
+  static initItem(parent, data) {
+    const user = data.user ? data.user : data
+
     const line = parent.usersElement.find('.default').clone()
 
     line.removeClass('default').find('.item-left-username').text(user.username)
     if (user.image) line.find('.item-left-image').css('backgroundImage', `url(${user.image})`)
 
+    if (data.pseudo !== undefined)
+      line.find('.item-left-pseudo').text(data?.pseudo ? data.pseudo : user.username)
+
     parent.usersElement.append(line)
 
-    return new this(line, parent, user)
+    return new this(line, parent, data, user)
   }
 
   default() {

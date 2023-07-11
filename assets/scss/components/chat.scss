@@ -601,6 +601,26 @@
       top: 3px;
     }
   }
+
+  .chat-info {
+    .chat-edit {
+      &-users {
+        .item {
+          &-left {
+            &-pseudo {
+              color: #bdbdbd;
+              margin: 0;
+            }
+            &-username {
+              color: inherit;
+              font-size: 12px;
+              line-height: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 850px) {

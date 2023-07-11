@@ -33,6 +33,7 @@ export default class ChatInfo extends ChatEdit {
     super.close()
     this.resetTitle()
     this.resetTitle()
+    this.removeUsers()
   }
 
   resetTitle() {
@@ -80,6 +81,8 @@ export default class ChatInfo extends ChatEdit {
 
     this.title = data.title
     this.updateTitleElement()
+
+    data.chatUsers.forEach((item) => this.addUser(item))
 
     this.parent.loading(false)
     this.open()

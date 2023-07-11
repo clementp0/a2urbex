@@ -88,6 +88,6 @@ export default class ChatEdit extends ChatScreen {
 
   getUserIds() {
     if (!this.users.length) return
-    return this.users.map((user) => user.data.id)
+    return this.users.map((item) => item.user.id)
   }
 }
