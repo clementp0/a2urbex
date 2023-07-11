@@ -120,15 +120,17 @@ class ChatController extends AppController
     #[Route('/chat/{channel}/title', name: 'chat_title')]
     public function updateTitle($channel, Request $request) {
         $user = $this->getUser();
-
         $success = false;
+        $title = $request->get('title');
+
 
         if($this->channelService->hasChatAccess($channel, $user, true)) {
             $chat = $this->channelService->getChat($channel);
-            $chat->setTitle($request->get('title'));
-
+            $chat->setTitle($title);
             $this->chatRepository->save($chat, true);
-            $success = true;
+
+            $message = $user->getUsername().' named the group ' . $title;
+            $success = $this->chatService->saveMessage($chat->getName(), $message, null, true);
         }
         
         return $this->chatReturn($success);
@@ -143,9 +145,10 @@ class ChatController extends AppController
         if($this->channelService->hasChatAccess($channel, $user) && mb_strlen($image)) {
             $chat = $this->channelService->getChat($channel);
             $chat->setImageCustom($image);
-
             $this->chatRepository->save($chat, true);
-            $success = true;
+
+            $message = $user->getUsername().' changed the group image';
+            $success = $this->chatService->saveMessage($chat->getName(), $message, null, true);
         }
 
         return $this->chatReturn($success);
