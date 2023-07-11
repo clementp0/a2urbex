@@ -25,7 +25,7 @@ export default class ChatEdit extends ChatScreen {
     this.searchElement = this.screenElement.find('.chat-edit-search')
     this.usersElement = this.screenElement.find('.chat-edit-users')
 
-    this.modal = new UserModal('.chat-edit-search.inmodal', (e) => this.addUserTrigger(e))
+    this.modal = new UserModal('.chat-edit-search.inmodal', () => this.addUserTrigger())
     this.url = this.searchElement.data('href')
     this.updateUrl()
   }
@@ -67,11 +67,8 @@ export default class ChatEdit extends ChatScreen {
     this.imageTypeElement.text('Edit')
   }
 
-  addUserTrigger(e) {
-    e.preventDefault()
-
+  addUserTrigger() {
     this.addUser(this.modal.current)
-    this.modal.action.close()
   }
 
   addUser(user) {

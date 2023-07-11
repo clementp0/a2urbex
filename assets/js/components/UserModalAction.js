@@ -3,6 +3,7 @@ export default class UserModalAction {
     this.element = html
     this.parent = parent
     this.prevString = ''
+    this.validated = false
 
     this.default()
     this.triggers()
@@ -40,7 +41,17 @@ export default class UserModalAction {
     this.unselectElement.on('click', (e) => this.unselect())
 
     if (typeof this.parent.callback === 'function')
-      this.validateElement.on('click', (e) => this.parent.callback(e))
+      this.validateElement.on('click', (e) => this.validate(e))
+  }
+
+  validate(e) {
+    e.preventDefault()
+
+    if (this.validated === true) return
+
+    this.validated = true
+    this.parent.callback()
+    this.close()
   }
 
   close() {
@@ -132,4 +143,6 @@ export default class UserModalAction {
       .text(this.validateElement.data('origin'))
       .attr('href', '#')
   }
+
+  confirm() {}
 }
