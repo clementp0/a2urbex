@@ -33,6 +33,10 @@ export default class ChatUser {
     this.closeBoxElement = this.element.find('.item-rename-close')
     this.confirmBoxElement = this.element.find('.item-rename-confirm')
     this.pseudoElement = this.element.find('.item-left-pseudo')
+
+    this.opElement = this.element.find('.item-right-op')
+    if (this.opElement.length && this.parent.op && !this.data.op)
+      this.opElement.removeClass('hidden')
   }
 
   triggers() {
@@ -40,6 +44,7 @@ export default class ChatUser {
     this.renameElement.on('click', (e) => this.renameBox(e))
     this.closeBoxElement.on('click', (e) => this.closeBox(e))
     this.confirmBoxElement.on('click', (e) => this.confirmBox(e))
+    this.opElement.on('click', (e) => this.opTrigger(e))
   }
 
   renameBox(e) {
@@ -65,5 +70,24 @@ export default class ChatUser {
   updatePseudo(name) {
     this.pseudoElement.text(name)
     this.renameBoxElement.addClass('hidden')
+  }
+
+  opTrigger(e) {
+    e.preventDefault()
+    if (
+      !confirm(
+        'Are you sure you want to promote ' +
+          (this.data.pseudo ? this.data.pseudo : this.user.username)
+      )
+    )
+      return
+
+    const url = this.opElement.attr('href')
+    this.parent.opUser(this, url)
+  }
+
+  updateOp() {
+    this.opElement.addClass('hidden')
+    this.data.op = true
   }
 }

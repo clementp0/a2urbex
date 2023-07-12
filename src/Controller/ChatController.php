@@ -193,4 +193,24 @@ class ChatController extends AppController
 
         return $this->chatReturn($success);
     }
+
+    #[Route('/chat/{channel}/user/{id}/op', name: 'chat_user_op')]
+    public function opUser($channel, $id) {
+        $user = $this->getUser();
+        $user2 = $this->userRepository->findOneById($id);
+        $success = false;
+
+        if($user2 || $this->channelService->hasChatAccess($channel, $user, true)) {
+            $chat = $this->channelService->getChat($channel);
+            $chatUser = $this->chatUserRepository->findOneBy(['chat' => $chat, 'user' => $user2]);
+
+            if($chatUser) {
+                $chatUser->setOp(true);
+                $this->chatUserRepository->save($chatUser, true);
+                $success = true;
+            }
+        }
+
+        return $this->chatReturn($success);
+    }
 }
