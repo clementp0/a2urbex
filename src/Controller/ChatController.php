@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use App\Repository\MessageRepository;
 use App\Repository\ChatRepository;
+use App\Repository\ChatUserRepository;
 use App\Repository\UserRepository;
 use App\Service\ChatService;
 use App\Service\ChannelService;
@@ -20,6 +21,7 @@ class ChatController extends AppController
         private ChatService $chatService, 
         private MessageRepository $messageRepository, 
         private ChatRepository $chatRepository, 
+        private ChatUserRepository $chatUserRepository, 
         private UserRepository $userRepository,
         private ChannelService $channelService, 
     ) {}
@@ -123,7 +125,6 @@ class ChatController extends AppController
         $success = false;
         $title = $request->get('title');
 
-
         if($this->channelService->hasChatAccess($channel, $user, true)) {
             $chat = $this->channelService->getChat($channel);
             $chat->setTitle($title);
@@ -152,5 +153,20 @@ class ChatController extends AppController
         }
 
         return $this->chatReturn($success);
+    }
+
+    #[Route('/chat/{channel}/user/{id}/add', name: 'chat_user_add')]
+    public function newUser($channel, $id) {
+        $user = $this->getUser();
+        $newUser = $this->userRepository->findOneById($id);
+
+        $data = $this->chatService->addChatUser($channel, $user, $newUser);
+        if(!$data) return $this->chatReturn(false);
+
+        $chat = $this->channelService->getChat($channel);
+        $message = $user->getUsername() . ' added ' . $newUser->getUsername();
+        $success = $this->chatService->saveMessage($chat->getName(), $message, null, true);
+
+        return new Response($data);
     }
 }

@@ -18,8 +18,8 @@ export default class ChatUser {
     line.removeClass('default').find('.item-left-username').text(user.username)
     if (user.image) line.find('.item-left-image').css('backgroundImage', `url(${user.image})`)
 
-    if (data.pseudo !== undefined)
-      line.find('.item-left-pseudo').text(data?.pseudo ? data.pseudo : user.username)
+    const pseudoElement = line.find('.item-left-pseudo')
+    if (pseudoElement.length) pseudoElement.text(data.pseudo ? data.pseudo : user.username)
 
     parent.usersElement.append(line)
 

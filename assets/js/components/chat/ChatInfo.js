@@ -22,6 +22,7 @@ export default class ChatInfo extends ChatEdit {
 
     this.titleUrl = this.formatUrl(this.titleButtonElement.attr('href'), this.parent.name)
     this.imageUrl = this.formatUrl(this.imageButtonElement.attr('href'), this.parent.name)
+    this.addUserUrl = this.searchElement.data('adduserurl')
   }
 
   triggers() {
@@ -156,5 +157,17 @@ export default class ChatInfo extends ChatEdit {
       this.imageWrapperElement.removeClass('modified')
       this.imageEdit = false
     }
+  }
+
+  addUserTrigger() {
+    $.ajax({
+      url: this.formatUrl(this.addUserUrl, this.parent.name, this.modal.current.id),
+      method: 'POST',
+      dataType: 'json',
+      success: (data) => {
+        if (data.success === false) return alert('Unable to add user')
+        super.addUserTrigger()
+      },
+    })
   }
 }

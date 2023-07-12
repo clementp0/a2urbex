@@ -101,7 +101,11 @@
 							<div class="chat-edit-image-preview"></div>
 						</div>
 
-						<a data-href="{{ path('app_user_modal', {'type': 'chat'}) }}" class="inmodal chat-edit-search">
+						<a 
+							data-href="{{ path('app_user_modal', {'type': 'chat'}) }}" 
+							data-adduserurl="{{ path('chat_user_add', {channel: 0, id: 0}) }}" 
+							class="inmodal chat-edit-search"
+						>
 							<i class="fa-solid fa-user-plus"></i> Add user
 						</a>
 
@@ -109,15 +113,21 @@
 							<div class="item default">
 								<div class="item-left">
 									<div class="item-left-image"></div>
-									<div>
+									<div class="item-left-names">
 										<p class="item-left-pseudo"></p>
 										<p class="item-left-username"></p>
 									</div>
 								</div>
 								<div class="item-right">
-									{# <div class="item-right-remove">
+									<a href="" class="item-right-rename">
+										<i class="fa-solid fa-pen"></i>
+									</a>
+									<a href="" class="item-right-op hidden">
+										<i class="fa-solid fa-star"></i>
+									</a> 
+									<a href="" class="item-right-delete hidden">
 										<i class="fa-solid fa-trash"></i>
-									</div> #}
+									</a>
 								</div>
 							</div>
 						</div>
@@ -153,7 +163,9 @@
 					<div class="item default">
 						<div class="item-left">
 							<div class="item-left-image"></div>
-							<p class="item-left-username"></p>
+							<div class="item-left-names">
+								<p class="item-left-username"></p>
+							</div>
 						</div>
 						<div class="item-right">
 							<div class="item-right-remove">

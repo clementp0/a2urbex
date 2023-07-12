@@ -63,8 +63,11 @@ export default class ChatScreen {
     return this.formatUrl(this.main.addUrl, name)
   }
 
-  formatUrl(url, name) {
-    return url.replace('/0', '/' + name)
+  formatUrl(url, name, user = null) {
+    url = url.replace('chat/0', 'chat/' + name)
+    if (user) url = url.replace('user/0', 'user/' + user)
+
+    return url
   }
 
   scrollBottom() {

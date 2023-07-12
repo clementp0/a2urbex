@@ -34,7 +34,7 @@
   position: fixed;
   bottom: 40px;
   right: 15px;
-  width: 300px;
+  width: 320px;
   height: 550px;
   transition: transform 0.5s ease;
   transform: translateX(130%);
@@ -469,8 +469,10 @@
         &-left {
           display: flex;
           align-items: center;
-          width: calc(100% - 24px);
-          padding-right: 5px;
+          flex-grow: 1;
+          padding-right: 10px;
+          overflow: hidden;
+          white-space: nowrap;
 
           &-image {
             width: 30px;
@@ -483,6 +485,11 @@
             margin-right: 10px;
             flex-shrink: 0;
           }
+
+          &-names {
+            max-width: calc(100% - 40px);
+          }
+
           &-username {
             color: #bdbdbd;
             font-size: 14px;
@@ -493,6 +500,8 @@
           }
         }
         &-right {
+          flex-shrink: 0;
+
           &-remove {
             width: 24px;
             height: 24px;
@@ -608,6 +617,8 @@
         .item {
           &-left {
             &-pseudo {
+              text-overflow: ellipsis;
+              overflow: hidden;
               color: #bdbdbd;
               margin: 0;
             }
@@ -615,6 +626,16 @@
               color: inherit;
               font-size: 12px;
               line-height: 12px;
+            }
+          }
+
+          &-right {
+            font-size: 12px;
+            display: flex;
+            column-gap: 5px;
+
+            .hidden {
+              display: none;
             }
           }
         }

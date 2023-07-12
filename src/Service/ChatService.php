@@ -10,6 +10,7 @@ use App\Entity\Message;
 use App\Entity\Chat;
 use App\Entity\ChatUser;
 use App\Repository\ChatRepository;
+use App\Repository\ChatUserRepository;
 use App\Service\ChannelService;
 use App\Websocket\WebsocketClient;
 
@@ -17,6 +18,7 @@ class ChatService {
     public function __construct(
         private MessageRepository $messageRepository,
         private ChatRepository $chatRepository,
+        private ChatUserRepository $chatUserRepository,
         private SerializerInterface $serializer,
         private ChannelService $channelService,
         private WebsocketClient $websocketClient
@@ -115,6 +117,20 @@ class ChatService {
 
         $chat = $this->channelService->getChat($chatName);
         return $this->serialize($chat, ['chatInfo']);
+    }
+
+    public function addChatUser($chatName, $user, $newUser) {
+        if(!$newUser || !$this->channelService->hasChatAccess($chatName, $user)) return;
+
+        $chat = $this->channelService->getChat($chatName);
+        if($this->chatUserRepository->findOneBy(['chat' => $chat, 'user' => $newUser])) return;
+        
+        $chatUser = new ChatUser();
+        $chatUser->setUser($newUser)->setChat($chat);
+
+        $this->chatUserRepository->save($chatUser, true);
+
+        return $this->serialize($chatUser, ['chatInfo']);
     }
 
     private function formatChat($chat, $user = null, $invert = false) {
