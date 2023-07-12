@@ -15,21 +15,25 @@ class Message
     #[ORM\Column]
     private ?int $id = null;
     
-    #[ORM\ManyToOne]
     #[Groups(['chat'])]
+    #[ORM\ManyToOne]
     private ?User $sender = null;
 
-    #[ORM\Column(length: 255)]
     #[Groups(['chat'])]
+    #[ORM\Column(length: 255)]
     private ?string $value = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups(['chat'])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $datetime = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Chat $chat = null;
+
+    #[Groups(['chat'])]
+    #[ORM\ManyToOne(inversedBy: 'messages')]
+    private ?ChatUser $chatUser = null;
 
     public function getId(): ?int
     {
@@ -80,6 +84,18 @@ class Message
     public function setChat(?Chat $chat): self
     {
         $this->chat = $chat;
+
+        return $this;
+    }
+
+    public function getChatUser(): ?ChatUser
+    {
+        return $this->chatUser;
+    }
+
+    public function setChatUser(?ChatUser $chatUser): self
+    {
+        $this->chatUser = $chatUser;
 
         return $this;
     }

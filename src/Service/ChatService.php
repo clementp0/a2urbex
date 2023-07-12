@@ -37,7 +37,11 @@ class ChatService {
             ->setDateTime(new \DateTime('@'.strtotime('now')))
         ;
 
-        if($sender) $message->setSender($sender);
+        if($sender) {
+            $message->setSender($sender);
+            $chatUser = $this->chatUserRepository->findOneBy(['chat' => $chat, 'user' => $sender]);
+            $message->setChatUser($chatUser);
+        }
         
         $this->messageRepository->save($message, true);
         
