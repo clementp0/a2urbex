@@ -35,8 +35,11 @@ export default class ChatUser {
     this.pseudoElement = this.element.find('.item-left-pseudo')
 
     this.opElement = this.element.find('.item-right-op')
-    if (this.opElement.length && this.parent.op && !this.data.op)
-      this.opElement.removeClass('hidden')
+    if (this.parent.op && !this.data.op) this.opElement.removeClass('hidden')
+
+    this.deleteElement = this.element.find('.item-right-delete')
+    if (this.parent.op && this.user.id !== this.parent.main.user)
+      this.deleteElement.removeClass('hidden')
   }
 
   triggers() {
@@ -45,6 +48,7 @@ export default class ChatUser {
     this.closeBoxElement.on('click', (e) => this.closeBox(e))
     this.confirmBoxElement.on('click', (e) => this.confirmBox(e))
     this.opElement.on('click', (e) => this.opTrigger(e))
+    this.deleteElement.on('click', (e) => this.deleteTrigger(e))
   }
 
   renameBox(e) {
@@ -74,13 +78,8 @@ export default class ChatUser {
 
   opTrigger(e) {
     e.preventDefault()
-    if (
-      !confirm(
-        'Are you sure you want to promote ' +
-          (this.data.pseudo ? this.data.pseudo : this.user.username)
-      )
-    )
-      return
+    const name = this.data.pseudo ? this.data.pseudo : this.user.username
+    if (!confirm('Are you sure you want to promote ' + name)) return
 
     const url = this.opElement.attr('href')
     this.parent.opUser(this, url)
@@ -89,5 +88,14 @@ export default class ChatUser {
   updateOp() {
     this.opElement.addClass('hidden')
     this.data.op = true
+  }
+
+  deleteTrigger(e) {
+    e.preventDefault()
+    const name = this.data.pseudo ? this.data.pseudo : this.user.username
+    if (!confirm('Are you sure you want to remove ' + name)) return
+
+    const url = this.deleteElement.attr('href')
+    this.parent.deleteUser(this, url)
   }
 }

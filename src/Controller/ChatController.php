@@ -213,4 +213,22 @@ class ChatController extends AppController
 
         return $this->chatReturn($success);
     }
+
+    #[Route('/chat/{channel}/user/{id}/delete', name: 'chat_user_delete')]
+    public function deleteUser($channel, $id) {
+        $user = $this->getUser();
+        $user2 = $this->userRepository->findOneById($id);
+        $success = false;
+
+        if($user2 || $this->channelService->hasChatAccess($channel, $user, true)) {
+            $chat = $this->channelService->getChat($channel);
+            $chatUser = $this->chatUserRepository->findOneBy(['chat' => $chat, 'user' => $user2]);
+            $this->chatUserRepository->remove($chatUser, true);
+
+            $message = $user->getUsername() . ' removed ' . $user2->getUsername();
+            $success = $this->chatService->saveMessage($chat->getName(), $message, null, true);
+        }
+
+        return $this->chatReturn($success);
+    }
 }

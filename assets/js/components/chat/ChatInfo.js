@@ -197,4 +197,16 @@ export default class ChatInfo extends ChatEdit {
       },
     })
   }
+
+  deleteUser(user, url) {
+    $.ajax({
+      url: this.formatUrl(url, this.parent.name, user.user.id),
+      method: 'POST',
+      dataType: 'json',
+      success: (data) => {
+        if (!data?.success) return alert('Unable to remove user')
+        else this.removeUser(user)
+      },
+    })
+  }
 }
