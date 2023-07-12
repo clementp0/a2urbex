@@ -74,6 +74,7 @@ export default class ChatUser {
   updatePseudo(name) {
     this.pseudoElement.text(name)
     this.renameBoxElement.addClass('hidden')
+    this.data.pseudo = name
   }
 
   opTrigger(e) {
