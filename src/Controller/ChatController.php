@@ -184,7 +184,7 @@ class ChatController extends AppController
             if($chatUser && mb_strlen($name)) {
                 $oldPseudo = $chatUser->getPseudo();
                 if(!$oldPseudo) $oldPseudo = $user2->getUsername();
-                
+
                 $chatUser->setPseudo($name);
                 $this->chatUserRepository->save($chatUser, true);
     
@@ -229,6 +229,39 @@ class ChatController extends AppController
 
             $message = $user->getUsername() . ' removed ' . $user2->getUsername();
             $success = $this->chatService->saveMessage($chat->getName(), $message, null, true);
+        }
+
+        return $this->chatReturn($success);
+    }
+
+    #[Route('/chat/{channel}/leave', name: 'chat_user_leave')]
+    public function leaveChat($channel) {
+        $user = $this->getUser();
+        $success = false;
+        $send = true;
+
+        if($this->channelService->hasChatAccess($channel, $user)) {
+            $chat = $this->channelService->getChat($channel);
+            $chatUser = $this->chatUserRepository->findOneBy(['chat' => $chat, 'user' => $user]);
+            $this->chatUserRepository->remove($chatUser, true);
+
+            $opUser = $this->chatUserRepository->findOneBy(['chat' => $chat, 'op' => true]);
+            if(!$opUser) {
+                if($chat->getChatUsers()->count()) {
+                    $newOpUser = $chat->getChatUsers()->first();
+                    $newOpUser->setOp(true);
+                    $this->chatUserRepository->save($newOpUser, true);
+                } else {
+                    $this->chatRepository->remove($chat, true);
+                    $send = false;
+                    $success = true;
+                }
+            }
+
+            if($send) {
+                $message = $user->getUsername() . ' left the group';
+                $success = $this->chatService->saveMessage($chat->getName(), $message, null, true);
+            }
         }
 
         return $this->chatReturn($success);

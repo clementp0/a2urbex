@@ -19,6 +19,7 @@ export default class ChatInfo extends ChatEdit {
     this.titleButtonElement = this.screenElement.find('.chat-edit-title-button')
     this.imageWrapperElement = this.screenElement.find('.chat-edit-image-wrapper')
     this.imageButtonElement = this.screenElement.find('.chat-edit-image-button')
+    this.leaveButtonElement = this.screenElement.find('.chat-edit-leave')
 
     this.titleUrl = this.formatUrl(this.titleButtonElement.attr('href'), this.parent.name)
     this.imageUrl = this.formatUrl(this.imageButtonElement.attr('href'), this.parent.name)
@@ -28,6 +29,7 @@ export default class ChatInfo extends ChatEdit {
   triggers() {
     this.titleButtonElement.on('click', (e) => this.titleButton(e))
     this.imageButtonElement.on('click', (e) => this.imageButton(e))
+    this.leaveButtonElement.on('click', (e) => this.leaveButton(e))
   }
 
   close() {
@@ -69,6 +71,7 @@ export default class ChatInfo extends ChatEdit {
     if (!data.multi) {
       this.titleWrapperElement.addClass('hidden')
       this.imageWrapperElement.addClass('hidden')
+      this.leaveButtonElement.addClass('hidden')
     }
 
     if (data.image) {
@@ -207,6 +210,34 @@ export default class ChatInfo extends ChatEdit {
       success: (data) => {
         if (!data?.success) return alert('Unable to remove user')
         else this.removeUser(user)
+      },
+    })
+  }
+
+  leaveButton(e) {
+    e.preventDefault()
+
+    $.ajax({
+      url: this.formatUrl(this.leaveButtonElement.attr('href'), this.parent.name),
+      method: 'POST',
+      dataType: 'json',
+      success: (data) => {
+        if (!data.success) {
+          return alert('Unable to leave group')
+        } else {
+          this.close()
+          this.parent.close()
+
+          setTimeout(() => {
+            const name = this.parent.name
+
+            this.main.screens.list.screens[name].screenElement.remove()
+            delete this.main.screens.list.screens[name]
+
+            this.main.screens.list.items[name].remove()
+            delete this.main.screens.list.items[name]
+          }, 500)
+        }
       },
     })
   }

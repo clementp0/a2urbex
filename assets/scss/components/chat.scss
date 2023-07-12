@@ -518,6 +518,7 @@
       }
     }
 
+    &-leave,
     &-search,
     &-submit,
     &-image-label {
@@ -530,6 +531,14 @@
 
       &:hover {
         color: #60a5fa;
+      }
+    }
+
+    &-leave {
+      color: #8d1c1c;
+
+      &.hidden {
+        display: none;
       }
     }
 
