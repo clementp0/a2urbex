@@ -138,16 +138,19 @@ class ChatService {
     }
 
     private function formatChat($chat, $user = null, $invert = false) {
-        $users = $this->chatRepository->findUsers($chat);
+        $users = $chat->getChatUsers();
 
         if(!$chat->getTitle()) {
             $names = [];
-            foreach($users as $u) {
+            foreach($users as $cu) {
+                $u = $cu->getUser();
+
                 if(
                     ($invert === false && $u !== $user) 
                     || ($invert === true && $u === $user)
                 ) {
-                    $names[] = $u->getUsername();
+                    $pseudo = $cu->getPseudo();
+                    $names[] =  $pseudo ? $pseudo : $u->getUsername();
                 }
                 if(!$chat->isMulti() && count($names)) break;
             }
@@ -155,7 +158,9 @@ class ChatService {
         }
 
         if(!$chat->getImage() && !$chat->isMulti()) {
-            foreach($users as $u) {
+            foreach($users as $cu) {
+                $u = $cu->getUser();
+
                 if(
                     ($invert === false && $u !== $user) 
                     || ($invert === true && $u === $user)
