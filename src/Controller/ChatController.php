@@ -107,7 +107,7 @@ class ChatController extends AppController
 
         $usernames = [];
         foreach($newUsers as $u) $usernames[] = $u->getUsername();
-        $message = $user->getUsername().' created a new chat with ' . implode(', ', $usernames);
+        $message = $user->getUsername().' created a new group with ' . implode(', ', $usernames);
         $success = $this->chatService->saveMessage($chat->getName(), $message, null, true);
 
         return $this->chatReturn($success);
@@ -130,7 +130,7 @@ class ChatController extends AppController
             $chat->setTitle($title);
             $this->chatRepository->save($chat, true);
 
-            $message = $user->getUsername().' named the group ' . $title;
+            $message = $user->getUsername().' renamed the group ' . $title;
             $success = $this->chatService->saveMessage($chat->getName(), $message, null, true);
         }
         
@@ -183,6 +183,8 @@ class ChatController extends AppController
 
             if($chatUser && mb_strlen($name)) {
                 $oldPseudo = $chatUser->getPseudo();
+                if(!$oldPseudo) $oldPseudo = $user2->getUsername();
+                
                 $chatUser->setPseudo($name);
                 $this->chatUserRepository->save($chatUser, true);
     
