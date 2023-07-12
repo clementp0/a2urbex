@@ -169,4 +169,28 @@ class ChatController extends AppController
 
         return new Response($data);
     }
+
+    #[Route('/chat/{channel}/user/{id}/rename', name: 'chat_user_rename')]
+    public function renamerUser($channel, $id, Request $request) {
+        $user = $this->getUser();
+        $user2 = $this->userRepository->findOneById($id);
+        $name = $request->get('name');
+        $success = false;
+
+        if($user2 || $this->channelService->hasChatAccess($channel, $user)) {
+            $chat = $this->channelService->getChat($channel);
+            $chatUser = $this->chatUserRepository->findOneBy(['chat' => $chat, 'user' => $user2]);
+
+            if($chatUser && mb_strlen($name)) {
+                $oldPseudo = $chatUser->getPseudo();
+                $chatUser->setPseudo($name);
+                $this->chatUserRepository->save($chatUser, true);
+    
+                $message = $user->getUsername() . ' renamed ' . $oldPseudo . ' to ' . $name;
+                $success = $this->chatService->saveMessage($chat->getName(), $message, null, true);
+            }
+        }
+
+        return $this->chatReturn($success);
+    }
 }

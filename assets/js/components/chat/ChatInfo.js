@@ -170,4 +170,19 @@ export default class ChatInfo extends ChatEdit {
       },
     })
   }
+
+  renameUser(user, url, name) {
+    $.ajax({
+      url: this.formatUrl(url, this.parent.name, user.user.id),
+      method: 'POST',
+      dataType: 'json',
+      data: {
+        name,
+      },
+      success: (data) => {
+        if (!data?.success) return alert('Unable to rename user')
+        else user.updatePseudo(name)
+      },
+    })
+  }
 }

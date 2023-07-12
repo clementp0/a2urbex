@@ -435,7 +435,7 @@
   }
 
   .chat-edit {
-    &-title {
+    &-input {
       border: none;
       border-bottom: 1px solid #404040;
       background-color: transparent;
@@ -615,6 +615,44 @@
     .chat-edit {
       &-users {
         .item {
+          position: relative;
+
+          &-rename {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: #303030;
+
+            &.hidden {
+              display: none;
+            }
+
+            &-confirm,
+            &-close {
+              position: absolute;
+              top: 4px;
+              width: 20px;
+              height: 20px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+
+            &-confirm {
+              right: 24px;
+            }
+
+            &-close {
+              right: 0;
+            }
+
+            &-input {
+              padding-right: 48px;
+            }
+          }
+
           &-left {
             &-pseudo {
               text-overflow: ellipsis;

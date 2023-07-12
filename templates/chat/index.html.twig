@@ -79,7 +79,7 @@
 
 					<div class="chat-inner custom-scroll">
 						<div class="chat-edit-title-wrapper default">
-							<input type="text" class="chat-edit-title" placeholder="Chat name" maxlength="50">
+							<input type="text" class="chat-edit-title chat-edit-input" placeholder="Chat name" maxlength="50">
 							<a href="{{ path('chat_title', {channel: 0}) }}" class="chat-edit-button chat-edit-title-button">
 								<i class="fa-solid fa-check icon-confirm"></i>
 								<i class="fa-solid fa-pen icon-edit"></i>
@@ -111,6 +111,15 @@
 
 						<div class="chat-edit-users">
 							<div class="item default">
+								<div class="item-rename hidden">
+									<input class="item-rename-input chat-edit-input">
+									<a href="{{ path('chat_user_rename', {channel: 0, id: 0}) }}" class="item-rename-confirm">
+										<i class="fa-solid fa-check"></i>
+									</a>
+									<a href="#" class="item-rename-close">
+										<i class="fa-solid fa-xmark"></i>
+									</a>
+								</div>
 								<div class="item-left">
 									<div class="item-left-image"></div>
 									<div class="item-left-names">
@@ -144,7 +153,7 @@
 				<p class="chat-title">Create new chat</p>
 			</div>
 			<div class="chat-inner custom-scroll">
-				<input type="text" class="chat-edit-title" placeholder="Chat name" maxlength="50">
+				<input type="text" class="chat-edit-title chat-edit-input" placeholder="Chat name" maxlength="50">
 
 				<div class="chat-edit-image-wrapper">
 					<label for="chat-new-image" class="chat-edit-image-label">
