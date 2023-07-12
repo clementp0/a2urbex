@@ -124,7 +124,7 @@ class ChatService {
     }
 
     public function addChatUser($chatName, $user, $newUser) {
-        if(!$newUser || !$this->channelService->hasChatAccess($chatName, $user)) return;
+        if(!$newUser || !$this->channelService->hasChatAccess($chatName, $user, true)) return;
 
         $chat = $this->channelService->getChat($chatName);
         if($this->chatUserRepository->findOneBy(['chat' => $chat, 'user' => $newUser])) return;

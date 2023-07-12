@@ -64,6 +64,7 @@ export default class ChatInfo extends ChatEdit {
 
     if (!data.multi || !this.op) {
       this.screenElement.find('.icon-edit').addClass('hidden')
+      this.searchElement.addClass('hidden')
     }
     if (!data.multi) {
       this.titleWrapperElement.addClass('hidden')

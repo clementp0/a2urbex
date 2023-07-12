@@ -613,6 +613,10 @@
 
   .chat-info {
     .chat-edit {
+      &-search.hidden {
+        display: none;
+      }
+
       &-users {
         .item {
           position: relative;
