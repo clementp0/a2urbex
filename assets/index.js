@@ -30,7 +30,8 @@ $(() => {
   })
 
   // Friend page
-  new UserModal('.add-friend.inmodal')
+  const friendElement = $('.add-friend.inmodal')
+  new UserModal(friendElement)
 
   $('.friend-accept').on('click', (e) => {
     if (!confirm('Accept user ?')) e.preventDefault()
@@ -43,7 +44,8 @@ $(() => {
   })
 
   // Favorite page
-  new UserModal('.fav-item-share-user.inmodal')
+  const favElement = $('.fav-item-share-user.inmodal')
+  new UserModal(favElement)
 
   $('.pin-fav-wrapper').each(function () {
     new FavoritePopup(this)

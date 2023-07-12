@@ -1,8 +1,8 @@
 import UserModalAction from './UserModalAction'
 
 export default class UserModal {
-  constructor(selector, callback = null) {
-    this.element = $(selector)
+  constructor(element, callback = null) {
+    this.element = element
     this.callback = callback
     this.action = null
     this.current = null
@@ -16,18 +16,17 @@ export default class UserModal {
 
   open(e) {
     e.preventDefault()
-    const current = $(e.currentTarget)
-    current.addClass('disabled')
+    this.element.addClass('disabled')
 
     $.ajax({
       type: 'POST',
-      url: current.attr('href'),
+      url: this.element.attr('href'),
       success: (data) => {
-        current.removeClass('disabled')
+        this.element.removeClass('disabled')
         this.action = new UserModalAction($(data), this)
       },
       error: () => {
-        current.removeClass('disabled')
+        this.element.removeClass('disabled')
       },
     })
   }

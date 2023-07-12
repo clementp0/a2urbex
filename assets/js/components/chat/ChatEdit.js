@@ -25,7 +25,8 @@ export default class ChatEdit extends ChatScreen {
     this.searchElement = this.screenElement.find('.chat-edit-search')
     this.usersElement = this.screenElement.find('.chat-edit-users')
 
-    this.modal = new UserModal('.chat-edit-search.inmodal', () => this.addUserTrigger())
+    this.modalElement = this.screenElement.find('.chat-edit-search.inmodal')
+    this.modal = new UserModal(this.modalElement, () => this.addUserTrigger())
     this.url = this.searchElement.data('href')
     this.updateUrl()
   }
@@ -38,7 +39,7 @@ export default class ChatEdit extends ChatScreen {
   }
 
   updateUrl() {
-    const url = this.buildSearchUrl(this.url, { ids: [this.getUserIds()] })
+    const url = this.buildSearchUrl(this.url, { ids: this.getUserIds() })
     this.searchElement.attr('href', url)
   }
 
@@ -79,6 +80,7 @@ export default class ChatEdit extends ChatScreen {
   removeUser(user) {
     user.element.remove()
     this.users = this.users.filter((item) => item !== user)
+    this.updateUrl()
   }
 
   removeUsers() {
