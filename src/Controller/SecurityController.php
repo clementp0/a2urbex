@@ -59,8 +59,9 @@ class SecurityController extends AppController
             $user = $form->getData();
 
             $password = $encoder->encodePassword($user,$user->getPassword());
-
             $user->setPassword($password);
+
+            $user->setLastActiveAt(new \DateTime());
 
             $this->entityManger->persist($user);
             $this->entityManger->flush();
