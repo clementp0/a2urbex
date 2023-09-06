@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StatusController extends AbstractController
 {
-    #[Route('/status', name: 'app_status', methods: ['GET'])]
+    #[Route('/test', name: 'app_status', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('status/index.html.twig', [
