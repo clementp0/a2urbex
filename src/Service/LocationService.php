@@ -33,25 +33,30 @@ class LocationService {
     }
 
     public function addCountry($location) {
-        if($location->getLat() && $location->getLon()) {
-            $items = $this->googleMapsGeocoder->reverseQuery(ReverseQuery::fromCoordinates($location->getLat(), $location->getLon()));
-            
-            $c = null;
-            foreach($items->getIterator() as $item) {
-                $c = $item->getCountry();
-                if($c) break;
-            }
-            if(!$c) return;
+        $lat = $location->getLat();
+        $lon = $location->getLon();
 
-            $country = $this->countryRepository->findOneBy(['code' => $c->getCode()]);
-            if(!$country) {
-                $country = new Country();
-                $country->setCode($c->getCode())->setName($c->getName());
-                $this->countryRepository->add($country);
-            }
-
-            $location->setCountry($country);
+        if(!$lat || !$lon) return;
+        if($lat < -90 || $lat > 90) return;
+        if($lon < -90 || $lon > 90) return;
+        
+        $items = $this->googleMapsGeocoder->reverseQuery(ReverseQuery::fromCoordinates($lat, $lon));
+        
+        $c = null;
+        foreach($items->getIterator() as $item) {
+            $c = $item->getCountry();
+            if($c) break;
         }
+        if(!$c) return;
+
+        $country = $this->countryRepository->findOneBy(['code' => $c->getCode()]);
+        if(!$country) {
+            $country = new Country();
+            $country->setCode($c->getCode())->setName($c->getName());
+            $this->countryRepository->add($country);
+        }
+
+        $location->setCountry($country);
     }
 
     public function addCountryDirect($location, $name) {
