@@ -5,7 +5,7 @@
   "name": "status.a2urbex",
   "orientation": "any",
   "scope": "/",
-  "short_name": "a2 status",
+  "short_name": "a2status",
   "start_url": "/",
   "background_color": "#232323",
   "theme_color": "#222222",
