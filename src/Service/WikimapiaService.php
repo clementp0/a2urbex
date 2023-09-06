@@ -163,6 +163,8 @@ class WikimapiaService {
         foreach($items as $item) {
             $this->savePin($item);
         }
+        
+        $this->configRepository->set('fetch', 'lock', '0');
     }
     
     private function savePin($item) {
