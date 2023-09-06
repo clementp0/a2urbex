@@ -1,0 +1,56 @@
+
+<head>
+	<title>@a2urbex</title>
+		<link rel="icon" type="image/ico" href="{{ asset('favicon.ico') }}"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+		<link rel="manifest" href="../manifest.json">
+
+		{% block stylesheets %}
+    		{{ encore_entry_link_tags('status-style') }}
+            {% endblock %}
+        {% block content %}
+</head>
+<body>
+<div class="stats">
+    {# REGISTERED USERS  #}
+    <div class="stats__container block">
+        <div class="stats-image user"><i class="fa-solid fa-user"></i></div>
+        <div class="stats-content">
+            <p class="stats-content-title">56</p>
+            <p class="stats-content-text">Users</p>
+        </div>
+    </div>
+    {# PINS #}
+    <div class="stats__container block">
+        <div class="stats-image location"><i class="fa-solid fa-location-pin"></i></div>
+        <div class="stats-content">
+            <p class="stats-content-title">70982</p>
+            <p class="stats-content-text">Locations</p>
+        </div>
+    </div>
+    {# ACTIVES USERS #}
+    <div class="stats__container block">
+        <div class="stats-image online"><i class="fa-solid fa-globe"></i></div>
+        <div class="stats-content">
+            <p class="stats-content-title">56</p>
+            <p class="stats-content-text">Users</p>
+        </div>
+    </div>
+    {# TEST #}
+    <div class="stats__container block">
+        <div class="stats-image test"><i class="fa-solid fa-user"></i></div>
+        <div class="stats-content">
+            <p class="stats-content-title">56</p>
+            <p class="stats-content-text">Users</p>
+        </div>
+    </div>
+</div>
+</body>
+
+{% endblock %}

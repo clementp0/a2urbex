@@ -1,0 +1,39 @@
+<head>
+    <title>@a2urbex - status</title>
+    <link rel="icon" type="image/ico" href="{{ asset('favicon.ico') }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+    <iframe src="https://a2urbex.eu/status"></iframe>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        iframe {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+    <script>
+        if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').then(
+      function (registration) {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope)
+      },
+      function (err) {
+        console.log('ServiceWorker registration failed: ', err)
+      }
+    )
+  })
+}
+    </script>
+</body>

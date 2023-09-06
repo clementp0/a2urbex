@@ -1,0 +1,16 @@
+{
+    "background_color": "#ffffff",
+    "description": "Status",
+    "dir": "ltr",
+    "display": "standalone",
+    "name": "status.a2urbex",
+    "orientation": "any",
+    "scope": "/",
+    "short_name": "a2urbex status",
+    "start_url": "/",
+    "theme_color": "#ffffff",
+    "categories": [],
+    "screenshots": [],
+    "icons": [],
+    "shortcuts": []
+  }

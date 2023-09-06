@@ -119,6 +119,10 @@ Encore.setOutputPath('public/build/') // directory where compiled assets will be
   // friend
   .addStyleEntry('friend-style', './assets/scss/page/friend.scss')
 
+  // status
+  .addStyleEntry('status-style', './assets/scss/page/status.scss')
+
+
 applyEncore(Encore, port)
 const mainConfig = Encore.getWebpackConfig()
 mainConfig.name = 'mainConfig'
