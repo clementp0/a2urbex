@@ -74,6 +74,7 @@ class DashboardController extends AbstractDashboardController
             'sources' => $repoSource->findAll(),
             'websocket' => $_ENV["WEBSOCKET_URL"],                  
 
+            'fetch' => $this->configRepository->get('fetch'),
             'pinterest' => $this->configRepository->get('pinterest'),
             'wikimapia' => $this->configRepository->get('wikimapia'),
             'wikimapia_zoom' => (int)$_ENV['WIKIMAPIA_ZOOM']

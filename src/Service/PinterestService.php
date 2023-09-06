@@ -49,7 +49,7 @@ class PinterestService {
     public function fetch() {
         $this->pinTotal = $this->getPinTotal();
         if(!$this->pinTotal || (int)$this->pinTotal === 0) return;
-        $this->configRepository->set('pinterest', 'fetch_lock', '1');
+        $this->configRepository->set('fetch', 'lock', '1');
         $this->dataService->verifyFolder($this->publicDirectory.$this->imgPath, true);
         $this->getFeed();
     }
@@ -135,8 +135,9 @@ class PinterestService {
     }
 
     private function done() {
+        $this->configRepository->set('fetch', 'lock', '0');
+
         $this->configRepository->setArray('pinterest', [
-            'fetch_lock' => '0',
             'fetch_date' => date('d/m/Y H:i', time()),
             'board' => $this->boardId,
             'status' => $this->hasError ? 'Error' : 'Success',
