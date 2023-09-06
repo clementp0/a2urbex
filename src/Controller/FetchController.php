@@ -19,7 +19,8 @@ class FetchController extends AppController
         private LocationService $locationService,
         private PinterestService $pinterestService,
         private WikimapiaService $wikimapiaService,
-        private ConfigRepository $configRepository
+        private ConfigRepository $configRepository,
+        private $rootDirectory
     ) {}
 
     #[Route('/fetch/lock/reset', name: 'app_fetch_lock_reset')]
@@ -33,17 +34,9 @@ class FetchController extends AppController
         $this->pinterestService->fetch();
         return $this->redirect('/admin');
     }
-
     #[Route('/fetch/pinterest/async', name: 'app_fetch_pinterest_async')]
-    public function fetchPinterestAsync($rootDirectory): Response {
-        $lock = (bool)$this->configRepository->get('fetch', 'lock');
-        if($lock === false) {
-            $command = 'pinterest:fetch';
-            $commandToExecute = sprintf('php %s/bin/console %s > /dev/null 2>&1 &', $rootDirectory, $command);
-            exec($commandToExecute);
-        }
-
-        return new Response(json_encode(['lock' => $lock]));
+    public function fetchPinterestAsync(): Response {
+        return $this->fetchAsync('pinterest:fetch');
     }
 
     #[Route('/fetch/wikimapia', name: 'app_fetch_wikimapia')]
@@ -51,11 +44,29 @@ class FetchController extends AppController
         $this->wikimapiaService->fetch();
         return $this->redirect('admin');
     }
+    #[Route('/fetch/wikimapia/async', name: 'app_fetch_wikimapia_async')]
+    public function fetchWikimapiaAsync(): Response {
+        return $this->fetchAsync('wikimapia:fetch');
+    }
 
     #[Route('/fetch/wikimapia/pending', name: 'app_fetch_wikimapia_pending')]
     public function fetchWikimapiaPending(): Response {
         $this->wikimapiaService->fetchInfo();
         return $this->redirect('admin');
+    }
+    #[Route('/fetch/wikimapia/pending/async', name: 'app_fetch_wikimapia_pending_async')]
+    public function fetchWikimapiaPendingAsync(): Response {
+        return $this->fetchAsync('wikimapia:process');
+    }
+
+    private function fetchAsync($command) {
+        $lock = (bool)$this->configRepository->get('fetch', 'lock');
+        if($lock === false) {
+            $commandToExecute = sprintf('php %s/bin/console %s > /dev/null 2>&1 &', $this->rootDirectory, $command);
+            exec($commandToExecute);
+        }
+
+        return new Response(json_encode(['lock' => $lock]));
     }
 
     #[Route('/check', name: 'app_check_count')]

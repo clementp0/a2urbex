@@ -8,6 +8,7 @@ use App\Repository\ConfigRepository;
 use App\Service\LocationService;
 use App\Service\DataService;
 use Symfony\Component\DomCrawler\Crawler;
+use App\Service\WebsocketEventService;
 
 class WikimapiaService {
     public function __construct(
@@ -15,7 +16,8 @@ class WikimapiaService {
         private DataService $dataService,
         private LocationRepository $locationRepository,
         private LocationService $locationService,
-        private ConfigRepository $configRepository
+        private ConfigRepository $configRepository,
+        private WebsocketEventService $websocketEventService
     ) {
         $this->catId = $_ENV['WIKIMAPIA_CAT_ID'];
         $this->url = $_ENV['WIKIMAPIA_BASE_URL'];
@@ -29,13 +31,15 @@ class WikimapiaService {
         $this->factor = 0;
         $this->catUrl = '000/000/000';
 
-        $this->filename = 'wikimapia_pos.json';
+        $this->pinCount = 0;
+        $this->pinTotal = 0;
     }
     public function fetch() {
         $this->dataService->verifyFolder($this->publicDirectory.$this->imgPath, true);
         $this->hash = $this->getHash();
         $this->catUrl = $this->getCatUrl();
         $this->factor = $this->getFactor();
+
         $this->fetchBase();
         $this->fetchInfo();
     }
@@ -65,6 +69,8 @@ class WikimapiaService {
     }
 
     private function fetchBase() {
+        $this->configRepository->set('fetch', 'lock', '1');
+
         $pos = $this->getPos();
         if($pos['x'] >= $this->fetchSize || $pos['y'] >= $this->fetchSize) {
             $this->savePos(0, 0);
@@ -102,6 +108,9 @@ class WikimapiaService {
     private function savePos($x, $y) {
         $this->configRepository->set('wikimapia', 'x', $x);
         $this->configRepository->set('wikimapia', 'y', $y);
+
+        $percentage = round((($this->fetchSize * $x + $y) / pow($this->fetchSize, 2)) * 100, 4);
+        $this->websocketEventService->sendAdminProgress('wikimapia', $percentage, $percentage.'% (x:'.$x.' y:'.$y.')');
     }
 
     private function generateTileUrl($x, $y, $zoom) {
@@ -146,7 +155,11 @@ class WikimapiaService {
     }
 
     public function fetchInfo() {
+        $this->configRepository->set('fetch', 'lock', '1');
+
         $items = $this->locationRepository->findBy(['source' => $this->source, 'pending' => true]);
+        //$this->pinTotal = count($items);
+
         foreach($items as $item) {
             $this->savePin($item);
         }
@@ -196,5 +209,12 @@ class WikimapiaService {
         }
 
         $this->locationRepository->add($item);
+
+        $this->pinCount++;
+        if($this->pinCount === $this->pinTotal || $this->pinCount % 5 === 0){
+            $percentage = round(($this->pinCount / $this->pinTotal) * 100, 2);
+            $this->websocketEventService->sendAdminProgress('wikimapia', $percentage, $percentage.'% ('.$this->pinCount.' / '.$this->pinTotal.')');
+        }
     }
 }
+

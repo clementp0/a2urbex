@@ -56,13 +56,12 @@ $(() => {
     $(`#${data.type} .progress-info`).text(data.text.length ? data.text : `${data.percent}%`)
   }
 
-  // fetch pinterest
-  $('#fetch-pinterest').on('click', function (e) {
+  // fetch
+  $('#fetch-pinterest, #fetch-wikimapia, #fetch-pending').on('click', function (e) {
     e.preventDefault()
     fetch($(this))
   })
 
-  // fetch
   function fetch(element) {
     const url = element.attr('href')
     const type = element.data('type')

@@ -69,7 +69,7 @@
 		<div class="line">
 			<a 
 				class="btn btn-success btn-fetch{{ fetch.lock == '1' ? ' disabled' : '' }}" 
-				href="{{ path('app_fetch_wikimapia') }}" 
+				href="{{ path('app_fetch_wikimapia_async') }}" 
 				id="fetch-wikimapia"
 				data-type="wikimapia"
 			>
@@ -78,7 +78,7 @@
 			
 			<a 
 				class="btn btn-warning btn-fetch{{ fetch.lock == '1' ? ' disabled' : '' }}"
-				href="{{ path('app_fetch_wikimapia_pending') }}"
+				href="{{ path('app_fetch_wikimapia_pending_async') }}"
 				id="fetch-pending"
 				data-type="wikimapia"
 			>
