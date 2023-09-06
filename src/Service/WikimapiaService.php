@@ -158,8 +158,8 @@ class WikimapiaService {
         $this->configRepository->set('fetch', 'lock', '1');
 
         $items = $this->locationRepository->findBy(['source' => $this->source, 'pending' => true]);
-        //$this->pinTotal = count($items);
-
+        $this->pinTotal = count($items);
+        
         foreach($items as $item) {
             $this->savePin($item);
         }
@@ -172,20 +172,20 @@ class WikimapiaService {
             dd($e->getMessage());
         }
         $response = preg_replace('#<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>#', '', $response);
-
-        if(strpos($response, 'This place was deleted')) return;
-
+        
+        if(strpos($response, 'This place was deleted')) return $this->updateProgress();
+        
         $crawler = new Crawler();
         $crawler->addHtmlContent($response);
         
         $commentsElement = $crawler->filter('#comments');
-        if($commentsElement->count() === 0) return;
+        if($commentsElement->count() === 0) return $this->updateProgress();
         $coordinatesElement = $commentsElement->previousAll();
-        if($coordinatesElement->count() === 0) return;
-
+        if($coordinatesElement->count() === 0) return $this->updateProgress();
+        
         $coordinates = $coordinatesElement->text();
         $coordinatesSplit = explode(' ', $coordinates);
-        if(count($coordinatesSplit) !== 5) return;
+        if(count($coordinatesSplit) !== 5) return $this->updateProgress();
 
         $item
             ->setPending(false)
@@ -209,7 +209,11 @@ class WikimapiaService {
         }
 
         $this->locationRepository->add($item);
+        return $this->updateProgress();
 
+    }
+
+    private function updateProgress() {
         $this->pinCount++;
         if($this->pinCount === $this->pinTotal || $this->pinCount % 5 === 0){
             $percentage = round(($this->pinCount / $this->pinTotal) * 100, 2);
