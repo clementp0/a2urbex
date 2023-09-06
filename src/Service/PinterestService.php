@@ -7,7 +7,7 @@ use App\Service\LocationService;
 use App\Repository\LocationRepository;
 use App\Service\DataService;
 use App\Repository\ConfigRepository;
-use App\Websocket\WebsocketClient;
+use App\Service\WebsocketEventService;
 
 class PinterestService {
     public function __construct(
@@ -16,7 +16,7 @@ class PinterestService {
         private LocationService $locationService,
         private DataService $dataService,
         private ConfigRepository $configRepository,
-        private WebsocketClient $websocketClient
+        private WebsocketEventService $websocketEventService
     ) {
         $this->boardId = $_ENV['PINTEREST_BOARD_ID'];
         $this->url = $_ENV['PINTEREST_FETCH_BASE_URL'];
@@ -123,8 +123,8 @@ class PinterestService {
         $this->pinCount++;
 
         if($this->pinCount === $this->pinTotal || $this->pinCount % 10 === 0){
-            $percentage = round(($this->pinCount / $this->pinTotal) * 100, 4);
-            $this->websocketClient->sendEvent('admin_progress', $percentage.'%');
+            $percentage = round(($this->pinCount / $this->pinTotal) * 100, 2);
+            $this->websocketEventService->sendAdminProgress('pinterest', $percentage, $percentage.'% ('.$this->pinCount.' / '.$this->pinTotal.')');
         } 
     }
 

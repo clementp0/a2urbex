@@ -35,7 +35,15 @@
 <section>
 	<div class="left">
 		<div class="line">
-			<a class="btn btn-success{{ fetch.lock == '1' ? ' disabled' : '' }}" id="fetch-pinterest">Fetch Pinterest</a>
+			<a 
+				class="btn btn-success btn-fetch{{ fetch.lock == '1' ? ' disabled' : '' }}"
+				href="{{ path('app_fetch_pinterest_async') }}"
+				id="fetch-pinterest"
+				data-type="pinterest"
+			>
+				Fetch Pinterest
+			</a>
+
 			<a href="{{ path('app_check_count') }}" class="btn btn-secondary">Check</a>
 		</div>
 
@@ -47,7 +55,7 @@
 		</div>
 
 		<div class="line">
-			<div class="progress-bar-wrapper">
+			<div class="progress-bar-wrapper" id="pinterest">
 				<p class="progress-info">Waiting...</p>
 				<div class="progress-bar">
 					<div class="progress-bar-thumb"></div>
@@ -59,8 +67,23 @@
 		
 	<div class="right">
 		<div class="line">
-			<a class="btn btn-success" href="{{ path('app_fetch_wikimapia') }}">Fetch Wikimapia</a>
-			<a class="btn btn-warning" href="{{ path('app_fetch_wikimapia_pending') }}">Fetch Pending</a>
+			<a 
+				class="btn btn-success btn-fetch{{ fetch.lock == '1' ? ' disabled' : '' }}" 
+				href="{{ path('app_fetch_wikimapia') }}" 
+				id="fetch-wikimapia"
+				data-type="wikimapia"
+			>
+				Fetch Wikimapia
+			</a>
+			
+			<a 
+				class="btn btn-warning btn-fetch{{ fetch.lock == '1' ? ' disabled' : '' }}"
+				href="{{ path('app_fetch_wikimapia_pending') }}"
+				id="fetch-pending"
+				data-type="wikimapia"
+			>
+				Fetch Pending
+			</a>
 		</div>
 
 		<div class="line">
@@ -71,7 +94,7 @@
 		</div>
 
 		<div class="line">
-			<div class="progress-bar-wrapper">
+			<div class="progress-bar-wrapper" id="wikimapia">
 				<p class="progress-info">Waiting...</p>
 				<div class="progress-bar">
 					<div class="progress-bar-thumb"></div>
@@ -89,7 +112,7 @@
 
 		<div class="line">
 			<input type="text" id="message" placeholder="Server Restart.." />
-			<button class="btn btn-primary" id="message-admin">Send</button>
+			<button class="btn btn-primary" id="message-admin" href="{{ path('chat_add_admin') }}">Send</button>
 			<a class="btn btn-danger" href="{{ path('chat_clear_global')}}">Clear Chat</a>
 		</div>
 	</div>
@@ -188,8 +211,6 @@
 
 <script>
 	const websocketUrl = "{{ websocketUrl() }}";
-	const pinterestUrl = "{{ path('app_fetch_pinterest_async') }}";
-	const chatAddAdminUrl = "{{ path('chat_add_admin') }}";
 </script>
 
 {% if app.environment == 'dev' %}

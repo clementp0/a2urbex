@@ -48,29 +48,38 @@ $(() => {
     $('.websocket').removeClass('online')
   }
 
-  function renderProgress(progression) {
-    if (progression !== '100%') $('#fetch-pinterest').addClass('disabled')
-    else $('#fetch-pinterest').removeClass('disabled')
+  function renderProgress(data) {
+    if (data.percent !== 100) $('.btn-fetch').addClass('disabled')
+    else $('.btn-fetch').removeClass('disabled')
 
-    $('.progress-bar-thumb').css('width', progression)
-    $('.progress-info').text(progression)
+    $(`#${data.type} .progress-bar-thumb`).css('width', `${data.percent}%`)
+    $(`#${data.type} .progress-info`).text(data.text.length ? data.text : `${data.percent}%`)
   }
 
   // fetch pinterest
-  $('#fetch-pinterest').on('click', function () {
-    if ($(this).hasClass('disabled')) return
-    $('.progress-info').text('Starting...')
+  $('#fetch-pinterest').on('click', function (e) {
+    e.preventDefault()
+    fetch($(this))
+  })
+
+  // fetch
+  function fetch(element) {
+    const url = element.attr('href')
+    const type = element.data('type')
+
+    if (element.hasClass('disabled')) return
+    $(`#${type} .progress-info`).text('Starting...')
 
     $.ajax({
-      url: pinterestUrl,
+      url,
       method: 'GET',
       dataType: 'json',
       success: function (data) {
         if (data.lock === true) alert('Script already running')
-        $('#fetch-pinterest').addClass('disabled')
+        $('.btn-fetch').addClass('disabled')
       },
     })
-  })
+  }
 
   // admin chat
   $('#message-admin').on('click', function (e) {
@@ -79,10 +88,12 @@ $(() => {
     const messageValue = $('#message').val().trim()
     if (messageValue === '') return
 
+    const url = $(this).attr('href')
+
     $.ajax({
       type: 'POST',
       dataType: 'json',
-      url: chatAddAdminUrl,
+      url,
       data: messageValue,
       success: (data) => {
         if (data.success) {
