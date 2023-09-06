@@ -53,13 +53,13 @@ $(() => {
     else $('#fetch-pinterest').removeClass('disabled')
 
     $('.progress-bar-thumb').css('width', progression)
-    $('.progress-percent').text(progression)
+    $('.progress-info').text(progression)
   }
 
   // fetch pinterest
   $('#fetch-pinterest').on('click', function () {
     if ($(this).hasClass('disabled')) return
-    $('.progress-percent').text('Starting...')
+    $('.progress-info').text('Starting...')
 
     $.ajax({
       url: pinterestUrl,

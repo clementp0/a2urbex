@@ -9,73 +9,74 @@
 	</p>
 </header>
 
+{# <div class="line">
+	<a class="btn btn-primary" href="{{ path('app_update') }}">Update</a>
+	<a class="btn btn-warning" href="{{ path('app_patch') }}">Patch</a>
+</div> #}
+
+{# <div class="line sm">
+	<p>Output :</p>
+</div>
+
+<div class="line">
+	<div class="output">
+		<p>
+			BoardId = {{pinterest.board}}<br>
+			Status = {{pinterest.status}}<br>
+			Error =	{{pinterest.error}}<br>
+			Total Parsed = {{pinterest.total_pins}}<br>
+			NewPins = {{pinterest.new_pins}}<br>
+			---------
+		</p>
+		Key = {{pinterest.token}}
+	</div>
+</div> #}
+
 <section>
 	<div class="left">
 		<div class="line">
-			<div class="highlight">
-				<p>Current time :</p>
-				<div>{{current_time}}</div>
-			</div>
-			<div class="highlight">
-				<p>Last updated :</p>
-				<div>{{pinterest.update_date}}</div>
-			</div>
-		</div>
-
-		<div class="line">
-			<div class="highlight">
-				<p>Last fetched :</p>
-				<div>{{pinterest.fetch_date}}</div>
-			</div>
-		</div>
-
-		<div class="line">
 			<a class="btn btn-success{{ pinterest.fetch_lock == '1' ? ' disabled' : '' }}" id="fetch-pinterest">Fetch Pinterest</a>
-			<a class="btn btn-success" href="{{ path('app_fetch_wikimapia') }}">Fetch Wikimapia</a>
-			<a class="btn btn-warning" href="{{ path('app_fetch_wikimapia_pending') }}">Fetch Pending</a>
+			<a href="{{ path('app_check_count') }}" class="btn btn-secondary">Check</a>
 		</div>
 
 		<div class="line">
-			<a class="btn btn-primary" href="{{ path('app_update') }}">Update</a>
-			<a class="btn btn-warning" href="{{ path('app_patch') }}">Patch</a>
-		</div>
-
-		<div class="line">
-			<p>Wikimapia progress : x:{{wikimapia.x}} y:{{wikimapia.y}} ({{pending_count}})</p>
+			<p>
+				Pinterest pins : {{pinterest.total_pins}}<br>
+				Waiting to be imported : {{pinterest.pin_to_import + 1}}
+			</p>
 		</div>
 
 		<div class="line">
 			<div class="progress-bar-wrapper">
-				<p class="progress-percent">Waiting...</p>
+				<p class="progress-info">Waiting...</p>
 				<div class="progress-bar">
 					<div class="progress-bar-thumb"></div>
 				</div>
 			</div>
 		</div>
+
 	</div>
 		
 	<div class="right">
-		<div class="line sm">
-			<p>Output :</p>
+		<div class="line">
+			<a class="btn btn-success" href="{{ path('app_fetch_wikimapia') }}">Fetch Wikimapia</a>
+			<a class="btn btn-warning" href="{{ path('app_fetch_wikimapia_pending') }}">Fetch Pending</a>
 		</div>
 
 		<div class="line">
-			<div class="output">
-				<p>
-					BoardId = {{pinterest.board}}<br>
-					Status = {{pinterest.status}}<br>
-					Error =	{{pinterest.error}}<br>
-					Total Parsed = {{pinterest.total_pins}}<br>
-					NewPins = {{pinterest.new_pins}}<br>
-					---------
-				</p>
-				Key = {{pinterest.token}}
-			</div>
+			<p>
+				Wikimapia zoom : {{wikimapia_zoom}} ({{2 ** (wikimapia_zoom - 2)}} x {{2 ** (wikimapia_zoom - 2)}})<br/>
+				Pending pins : {{pending_count}}
+			</p>
 		</div>
-		
+
 		<div class="line">
-			<a href="{{ path('app_check_count') }}" class="btn btn-secondary">Check</a>
-			<p>Waiting to be imported : {{pinterest.pin_to_import}}</p>
+			<div class="progress-bar-wrapper">
+				<p class="progress-info">Waiting...</p>
+				<div class="progress-bar">
+					<div class="progress-bar-thumb"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
@@ -137,7 +138,7 @@
 <section>
 	<div class="left">
 		<div class="line sm">
-			<p>Ai Generation ({{ai_wainting_count}} locations are waiting to be processed):<br></p>
+			<p>Ai Generation ({{ai_waiting_count}} locations are waiting to be processed):<br></p>
 		</div>
 
 		<div class="line">
