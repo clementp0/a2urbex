@@ -1,16 +1,27 @@
 {
-    "background_color": "#ffffff",
-    "description": "Status",
-    "dir": "ltr",
-    "display": "standalone",
-    "name": "status.a2urbex",
-    "orientation": "any",
-    "scope": "/",
-    "short_name": "a2urbex status",
-    "start_url": "/",
-    "theme_color": "#ffffff",
-    "categories": [],
-    "screenshots": [],
-    "icons": [],
-    "shortcuts": []
-  }
+  "description": "Simple solution to centralize locations, with comments, status, categories, filters, and more...",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "status.a2urbex",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "a2 status",
+  "start_url": "/",
+  "background_color": "#232323",
+  "theme_color": "#222222",
+  "icons": [
+    {
+      "src": "/logov3/a2urbex192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logov3/a2urbex512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": [],
+  "screenshots": [],
+  "shortcuts": []
+}
