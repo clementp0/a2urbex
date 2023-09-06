@@ -48,7 +48,7 @@ class DashboardController extends AbstractDashboardController
         $country_count = $repoCountry->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $category_count = $repoCategory->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $source_count = $repoSource->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
-        $ai_wainting_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->where('a.image IS NULL')->getQuery()->getSingleScalarResult();
+        $ai_waiting_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->where('a.image IS NULL')->getQuery()->getSingleScalarResult();
         $ai_count = $repoLocation->createQueryBuilder('a')->where('a.ai = true')->select('count(a.id)')->getQuery()->getSingleScalarResult();
 
         //AI Generation
@@ -64,7 +64,7 @@ class DashboardController extends AbstractDashboardController
             'country_count' => $country_count,
             'category_count' => $category_count,
             'source_count' => $source_count,
-            'ai_wainting_count' => $ai_wainting_count,
+            'ai_waiting_count' => $ai_waiting_count,
             'ai_count' => $ai_count,
 
             'ai_port' => $ai_port,
@@ -74,8 +74,10 @@ class DashboardController extends AbstractDashboardController
             'sources' => $repoSource->findAll(),
             'websocket' => $_ENV["WEBSOCKET_URL"],                  
 
+            'fetch' => $this->configRepository->get('fetch'),
             'pinterest' => $this->configRepository->get('pinterest'),
             'wikimapia' => $this->configRepository->get('wikimapia'),
+            'wikimapia_zoom' => (int)$_ENV['WIKIMAPIA_ZOOM']
         ]);
     }
 

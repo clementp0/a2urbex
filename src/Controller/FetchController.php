@@ -24,7 +24,7 @@ class FetchController extends AppController
 
     #[Route('/fetch/lock/reset', name: 'app_fetch_lock_reset')]
     public function fetchLockReset(): Response {
-        $this->configRepository->set('pinterest', 'fetch_lock', '0');
+        $this->configRepository->set('fetch', 'lock', '0');
         return $this->redirect('/admin');
     }
     
@@ -36,7 +36,7 @@ class FetchController extends AppController
 
     #[Route('/fetch/pinterest/async', name: 'app_fetch_pinterest_async')]
     public function fetchPinterestAsync($rootDirectory): Response {
-        $lock = (bool)$this->configRepository->get('pinterest', 'fetch_lock');
+        $lock = (bool)$this->configRepository->get('fetch', 'lock');
         if($lock === false) {
             $command = 'pinterest:fetch';
             $commandToExecute = sprintf('php %s/bin/console %s > /dev/null 2>&1 &', $rootDirectory, $command);
