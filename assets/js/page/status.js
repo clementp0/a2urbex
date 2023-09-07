@@ -1,6 +1,5 @@
 import WebsocketConnector from '../components/WebsocketConnector'
 import MapProgress from '../components/MapProgress'
-import { data } from 'jquery'
 
 $(() => {
   const wikimapiaMap = document.getElementById('map')
@@ -18,6 +17,7 @@ $(() => {
   function renderProgress(data) {
     if (data.type === 'wikimapia') {
       mapProgress.updateGrid(data.percent)
+      $('.map-info').text(data.text.length ? data.text : `${data.percent}%`)
     }
   }
 })

@@ -6,13 +6,16 @@ body{
     background-color: #201E20;
     color:#FBFAF9;
     font-family: Roboto,sans-serif;
-    @media (max-width: 768px) {
-        padding: 10px;
-    }
 
     display: flex;
     flex-direction: column;
     row-gap: 20px;
+    
+    @media (max-width: 768px) {
+        padding: 10px;
+        row-gap: 7px;
+    }
+
 }
 
 .block{
@@ -127,5 +130,11 @@ body{
                 width: 100%;
             }
         }
+    }
+
+    &-info {
+        color: #a3a3a3;
+        text-align: center;
+        margin-top: 10px;
     }
 }
