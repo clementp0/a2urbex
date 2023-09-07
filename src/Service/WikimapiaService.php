@@ -111,7 +111,7 @@ class WikimapiaService {
 
         $percentage = round((($this->fetchSize * $x + $y) / pow($this->fetchSize, 2)) * 100, 4);
         $this->websocketEventService->sendAdminProgress('wikimapia', $percentage, [
-            'type' => 'fetch',
+            'sub_type' => 'fetch',
             'x' => $x,
             'y' => $y
         ]);
@@ -224,7 +224,7 @@ class WikimapiaService {
         if($this->pinCount === $this->pinTotal || $this->pinCount % 5 === 0){
             $percentage = round(($this->pinCount / $this->pinTotal) * 100, 2);
             $this->websocketEventService->sendAdminProgress('wikimapia', $percentage, [
-                'type' => 'process',
+                'sub_type' => 'process',
                 'pinCount' => $this->pinCount,
                 'pinTotal' => $this->pinTotal
             ]);

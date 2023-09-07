@@ -56,10 +56,21 @@ $(() => {
     if (data.percent !== 100) $('.btn-fetch').addClass('disabled')
     else $('.btn-fetch').removeClass('disabled')
 
-    $(`#${data.type} .progress-bar-thumb`).css('width', `${data.percent}%`)
-    $(`#${data.type} .progress-info`).text(data.text.length ? data.text : `${data.percent}%`)
+    if (data.type === 'pinterest') {
+      $('#pinterest .progress-bar-thumb').css('width', `${data.percent}%`)
+      $('#pinterest .progress-info').text(`${data.percent}% (${data.pinCount} / ${data.pinTotal})`)
+    } else if (data.type === 'wikimapia') {
+      mapProgress.updateGrid(data.percent)
+      $('#wikimapia .progress-bar-thumb').css('width', `${data.percent}%`)
 
-    if (data.type === 'wikimapia') mapProgress.updateGrid(data.percent)
+      if (data.sub_type === 'fetch') {
+        $('#wikimapia .progress-info').text(`${data.percent}% (x:${data.x} y:${data.y})`)
+      } else if (data.sub_type === 'process') {
+        $('#wikimapia .progress-info').text(
+          `${data.percent}% (${data.pinCount} / ${data.pinTotal})`
+        )
+      }
+    }
   }
 
   // fetch
