@@ -57,8 +57,32 @@
     </div>
 
     <div class="block map__container">
-        <div class="map" id="map"></div>
-        <div class="map-info">Waiting...</div>
+        <div class="map" id="map"><i class="fa-solid fa-circle-info"></i></div>
+        <div class="map-info">
+        <i class="fa-solid fa-circle-xmark"></i>
+            <div class="info-loading map-percentage">
+                <p class="info-loading-title">Fetch</p>
+                <div class="progress-bar-container"><div class="progress-bar percentage-bar blue"></div></div> 
+                <div class="map-percentage-text info-loading-text">Standby</div>
+            </div>
+            <div class="info-loading map-percentage">
+                <p class="info-loading-title">Processing</p>
+                <div class="progress-bar-container"><div class="progress-bar processing-bar orange"></div></div> 
+                <div class="map-processing-text info-loading-text">Standby</div>
+            </div>
+            <div class="info-loading map-percentage">
+                <p class="info-loading-title">Zoom</p>
+                <div class="map-zoom-text info-loading-text">{{wikimapia_zoom}}</div>
+            </div>
+            <div class="info-loading map-percentage">
+                <p class="info-coordinates-title">Coordinates</p>
+                 <div class="map-coordinates-text info-loading-text">X:0 Y:0</div>
+            </div>
+            <div class="info-loading map-percentage">
+                <p class="info-loading-title">Map size</p>
+                <div class="map-size-text info-loading-text"> ({{2 ** (wikimapia_zoom - 2)}} x {{2 ** (wikimapia_zoom - 2)}})</div>
+            </div>
+        </div>
     <div>
 
     <script>

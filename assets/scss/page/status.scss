@@ -121,20 +121,109 @@ body{
 .map {
     &__container {
         padding: 20px;
-
+        position: relative;
+        display: flex;
         .map {
             width: 50%;
             margin: auto;
-
+            position: relative;
             @media (max-width: 768px) {
                 width: 100%;
             }
         }
     }
 
-    &-info {
+    &-info{
+        width: 50%;
         color: #a3a3a3;
-        text-align: center;
-        margin-top: 10px;
+        margin-left: 20px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+
+        @media (max-width: 768px) {
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        right: -130%;
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+        background-color: #2C2D31;
+        padding: 10px;
+        transition: right 0.3s ease-in-out;
+        z-index: 2;
+    }
+    }
+    &-percentage {
+
+    }
+    &-coordinates {
+    
+    }
+}
+
+.info-loading{
+    display: flex;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 20px;  
+    &>p{
+        margin: 0;
+        font-weight: 300;
+    }
+    &-title{
+        min-width: 80px;
+    } 
+    &-text{
+        min-width: 60px;
+        text-align: right;
+        font-size: 11px;
+        font-weight: 500;
+        opacity: .5;
+    }
+}
+
+.progress-bar-container{
+    width: 100%;
+    background-color: #201e20;
+    height: 7px;
+    border-radius: 5px;
+}
+.progress-bar{
+    height: 100%;
+    border-radius: 5px;
+    transition: width 1s ease-in-out;
+    width: 0px;
+    &.blue{
+        background-color: #05c7f2;
+        box-shadow: inset 0 0 10px #05C7F2, 0 0 20px #05C7F2;
+    }
+    &.orange{
+        background-color: #f29f05;
+        box-shadow: inset 0 0 10px #f29f05, 0 0 20px #f29f05;
+    }
+}
+
+.fa-circle-info{
+    color: #a3a3a3;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 20px;
+    z-index: 1;
+    @media (min-width: 768px) {
+        display: none;
+    }
+} 
+.fa-circle-xmark{
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    font-size: 20px;
+    @media (min-width: 768px) {
+        display: none;
     }
 }
