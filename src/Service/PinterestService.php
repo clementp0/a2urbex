@@ -122,9 +122,12 @@ class PinterestService {
         
         $this->pinCount++;
 
-        if($this->pinCount === $this->pinTotal || $this->pinCount % 10 === 0){
+        if($this->pinCount === $this->pinTotal || $this->pinCount % 10 === 0) {
             $percentage = round(($this->pinCount / $this->pinTotal) * 100, 2);
-            $this->websocketEventService->sendAdminProgress('pinterest', $percentage, $percentage.'% ('.$this->pinCount.' / '.$this->pinTotal.')');
+            $this->websocketEventService->sendAdminProgress('pinterest', $percentage, [
+                'pinCount' => $this->pinCount,
+                'pinTotal' => $this->pinTotal
+            ]);
         } 
     }
 

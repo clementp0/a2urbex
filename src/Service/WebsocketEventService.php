@@ -9,11 +9,12 @@ class WebsocketEventService {
         private WebsocketClient $websocketClient
     ) {}
 
-    public function sendAdminProgress($type, $percent, $text = '') {
-        $this->websocketClient->sendEvent('admin_progress', [
+    public function sendAdminProgress($type, $percent, $params = []) {
+        $data = array_merge([
             'type' => $type,
-            'percent' => $percent,
-            'text' => $text
-        ]);
+            'percent' => $percent
+        ], $params);
+
+        $this->websocketClient->sendEvent('admin_progress', $data);
     }
 }
