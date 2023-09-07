@@ -163,8 +163,14 @@ class DashboardController extends AbstractDashboardController
     }
 
     #[Route('/private/build/{file}', name: 'private/build')]
-    public function publicAdmin($rootDirectory, $file) {
-        $path = $rootDirectory.'private/build/'.$file;
+    #[Route('/private/build/images/{img}', name: 'private/build/images')]
+    public function publicAdmin($rootDirectory, $file = null, $img = null) {
+        if($img) {
+            $path = $rootDirectory.'private/build/images/'.$img;
+        } else {
+            $path = $rootDirectory.'private/build/'.$file;
+        }
+        
         if(file_exists($path)) {
             $contentType = mime_content_type($path);
             $content = $this->dataService->getFile($path);
