@@ -13,44 +13,56 @@
 
 		{% block stylesheets %}
     		{{ encore_entry_link_tags('status-style') }}
-            {% endblock %}
-        {% block content %}
-</head>
-<body>
-<div class="stats">
-    {# REGISTERED USERS  #}
-    <div class="stats__container block">
-        <div class="stats-image user"><i class="fa-solid fa-user"></i></div>
-        <div class="stats-content">
-            <p class="stats-content-title">{{user_count}}</p>
-            <p class="stats-content-text">Users</p>
-        </div>
-    </div>
-    {# PINS #}
-    <div class="stats__container block">
-        <div class="stats-image location"><i class="fa-solid fa-location-pin"></i></div>
-        <div class="stats-content">
-            <p class="stats-content-title">{{location_count}}</p>
-            <p class="stats-content-text">Locations</p>
-        </div>
-    </div>
-    {# ACTIVES USERS #}
-    <div class="stats__container block">
-        <div class="stats-image online"><i class="fa-solid fa-globe"></i></div>
-        <div class="stats-content">
-            <p class="stats-content-title">{{category_count}}</p>
-            <p class="stats-content-text">Categories</p>
-        </div>
-    </div>
-    {# TEST #}
-    <div class="stats__container block">
-        <div class="stats-image test"><i class="fa-solid fa-mountain-sun"></i></div>
-        <div class="stats-content">
-            <p class="stats-content-title">{{country_count}}</p>
-            <p class="stats-content-text">Countries</p>
-        </div>
-    </div>
-</div>
-</body>
+        {% endblock %}
 
+        {% block javascripts %}
+			{{ encore_entry_script_tags('status-script') }}
+        {% endblock %}
+</head>
+{% block content %}
+<body>
+    <div class="stats">
+        {# REGISTERED USERS  #}
+        <div class="stats__container block">
+            <div class="stats-image user"><i class="fa-solid fa-user"></i></div>
+            <div class="stats-content">
+                <p class="stats-content-title">{{user_count}}</p>
+                <p class="stats-content-text">Users</p>
+            </div>
+        </div>
+        {# PINS #}
+        <div class="stats__container block">
+            <div class="stats-image location"><i class="fa-solid fa-location-pin"></i></div>
+            <div class="stats-content">
+                <p class="stats-content-title">{{location_count}}</p>
+                <p class="stats-content-text">Locations</p>
+            </div>
+        </div>
+        {# ACTIVES USERS #}
+        <div class="stats__container block">
+            <div class="stats-image online"><i class="fa-solid fa-globe"></i></div>
+            <div class="stats-content">
+                <p class="stats-content-title">{{category_count}}</p>
+                <p class="stats-content-text">Categories</p>
+            </div>
+        </div>
+        {# TEST #}
+        <div class="stats__container block">
+            <div class="stats-image test"><i class="fa-solid fa-mountain-sun"></i></div>
+            <div class="stats-content">
+                <p class="stats-content-title">{{country_count}}</p>
+                <p class="stats-content-text">Countries</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="block map__container">
+        <div class="map" id="map"></div>
+    <div>
+
+    <script>
+        const websocketUrl = "{{ websocketUrl() }}"
+    </script>
+</body>
 {% endblock %}
+

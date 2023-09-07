@@ -121,7 +121,7 @@ Encore.setOutputPath('public/build/') // directory where compiled assets will be
 
   // status
   .addStyleEntry('status-style', './assets/scss/page/status.scss')
-
+  .addEntry('status-script', './assets/js/page/status.js')
 
 applyEncore(Encore, port)
 const mainConfig = Encore.getWebpackConfig()
