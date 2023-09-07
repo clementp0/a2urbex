@@ -4,9 +4,14 @@ import '../registersw'
 
 import ClearCache from '../components/ClearCache'
 import WebsocketConnector from '../components/WebsocketConnector'
+import MapProgress from '../components/MapProgress'
 
 $(() => {
   new ClearCache('#clear-cache-button', 'a2urbex')
+
+  const wikimapiaMap = document.getElementById('wikimapia-map')
+  const mapProgress = new MapProgress(wikimapiaMap, 24, 12)
+  mapProgress.updateGrid(32)
 
   // global
   $(document).attr('title', '@a2urbex')
