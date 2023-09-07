@@ -11,7 +11,6 @@ $(() => {
 
   const wikimapiaMap = document.getElementById('wikimapia-map')
   const mapProgress = new MapProgress(wikimapiaMap, 24, 12)
-  mapProgress.updateGrid(32)
 
   // global
   $(document).attr('title', '@a2urbex')
@@ -59,6 +58,8 @@ $(() => {
 
     $(`#${data.type} .progress-bar-thumb`).css('width', `${data.percent}%`)
     $(`#${data.type} .progress-info`).text(data.text.length ? data.text : `${data.percent}%`)
+
+    if (data.type === 'wikimapia') mapProgress.updateGrid(data.percent)
   }
 
   // fetch
