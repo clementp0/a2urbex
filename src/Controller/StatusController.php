@@ -38,8 +38,7 @@ class StatusController extends AbstractController
         $repoUser = $em->getRepository(User::class);
 
         $user_count = $repoUser->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
-        $location_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
-        $pending_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->where('a.pending = 1')->getQuery()->getSingleScalarResult();
+        $location_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->where('a.pending = 0 OR a.pending IS NULL')->getQuery()->getSingleScalarResult();
         $country_count = $repoCountry->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $category_count = $repoCategory->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $source_count = $repoSource->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
@@ -72,7 +71,6 @@ class StatusController extends AbstractController
         //Return data 
         return $this->render('/status/index.html.twig', [
             'location_count' => $location_count,
-            'pending_count' => $pending_count,
             'country_count' => $country_count,
             'category_count' => $category_count,
             'source_count' => $source_count,
