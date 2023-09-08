@@ -65,10 +65,12 @@ $(() => {
 
       if (data.sub_type === 'fetch') {
         $('#wikimapia .progress-info').text(`${data.percent}% (x:${data.x} y:${data.y})`)
+        wikimapiaMap.classList.remove('process')
       } else if (data.sub_type === 'process') {
         $('#wikimapia .progress-info').text(
           `${data.percent}% (${data.pinCount} / ${data.pinTotal})`
         )
+        wikimapiaMap.classList.add('process')
       }
     }
   }

@@ -16,36 +16,37 @@ $(() => {
 
   function renderProgress(data) {
     if (data.type === 'wikimapia') {
-      if (data.sub_type === 'fetch'){
-        mapProgress.updateGrid(data.percent)
+      mapProgress.updateGrid(data.percent)
+
+      if (data.sub_type === 'fetch') {
+        wikimapiaMap.classList.remove('process')
+
         $('.map-percentage-text').text(`${data.percent}%`)
-        $('.percentage-bar').width(data.percent + "%")
+        $('.percentage-bar').width(data.percent + '%')
         $('.map-coordinates-text').text(`X:${data.x} Y:${data.y}`)
-        console.log(data.percent)
-      } else if(data.sub_type === 'process'){
-        $('.map-processing-text').text(data.percent + "%")
-        $('.processing-bar').width(data.percent + "%")
+      } else if (data.sub_type === 'process') {
+        wikimapiaMap.classList.add('process')
+
+        $('.map-processing-text').text(data.percent + '%')
+        $('.processing-bar').width(data.percent + '%')
       }
-      
-     
     }
   }
 })
 
-document.querySelector('.fa-circle-info').addEventListener('click', function() {
-  const mapInfo = document.querySelector('.map-info');
-  const openButton = document.querySelector('.fa-circle-info');
-  const closeButton = document.querySelector('.fa-circle-xmark');
-  
-  function openMapInfo() {
-    mapInfo.style.right = '0px';
-  }
-  
-  function closeMapInfo() {
-    mapInfo.style.right = '-130%';
-  }
-  
-  openButton.addEventListener('click', openMapInfo);
-  closeButton.addEventListener('click', closeMapInfo);
-});
+document.querySelector('.fa-circle-info').addEventListener('click', function () {
+  const mapInfo = document.querySelector('.map-info')
+  const openButton = document.querySelector('.fa-circle-info')
+  const closeButton = document.querySelector('.fa-circle-xmark')
 
+  function openMapInfo() {
+    mapInfo.style.right = '0px'
+  }
+
+  function closeMapInfo() {
+    mapInfo.style.right = '-130%'
+  }
+
+  openButton.addEventListener('click', openMapInfo)
+  closeButton.addEventListener('click', closeMapInfo)
+})
