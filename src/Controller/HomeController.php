@@ -22,6 +22,7 @@ class HomeController extends AppController
         $repoLocation = $em->getRepository(Location::class);
         $pins_count = $repoLocation->createQueryBuilder('a')
             ->select('count(a.id)')
+            ->where('a.pending = 0 OR a.pending IS NULL')
             ->getQuery()
             ->getSingleScalarResult();
 
