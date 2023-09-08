@@ -4,12 +4,9 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\User;
 use App\Entity\Location;
 use App\Entity\Country;
 use App\Entity\Category;
-use App\Entity\CategoryOption;
-use App\Repository\LocationRepository;
 
 class HomeController extends AppController
 {
@@ -39,26 +36,12 @@ class HomeController extends AppController
             ->select('count(a.id)')
             ->getQuery()
             ->getSingleScalarResult();
-        //AI Generation
-        $ai = $repoLocation->createQueryBuilder('a')
-            ->where('a.ai = true')
-            ->select('count(a.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
-
-        $done = $repoLocation->createQueryBuilder('a')
-            ->where('a.done = true')
-            ->select('count(a.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
 
         //Return data 
         return $this->render('home/index.html.twig', [
             'pins' => $pins_count,
             'country' => $country_count,
-            'category' => $category_count,
-            'ai' => $ai,
-            'done' => $done + 130,
+            'category' => $category_count
         ]);
     }
 
