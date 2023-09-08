@@ -32,9 +32,9 @@ $process-dark: #f25c05;
     aspect-ratio: 2 / 1;
     background-image: url("../../img/earth.png");
     background-size: contain;
+    position: relative;
 
     .grid {
-        position: relative;
         height: 100%;
         width: 100%;
         top: -1px;
