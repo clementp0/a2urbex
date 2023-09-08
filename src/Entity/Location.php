@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\LocationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -79,8 +80,12 @@ class Location
     #[ORM\Column(nullable: true)]
     private ?bool $pending = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $date_add = null;
+
     public function __construct()
     {
+        $this->date_add = new \DateTime();
         $this->favorites = new ArrayCollection();
     }
 
@@ -342,6 +347,18 @@ class Location
     public function setPending(?bool $pending): self
     {
         $this->pending = $pending;
+
+        return $this;
+    }
+
+    public function getDateAdd(): ?\DateTimeInterface
+    {
+        return $this->date_add;
+    }
+
+    public function setDateAdd(?\DateTimeInterface $date_add): static
+    {
+        $this->date_add = $date_add;
 
         return $this;
     }
