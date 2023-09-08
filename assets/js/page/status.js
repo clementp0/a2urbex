@@ -36,18 +36,12 @@ $(() => {
 })
 
 document.querySelector('.fa-circle-info').addEventListener('click', function () {
-  const mapInfo = document.querySelector('.map-info')
-  const openButton = document.querySelector('.fa-circle-info')
-  const closeButton = document.querySelector('.fa-circle-xmark')
+  const map__wrapper = document.querySelector('.map-info')
 
-  function openMapInfo() {
-    mapInfo.style.right = '0px'
-  }
-
-  function closeMapInfo() {
-    mapInfo.style.right = '-130%'
-  }
-
-  openButton.addEventListener('click', openMapInfo)
-  closeButton.addEventListener('click', closeMapInfo)
+  document.querySelector('.info-open').addEventListener('click', () => {
+    map__wrapper.classList.add('open')
+  })
+  document.querySelector('.info-close').addEventListener('click', () => {
+    map__wrapper.classList.remove('open')
+  })
 })

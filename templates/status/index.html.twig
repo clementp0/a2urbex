@@ -57,9 +57,11 @@
     </div>
 
     <div class="block map__container">
-        <div class="map" id="map"><i class="fa-solid fa-circle-info"></i></div>
+        <div class="map" id="map">
+            <i class="fa-solid fa-circle-info info-open"></i>
+        </div>
         <div class="map-info">
-        <i class="fa-solid fa-circle-xmark"></i>
+            <i class="fa-solid fa-circle-xmark info-close"></i>
             <div class="info-loading">
                 <p class="info-loading-title">Fetching</p>
                 <div class="progress-bar-container"><div class="progress-bar percentage-bar blue"></div></div> 
@@ -76,7 +78,7 @@
             </div>
             <div class="info-loading">
                 <p class="info-coordinates-title">Coordinates</p>
-                 <div class="map-coordinates-text info-loading-text">X:0 Y:0</div>
+                <div class="map-coordinates-text info-loading-text">X:0 Y:0</div>
             </div>
             <div class="info-loading">
                 <p class="info-loading-title">Map size</p>
@@ -92,7 +94,7 @@
                 <div class="map-finished-text info-loading-text">{{wikimapia_finished_count}}</div>
             </div>
         </div>
-    <div>
+    </div>
 
     <script>
         const websocketUrl = "{{ websocketUrl() }}"
