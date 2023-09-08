@@ -153,7 +153,7 @@ class SourceController extends AppController
                 $imgName = $this->locationService->generateImgUid().'.'.$ext;
                 file_put_contents($publicDir.$this->imgPath.$imgName, $file);
     
-                $location->setImage($this->imgPath.$imgName);
+                $location->setImageDirect($this->imgPath.$imgName);
             }
         }
 
