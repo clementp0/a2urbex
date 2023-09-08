@@ -11,6 +11,8 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 		<link rel="manifest" href="../manifest.json">
 
+        <link href="https://cdn.jsdelivr.net/npm/apexcharts/dist/apexcharts.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.22.2/dist/apexcharts.min.js"></script>
 		{% block stylesheets %}
     		{{ encore_entry_link_tags('status-style') }}
         {% endblock %}
@@ -57,8 +59,9 @@
     </div>
 
     <div class="block map__container">
+    <i class="fa-solid fa-circle-info info-open"></i>
         <div class="map" id="map">
-            <i class="fa-solid fa-circle-info info-open"></i>
+            
         </div>
         <div class="map-info">
             <i class="fa-solid fa-circle-xmark info-close"></i>
@@ -96,9 +99,115 @@
         </div>
     </div>
 
+     <div class="block map__container charts">
+      <div class="sources" id="chart_category"><i class="fa-solid fa-circle-chevron-left"></i></div>
+       <div class="category" id="chart_sources"><i class="fa-solid fa-circle-xmark category-close"></i></div>
+     </div>
+
     <script>
         const websocketUrl = "{{ websocketUrl() }}"
     </script>
+        <script>
+        window.Apex = {
+  chart: {
+    foreColor: '#ccc',
+    toolbar: {
+      show: false
+    },
+  },
+  stroke: {
+    width: 3
+  },
+  dataLabels: {
+    enabled: false
+  },
+  tooltip: {
+    theme: 'dark'
+  },
+  grid: {
+    borderColor: "#535A6C",
+    xaxis: {
+      lines: {
+        show: true
+      }
+    }
+  }
+};
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var colors = ['#5B93FF', '#FF906B', '#FFC226', '#605BFF'];
+  
+  var options = {
+    series: [{
+        name : 'Count',
+      data: [{{ pinterest_count }}, {{ globalmap_count }}, {{ user_count }}, {{ kml_count }}]
+    }],
+    chart: {
+      height: 200,
+      type: 'bar',
+      events: {
+        click: function(chart, w, e) {
+        }
+      }
+    },
+    colors: colors,
+    plotOptions: {
+      bar: {
+        columnWidth: '45%',
+        distributed: true,
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    legend: {
+      show: false
+    },
+    xaxis: {
+      categories: [
+        ['Pinterest'],
+        ['Globalmap'],
+        ['Users'],
+        ['KML/KMZ'],
+      ],
+      labels: {
+        style: {
+          colors: colors,
+          fontSize: '12px'
+        }
+      }
+    }
+  };
+
+  var chart = new ApexCharts(document.querySelector("#chart_sources"), options);
+  chart.render();
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  var options = {
+    series: [{
+    name: 'Urbex',
+    data: [{{ castle }}, {{hostel}}, {{cinema}}, {{train}}, {{hospital}}, {{house}}, {{factory}}, {{building}}, {{restaurant}}, {{military}}],
+  }],
+    chart: {
+    height: '300px',
+    width: '300px',
+    type: 'bar',
+  },
+  colors: ['#FF5733'],
+  xaxis: {
+    categories: ['Castle', 'Hostel', 'Cinema', 'Train', 'Hospital', 'House', 'Factory', 'Building', 'Restaurant', 'Military']
+  }
+  };
+
+  var chart = new ApexCharts(document.querySelector("#chart_category"), options);
+  chart.render();
+});
+
+</script>
+
 </body>
 {% endblock %}
 

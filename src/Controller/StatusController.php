@@ -47,6 +47,21 @@ class StatusController extends AbstractController
         $ai_count = $repoLocation->createQueryBuilder('a')->where('a.ai = true')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $wikimapia_finished_count = $this->getWikimapiaCount(0);
         $wikimapia_pending_count = $this->getWikimapiaCount(1);
+        $pinterest_count = $repoLocation->createQueryBuilder('a')->where('a.source = :p')->setParameter('p','pinterest')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $kml_count = $repoLocation->createQueryBuilder('a')->where('a.source IS NOT NULL')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $user_count = $repoLocation->createQueryBuilder('a')->where('a.user IS NOT NULL')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $castle = $repoLocation->createQueryBuilder('a')->where('a.category = :p')->setParameter('p','1')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $hostel = $repoLocation->createQueryBuilder('a')->where('a.category = :p')->setParameter('p','2')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $cinema = $repoLocation->createQueryBuilder('a')->where('a.category = :p')->setParameter('p','3')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $train = $repoLocation->createQueryBuilder('a')->where('a.category = :p')->setParameter('p','4')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $hospital = $repoLocation->createQueryBuilder('a')->where('a.category = :p')->setParameter('p','5')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $house = $repoLocation->createQueryBuilder('a')->where('a.category = :p')->setParameter('p','6')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $factory = $repoLocation->createQueryBuilder('a')->where('a.category = :p')->setParameter('p','7')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $building = $repoLocation->createQueryBuilder('a')->where('a.category = :p')->setParameter('p','8')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $restaurant = $repoLocation->createQueryBuilder('a')->where('a.category = :p')->setParameter('p','9')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $military = $repoLocation->createQueryBuilder('a')->where('a.category = :p')->setParameter('p','10')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $undefined = $repoLocation->createQueryBuilder('a')->where('a.category IS NULL')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+
 
         //AI Generation
         $ai_port = $_ENV['STABLE_PORT'];
@@ -76,7 +91,24 @@ class StatusController extends AbstractController
 
             'pinterest' => $this->configRepository->get('pinterest'),
             'wikimapia' => $this->configRepository->get('wikimapia'),
-            'wikimapia_zoom' => (int)$_ENV['WIKIMAPIA_ZOOM']
+            'wikimapia_zoom' => (int)$_ENV['WIKIMAPIA_ZOOM'],
+
+            'pinterest_count' => $pinterest_count,
+            'globalmap_count' => $wikimapia_finished_count,
+            'kml_count' =>  $kml_count - $pinterest_count - $wikimapia_finished_count,
+            'user_count' => $user_count,
+
+            'castle' => $castle,
+            'hostel' => $hostel,
+            'cinema' => $cinema,
+            'train' => $train,
+            'hospital' => $hospital ,
+            'house' => $house,
+            'factory' =>  $factory,
+            'building' => $building,
+            'restaurant' => $restaurant,
+            'military' => $military,
+            'undefined' => $undefined
         ]);
     }
 

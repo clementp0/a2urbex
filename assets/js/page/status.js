@@ -45,3 +45,17 @@ document.querySelector('.fa-circle-info').addEventListener('click', function () 
     map__wrapper.classList.remove('open')
   })
 })
+
+document.querySelector('.fa-circle-chevron-left').addEventListener('click', function () {
+  const map__wrapper = document.querySelector('.category')
+
+  document.querySelector('.fa-circle-chevron-left').addEventListener('click', () => {
+    map__wrapper.classList.add('open')
+  })
+  document.querySelector('.category-close').addEventListener('click', () => {
+    map__wrapper.classList.remove('open')
+  })
+})
+
+
+
