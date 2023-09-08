@@ -142,23 +142,17 @@ body{
         row-gap: 10px;
 
         @media (max-width: 768px) {
-        justify-content: center;
-        position: absolute;
-        top: 0;
-        right: -130%;
-        width: calc(100% - 20px);
-        height: calc(100% - 20px);
-        background-color: #2C2D31;
-        padding: 10px;
-        transition: right 0.3s ease-in-out;
-        z-index: 2;
-    }
-    }
-    &-percentage {
-
-    }
-    &-coordinates {
-    
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            right: -130%;
+            width: calc(100% - 20px);
+            height: calc(100% - 20px);
+            background-color: #2C2D31;
+            padding: 10px;
+            transition: right 0.3s ease-in-out;
+            z-index: 2;
+        }
     }
 }
 

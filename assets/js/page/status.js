@@ -29,6 +29,7 @@ $(() => {
 
         $('.map-processing-text').text(data.percent + '%')
         $('.processing-bar').width(data.percent + '%')
+        $('.map-processed-text').text(`${data.pinCount} / ${data.pinTotal}`)
       }
     }
   }

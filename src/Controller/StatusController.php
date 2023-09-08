@@ -45,6 +45,8 @@ class StatusController extends AbstractController
         $source_count = $repoSource->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $ai_wainting_count = $repoLocation->createQueryBuilder('a')->select('count(a.id)')->where('a.image IS NULL')->getQuery()->getSingleScalarResult();
         $ai_count = $repoLocation->createQueryBuilder('a')->where('a.ai = true')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $wikimapia_finished_count = $this->getWikimapiaCount(0);
+        $wikimapia_pending_count = $this->getWikimapiaCount(1);
 
         //AI Generation
         $ai_port = $_ENV['STABLE_PORT'];
@@ -62,6 +64,8 @@ class StatusController extends AbstractController
             'ai_wainting_count' => $ai_wainting_count,
             'ai_count' => $ai_count,
             'user_count' => $user_count,
+            'wikimapia_finished_count' => $wikimapia_finished_count,
+            'wikimapia_pending_count' => $wikimapia_pending_count,
 
             'ai_port' => $ai_port,
             'ai_status' => $ai_status,
@@ -74,6 +78,16 @@ class StatusController extends AbstractController
             'wikimapia' => $this->configRepository->get('wikimapia'),
             'wikimapia_zoom' => (int)$_ENV['WIKIMAPIA_ZOOM']
         ]);
+    }
+
+    private function getWikimapiaCount($pending = 0) {
+        $em = $this->getDoctrine()->getManager();
+        $repoLocation = $em->getRepository(Location::class);
+        
+        return $repoLocation->createQueryBuilder('a')->select('count(a.id)')
+            ->andWhere('a.source = :s')->setParameter('s', 'wikimapia')
+            ->andWhere('a.pending = :p')->setParameter('p', $pending)
+            ->getQuery()->getSingleScalarResult();
     }
 
 
