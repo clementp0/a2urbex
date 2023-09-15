@@ -11,15 +11,16 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 		<link rel="manifest" href="../manifest.json">
 
-        <link href="https://cdn.jsdelivr.net/npm/apexcharts/dist/apexcharts.min.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.22.2/dist/apexcharts.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/apexcharts/dist/apexcharts.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.22.2/dist/apexcharts.min.js"></script>
+
 		{% block stylesheets %}
     		{{ encore_entry_link_tags('status-style') }}
-        {% endblock %}
+    {% endblock %}
 
-        {% block javascripts %}
-			{{ encore_entry_script_tags('status-script') }}
-        {% endblock %}
+    {% block javascripts %}
+			  {{ encore_entry_script_tags('status-script') }}
+    {% endblock %}
 </head>
 {% block content %}
 <body>
@@ -107,6 +108,9 @@
     <script>
         const websocketUrl = "{{ websocketUrl() }}"
     </script>
+
+
+    {# TODO : rework this script #}
         <script>
         window.Apex = {
   chart: {
@@ -141,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var options = {
     series: [{
         name : 'Count',
-      data: [{{ pinterest_count }}, {{ globalmap_count }}, {{ user_count }}, {{ kml_count }}]
+      data: [{{ pinterest_count }}, {{ globalmap_count }}, {{ userl_count }}, {{ kml_count }}]
     }],
     chart: {
       height: 200,

@@ -10,8 +10,6 @@ use App\Entity\Location;
 use App\Entity\Country;
 use App\Entity\Category;
 use App\Entity\Source;
-use App\Repository\LocationRepository;
-use App\Repository\MessageRepository;
 use App\Service\DataService;
 use App\Repository\ConfigRepository;
 use Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension;
@@ -46,9 +44,17 @@ class StatusController extends AbstractController
         $ai_count = $repoLocation->createQueryBuilder('a')->where('a.ai = true')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $wikimapia_finished_count = $this->getWikimapiaCount(0);
         $wikimapia_pending_count = $this->getWikimapiaCount(1);
+        
         $pinterest_count = $repoLocation->createQueryBuilder('a')->where('a.source = :p')->setParameter('p','pinterest')->select('count(a.id)')->getQuery()->getSingleScalarResult();
-        $kml_count = $repoLocation->createQueryBuilder('a')->where('a.source IS NOT NULL')->select('count(a.id)')->getQuery()->getSingleScalarResult();
-        $user_count = $repoLocation->createQueryBuilder('a')->where('a.user IS NOT NULL')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $userl_count = $repoLocation->createQueryBuilder('a')->where('a.user IS NOT NULL')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $kml_count = $repoLocation->createQueryBuilder('a')
+            ->andWhere('a.source IS NOT NULL')
+            ->andWhere('a.source NOT IN (:pinterest, :wikimapia)')
+            ->setParameter(':pinterest', 'pinterest')
+            ->setParameter(':wikimapia', 'wikimapia')
+            ->select('count(a.id)')->getQuery()->getSingleScalarResult();
+
+        
         $castle = $repoLocation->createQueryBuilder('a')->where('a.category = :p')->setParameter('p','1')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $hostel = $repoLocation->createQueryBuilder('a')->where('a.category = :p')->setParameter('p','2')->select('count(a.id)')->getQuery()->getSingleScalarResult();
         $cinema = $repoLocation->createQueryBuilder('a')->where('a.category = :p')->setParameter('p','3')->select('count(a.id)')->getQuery()->getSingleScalarResult();
@@ -93,8 +99,8 @@ class StatusController extends AbstractController
 
             'pinterest_count' => $pinterest_count,
             'globalmap_count' => $wikimapia_finished_count,
-            'kml_count' =>  $kml_count - $pinterest_count - $wikimapia_finished_count,
-            'user_count' => $user_count,
+            'kml_count' =>  $kml_count,
+            'userl_count' => $userl_count,
 
             'castle' => $castle,
             'hostel' => $hostel,
