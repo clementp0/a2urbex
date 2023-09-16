@@ -255,15 +255,6 @@ body {
     }
 }
 
-.category {
-    @media (max-width: 768px) {
-        .charts__inner {
-            display: flex;
-            align-items: center;
-        }
-    }
-}
-
 .source {
     @media (max-width: 768px) {
         position: absolute;
@@ -282,6 +273,7 @@ body {
         
         .charts__inner {
             padding: 20px;
+            align-items: flex-start;
         }
     }
 }
