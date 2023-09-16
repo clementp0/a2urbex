@@ -35,27 +35,133 @@ $(() => {
   }
 })
 
-document.querySelector('.fa-circle-info').addEventListener('click', function () {
+document.querySelector('.info-open').addEventListener('click', function () {
   const map__wrapper = document.querySelector('.map-info')
+  map__wrapper.classList.add('open')
 
-  document.querySelector('.info-open').addEventListener('click', () => {
-    map__wrapper.classList.add('open')
-  })
   document.querySelector('.info-close').addEventListener('click', () => {
     map__wrapper.classList.remove('open')
   })
 })
 
-document.querySelector('.fa-circle-chevron-left').addEventListener('click', function () {
-  const map__wrapper = document.querySelector('.category')
+document.querySelector('.category-open').addEventListener('click', function () {
+  const source = document.querySelector('.source')
+  source.classList.add('open')
 
-  document.querySelector('.fa-circle-chevron-left').addEventListener('click', () => {
-    map__wrapper.classList.add('open')
-  })
   document.querySelector('.category-close').addEventListener('click', () => {
-    map__wrapper.classList.remove('open')
+    source.classList.remove('open')
   })
 })
 
+// Charts
+window.Apex = {
+  chart: {
+    foreColor: '#ccc',
+    toolbar: {
+      show: false,
+    },
+  },
+  stroke: {
+    width: 3,
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  tooltip: {
+    theme: 'dark',
+  },
+  grid: {
+    borderColor: '#535A6C',
+    xaxis: {
+      lines: {
+        show: true,
+      },
+    },
+  },
+}
 
+document.addEventListener('DOMContentLoaded', function () {
+  const colors = ['#5B93FF', '#FF906B', '#FFC226', '#605BFF']
 
+  // Chart1
+  const options1 = {
+    series: [
+      {
+        name: 'Count',
+        data: [pinterest_count, globalmap_count, userl_count, kml_count],
+      },
+    ],
+    chart: {
+      height: 300,
+      type: 'bar',
+    },
+    colors: colors,
+    plotOptions: {
+      bar: {
+        columnWidth: '45%',
+        distributed: true,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    legend: {
+      show: false,
+    },
+    xaxis: {
+      categories: [['Pinterest'], ['Globalmap'], ['Users'], ['KML/KMZ']],
+      labels: {
+        style: {
+          colors: colors,
+          fontSize: '12px',
+        },
+      },
+    },
+  }
+
+  const chart1 = new ApexCharts(document.querySelector('#chart_source'), options1)
+  chart1.render()
+
+  // Chart2
+  const options2 = {
+    series: [
+      {
+        name: 'Urbex',
+        data: [
+          castle,
+          hostel,
+          cinema,
+          train,
+          hospital,
+          house,
+          factory,
+          building,
+          restaurant,
+          military,
+        ],
+      },
+    ],
+    chart: {
+      height: '300px',
+      type: 'bar',
+    },
+    colors: ['#FF5733'],
+    xaxis: {
+      categories: [
+        'Castle',
+        'Hostel',
+        'Cinema',
+        'Train',
+        'Hospital',
+        'House',
+        'Factory',
+        'Building',
+        'Restaurant',
+        'Military',
+      ],
+    },
+  }
+
+  const chart2 = new ApexCharts(document.querySelector('#chart_category'), options2)
+  chart2.render()
+})

@@ -100,118 +100,37 @@
         </div>
     </div>
 
-     <div class="block map__container charts">
-      <div class="sources" id="chart_category"><i class="fa-solid fa-circle-chevron-left"></i></div>
-       <div class="category" id="chart_sources"><i class="fa-solid fa-circle-xmark category-close"></i></div>
+     <div class="block charts">
+      <i class="fa-solid fa-circle-chevron-left category-open"></i>
+
+      <div class="category charts__container">
+        <div class="charts__inner" id="chart_category"></div>
+      </div>
+
+      <div class="source charts__container">
+        <i class="fa-solid fa-circle-xmark category-close"></i>
+        <div class="charts__inner" id="chart_source"></div>
+      </div>
      </div>
 
     <script>
         const websocketUrl = "{{ websocketUrl() }}"
+        const pinterest_count = "{{ pinterest_count }}"
+        const globalmap_count = "{{ globalmap_count }}"
+        const userl_count = "{{ userl_count }}"
+        const kml_count = "{{ kml_count }}"
+
+        const castle = "{{ castle }}"
+        const hostel = "{{ hostel }}"
+        const cinema = "{{ cinema }}"
+        const train = "{{ train }}"
+        const hospital = "{{ hospital }}"
+        const house = "{{ house }}"
+        const factory = "{{ factory }}"
+        const building = "{{ building }}"
+        const restaurant = "{{ restaurant }}"
+        const military = "{{ military }}"
     </script>
-
-
-    {# TODO : rework this script #}
-        <script>
-        window.Apex = {
-  chart: {
-    foreColor: '#ccc',
-    toolbar: {
-      show: false
-    },
-  },
-  stroke: {
-    width: 3
-  },
-  dataLabels: {
-    enabled: false
-  },
-  tooltip: {
-    theme: 'dark'
-  },
-  grid: {
-    borderColor: "#535A6C",
-    xaxis: {
-      lines: {
-        show: true
-      }
-    }
-  }
-};
-
-
-document.addEventListener("DOMContentLoaded", function() {
-  var colors = ['#5B93FF', '#FF906B', '#FFC226', '#605BFF'];
-  
-  var options = {
-    series: [{
-        name : 'Count',
-      data: [{{ pinterest_count }}, {{ globalmap_count }}, {{ userl_count }}, {{ kml_count }}]
-    }],
-    chart: {
-      height: 200,
-      type: 'bar',
-      events: {
-        click: function(chart, w, e) {
-        }
-      }
-    },
-    colors: colors,
-    plotOptions: {
-      bar: {
-        columnWidth: '45%',
-        distributed: true,
-      }
-    },
-    dataLabels: {
-      enabled: false
-    },
-    legend: {
-      show: false
-    },
-    xaxis: {
-      categories: [
-        ['Pinterest'],
-        ['Globalmap'],
-        ['Users'],
-        ['KML/KMZ'],
-      ],
-      labels: {
-        style: {
-          colors: colors,
-          fontSize: '12px'
-        }
-      }
-    }
-  };
-
-  var chart = new ApexCharts(document.querySelector("#chart_sources"), options);
-  chart.render();
-});
-
-document.addEventListener("DOMContentLoaded", function() {
-
-  var options = {
-    series: [{
-    name: 'Urbex',
-    data: [{{ castle }}, {{hostel}}, {{cinema}}, {{train}}, {{hospital}}, {{house}}, {{factory}}, {{building}}, {{restaurant}}, {{military}}],
-  }],
-    chart: {
-    height: '300px',
-    width: '300px',
-    type: 'bar',
-  },
-  colors: ['#FF5733'],
-  xaxis: {
-    categories: ['Castle', 'Hostel', 'Cinema', 'Train', 'Hospital', 'House', 'Factory', 'Building', 'Restaurant', 'Military']
-  }
-  };
-
-  var chart = new ApexCharts(document.querySelector("#chart_category"), options);
-  chart.render();
-});
-
-</script>
-
 </body>
 {% endblock %}
 
