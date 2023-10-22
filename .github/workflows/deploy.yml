@@ -19,5 +19,5 @@ jobs:
         key: ${{ secrets.SSHKEY }}
         port: ${{ secrets.PORT }}
         script: |
-          a2urbex
+            ${{ secrets.COMMANDS }}
   
