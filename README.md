@@ -4,7 +4,7 @@
   <a href="https://a2urbex.eu" target="_blank"><img alt="website" src="https://img.shields.io/badge/a2urbex-1C1C1C?style=flat-square&logo=About.me&logoColor=white" height="25"></a>
   <a href="https://instagram.com/a2urbex" target="_blank"><img alt="instagram" src="https://img.shields.io/badge/Instagram-E4405F?style=flat-square&logo=instagram&logoColor=white" height="25"></a>
   <a href="https://www.tiktok.com/@a2urbex" target="_blank"><img alt="tiktok" src="https://img.shields.io/badge/TikTok-EF2950?style=flat-square&logo=tiktok&logoColor=white" height="25"></a>
-  <a href="mailto:contact@a2urbex.eu" target="_blank"><img alt="mail" src="https://img.shields.io/badge/Contact-1C1C1C?style=flat-square&logo=gmail&logoColor=white" height="25"></a>
+  <a href="mailto:a2urbex@gmail.com" target="_blank"><img alt="mail" src="https://img.shields.io/badge/Contact-1C1C1C?style=flat-square&logo=gmail&logoColor=white" height="25"></a>
 </p>
 <p align="center">
   <a href="https://a2urbex.eu" target="_blank"><img src="https://img.shields.io/website.svg?label=a2urbex&down_color=red&down_message=down&up_color=green&up_message=up&url=http%3A%2F%2Fa2urbex.eu"></a>
@@ -45,26 +45,32 @@
    <tr>
       <td>General Chat (websocket)</td>
       <td></td>
-      <td>✅</td>
       <td></td>
+      <td>✅</td>
    </tr>
    <tr>
       <td>User Chat (websocket)</td>
+     <td></td>
       <td></td>
       <td>✅</td>
-      <td></td>
    </tr>
    <tr>
       <td>Group Chat (websocket)</td>
+       <td></td>
+      <td></td>
       <td>✅</td>
+   </tr>
+   <tr>
+      <td>Group Chat Customization</td>
+       <td></td>
       <td></td>
-      <td></td>
+      <td>✅</td>
    </tr>
    <tr>
       <td>Import Status (websocket)</td>
       <td></td>
-      <td>✅</td>
       <td></td>
+      <td>✅</td>
    </tr>
    <tr>
       <td>User Profile</td>
@@ -77,6 +83,18 @@
       <td></td>
       <td></td>
       <td>✅</td>
+   </tr>
+  <tr>
+      <td>[security] Ip Tracking</td>
+      <td>✅</td>
+      <td></td>
+      <td></td>
+   </tr>
+    <tr>
+      <td>[security] Access Logging</td>
+      <td>✅</td>
+      <td></td>
+      <td></td>
    </tr>
    <tr>
       <td>Image generation by AI</td>
@@ -103,10 +121,10 @@
       <td>✅</td>
    </tr>
    <tr>
-      <td>Wikimapia scraper</td>
+     <td>Wikimapia scraper</td>
+      <td></td>
       <td></td>
       <td>✅</td>
-      <td></td>
    </tr>
    <tr>
       <td>Online user management</td>
@@ -176,6 +194,12 @@
    </tr>
    <tr>
       <td>Notifications</td>
+      <td>✅</td>
+      <td></td>
+      <td></td>
+   </tr>
+    <tr>
+      <td>Graphical update v2</td>
       <td>✅</td>
       <td></td>
       <td></td>
