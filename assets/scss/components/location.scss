@@ -124,6 +124,9 @@ p.pin-category {
   margin: 10px;
   position: relative;
   padding-bottom: 10px;
+  @media screen and (max-width: 1024px) {
+    width: 100%;
+  }
 
   .pin-top-container {
     position: relative;

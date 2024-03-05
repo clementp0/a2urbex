@@ -27,3 +27,20 @@ $darker-blue : #5d8be0;
 }
 $small : 12px;
 $medium : 14px;
+
+
+@media screen and (max-width: 1024px) {
+    .m-none{
+        display: none;
+    }
+}
+
+.desktop-none{
+    display: none;
+}
+
+@media screen and (max-width: 1024px) {
+    .desktop-none{
+        display: block;
+    }
+}

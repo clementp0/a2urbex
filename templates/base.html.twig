@@ -33,16 +33,16 @@
 				<div class="navbar-collapse" id="navbarCollapse">
 					<div class="navbar-content">
 						<div class="navbar-logo">
-							<img src="/img/logoa2urbex.png" alt="a2urbex small logo">
+							<img src="https://a2urbex.eu/logoa2urbex.png" alt="a2urbex small logo">
 							<a class="bold" href="{% if app.user %}{{ path('app_location_index') }}{% else %}{{ path('app_home') }}{% endif %}">
 								a2urbex</a>
 						</div>
 						{% if app.user %}
 							<span class="navbar-separator"></span>
-							<a class="navbar-item regular" href="{{ path('app_location_index') }}">Locations</a>
-							<a class="navbar-item new-link bold" href="{{ path('new_location') }}">add location</a>
-							<span class="navbar-separator"></span>
-							<a class="navbar-item regular" href="///">Explorers</a>
+							<a class="navbar-item regular m-none" href="{{ path('app_location_index') }}">Locations</a>
+							<a class="navbar-item new-link bold m-none" href="{{ path('new_location') }}">add location</a>
+							<span class="navbar-separator m-none"></span>
+							<a class="navbar-item regular m-none" href="///">Explorers</a>
 						{% endif %}
 					</div>
 
@@ -69,6 +69,9 @@
 												</div>
 											</div>
 											<span class="dropdown-content-separator"></span>
+											<a class="dropdown-content-item regular desktop-none" href="{{ path('app_location_index') }}">Locations</a>
+											<a class="dropdown-content-item new-link regular desktop-none" href="{{ path('new_location') }}">add location</a>
+											<a class="dropdown-content-item regular desktop-none" href="///">Explorers</a>
 											<a href="" id="clear-cache-button" class="dropdown-content-item regular">Refresh</a>
 											{% if 'ROLE_ADMIN' in app.user.roles %}<a  class="dropdown-content-item regular" href="{{ path('admin') }}">Admin</a>{% endif %}
 											<a href="{{ path('app_user', {'key': hashUsr(app.user.id)}) }}"  class="dropdown-content-item regular">My account</a>

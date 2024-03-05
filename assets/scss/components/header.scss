@@ -215,6 +215,11 @@
   }
 
   @media (max-width: 768px) {
+
+    .navbar-collapse {
+      padding-left: 30px;
+    }
+
     .dropdown {
       display: block;
 
