@@ -9,10 +9,9 @@
         <a class="pin-search-reset" href="{% if map_type is defined %}{{ path('app_map_filter') }}{% else %}{{ path('app_location_index') }}{% endif %}">
             <i class="fa-sharp fa-solid fa-trash"></i>
         </a>
-        <p class="pin-results">Displaying <b>{{ total_result }}</b> result{{ total_result > 1 ? 's' : '' }}</p>
 
-        {% if explorers is defined %}
+        {# {% if explorers is defined %}
             {{ include('security/online.html.twig') }}
-        {% endif %}
+        {% endif %} #}
     </div>
 </div>

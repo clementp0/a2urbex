@@ -34,7 +34,7 @@ class SearchType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Abandonned Rocket...',
-                    'class' => 'form-control-sm'
+                    'class' => 'form-control-sm search-bar'
                 ]
             ])
             ->add('country', EntityType::class, [
@@ -75,7 +75,7 @@ class SearchType extends AbstractType
 
         $builder
             ->add('submit', SubmitType::class, [
-                'label' => 'Filter',
+                'label' => 'filter',
                 'attr' => [
                     'class' => 'pin-filter-btn'
                 ]

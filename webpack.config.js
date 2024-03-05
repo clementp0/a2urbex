@@ -85,6 +85,10 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 Encore.setOutputPath('public/build/') // directory where compiled assets will be stored
   .setPublicPath('/build') // public path used by the web server to access the output path
 
+
+  //variables
+  .addStyleEntry('variables-style', './assets/variables.scss')
+
   // global
   .addStyleEntry('app-style', './assets/index.scss')
   .addEntry('app-script', './assets/index.js')

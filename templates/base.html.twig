@@ -20,99 +20,65 @@
 			{% endif %}
 		{% endblock %}
 		{% block stylesheets %}
-    		{{ encore_entry_link_tags('app-style') }}
+			{{ encore_entry_link_tags('app-style') }}
 			{% set styleName = getStyleName() %}
 			{% if(styleName) %}
 				{{ encore_entry_link_tags(styleName) }}
 			{% endif %}
 		{% endblock %}
 	</head>
-	<body 
-		{% if app.request.attributes.get('_route') is defined %} id="{{ app.request.attributes.get('_route') }}" {% endif %}
-		class="{% if app.user %}user{% else %}nouser{% endif %}"
-	>
+	<body {% if app.request.attributes.get('_route') is defined %} id="{{ app.request.attributes.get('_route') }}" {% endif %} class="{% if app.user %}user{% else %}nouser{% endif %}">
 		<header>
 			<nav class="navbar navbar-expend-md navbar-dark fixed-top">
 				<div class="navbar-collapse" id="navbarCollapse">
-					<div class="filter"></div>
-					<div class="discord_desktop">
-						<a href="https://discord.com/invite/MDbDPJqxZV" target="_blank">
-							<i class="fa-brands fa-discord"></i>
-						</a>
+					<div class="navbar-content">
+						<div class="navbar-logo">
+							<img src="/img/logoa2urbex.png" alt="a2urbex small logo">
+							<a class="bold" href="{% if app.user %}{{ path('app_location_index') }}{% else %}{{ path('app_home') }}{% endif %}">
+								a2urbex</a>
+						</div>
+						{% if app.user %}
+							<span class="navbar-separator"></span>
+							<a class="navbar-item regular" href="{{ path('app_location_index') }}">Locations</a>
+							<a class="navbar-item new-link bold" href="{{ path('new_location') }}">add location</a>
+							<span class="navbar-separator"></span>
+							<a class="navbar-item regular" href="///">Explorers</a>
+						{% endif %}
 					</div>
-					<div class="logo">
-						<a href="{% if app.user %}{{ path('app_location_index') }}{% else %}{{ path('app_home') }}{% endif %}">
-							<i class="fas fa-globe-europe"></i>a2urbex
-						</a>
-					</div>
+
 					{% if app.user %}
-						{% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles %}
-							<div class="settings">
-								<div class="dropdown">
-									<button class="dropbtn">
-									<div class="dropbtn-image" {% if app.user.image %}style="background-image:url('{{app.user.image}}')"{% endif %}></div>
-										{{ app.user.firstname }}
-									</button>
-									<div class="dropdown-content">
-										<div class="menu_header">
-											<div class="menu_icon">
-												<div class="menu_icon-image" {% if app.user.image %}style="background-image:url('{{app.user.image}}')"{% endif %}></div>
+						<div class="navbar-content">
+							{% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles %}
+								<a class="navbar-item frends" href="{{ path('app_friend') }}">
+									<i class="fa-solid fa-users"></i>
+								</a>
+								<a class="navbar-item favorites" href="{{ path('app_favorite') }}">
+									<i class="fa fa-fw fa-heart"></i>
+								</a>
+
+								<div class="settings">
+									<div class="dropdown">
+										<button class="dropbtn">
+											<div class="dropbtn-image" {% if app.user.image %} style="background-image:url('{{app.user.image}}')" {% endif %}></div>
+										</button>
+										<div class="dropdown-content">
+											<div class="menu_header">
+												<div class="menu_data">
+													<p class="dropdown-content-logged bold">Logged in as</p>
+													<p class="dropdown-content-name regular">{{ app.user.username }}</p>
+												</div>
 											</div>
-											<div class="menu_data">
-												<p>Logged in as</p>
-												{{ app.user.username }}</div>
+											<span class="dropdown-content-separator"></span>
+											<a href="" id="clear-cache-button" class="dropdown-content-item regular">Refresh</a>
+											{% if 'ROLE_ADMIN' in app.user.roles %}<a  class="dropdown-content-item regular" href="{{ path('admin') }}">Admin</a>{% endif %}
+											<a href="{{ path('app_user', {'key': hashUsr(app.user.id)}) }}"  class="dropdown-content-item regular">My account</a>
+											<span class="dropdown-content-separator"></span>
+											<a class="dropdown-content-logout bold" href="{{ path('app_logout') }}">Logout</a>
 										</div>
-										<a href="{{ path('app_location_index') }}">
-											<i class="fa fa-fw fa-location-dot"></i>
-											Locations
-
-										</a>
-										<a href="{{ path('new_location') }}">
-											<i class="fa-solid fa-location-pin-lock"></i>
-											My Locations
-
-										</a>
-										<a href="{{ path('app_favorite') }}">
-											<i class="fa fa-fw fa-heart"></i>
-											My favorites
-
-										</a>
-										<a href="{{ path('app_friend') }}">
-											<i class="fa-solid fa-users"></i>
-											My friends
-
-										</a>
-										<a href="" id="clear-cache-button">
-											<i class="fa-solid fa-rotate-right"></i>
-											Refresh
-
-										</a>
-										<a class="discord_mobile" href="https://discord.com/invite/MDbDPJqxZV" target="_blank">
-											<i class="fa-brands fa-discord"></i>
-											Discord</a>
-
-										{% if 'ROLE_ADMIN' in app.user.roles %}
-											<a href="{{ path('admin') }}">
-												<i class="fa-solid fa-gear"></i>
-												Admin
-
-											</a>
-										{% endif %}
-
-										<a href="{{ path('app_user', {'key': hashUsr(app.user.id)}) }}">
-											<i class="fa-solid fa-lock"></i>
-											Account
-										</a>
-
-										<a class="menu_logout" href="{{ path('app_logout') }}">
-											<i class="fa fa-fw fa-sign-out"></i>
-											Logout
-
-										</a>
 									</div>
 								</div>
-							</div>
-						{% endif %}
+							{% endif %}
+						</div>
 					{% else %}
 						<a class="login_register" href="{{ path('app_login') }}">Connect</a>
 					{% endif %}
@@ -129,7 +95,7 @@
 				</a>
 			</div>
 		{% endif %}
-		
+
 		{% block content %}{% endblock %}
 
 		<div id="bottom-right-action">
@@ -149,21 +115,34 @@
 
 		<script>
 			const websocketUrl = "{{ websocketUrl() }}"
-		</script>		
-		{% if app.environment == 'dev' %}
-		<script id="__bs_script__">
-			(function() {
-				try {
-					const script = document.createElement('script')
-					if ('async') script.async = true
-					script.src = window.location.protocol + '//HOST:{{ getEnv('WEBPACK_PORT') }}/browser-sync/browser-sync-client.js?v=2.29.3'.replace("HOST", location.hostname)
-					if (document.body) document.body.appendChild(script)
-					else if (document.head)	document.head.appendChild(script)
-				} catch (e) {
-					console.error("Browsersync: could not append script tag", e);
-				}
-			})()
 		</script>
+		{% if app.environment == 'dev' %}
+			<script id="__bs_script__">
+				(function () {
+try {
+const script = document.createElement('script')
+if ('async') 
+script.async = true
+
+
+
+
+
+script.src = window.location.protocol + '//HOST:   {{ getEnv('WEBPACK_PORT') }}/browser-sync/browser-sync-client.js?v=2.29.3'.replace("HOST", location.hostname)
+if (document.body) 
+document.body.appendChild(script)
+ else if (document.head) 
+document.head.appendChild(script)
+
+
+
+
+
+} catch (e) {
+console.error("Browsersync: could not append script tag", e);
+}
+})()
+			</script>
 		{% endif %}
 	</body>
 </html>

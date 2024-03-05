@@ -1,3 +1,6 @@
+@import '/assets/variables.scss';
+
+
 // float map button
 .map-link {
   background-color: #303030;
@@ -85,14 +88,14 @@ i.fa-brands.fa-waze {
 .pin-box {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   justify-items: center;
   align-content: space-evenly;
 }
 
 p.pin-category {
-  background-color: #303030;
-  color: #60a5fa;
+  background-color: $blue;
+  color: $white;
   border-radius: 5px;
   text-align: center;
   padding: 0px 5px 0px 5px;
@@ -106,15 +109,21 @@ p.pin-category {
   }
 }
 
+.pin-results {
+  color: $contrast;
+  width: 100%;
+  margin-left: 10px;
+}
+
 .pin-container {
   display: block;
-  width: 270px;
-  border: 1px solid #404040;
-  padding: 10px;
-  margin: 10px;
+  width: 260px;
+  border: 1px solid $contrast-2;
   border-radius: 4px;
   height: fit-content;
+  margin: 10px;
   position: relative;
+  padding-bottom: 10px;
 
   .pin-top-container {
     position: relative;
@@ -128,6 +137,8 @@ p.pin-category {
     margin-right: 10px;
   }
   .pin-img {
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
     width: 100%;
     height: 200px;
     background-position: center;
@@ -149,7 +160,7 @@ p.pin-category {
   .pin-user {
     border-top-right-radius: 7px;
     border-right: 1px solid #ffffff59;
-    padding-right: 10px;
+    padding: 0px 10px;
     padding-top: 2px;
   }
 
@@ -158,12 +169,12 @@ p.pin-category {
     float: right;
     border-top-left-radius: 7px;
     border-left: 1px solid #ff000059;
-    padding-left: 10px;
+    padding: 0px 10px;
     display: flex;
   }
   .pin-title {
-    font-size: 13px;
-    padding-top: 10px;
+    font-size: $medium;
+    padding: 10px;
   }
 }
 
