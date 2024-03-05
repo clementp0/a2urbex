@@ -12,20 +12,21 @@
             {% endif %}
             {% include 'favorite/_pin.html.twig' %}
         </div>
-        <div>
+        <div class="pin-page-content">
             {% if app.user %}
-                <p class="pin-page-title">{{ item.loc.name }}</p>
-            {% endif %}
-
-            {% if item.loc.category %}
-                <p class="pin-category">
+                <p class="pin-page-title">{{ item.loc.name }}
+                {% if item.loc.category %}
+                <span class="pin-category">
+                    {{ item.loc.name }}
                     <span class="pin-category-icon"><i class="fa-solid {{ item.loc.category.icon }}"></i></span>
                     <span class="pin-category-text">{{ item.loc.category }}</span>
-                </p>
+                </span>
             {% else %}
-                <p class="pin-category">
+                <span class="pin-category">
                     <span class="pin-category-icon"><i class="fa-solid fa-map-pin"></i></span>
                     <span class="pin-category-text">other</span>
+                </span>
+            {% endif %}
                 </p>
             {% endif %}
 
@@ -46,8 +47,8 @@
             {% endif %}
 
             <div class="pin-action">
-                 <a class="" target="blank" href="https://waze.com/ul?q={{ item.loc.lat }},{{ item.loc.lon }}&navigate=yes&zoom=17'"><i class="fa-brands fa-waze"></i></a>
-                <a class="pin-map" target="blank" href="https://www.google.com/maps?t=k&q={{ item.loc.lat }},{{ item.loc.lon }}"><i class="fa-solid fa-earth-europe"></i></a>
+                <a class="pin-waze" target="blank" href="https://waze.com/ul?q={{ item.loc.lat }},{{ item.loc.lon }}&navigate=yes&zoom=17'"><i class="fa-brands fa-waze"></i><span></span> Follow on Waze</a>
+                <a class="pin-map" target="blank" href="https://www.google.com/maps?t=k&q={{ item.loc.lat }},{{ item.loc.lon }}"><i class="fa-solid fa-earth-europe"></i><span></span> View in Maps</a>
                 {% if app.user %}
                     {% if (item.loc.user and app.user.id == item.loc.user.id) or ('ROLE_ADMIN' in app.user.roles) %}
                         {% if item.loc.user and app.user.id == item.loc.user.id %}
