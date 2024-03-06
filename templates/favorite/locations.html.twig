@@ -11,6 +11,12 @@
 	{% endif %}
 {% endblock %}
 
+{% block map %}
+	<div class="open-map">
+		<a href="{{ path('app_map_filter') }}" id="map-filter" class="map-link">Map <i class="fa-solid fa-map-location-dot"></i></a>
+	</div>
+{% endblock %}
+
 {% block action %}
 	{% if id|default(null) %}
 		<a href="{{ path('app_map_favorite', {'key': hashFav(id)}) }}" class="map-link"><i class="fa-solid fa-map-location-dot"></i></a>

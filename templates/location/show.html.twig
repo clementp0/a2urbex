@@ -13,7 +13,6 @@
             {% include 'favorite/_pin.html.twig' %}
         </div>
         <div class="pin-page-content">
-            {% if app.user %}
                 <p class="pin-page-title">{{ item.loc.name }}
                 {% if item.loc.category %}
                 <span class="pin-category">
@@ -28,7 +27,6 @@
                 </span>
             {% endif %}
                 </p>
-            {% endif %}
 
             {% if item.loc.ai == 1 %}
                 <div class="aigenerated"><i class="fa-solid fa-robot"></i> Ai Generated Image</div>
@@ -47,20 +45,23 @@
             {% endif %}
 
             <div class="pin-action">
-                <a class="pin-waze" target="blank" href="https://waze.com/ul?q={{ item.loc.lat }},{{ item.loc.lon }}&navigate=yes&zoom=17'"><i class="fa-brands fa-waze"></i><span></span> Follow on Waze</a>
-                <a class="pin-map" target="blank" href="https://www.google.com/maps?t=k&q={{ item.loc.lat }},{{ item.loc.lon }}"><i class="fa-solid fa-earth-europe"></i><span></span> View in Maps</a>
+                <span class="pin-separator"></span>
+                <a class="pin-waze pin-link" target="blank" href="https://waze.com/ul?q={{ item.loc.lat }},{{ item.loc.lon }}&navigate=yes&zoom=17'"><i class="fa-brands fa-waze"></i><span></span> Follow on Waze</a>
+                <a class="pin-map pin-link" target="blank" href="https://www.google.com/maps?t=k&q={{ item.loc.lat }},{{ item.loc.lon }}"><i class="fa-solid fa-earth-europe"></i><span></span> View in Maps</a>
+                <span class="pin-separator"></span>
+
                 {% if app.user %}
                     {% if (item.loc.user and app.user.id == item.loc.user.id) or ('ROLE_ADMIN' in app.user.roles) %}
                         {% if item.loc.user and app.user.id == item.loc.user.id %}
-                            <a href="{{ path('app_location_edit', {'key': hashLoc(item.loc.id)}) }}">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                            <a class="pin-edit pin-link" href="{{ path('app_location_edit', {'key': hashLoc(item.loc.id)}) }}">
+                                <i class="fa-solid fa-pen-to-square"></i><span></span> Edit
                             </a>
                         {% elseif 'ROLE_ADMIN' in app.user.roles %}
-                            <a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                            <a class="pin-edit pin-link" target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}">
+                                <i class="fa-solid fa-pen-to-square"></i><span></span> Edit
                             </a>
                         {% endif %}
-                        {% include 'location/_delete_form.html.twig' %}
+                        <div class="pin-delete" >{% include 'location/_delete_form.html.twig' %} </div>
                     {% endif %}
                 {% endif %}
             </div>

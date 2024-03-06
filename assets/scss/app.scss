@@ -56,6 +56,7 @@ footer {
     right: 10px;
     position: absolute;
   }
+
   .contact_mobile {
     display: none;
     margin-left: 5px;
@@ -82,6 +83,7 @@ i.fa-solid.fa-heart {
 button:focus {
   outline: unset;
 }
+
 button.btn.delete {
   color: #8d8d8d;
   width: 18px;
@@ -96,6 +98,7 @@ button.btn.delete {
 }
 
 .custom-scroll {
+
   /* width */
   &::-webkit-scrollbar {
     width: 10px;
@@ -162,6 +165,7 @@ button.btn.delete {
   &.success {
     border: 1px solid #436949;
     background-color: #71ac7e;
+
     &,
     & a {
       color: #436949;
@@ -171,6 +175,7 @@ button.btn.delete {
   &.error {
     border: 1px solid #694343;
     background-color: #ac7171;
+
     &,
     & a {
       color: #694343;
@@ -193,12 +198,9 @@ button.btn.delete {
 
 #bottom-right-action {
   position: fixed;
-  right: 25px;
-  bottom: 50px;
+  right: 20px;
+  bottom: 20px;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  row-gap: 10px;
 }
 
 @media (max-width: 768px) {
@@ -206,8 +208,34 @@ button.btn.delete {
     .contact_desktop {
       display: none;
     }
+
     .contact_mobile {
       display: block;
     }
+  }
+}
+
+.open-map {
+  position: fixed;
+  z-index: 1;
+  bottom: 0;
+  left: 0px;
+  right: 0px;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0px;
+  margin: auto;
+  // float map button
+  .map-link {
+    background-color: $contrast-5;
+    color: $white;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    padding: 5px 15px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
   }
 }

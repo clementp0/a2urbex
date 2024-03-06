@@ -1,18 +1,6 @@
 @import '/assets/variables.scss';
 
 
-// float map button
-.map-link {
-  background-color: #303030;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  font-size: 20px;
-}
-
 // new location arrow to indicate how to create new location
 .first-location {
   &.hide {
@@ -27,19 +15,6 @@
   color: white;
   animation: first-location-move 2s infinite;
   font-size: 1rem;
-}
-
-// global new location button
-#new-location {
-  background-color: #60a5fa;
-  color: #222222;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  font-size: 20px;
 }
 
 // ai generated image
@@ -104,8 +79,9 @@ i.fa-brands.fa-waze {
   padding: 0px 5px 0px 5px;
   width: fit-content;
   font-size: 0.835rem;
-  margin: auto;
+  display: block;
   text-align: center;
+  margin: 0;
 
   .pin-category-text {
     text-transform: capitalize;
@@ -156,8 +132,11 @@ i.fa-brands.fa-waze {
   }
 
   .pin-bottom-container {
+    width: 100%;
     height: 24px;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .pin-id {
@@ -217,8 +196,14 @@ i.fa-brands.fa-waze {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  column-gap: 20px;
-  margin: 20px 10px;
+  column-gap: 30px;
+  padding: 40px;
+  max-width: 1100px;
+  margin: auto;
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+    padding: 20px;
+  }
 
   .pin-warning {
     margin: 0;
@@ -231,7 +216,10 @@ i.fa-brands.fa-waze {
   }
 
   .pin-page-content{
-    width: 50%;
+    width: 40%;
+    @media screen and (max-width: 1024px) {
+      width: 100%;
+    }
   }
   .pin-done {
     margin: 0;
@@ -252,12 +240,19 @@ i.fa-brands.fa-waze {
     background-color: #303030;
     margin-bottom: 10px;
     border-radius: 15px;
+    width: 60%;
+    @media screen and (max-width: 1024px) {
+      width: 100%;
+    }
 
     img {
       height: 500px;
-      width: 500px;
+      width: 100%;
       border-radius: 15px;
       object-fit: cover;
+      @media screen and (max-width: 1024px) {
+       height: 300px;
+      }
     }
   }
 
@@ -265,7 +260,6 @@ i.fa-brands.fa-waze {
     margin: 0;
     margin-top: 10px;
     font-size: 20px;
-    max-width: 80%;
     color: $contrast;
     margin-bottom: 10px !important;
   }
@@ -275,6 +269,7 @@ i.fa-brands.fa-waze {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    row-gap: 15px;
 
     a {
       margin: 0 8px;
@@ -286,37 +281,73 @@ i.fa-brands.fa-waze {
       margin: 0 8px;
     }
 
-    .pin-waze{
-      background-color: #81d1ff21;
-      padding: 5px 10px;
+    .pin-separator{
+      width: 100%;
+      height: 1px;
+      background-color: $contrast-2;
+    }
+
+    .pin-link{
+      padding: 5px 15px;
       border-radius: 5px;
-      color:#81D1FF;
-      border: 2px solid #81D1FF;
       display: flex;
       align-items: center;
       column-gap: 15px;
+      margin: 0;
+      font-size: 16px;
       span{
         height: 30px;
         width: 2px;
         display: block;
-        background-color: $contrast-2;
+      }
+    }
+    .pin-waze{
+      background-color: #81d1ff21;
+      color:#81D1FF;
+      // border: 2px solid #81D1FF;
+      span{
+        background-color: #81d1ff21;
       }
     }
 
     .pin-map{
       background-color: #34a85130;
-      padding: 5px 10px;
-      border-radius: 5px;
       color:#34A851;
-      border: 2px solid #34A851;
-      display: flex;
-      align-items: center;
-      column-gap: 15px;
+      // border: 2px solid #34A851;
       span{
-        height: 30px;
-        width: 2px;
-        display: block;
-        background-color: $contrast-3;
+        background-color: #34a85130;
+      }
+    }
+
+    .pin-edit{
+      background-color: #a3a3a326;
+      color:#A3A3A3;
+      // border: 2px solid #A3A3A3;
+      span{
+        background-color: #a3a3a326;
+      }
+    }
+
+    .pin-delete{
+      form{
+        width: 100%;
+      }
+      .delete{
+        padding: 5px 15px;
+        border-radius: 5px;
+        margin: 0;
+        background-color: #e478781a;
+        color:#E47878;
+        // border: 2px solid #E47878;
+        width: 100%;
+        text-align: left;
+        &:after {
+          font-size: 16px;
+          content: 'Delete Pin';
+          margin-left: 20px;
+          padding-left: 10px;
+          border-left: 2px solid #E47878;
+      }
       }
     }
   }

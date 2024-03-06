@@ -70,7 +70,7 @@
 											</div>
 											<span class="dropdown-content-separator"></span>
 											<a class="dropdown-content-item regular desktop-none" href="{{ path('app_location_index') }}">Locations</a>
-											<a class="dropdown-content-item new-link regular desktop-none" href="{{ path('new_location') }}">add location</a>
+											<a class="dropdown-content-item new-link regular desktop-none add-mobile" href="{{ path('new_location') }}">Add location</a>
 											<a class="dropdown-content-item regular desktop-none" href="///">Explorers</a>
 											<a href="" id="clear-cache-button" class="dropdown-content-item regular">Refresh</a>
 											{% if 'ROLE_ADMIN' in app.user.roles %}<a  class="dropdown-content-item regular" href="{{ path('admin') }}">Admin</a>{% endif %}
@@ -100,6 +100,8 @@
 		{% endif %}
 
 		{% block content %}{% endblock %}
+
+		{% block map %}{% endblock %}
 
 		<div id="bottom-right-action">
 			{% if app.user %}
