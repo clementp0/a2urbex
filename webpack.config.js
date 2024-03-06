@@ -123,6 +123,9 @@ Encore.setOutputPath('public/build/') // directory where compiled assets will be
   // friend
   .addStyleEntry('friend-style', './assets/scss/page/friend.scss')
 
+  // explorers
+  .addStyleEntry('explorers-style', './assets/scss/page/explorers.scss')
+
   // status
   .addStyleEntry('status-style', './assets/scss/page/status.scss')
   .addEntry('status-script', './assets/js/page/status.js')

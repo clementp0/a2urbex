@@ -6,8 +6,8 @@
 			{% include 'security/_online_row.html.twig' with {'user': user} %}
 		{% endfor %}
 	</div>
-
 	{# OFFLINE FRIENDS :  #}
+	<span class="online-separator"></span>
 	<p class="online_title"><i class="fa-solid fa-user"></i> Offline Friends</p>
 	<div class="online">
 		{% for user in friends.offline %}
@@ -16,6 +16,7 @@
 	</div>
 
 	{# EXPLORERS : #}
+	<span class="online-separator"></span>
 	<p class="online_title"><i class="fa-solid fa-user"></i> Explorers ({{ explorers|length }})</p>
 	<div class="online">
 		{% for user in explorers %}

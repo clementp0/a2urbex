@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+
+{% if explorers is defined %}
+    {{ include('security/online.html.twig') }}
+{% endif %}
+{% endblock %}
