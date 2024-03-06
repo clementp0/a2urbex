@@ -1,11 +1,9 @@
-@import '/assets/variables.scss';
-
 .pin-open-search {
   cursor: pointer;
   font-size: 17px;
   width: 1.25em;
   opacity: 0.5;
-  color: $contrast-3;
+  color: #e5e5e5;
   position: fixed;
   top: 10px;
   z-index: 1049;
@@ -14,54 +12,33 @@
 }
 
 .pin-search-wrapper {
-  height: 400px;
-  background-color: $white;
-  // background-image: url('https://blog.oshopping.pl/wp-content/uploads/2021/05/chernobyl-disaster-ukraine-DXRKDNX-1080x674.jpg');
-  // background-image: url('../../img/bg.jpg');
-  background-image: url('https://cdn.discordapp.com/attachments/489413377676804147/1214902542660804628/file-F8vuGUp9x4jWYQwXk41kV7GZ.png?ex=65facd29&is=65e85829&hm=a366288b2afc077a8a5d8755d97659c56ec3f331817341fe3d9b474b5446005e&');
-  background-position: center;
-  background-size: cover;
+  height: calc(100% - 44px);
+  position: fixed;
+  top: 44px;
+  left: 0px;
+  z-index: 1;
 
   .pin-search {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: relative;
     height: 100%;
-    width: 100%;
-    backdrop-filter: blur(1px);
+    overflow-y: scroll;
+    padding: 20px;
+    border-right: 1px solid #303030;
+    background-color: #303030c9;
+    backdrop-filter: blur(21px);
+    -webkit-backdrop-filter: blur(21px);
+    width: 250px;
+    font-size: 0.875rem;
+    font-weight: 500;
 
     &::-webkit-scrollbar {
       width: 16px;
     }
-
     &::-webkit-scrollbar-track {
       background: unset;
     }
-
     &::-webkit-scrollbar-thumb {
       border-color: #232323;
-    }
-
-    &.active {
-      position: fixed;
-      top: 44px;
-      height: 44px;
-      z-index: 1;
-
-      .filters-container {
-        top: 44px;
-        align-items: flex-start;
-      }
-    }
-
-    form {
-      position: sticky;
-      top: 44px;
-      min-width: 400px;
-      width: 400px;
-      max-width: 100%;
-      transition: all 0.2s;
     }
 
     #country,
@@ -73,36 +50,38 @@
       background-color: #404040;
     }
 
-    .form-group {
-      width: fit-content;
-      position: relative;
-      width: 100%;
+    legend {
+      color: #60a5fa;
+      background-color: #404040;
+      border-radius: 5px;
+      padding-left: 10px;
+      line-height: 1;
+      margin-bottom: 10px;
     }
 
-    legend {
-      color: $contrast-4;
-      background-color: $white;
-      border-bottom: 1px solid $contrast-2;
-      padding: 10px;
-      text-align: center;
-
-      i {
-        margin-right: 10px;
-      }
+    i {
+      margin-right: 7px;
     }
 
     #string {
-      // color: white;
-      margin: auto auto;
-      // background-color: transparent;
-      // border: none;
-      // border-bottom: 1px solid #ffffff24;
-      // font-size: 12px;
-      // height: 40px;
-      // border-radius: 0;
+      color: white;
+      margin: auto auto 20px;
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid #ffffff24;
+      font-size: 12px;
+      height: 40px;
+      border-radius: 0;
 
       &:focus {
-        border: 1px solid $contrast-2;
+        color: #6d6d6d;
+        margin: auto auto 20px;
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid #ffffff24;
+        font-size: 12px;
+        height: 40px;
+        border-radius: 0;
       }
 
       &::placeholder {
@@ -119,48 +98,52 @@
     }
 
     fieldset.form-group {
-      &>legend {
+      & > legend {
         cursor: pointer;
       }
-
-      &>div {
+      & > div {
         max-height: 0;
-        overflow: auto;
-        background-color: $white;
+        overflow: hidden;
         transition: all 1s;
-        padding: 0px 20px;
       }
     }
 
     .pin-search-reset {
-      margin-left: 10px;
+      float: right;
+      width: 20%;
+      margin-left: 5%;
       font-size: 18px;
       line-height: 40px;
       height: 40px;
-      color: $contrast-3;
-      position: absolute;
-      top: 3px;
-      right: 50px;
+      color: #6d6d6d;
+      text-align: center;
 
       &:hover {
-        color: $contrast-2;
+        color: #a2a2a2;
         transition: 0.5s;
       }
     }
 
     .pin-filter-btn {
-      background-color: $blue;
-      color: $white;
-      top: 4px;
-      right: 4px;
-      border-radius: 100%;
-      width: 36px;
-      height: 36px;
-      position: absolute;
+      margin: auto;
+      width: 75%;
+      height: 40px;
+      border: none;
+      background-color: #222222;
+      color: #a2a2a2;
+      border-radius: 0;
+      float: left;
 
       &:hover {
-        background-color: $darker-blue;
+        background-color: #1d1c1c;
+        color: #a2a2a2;
+        transition: 0.5s;
       }
+    }
+
+    .pin-results {
+      padding-top: 50px;
+      width: 100%;
     }
 
     .online_section {
@@ -187,8 +170,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-
-        &>a {
+        & > a {
           width: 100%;
           display: flex;
           flex-direction: row;
@@ -199,7 +181,6 @@
           font-weight: 500;
           align-items: center;
         }
-
         span.ago {
           font-size: 10px;
           margin-left: 5px;
@@ -246,66 +227,54 @@
   }
 }
 
+.has-sidebar {
+  .has-sidebar-inner {
+    margin-left: 250px;
+  }
+  & ~ footer {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+  }
+}
+
 @media screen and (max-width: 1024px) {
   .pin-open-search {
     display: block;
   }
 
   .pin-search-wrapper {
-    height: 0px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    transition: 0.5s;
+    visibility: hidden;
+    opacity: 1;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0px;
+    z-index: 1050;
 
     .pin-search {
-      position: fixed;
-      z-index: 1;
-      top: 44px;
-      height: fit-content;
-      visibility: hidden;
-      transform: translateX(-100%);
+      left: -250px;
       transition: all 0.5s;
-      height: 100%;
-      padding: 20px;
-      background-color: $background;
-      height: 100%;
-      display: flex;
-      align-items: flex-start;
-
-      form{
-        min-width: fit-content;
-      }
-
-      &.active {
-        height: fit-content;
-        .filters-container{
-          top: 0px;
-        }
-      }
-    }
-
-    .filters-container {
-      position: relative;
-      flex-direction: column;
-      row-gap: 20px;
-      margin: 20px 0px;
     }
   }
 
   .has-sidebar {
     &.menu-open .pin-search-wrapper {
+      visibility: visible;
       opacity: 1;
       background-color: rgba(0, 0, 0, 0.6);
 
       .pin-search {
-        visibility: visible;
-        transform: translateX(0%);
-        transition: all 0.5s;
+        transform: translateX(100%);
       }
     }
 
     .has-sidebar-inner {
       margin-left: 0;
     }
-
-    &~footer {
+    & ~ footer {
       width: 100%;
       margin-left: 0;
     }

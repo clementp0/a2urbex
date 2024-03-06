@@ -1,44 +1,44 @@
-@import '/assets/variables.scss';
-
-
-.filters-container{
-  border-radius: 0px;
-  position: fixed;
-  width: 100%;
-  bottom: 0px;
-  height: fit-content;
-  left: 0;
-  z-index: 240;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  .form-group{
-    border-left: 1px solid $contrast-2;
-    border-right: 1px solid $contrast-2;
-    border-bottom: 1px solid $contrast-2;
-  }
-}
-
 .form-group {
+  margin-bottom: 1rem;
 
-  .search-bar{
-    color:$contrast;
-    background-color: $background;
-    border-radius: 50px;
+  & > label {
+    color: #60a5fa;
+    width: fit-content;
+    background-color: #404040;
+    font-size: 14px;
+    border-radius: 5px;
+    line-height: 1;
     margin: auto;
-    min-width: fit-content;
-    font-size: $medium;
-    width: 100%;
-    padding: 10px 20px;
-    height: 44px;
-    transition: all 0.2s;
+    padding: 8px;
+    text-align: left;
+    width: 80%;
   }
 
-  div{
-    overflow: auto;
+  .form-control {
+    color: white;
+    margin: auto auto 20px;
+    border: none;
+    border-bottom: 1px solid #ffffff24;
+    width: 80%;
+    font-size: 12px;
+    height: 40px;
+    border-radius: 0;
+    padding: 0.375rem 0.75rem;
+    background-color: transparent;
+
+    &::placeholder {
+      color: #6d6d6d;
+    }
+
+    &[disabled] {
+      color: #a2a2a2;
+      background-color: unset;
+    }
+  }
+  select.form-control {
+    background-color: #303030;
   }
 }
-
 .form-group [type='submit'],
 .btn-submit {
   border-radius: 2px;
@@ -86,8 +86,8 @@ input[type='checkbox']::before {
   height: 100%;
   width: 100%;
   left: 0;
-  border: 1px solid $contrast-3;
-  background-color: $contrast-2;
+  border: 1px solid #ffffff24;
+  background-color: #404040;
 }
 input[type='checkbox']:checked::before {
   content: '';
@@ -97,7 +97,7 @@ input[type='checkbox']:checked::before {
   height: 100%;
   width: 100%;
   left: 0;
-  border: 3px solid $contrast-4;
+  border: 3px solid #404040;
   background-color: #60a5fa;
 }
 

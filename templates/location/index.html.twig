@@ -11,9 +11,10 @@
 	</div>
 {% endblock %}
 
-{% block map %}
-	<div class="open-map">
-		<a href="{{ path('app_map_filter') }}" id="map-filter" class="map-link">Map <i class="fa-solid fa-map-location-dot"></i></a>
-	</div>
+{% block action %}
+	<a href="{{ path('new_location') }}" id="new-location" class="new-link">
+		<p class="first-location {% if locations|length %}hide{% endif %}">Add a new pin! <i class="fa-solid fa-arrow-right"></i></p>
+		<i class="fa-solid fa-plus"></i>
+	</a>
+	<a href="{{ path('app_map_filter') }}" id="map-filter" class="map-link"><i class="fa-solid fa-map-location-dot"></i></a>
 {% endblock %}
-

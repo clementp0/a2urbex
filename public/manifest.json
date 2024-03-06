@@ -3,8 +3,8 @@
   "short_name": "a2urbex",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
+  "background_color": "#232323",
+  "theme_color": "#222222",
   "icons": [
     {
       "src": "/logov3/a2urbex192x192.png",

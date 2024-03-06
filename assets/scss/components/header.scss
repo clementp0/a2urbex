@@ -1,57 +1,28 @@
-@import '/assets/variables.scss';
-
-
 .navbar {
-  &-content {
-    display: flex;
-    column-gap: 20px;
-    align-items: center;
-  }
-
-  &-logo {
-    img {
-      height: 20px;
-    }
-
-    a {
-      color: $contrast-5;
-    }
-  }
-
-  &-separator {
-    height: 20px;
-    width: 1px;
-    background-color: $contrast-3;
-  }
-
-  &-item {
-    color: $contrast-5;
-    font-size: $medium;
-
-    &.new-link {
-      color: $white;
-      background-color: $blue;
-      padding: 4px 10px;
-      border-radius: 40px;
-      font-size: $small;
-
-      &:hover {
-        background-color: $darker-blue;
-      }
-    }
-  }
-
   .navbar-collapse {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
   }
 
+  .logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 500;
+    font-size: 0.875rem;
+
+    a {
+      color: #d4d4d4;
+    }
+  }
+
   .filter {
     display: none;
   }
 
-  .discord_desktop>a {
+  .discord_desktop > a {
     color: #c2c2c2;
   }
 
@@ -63,12 +34,12 @@
     position: relative;
     display: flex;
 
-    &>a {
+    & > a {
       font-size: 0.9rem;
       font-weight: 500;
     }
 
-    &>p {
+    & > p {
       font-size: 0.9rem;
       font-weight: 500;
     }
@@ -113,58 +84,30 @@
         position: absolute;
         z-index: 1;
         top: 100%;
-        min-width: 220px;
+        min-width: 190px;
         right: 0;
-        background-color: $background;
-        padding: 10px 20px;
+        background-color: #303030;
+        border: #525252 1px solid;
         border-radius: 6px;
-        box-shadow: 0px 0px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+        color: #d4d4d4;
 
-        a{
-          &:hover{
-            color: $contrast-4;
-          }
-        }
-
-        &-logged {
-          margin: 0;
+        a {
           text-align: left;
-          font-size: $small;
-          color: $contrast;
-        }
-
-        &-name {
-          margin: 0;
-          text-align: left;
-          font-size: $medium;
-          color: $contrast-3;
-        }
-
-        &-item {
-          font-size: $medium;
+          color: #d4d4d4;
           display: block;
-          width: 100%;
-          text-align: left;
-          padding: 8px 0px;
+          padding: 8px 16px;
           text-decoration: none;
-          color: $contrast-3;
-        }
+          font-size: 14px;
+          transition: background-color 0.2s ease-out;
 
-        &-logout {
-          font-size: $medium;
-          display: block;
-          width: 100%;
-          text-align: left;
-          padding: 8px 0px;
-          color: $contrast;
-        }
-        
-        &-separator{
-          display: block;
-          width: 100%;
-          height: 1px;
-          margin: 10px 0px;
-          background-color: $contrast-2;
+          & > i {
+            margin-right: 5px;
+          }
+
+          &:hover {
+            background-color: #222222;
+          }
         }
         .menu_icon-image {
           background-image: url('../../img/default_profile.png');
@@ -180,6 +123,31 @@
         .menu_header {
           display: flex;
           align-items: flex-end;
+          padding: 7px;
+          border-bottom: #525252 1px solid;
+
+          & > div > i {
+            padding: 10px;
+            background-color: #404040;
+            color: #737373;
+            margin: 5px;
+            border-radius: 4px;
+          }
+        }
+
+        .menu_data {
+          font-size: 15px;
+          text-align: left;
+
+          & > p {
+            margin: 5px 0 0;
+            font-size: 10px;
+            color: gray;
+          }
+        }
+
+        a.menu_logout {
+          border-top: #525252 1px solid;
         }
       }
     }
@@ -215,11 +183,6 @@
   }
 
   @media (max-width: 768px) {
-
-    .navbar-collapse {
-      padding-left: 30px;
-    }
-
     .dropdown {
       display: block;
 
