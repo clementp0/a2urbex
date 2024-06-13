@@ -5,6 +5,15 @@
 			{% include 'sidebar.html.twig' %}
 		{% endif %}
 		
+		<div class="loading-container">
+			<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 20px;">
+				<div class="loading-image">
+					<img src="/assets/loading.png">
+				</div>
+				<p class="loading-text">Loading...</p>
+			</div>
+		</div>
+
 		<div id="map-wrapper-inner" class="has-sidebar-inner">
 			<div id="map-input-wrapper" class="disabled">
 				<div id="t1"></div>

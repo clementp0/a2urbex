@@ -95,6 +95,7 @@
             display: inline-block;
             text-align: center;
           }
+
           .name {
             font-size: 11px;
           }
@@ -158,26 +159,100 @@
       margin: 5px auto;
       background-color: #222222;
     }
+
     .map-overlay-action {
       text-align: center;
 
-      > * {
+      >* {
         margin: 0 5px;
       }
     }
   }
 }
+
 @media screen and (max-width: 680px) {
   #map-wrapper-inner {
     #map {
+
       div[role='menubar'],
       .gm-fullscreen-control {
         top: 50px !important;
       }
+
       #map-input-wrapper {
         left: 0 !important;
         width: calc(100% - 16px);
       }
     }
   }
+}
+
+
+.loading-container{
+  position: fixed;
+    top: 0px;
+    width: calc(100% - 250px);
+    right: 0px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+@media screen and (max-width: 680px) {
+  .loading-container {
+    width: 100%;
+  }
+}
+
+.loading-image {
+  position: relative;
+  overflow: hidden;
+  height: fit-content;
+  display: flex;
+  width: 200px;
+  justify-content: center;
+}
+
+.loading-image img {
+  width: 50px;
+  display: block;
+}
+
+@keyframes swing {
+  0% {
+    transform-origin: top ;
+    transform: rotate(-15deg);
+  }
+
+  50% {
+    transform-origin: top ;
+    transform: rotate(15deg);
+  }
+
+  100% {
+    transform-origin: top ;
+    transform: rotate(-15deg);
+  }
+}
+
+.loading-image img {
+  animation: swing 3s ease-in-out infinite;
+}
+
+.loading-text{
+  font-size: 14px;
+    text-align: center;
+    animation: color-grading 1.5s ease-in-out infinite;
+}
+
+@keyframes color-grading {
+  0% {
+      color: #e9cd11;
+  }
+  50% {
+      color: #f5f5a0d7; 
+  }
+  100% {
+    color: #e9cd11;
+}
 }
