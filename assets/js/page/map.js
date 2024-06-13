@@ -1205,7 +1205,7 @@ ClusterIcon.prototype.setCenter = function(center) {
  */
 ClusterIcon.prototype.createCss = function(pos) {
   var style = [];
-  style.push('background-image:url(' + this.url_ + ');');
+  style.push('background-image:url(' + this.url_ + ');background-size: contain;');
   var backgroundPosition = this.backgroundPosition_ ? this.backgroundPosition_ : '0 0';
   style.push('background-position:' + backgroundPosition + ';');
 
@@ -1326,7 +1326,7 @@ function setMarkers(map, items) {
 
 
   new MarkerClusterer(map, markers, {
-    imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+    imagePath: '/assets/cluster/m',
     gridSize: 60, 
     maxZoom: 15, 
     minimumClusterSize: 3 
