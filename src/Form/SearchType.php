@@ -55,7 +55,8 @@ class SearchType extends AbstractType
             ]);
 
 
-        if($this->security->getUser()->hasRole('ROLE_ADMIN')) {
+        $user = $this->security->getUser();
+        if($user->hasRole('ROLE_ADMIN') || $user->hasRole('ROLE_SUPERUSER')) {
             $sources = [];
             
             foreach($this->locationRepository->findAllSource() as $item) {
