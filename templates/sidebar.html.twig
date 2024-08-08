@@ -1,5 +1,5 @@
-<div class="pin-open-search toggle">
-    <i class="fa fa-fw fa-bars"></i>
+<div class="pin-open-search toggle desktop-none">
+    <i class="fa-solid fa-gear"></i>
 </div>
 
 <div class="pin-search-wrapper">
@@ -9,5 +9,6 @@
         <a class="pin-search-reset" href="{% if map_type is defined %}{{ path('app_map_filter') }}{% else %}{{ path('app_location_index') }}{% endif %}">
             <i class="fa-sharp fa-solid fa-trash"></i>
         </a>
+        <p class="pin-results">Displaying <b>{{ total_result }}</b> result{{ total_result > 1 ? 's' : '' }}</p>
     </div>
 </div>

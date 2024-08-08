@@ -81,7 +81,7 @@ i.fa-brands.fa-waze {
   font-size: 0.835rem;
   display: block;
   text-align: center;
-  margin: 0;
+  margin: 5px 0px;
 
   .pin-category-text {
     text-transform: capitalize;
@@ -89,9 +89,9 @@ i.fa-brands.fa-waze {
 }
 
 .pin-results {
+  text-align: center;
   color: $contrast;
   width: 100%;
-  margin-left: 10px;
 }
 
 .pin-container {

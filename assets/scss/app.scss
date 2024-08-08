@@ -10,6 +10,9 @@ body {
   color: #5a5a5a;
   margin: auto;
   font-family: Roboto, sans-serif;
+  @media (max-width: 768px) {
+    padding-top: 0px;
+  }
 
   a {
     color: #8d8d8d;
@@ -75,7 +78,7 @@ i.fa-solid.fa-heart {
 .fixed-top {
   height: 44px;
   text-align: right;
-  background-color: $background;
+  background-color: #222222;
   border-bottom: 1px solid $contrast-2;
   padding: 8px 15px;
 }
@@ -122,6 +125,19 @@ button.btn.delete {
   }
 }
 
+.form-group{
+  text-align: left;
+  color: $white;
+}
+.form-group label{
+  margin: 10px 0px;
+}
+
+.form-control{
+  background-color: $background;
+  color:$white;
+  border:none;
+}
 // import Kml File page
 .import-form {
   text-align: center;
@@ -137,7 +153,7 @@ button.btn.delete {
 
   .custom-file {
     margin: 30px auto;
-    width: 80%;
+    width: 100%;
 
     input {
       width: 100%;
@@ -218,7 +234,7 @@ button.btn.delete {
 .open-map {
   position: fixed;
   z-index: 1;
-  bottom: 0;
+  bottom: 0px;
   left: 0px;
   right: 0px;
   width: fit-content;
@@ -228,8 +244,8 @@ button.btn.delete {
   margin: auto;
   // float map button
   .map-link {
-    background-color: $contrast-5;
-    color: $white;
+    background-color: black;
+    color: white;
     justify-content: center;
     align-items: center;
     border-radius: 20px;
@@ -237,5 +253,17 @@ button.btn.delete {
     display: flex;
     flex-direction: row;
     column-gap: 10px;
+    @media (max-width: 768px) {
+      background-color: $background;
+      padding: 20px;
+      border-radius: 50%;
+      font-size: 22px;
+    }
+  }
+  @media (max-width: 768px) {
+    position: inherit;
+    margin: 0;
+    padding: 0;
+    margin-top: -20px;
   }
 }

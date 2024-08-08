@@ -1,15 +1,17 @@
 // lightmode
 
 // Colors
-$background : white;
-$white: white;
+$background : #161616;
+$white: rgb(216, 216, 216);
 $red : red;
-$contrast: black;
-$contrast-5: #242424;
+$contrast: white;
+$contrast-5: #e1e1e1;
 $contrast-4: #808080;
-$contrast-3: #9E9E9E;
-$contrast-2: #ededed;
-$contrast-1: #F9F9F9;
+$contrast-3: #7a7a7a;
+$contrast-2: #494949;
+$contrast-1: #252525;
+$contrast-light : #0c0c0c;
+
 $blue: #6B9CF6;
 $darker-blue : #5d8be0;
 
@@ -27,6 +29,7 @@ $darker-blue : #5d8be0;
 }
 $small : 12px;
 $medium : 14px;
+$large : 16px;
 
 
 @media screen and (max-width: 1024px) {

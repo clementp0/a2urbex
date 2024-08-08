@@ -31,14 +31,14 @@
 		<header>
 			<nav class="navbar navbar-expend-md navbar-dark fixed-top">
 				<div class="navbar-collapse" id="navbarCollapse">
-					<div class="navbar-content">
-						<div class="navbar-logo">
-							<img src="https://a2urbex.eu/logoa2urbex.png" alt="a2urbex small logo">
+					<div class="navbar-content m-none">
+						<div class="navbar-logo ">
+							<img src="../logoa2urbex.png" alt="a2urbex small logo">
 							<a class="bold" href="{% if app.user %}{{ path('app_location_index') }}{% else %}{{ path('app_home') }}{% endif %}">
 								a2urbex</a>
 						</div>
 						{% if app.user %}
-							<span class="navbar-separator"></span>
+							<span class="navbar-separator m-none"></span>
 							<a class="navbar-item regular m-none" href="{{ path('app_location_index') }}">Locations</a>
 							<a class="navbar-item new-link bold m-none" href="{{ path('new_location') }}">add location</a>
 							<span class="navbar-separator m-none"></span>
@@ -49,9 +49,17 @@
 					{% if app.user %}
 						<div class="navbar-content">
 							{% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles %}
+								<a class="navbar-item frends desktop-none" href="{% if app.user %}{{ path('app_location_index') }}{% else %}{{ path('app_home') }}{% endif %}">
+									<i class="fa-solid fa-home"></i>
+								</a>
+
 								<a class="navbar-item frends" href="{{ path('app_friend') }}">
 									<i class="fa-solid fa-users"></i>
 								</a>
+								<div class="open-map">
+									<a href="{{ path('app_map_filter') }}" id="map-filter" class="map-link"><span class="m-none">Map </span> <i class="fa-solid fa-map-location-dot"></i></a>
+								</div>
+
 								<a class="navbar-item favorites" href="{{ path('app_favorite') }}">
 									<i class="fa fa-fw fa-heart"></i>
 								</a>
@@ -62,6 +70,7 @@
 											<div class="dropbtn-image" {% if app.user.image %} style="background-image:url('{{app.user.image}}')" {% endif %}></div>
 										</button>
 										<div class="dropdown-content">
+											<div class="dropdown-content-tray desktop-none"></div>
 											<div class="menu_header">
 												<div class="menu_data">
 													<p class="dropdown-content-logged bold">Logged in as</p>
@@ -88,6 +97,7 @@
 
 				</div>
 			</nav>
+			<div class="navbar-mobile-rounded-spacer"><div>
 		</header>
 
 		{% if notification is defined and notification is not null %}
@@ -103,12 +113,12 @@
 
 		{% block map %}{% endblock %}
 
-		<div id="bottom-right-action">
+		{# <div id="bottom-right-action m-none">
 			{% if app.user %}
 				{% include 'chat/index.html.twig' %}
 			{% endif %}
 			{% block action %}{% endblock %}
-		</div>
+		</div> #}
 
 		<footer>
 			<div class="love">Your Exploration Co-Pilot.</div>

@@ -102,6 +102,8 @@ function popup(item) {
 
   $('.pin-fav-wrapper').attr('data-id', item.loc.lid)
   $('.pin-fav-wrapper').attr('data-fids', item.fids)
+  $('.pin-open').attr('href', '/location/' +item.loc.lid)
+
 
   let mapsUrl = $('.map-overlay-action .pin-map').data('url') + item.loc.lat + ',' + item.loc.lon
   $('.map-overlay-action .pin-map').attr('href', mapsUrl)
