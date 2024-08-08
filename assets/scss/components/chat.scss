@@ -1,10 +1,6 @@
-@import '/assets/variables.scss';
-
-
 .chat-icon {
-  background-color: $background;
-  color: $blue;
-  border: 1px solid $contrast-1;
+  background-color: #787878;
+  color: #222222;
   width: 50px;
   height: 50px;
   display: flex;
@@ -13,11 +9,10 @@
   border-radius: 50%;
   font-size: 20px;
   cursor: pointer;
-  box-shadow: #0000003b 0px 0px 4px 2px;
 
   .chat-dot {
     display: none;
-    background-color: $blue;
+    background-color: #60a5fa;
     width: 15px;
     height: 15px;
     border-radius: 10px;
@@ -33,7 +28,7 @@
 }
 
 #chat-wrapper {
-  background-color: $background;
+  background-color: #303030;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
   border-radius: 6px;
   position: fixed;
@@ -45,7 +40,7 @@
   transform: translateX(130%);
   display: flex;
   flex-direction: column;
-  border: $contrast-2 1px solid;
+  border: #525252 1px solid;
   overflow: hidden;
   z-index: 1;
 
@@ -56,12 +51,12 @@
   .chat-header {
     padding: 10px;
     position: relative;
-    border-bottom: $contrast-2 1px solid;
+    border-bottom: #525252 1px solid;
     display: flex;
 
     .chat-title {
       margin: 0;
-      color: $contrast-3;
+      color: #a2a2a2;
       display: flex;
       align-items: center;
       width: fit-content;
@@ -87,7 +82,6 @@
     .chat-action-wrapper {
       display: flex;
       row-gap: 10px;
-      color: $contrast-3;
 
       &.right {
         margin-left: auto;
@@ -142,7 +136,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: $background;
+    background-color: #303030;
     display: flex;
     flex-direction: column;
     transition: transform 0.5s;
@@ -156,7 +150,7 @@
 
     .chat-inner {
       flex-grow: 1;
-      overflow: auto;
+      overflow-y: scroll;
       display: flex;
       flex-direction: column;
     }
@@ -270,7 +264,7 @@
         }
 
         .message-content {
-          background-color: $blue;
+          background-color: #737373;
           font-size: 14px;
           width: fit-content;
           padding: 5px 8px;
@@ -369,13 +363,13 @@
       width: 100%;
       margin: 0;
       text-align: center;
-      border-top: $contrast-2 1px solid;
+      border-top: #525252 1px solid;
       padding: 5px;
       display: flex;
 
       .message-input {
         flex-grow: 1;
-        background-color: $contrast-2;
+        background-color: #737373;
         border: none;
         border-radius: 40px;
         color: white;
@@ -443,7 +437,7 @@
   .chat-edit {
     &-input {
       border: none;
-      border-bottom: 1px solid $contrast-2;
+      border-bottom: 1px solid #404040;
       background-color: transparent;
       color: #bbb;
       font-size: 14px;

@@ -34,7 +34,7 @@ class SearchType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Abandonned Rocket...',
-                    'class' => 'form-control-sm search-bar'
+                    'class' => 'form-control-sm'
                 ]
             ])
             ->add('country', EntityType::class, [
@@ -55,7 +55,8 @@ class SearchType extends AbstractType
             ]);
 
 
-        if($this->security->getUser()->hasRole('ROLE_ADMIN')) {
+        $user = $this->security->getUser();
+        if($user->hasRole('ROLE_ADMIN') || $user->hasRole('ROLE_SUPERUSER')) {
             $sources = [];
             
             foreach($this->locationRepository->findAllSource() as $item) {
@@ -75,7 +76,7 @@ class SearchType extends AbstractType
 
         $builder
             ->add('submit', SubmitType::class, [
-                'label' => 'filter',
+                'label' => 'Filter',
                 'attr' => [
                     'class' => 'pin-filter-btn'
                 ]

@@ -1,6 +1,3 @@
-@import '/assets/variables.scss';
-
-
 //favorite popup
 .pin-fav-wrapper {
   position: absolute;
@@ -11,7 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: $white;
+    background-color: #ddd;
     border-radius: 50%;
     width: 25px;
     height: 25px;

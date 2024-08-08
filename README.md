@@ -1,4 +1,4 @@
-<img src="https://media.discordapp.net/attachments/778932989693526038/1122529904043491564/banner.png">
+<img src="https://github.com/clementp0/a2urbex/assets/15802129/3ff38c87-f9cd-4b0b-b34b-1f650625662e">
 <h1 align="center">a2urbex</h1>
 <p align="center">
   <a href="https://a2urbex.eu" target="_blank"><img alt="website" src="https://img.shields.io/badge/a2urbex-1C1C1C?style=flat-square&logo=About.me&logoColor=white" height="25"></a>
@@ -247,29 +247,29 @@
   <summary>👀 Screenshots </summary>
   <br>
   <p>🏠 Home Page</p>
-  <img src="https://media.discordapp.net/attachments/778932989693526038/1122526185449082930/homepage.png">
+  <img src="https://github.com/clementp0/a2urbex/assets/15802129/a2c3bd55-ea77-4b72-b2e6-b552bec43bfc">
     <h1></h1>
   <p>✔️ Home</p>
-  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523838832451726/home.png">
+  <img src="https://github.com/clementp0/a2urbex/assets/15802129/5289b090-1e1a-4749-bfaa-1cabcbddc3cd">
     <h1></h1>
   <p>➕ Add</p>
-  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523901314990090/add.png">
+  <img src="https://github.com/clementp0/a2urbex/assets/15802129/db7bc9f7-bb3c-4498-b2fa-005de49be8ce">
     <h1></h1>
   <p>🗺️ Map</p>
-  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523872529494036/map.png">
+  <img src="https://github.com/clementp0/a2urbex/assets/15802129/292b00cc-2ea3-4307-96a0-dce7ffdd57a6">
     <h1></h1>
   <p>👤 User profile</p>
-  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523872818896896/profile.png">
+  <img src="https://github.com/clementp0/a2urbex/assets/15802129/cd290ad2-0dd9-4e7e-a11a-342ce7c9c1c2">
     <h1></h1>
   <p>👥 Friend(s) list</p>
-  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523903072411738/friends.png">
+  <img src="https://github.com/clementp0/a2urbex/assets/15802129/262c79e4-a259-4bd2-8971-9de928352a39">
     <h1></h1>
   <p>🧡 Favorites list</p>
-  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523902397120672/favorites.png">
+  <img src="https://github.com/clementp0/a2urbex/assets/15802129/a9a70bfb-37f4-4dea-90eb-9c0ca0899e3e">
     <h1></h1>
   <p>💬 Chats</p>
-  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523902023839834/chat.png">
+  <img src="https://github.com/clementp0/a2urbex/assets/15802129/9625f107-2c26-4aac-96e0-aaadbacd7cdd">
     <h1></h1>
   <p>⚙️ Admin</p>
-  <img src="https://media.discordapp.net/attachments/778932989693526038/1122523901684097185/admin.png">
+  <img src="https://github.com/clementp0/a2urbex/assets/15802129/847d0065-3710-40d1-bfc9-756241ca130c">
 </details>

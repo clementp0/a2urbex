@@ -42,11 +42,9 @@
     &::-webkit-scrollbar {
       width: 16px;
     }
-
     &::-webkit-scrollbar-track {
       background: unset;
     }
-
     &::-webkit-scrollbar-thumb {
       border-color: #232323;
     }
@@ -108,11 +106,10 @@
     }
 
     fieldset.form-group {
-      &>legend {
+      & > legend {
         cursor: pointer;
       }
-
-      &>div {
+      & > div {
         max-height: 0;
         overflow: hidden;
         transition: all 1s;
@@ -181,8 +178,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-
-        &>a {
+        & > a {
           width: 100%;
           display: flex;
           flex-direction: row;
@@ -193,7 +189,6 @@
           font-weight: 500;
           align-items: center;
         }
-
         span.ago {
           font-size: 10px;
           margin-left: 5px;
@@ -288,8 +283,7 @@
     .has-sidebar-inner {
       margin-left: 0;
     }
-
-    &~footer {
+    & ~ footer {
       width: 100%;
       margin-left: 0;
     }
