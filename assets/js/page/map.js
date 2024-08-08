@@ -1329,7 +1329,7 @@ function setMarkers(map, items) {
     imagePath: '/assets/cluster/m',
     gridSize: 60, 
     maxZoom: 15, 
-    minimumClusterSize: 3 
+    minimumClusterSize: 5
   });
 }
 
