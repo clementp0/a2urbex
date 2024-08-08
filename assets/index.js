@@ -29,6 +29,17 @@ $(() => {
     $('.has-sidebar').removeClass('menu-open')
   })
 
+  // User menu
+
+  $('.dropbtn').on('click', () => {
+    $('.dropdown-content').toggleClass('dropdown-content-open')
+  })
+  $('.dropdown-content-tray').on('click', function (e) {
+    if (e.target != this) return
+    $('.dropdown-content').removeClass('dropdown-content-open')
+  })
+  
+
   // Friend page
   const friendElement = $('.add-friend.inmodal')
   new UserModal(friendElement)
