@@ -72,7 +72,15 @@ footer {
 }
 
 i.fa-solid.fa-heart {
-  color: #60a6fa;
+  color: #da3e3e;
+}
+
+.pin-separator-small {
+  height: 100%;
+  width: 1px;
+  border-radius: 2px!important;
+  background: #474747;
+  padding: 0px!important;
 }
 
 .fixed-top {
@@ -88,12 +96,10 @@ button:focus {
 }
 
 button.btn.delete {
-  color: #8d8d8d;
+  color: #E47878;
   width: 18px;
   font-size: 15px;
   padding: 0px;
-  margin-left: 6px;
-  margin-bottom: 4px;
 
   &:hover {
     color: #5e9eee;

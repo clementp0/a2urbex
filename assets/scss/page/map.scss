@@ -4,9 +4,13 @@
   overflow: hidden;
 }
 #map-wrapper-inner {
-  height: calc(100dvh - 4rem);
+  height: calc(100dvh - 44px);
   position: relative;
   overflow: hidden;
+  @media (max-width: 768px) {
+    height: 100dvh;
+    padding-bottom: 5rem;
+  }
 
   #map-input-wrapper {
     display: none;
@@ -113,16 +117,14 @@
     padding-bottom: 20px;
     border-radius: 10px;
     position: absolute;
-    bottom: 40px;
-    margin-left: 10px;
-    margin-right: 10px;
+    bottom: 2rem;
     width: calc(100% - 20px);
     background-color: #303030;
     transition: all 0.5s;
-    transform: translateY(120%);
-    @media (min-width: 768px) {
-      transform: translate(-50%, 120%);
-      left: 50%;
+    transform: translate(-50%, 150%);
+    left: 50%;
+    @media (max-width: 768px) {
+      bottom: 7rem;
     }
 
     a:hover {
@@ -130,9 +132,15 @@
     }
 
     &.show {
-      transform: translateY(0);
-      @media (min-width: 768px) {
-        transform: translate(-50%, 0%);
+      z-index: 1031;
+      transform: translate(-50%, 0%);
+    }
+
+    .pin-fav-add{
+      width: 100%;
+      bottom: -3rem;
+      @media (max-width: 768px) {
+        bottom: -7rem;
       }
     }
 
@@ -167,6 +175,7 @@
 
     .map-overlay-title {
       margin-top: 10px;
+      padding: 0px 20px;
       margin-bottom: 0;
       text-align: center;
       font-size: 14px;

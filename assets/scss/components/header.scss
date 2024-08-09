@@ -45,7 +45,7 @@
     }
 
     &.new-link {
-      color: $background;
+      color: $white;
       background-color: $blue;
       padding: 4px 10px;
       border-radius: 40px;
@@ -288,7 +288,7 @@
   @media (max-width: 768px) {
     position: fixed;
     height: 2rem;
-    z-index: 1;
+    z-index: 1029;
     width: 100%;
     bottom: 0px;
     background-color: #222222;

@@ -9,28 +9,6 @@
 						<i class="fa-solid fa-robot"></i>
 					{% endif %}
 
-					<a href="{{ path('app_location_show', {'key': hashLoc(item.loc.id) }) }}">
-						{% if item.loc.image|default(null) %}
-							<div class="pin-img" style="background-image:url('{{ item.loc.image }}')"></div>
-						{% else %}
-							<div class="pin-img" style="background-image:url('/assets/default.png')"></div>
-						{% endif %}
-						{% if app.user %}
-							<p class="pin-title">{{ item.loc.name |u.truncate(50, '...') }}</p>
-						{% endif %}
-					</a>
-					{% include 'favorite/_pin.html.twig' %}
-				</div>
-
-				<div class="pin-bottom-container">
-					<div class="pin-user pin-action">
-						<a class="waze" target="blank" href="https://waze.com/ul?q={{ item.loc.lat }},{{ item.loc.lon }}&navigate=yes&zoom=17'">
-							<i class="fa-brands fa-waze"></i>
-						</a>
-						<a class="pin-map" target="blank" href="https://www.google.com/maps?t=k&q={{ item.loc.lat }},{{ item.loc.lon }}">
-							<i class="fa-solid fa-earth-europe"></i>
-						</a>
-					</div>
 					{% if item.loc.category %}
 						<p class="pin-category">
 							<span class="pin-category-icon">
@@ -46,30 +24,50 @@
 							<span class="pin-category-text">other</span>
 						</p>
 					{% endif %}
+
+					<a href="{{ path('app_location_show', {'key': hashLoc(item.loc.id) }) }}">
+						{% if item.loc.image|default(null) %}
+							<div class="pin-img" style="background-image:url('{{ item.loc.image }}')"></div>
+						{% else %}
+							<div class="pin-img" style="background-image:url('/assets/default.png')"></div>
+						{% endif %}
+						{% if app.user %}
+							<p class="pin-title">{{ item.loc.name |u.truncate(50, '...') }}</p>
+						{% endif %}
+					</a>
+					{% include 'favorite/_pin.html.twig' %}
+				</div>
+
+				<div class="pin-bottom-container">
+					<a class="waze" target="blank" href="https://waze.com/ul?q={{ item.loc.lat }},{{ item.loc.lon }}&navigate=yes&zoom=17'">
+						<i class="fa-brands fa-waze"></i>
+					</a>
+					<a class="pin-map" target="blank" href="https://www.google.com/maps?t=k&q={{ item.loc.lat }},{{ item.loc.lon }}">
+						<i class="fa-solid fa-earth-europe"></i>
+					</a>
 					{% if item.loc.comments %}
-						<p class="pin-info-icon">
+						<p class="pin-info-icon pin-warning">
 							<i class="fa-solid fa-triangle-exclamation"></i>
 						</p>
 					{% endif %}
 					{% if item.loc.done %}
-						<p class="pin-info-icon">
+						<p class="pin-info-icon pin-check">
 							<i class="fas fa-check-square"></i>
 						</p>
 					{% endif %}
 					{% if app.user %}
+						<div class="pin-separator-small"></div>
 						{% if (item.loc.user and app.user.id == item.loc.user.id) or ('ROLE_ADMIN' in app.user.roles) %}
-							<div class="pin-edit pin-action">
-								{% if item.loc.user and app.user.id == item.loc.user.id %}
-									<a href="{{ path('app_location_edit', {'key': hashLoc(item.loc.id)}) }}">
-										<i class="fa-solid fa-pen-to-square"></i>
-									</a>
-								{% elseif 'ROLE_ADMIN' in app.user.roles %}
-									<a target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}">
-										<i class="fa-solid fa-pen-to-square"></i>
-									</a>
-								{% endif %}
-								{% include 'location/_delete_form.html.twig' %}
-							</div>
+							{% if item.loc.user and app.user.id == item.loc.user.id %}
+								<a  class="pin-edit" href="{{ path('app_location_edit', {'key': hashLoc(item.loc.id)}) }}">
+									<i class="fa-solid fa-pen-to-square"></i>
+								</a>
+							{% elseif 'ROLE_ADMIN' in app.user.roles %}
+								<a  class="pin-edit" target="blank" href="/admin?crudAction=edit&crudControllerFqcn=App%5CController%5CAdmin%5CLocationCrudController&entityId={{ item.loc.id }}">
+									<i class="fa-solid fa-pen-to-square"></i>
+								</a>
+							{% endif %}
+							{% include 'location/_delete_form.html.twig' %}
 						{% endif %}
 					{% endif %}
 				</div>

@@ -33,7 +33,7 @@
 				<div class="navbar-collapse" id="navbarCollapse">
 					<div class="navbar-content m-none">
 						<div class="navbar-logo ">
-							<img src="../logoa2urbex.png" alt="a2urbex small logo">
+							<img src="../../logoa2urbex.png" alt="a2urbex small logo">
 							<a class="bold" href="{% if app.user %}{{ path('app_location_index') }}{% else %}{{ path('app_home') }}{% endif %}">
 								a2urbex</a>
 						</div>
@@ -57,7 +57,11 @@
 									<i class="fa-solid fa-users"></i>
 								</a>
 								<div class="open-map">
-									<a href="{{ path('app_map_filter') }}" id="map-filter" class="map-link"><span class="m-none">Map </span> <i class="fa-solid fa-map-location-dot"></i></a>
+									{% if  app.request.get('_route') == 'app_favorite_locations'%}
+										<a href="{{ path('app_map_favorite', {'key': hashFav(id)}) }}"class="map-link"><span class="m-none">Map </span> <i class="fa-solid fa-map-location-dot"></i></a>
+									{% else %}
+										<a href="{{ path('app_map_filter') }}" {% if app.request.get('_route') == 'app_location_index' %} id="map-filter" {% endif %} class="map-link"><span class="m-none">Map </span> <i class="fa-solid fa-map-location-dot"></i></a>
+									{% endif %}
 								</div>
 
 								<a class="navbar-item favorites" href="{{ path('app_favorite') }}">
@@ -120,13 +124,13 @@
 			{% block action %}{% endblock %}
 		</div> #}
 
-		<footer>
+		{# <footer>
 			<div class="love">Your Exploration Co-Pilot.</div>
 			<a class="contact_desktop" href="{{ path('app_links') }}">Contact</a>
 			<a class="contact_mobile" href="{{ path('app_links') }}">
 				<i class="fa-solid fa-envelope"></i>
 			</a>
-		</footer>
+		</footer> #}
 
 		<script>
 			const websocketUrl = "{{ websocketUrl() }}"

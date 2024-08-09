@@ -32,7 +32,7 @@
     overflow-x: hidden;
     padding: 20px;
     border-right: 1px solid #303030;
-    background-color: #303030c9;
+    background-color: $background;
     backdrop-filter: blur(21px);
     -webkit-backdrop-filter: blur(21px);
     width: 250px;
@@ -59,7 +59,7 @@
     }
 
     legend {
-      color: #60a5fa;
+      color: $white;
       background-color: #404040;
       border-radius: 5px;
       padding-left: 10px;
@@ -103,6 +103,7 @@
       text-overflow: ellipsis;
       max-width: 170px;
       vertical-align: bottom;
+      color: #7a7a7a;
     }
 
     fieldset.form-group {
@@ -123,8 +124,13 @@
       font-size: 18px;
       line-height: 40px;
       height: 40px;
-      color: #6d6d6d;
+      background-color: rgba(228, 120, 120, 0.1019607843);
+      color: #E47878;
       text-align: center;
+      border-radius: 4px;
+      .fa-trash{
+        margin-right: 0px;
+      }
 
       &:hover {
         color: #a2a2a2;
@@ -137,9 +143,9 @@
       width: 75%;
       height: 40px;
       border: none;
-      background-color: #222222;
-      color: #a2a2a2;
-      border-radius: 0;
+      color: #60a5fa;
+      background-color: rgba(96, 165, 250, 0.2392156863);
+      border-radius: 4px;
       float: left;
 
       &:hover {
