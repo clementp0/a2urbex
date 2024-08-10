@@ -29,12 +29,12 @@
 				
 				<div class="profile__container-infos-add">
 					{% if connected_user.id != user.id %}
-					<a 
+					{# <a 
 						href="{{ path('chat_get_user', {'id' : user.id} )}}" 
 						class="profile__container-infos-add-item send_user_message show"
 					>
 						<i class="fa-solid fa-message"></i>
-					</a>
+					</a> #}
 
 					<a 
 						href="{{ path('app_friend_add', {'id' : user.id, 'async': '1'} )}}" 
