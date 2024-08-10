@@ -64,6 +64,12 @@ i.fa-brands.fa-waze {
   color: #34A851;
 }
 
+.pin-share{
+  border: none;
+  color: #ad6dad;
+  background-color: #80008040;
+}
+
 .pin-edit{
   background-color: rgba(163, 163, 163, 0.1490196078);
   color: #A3A3A3;
@@ -324,6 +330,7 @@ i.fa-brands.fa-waze {
       margin: 0;
       font-size: 16px;
       span{
+        background-color: rgba(129, 209, 255, 0.1294117647);
         height: 30px;
         width: 2px;
         display: block;

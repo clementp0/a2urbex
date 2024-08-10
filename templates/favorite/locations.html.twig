@@ -3,6 +3,7 @@
 {% block content %}
 	{% if id|default(null) %}
 		<p class="favorite-page-title">{{title}}</p>
+		<button id="copyButton" class="pin-share pin-link" data-text="List"><i class="fa-solid fa-share"></i><span></span> Share List</button>
 		<div class="favorite-wrapper">
 			{% include 'location/list.html.twig' %}
 		</div>

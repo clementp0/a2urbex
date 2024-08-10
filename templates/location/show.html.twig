@@ -47,6 +47,8 @@
                 <span class="pin-separator"></span>
                 <a class="pin-waze pin-link" target="blank" href="https://waze.com/ul?q={{ item.loc.lat }},{{ item.loc.lon }}&navigate=yes&zoom=17'"><i class="fa-brands fa-waze"></i><span></span> Follow on Waze</a>
                 <a class="pin-map pin-link" target="blank" href="https://www.google.com/maps?t=k&q={{ item.loc.lat }},{{ item.loc.lon }}"><i class="fa-solid fa-earth-europe"></i><span></span> View in Maps</a>
+                <button id="copyButton" class="pin-share pin-link" data-text="Location"><i class="fa-solid fa-share"></i><span></span> Share Location</button>
+
                 <span class="pin-separator"></span>
 
                 {% if app.user %}

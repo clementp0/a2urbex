@@ -38,8 +38,21 @@ $(() => {
     if (e.target != this) return
     $('.dropdown-content').removeClass('dropdown-content-open')
   })
-  
 
+  // Copy link
+  $("#copyButton").click(function(){
+      var $tempInput = $("<input>");
+      $("body").append($tempInput);
+      $tempInput.val(window.location.href).select();
+      document.execCommand("copy");
+      $tempInput.remove();
+
+      $(this).html("<i class='fa-solid fa-check'></i><span></span> Copied to clipboard").addClass("copied");
+      setTimeout(() => {
+        $(this).html("<i class='fa-solid fa-share'></i><span></span> Share " + $(this).attr('data-text')).removeClass("copied");
+      }, 2000);
+  });
+  
   // Friend page
   const friendElement = $('.add-friend.inmodal')
   new UserModal(friendElement)

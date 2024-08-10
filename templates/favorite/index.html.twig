@@ -18,48 +18,74 @@
 								</div>
 						{% endif %}
 					</div>
-				</a>
-
-				<div class="dropdown-favorite">
-					<button class="dropbtn">
-						<i class="fa-solid fa-ellipsis-vertical"></i>
-					</button>
-					<div class="dropdown-favorite-content">
-					
+					<div class="fav-item-edit m-none">
 						<a href="{{ path('app_user_modal', {'type': 'fav', 'param': item.fav.id}) }}" class="inmodal fav-item-share-user{{ item.fav.master ? ' disabled' : '' }}">
 							<i class="fa-solid fa-user-plus"></i>
-							Add User
 						</a>
 						<a class="fav-item-copy-link" data-toggle="tooltip" href="{{ path('app_favorite_locations', {'key': hashFav(item.fav.id)}) }}">
 							<i class="fa-solid fa-link"></i>
-							Share link
 						</a>
 						{% if item.fav.share %}
 							<a href="{{ path('app_favorite_share_link', {'id': item.fav.id}) }}" class="fav-item-share-link{{ item.fav.master ? ' disabled' : '' }}">
 								<i class="fa-solid fa-lock-open"></i>
-								Public
 							</a>
 						{% else %}
 							<a href="{{ path('app_favorite_share_link', {'id': item.fav.id}) }}" class="fav-item-share-link{{ item.fav.master ? ' disabled' : '' }}">
 								<i class="fa-solid fa-lock"></i>
-								Private
 							</a>
 						{% endif %}
 						{% if  item.fav.disabled %}
 							<a href="{{ path('app_favorite_disable', {'id': item.fav.id}) }}" class="fav-item-disable">
 								<i class="fa-solid fa-eye-slash"></i>
-								Hidden
 							</a>
 						{% else %}
 							<a href="{{ path('app_favorite_disable', {'id': item.fav.id}) }}" class="fav-item-disable">
 								<i class="fa-solid fa-eye"></i>
-								Visible
 							</a>
 						{% endif %}
+						<span></span>
 						<a href="{{ path('app_favorite_delete', {'id': item.fav.id}) }}" class="fav-item-delete{{ item.fav.master ? ' disabled' : '' }}">
 							<i class="fa-solid fa-trash"></i>
-							Delete
 						</a>
+					</div>
+				</a>
+
+				<div class="dropdown-favorite desktop-none">
+					<button class="dropbtn">
+						<i class="fa-solid fa-circle-plus"></i>
+					</button>
+					<div class="dropdown-favorite-content fav-item-edit">
+					<p class="dropdown-favorite-title">{{ item.fav.name }}</p>
+					<div class="dropdown-favorite-content-buttons">
+						<a href="{{ path('app_user_modal', {'type': 'fav', 'param': item.fav.id}) }}" class="inmodal fav-item-share-user{{ item.fav.master ? ' disabled' : '' }}">
+							<i class="fa-solid fa-user-plus"></i>
+						</a>
+						<a class="fav-item-copy-link" data-toggle="tooltip" href="{{ path('app_favorite_locations', {'key': hashFav(item.fav.id)}) }}">
+							<i class="fa-solid fa-link"></i>
+						</a>
+						{% if item.fav.share %}
+							<a href="{{ path('app_favorite_share_link', {'id': item.fav.id}) }}" class="fav-item-share-link{{ item.fav.master ? ' disabled' : '' }}">
+								<i class="fa-solid fa-lock-open"></i>
+							</a>
+						{% else %}
+							<a href="{{ path('app_favorite_share_link', {'id': item.fav.id}) }}" class="fav-item-share-link{{ item.fav.master ? ' disabled' : '' }}">
+								<i class="fa-solid fa-lock"></i>
+							</a>
+						{% endif %}
+						{% if  item.fav.disabled %}
+							<a href="{{ path('app_favorite_disable', {'id': item.fav.id}) }}" class="fav-item-disable">
+								<i class="fa-solid fa-eye-slash"></i>
+							</a>
+						{% else %}
+							<a href="{{ path('app_favorite_disable', {'id': item.fav.id}) }}" class="fav-item-disable">
+								<i class="fa-solid fa-eye"></i>
+							</a>
+						{% endif %}
+						<span></span>
+						<a href="{{ path('app_favorite_delete', {'id': item.fav.id}) }}" class="fav-item-delete{{ item.fav.master ? ' disabled' : '' }}">
+							<i class="fa-solid fa-trash"></i>
+						</a>
+						</div>
 					</div>
 				</div>
 			</div>
