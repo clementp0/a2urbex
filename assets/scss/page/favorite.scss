@@ -126,12 +126,17 @@ p.favorite-page-title {
         display: flex;
       }
 
-      &:hover .dropdown-favorite-content {
-        transform: translateY(0);
-        transition: all 1s;
+      .dropdown-favorite-content-open{
+        transform: translateY(0)!important;
+        transition: all .5s!important;
       }
 
-      .dropbtn {
+      // &:hover .dropdown-favorite-content {
+      //   transform: translateY(0);
+      //   transition: all 1s;
+      // }
+
+      .dropbtnfav {
         background-color: transparent;
         border: none;
         color: #adadad;
@@ -151,8 +156,10 @@ p.favorite-page-title {
       .dropdown-favorite-content {
         position: fixed;
         display: flex;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
         flex-direction: column;
-        transition: all 1s;
+        transition: all .5s;
         transform: translateY(100%);
         justify-content: space-evenly;
         padding: 10px 10px 31px 10px;
@@ -161,6 +168,14 @@ p.favorite-page-title {
         left: 0px;
         z-index: 1030;
         width: 100%;
+
+        .dropdown-favorite-tray {
+          height: 5px;
+          width: 50%;
+          background-color: #353535;
+          margin: 5px auto 15px auto;
+          border-radius: 20px;
+        }
 
         .dropdown-favorite-title{
           color:rgb(216, 216, 216);

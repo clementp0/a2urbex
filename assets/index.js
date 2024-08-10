@@ -39,6 +39,18 @@ $(() => {
     $('.dropdown-content').removeClass('dropdown-content-open')
   })
 
+  // Favorite menu
+  $('.dropbtnfav').on('click', function() {
+    $('.dropdown-favorite-content').removeClass('dropdown-favorite-content-open');
+    $(this).siblings('.dropdown-favorite-content').toggleClass('dropdown-favorite-content-open');
+  });
+
+  $('.dropdown-favorite-tray').on('click', function (e) {
+    if (e.target != this) return
+    $('.dropdown-favorite-content').removeClass('dropdown-favorite-content-open')
+  })
+
+
   // Copy link
   $("#copyButton").click(function(){
       var $tempInput = $("<input>");

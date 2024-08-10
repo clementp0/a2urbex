@@ -51,10 +51,11 @@
 				</a>
 
 				<div class="dropdown-favorite desktop-none">
-					<button class="dropbtn">
+					<button class="dropbtnfav">
 						<i class="fa-solid fa-circle-plus"></i>
 					</button>
 					<div class="dropdown-favorite-content fav-item-edit">
+					<div class="dropdown-favorite-tray"></div>
 					<p class="dropdown-favorite-title">{{ item.fav.name }}</p>
 					<div class="dropdown-favorite-content-buttons">
 						<a href="{{ path('app_user_modal', {'type': 'fav', 'param': item.fav.id}) }}" class="inmodal fav-item-share-user{{ item.fav.master ? ' disabled' : '' }}">
