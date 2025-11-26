@@ -1,3 +1,5 @@
+## This repository is now archived.<br> You can find the new version built with Vue + API here: [github.com/a2urbex](https://github.com/a2urbex)
+
 <img src="https://github.com/clementp0/a2urbex/assets/15802129/3ff38c87-f9cd-4b0b-b34b-1f650625662e">
 <h1 align="center">a2urbex</h1>
 <p align="center">
